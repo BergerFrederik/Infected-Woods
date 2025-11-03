@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 3
+  tags:
+  - Enemy
+  - Weapon
+  - Drop
+  - Spawner
+  - Timer
+  - Manager
+  - Blossom
+  - Bud
+  - Root
+  - Projectile
+  - Floor
+  - Boarder
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Collisions
+  - Player_Damage
+  - Player_Physics
+  - Enemy_Damage
+  - Enemy_Physics
+  - Walls
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - Hintergrund
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Hintergrund
+    uniqueID: 3919815955
+    locked: 0
+  - name: Drops
+    uniqueID: 357087153
+    locked: 0
+  - name: Enemy
+    uniqueID: 3940177649
+    locked: 0
+  - name: Player
+    uniqueID: 2026402519
+    locked: 0
+  - name: Weapon
+    uniqueID: 1944685711
+    locked: 0
+  - name: UI
+    uniqueID: 945072919
+    locked: 0
+  - name: AugmentBoarder
+    uniqueID: 1063135897
+    locked: 0
+  - name: AugmentIcon
+    uniqueID: 3433221377
+    locked: 0
+  m_RenderingLayers:
+  - Default
