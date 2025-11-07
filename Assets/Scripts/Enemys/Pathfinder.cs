@@ -108,9 +108,9 @@ public class Pathfinder : MonoBehaviour
         }
         else
         {
-            moveDirRegardingEnemys = moveDirTowardsPlayer.normalized;
+            moveDirRegardingEnemys = moveDirTowardsPlayer;
         }
-        return moveDirRegardingEnemys;
+        return moveDirRegardingEnemys.normalized;
     }
 
     private void KnockEnemyBack()
