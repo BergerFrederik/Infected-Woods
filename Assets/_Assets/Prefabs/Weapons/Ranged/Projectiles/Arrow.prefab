@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 3246508466665967354}
   - component: {fileID: -1942939490449815987}
   - component: {fileID: 7243138097599915757}
+  - component: {fileID: 6443642936833573551}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Projectile
@@ -117,7 +118,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sourceWeaponStats: {fileID: 0}
-  Floor: {fileID: 0}
 --- !u!50 &7243138097599915757
 Rigidbody2D:
   serializedVersion: 5
@@ -145,6 +145,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &6443642936833573551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3248573983623086727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ee08fd139c42cc49a87b38e83177d63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileHitsEnemy
+  projectile: {fileID: -1942939490449815987}
 --- !u!1 &9034097865814628720
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,6 +210,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -218,6 +233,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1944685711
   m_SortingLayer: 5
   m_SortingOrder: 0

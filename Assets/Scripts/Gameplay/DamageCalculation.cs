@@ -2,12 +2,10 @@ using UnityEngine;
 
 public class DamageCalculation : MonoBehaviour
 {
-    [SerializeField] private EnemyStats enemyStats;
-
-
     public float CalculateDamageDealtToEnemy(
         WeaponStats weaponStats, 
-        PlayerStats playerStats)
+        PlayerStats playerStats,
+        EnemyStats enemyStats)
     {
         float weaponDamge = ComputeWeaponDamage(weaponStats, playerStats);
         float totalDamage = ComputeTotalDamage(weaponDamge, weaponStats, playerStats);

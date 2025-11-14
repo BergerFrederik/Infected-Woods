@@ -9,44 +9,53 @@ public class Ranged : MonoBehaviour
     [SerializeField] private GameObject WeaponProjectile;
 
     private Transform PlayerTransform;
+    private PlayerStats playerStats;
     private WeaponState currentWeaponState = WeaponState.Idle;
-    private Vector3 initialAttackPosition;
     private Vector3 directionToEnemy;
 
-    public float attackCooldown = 0f;
+    private float attackCooldown;
+    private float cooldownStarttime;
 
     private enum WeaponState
     {
         Idle,
-        Shoot,
-        Cooldown
+        Shoot
     }
 
     private void Start()
     {
         PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        playerStats = PlayerTransform.GetComponent<PlayerStats>();
     }
 
 
     private void Update()
     {
-        if (currentWeaponState == WeaponState.Idle || currentWeaponState == WeaponState.Cooldown)
+        UpdateCooldown();
+        if (currentWeaponState == WeaponState.Idle)
         {
             PointWeaponAtEnemy();
         }
         switch (currentWeaponState)
         {
             case WeaponState.Idle:
-                SearchForEnemyAndAttack();
+                if (Time.time - cooldownStarttime >= attackCooldown)
+                {
+                    SearchForEnemyAndAttack();
+                }
                 break;
             case WeaponState.Shoot:
                 ShootEnemy();
                 break;
-            case WeaponState.Cooldown:
-                break;
         }
     }
 
+    private void UpdateCooldown()
+    {
+        float playerAttackSpeedBonus = playerStats.playerAttackSpeed / 100;
+        float weaponAttackSpeedCooldown = weaponStats.weaponAttackSpeedCooldown;
+        attackCooldown = weaponAttackSpeedCooldown / (1f + playerAttackSpeedBonus);
+    }
     private void SearchForEnemyAndAttack()
     {
         float closestDistance = Mathf.Infinity;
@@ -59,7 +68,6 @@ public class Ranged : MonoBehaviour
 
         if (closestEnemy != null && closestDistance <= attackRange)
         {           
-            initialAttackPosition = transform.position;
             directionToEnemy = (closestEnemy.position - transform.position);
             currentWeaponState = WeaponState.Shoot;
         }
@@ -73,31 +81,11 @@ public class Ranged : MonoBehaviour
 
         GameObject newProjectile = Instantiate(WeaponProjectile, transform.position, targetRotation);
         Projectile projectileScript = newProjectile.GetComponent<Projectile>();
+        cooldownStarttime = Time.time;
 
         projectileScript.sourceWeaponStats = this.weaponStats;
-
-        ApplyCooldown();
-    }
-
-    private void ApplyCooldown()
-    {
-        StartCoroutine(WaitCooldown());
-    }
-
-    private float player_Attackspeed_division_const = 100f;
-    private IEnumerator WaitCooldown()
-    {
-        currentWeaponState = WeaponState.Cooldown;
-        float cooldown = attackCooldown;
-        float playerAttackSpeed = PlayerTransform.GetComponent<PlayerStats>().playerAttackSpeed / player_Attackspeed_division_const;
-        if (playerAttackSpeed > 0)
-        {
-            cooldown /= (1 + playerAttackSpeed);
-        }
-        yield return new WaitForSeconds(cooldown);
         currentWeaponState = WeaponState.Idle;
     }
-
 
     private void PointWeaponAtEnemy()
     {
