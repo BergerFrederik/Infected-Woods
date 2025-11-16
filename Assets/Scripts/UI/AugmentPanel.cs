@@ -1,9 +1,6 @@
-
 using System.Collections.Generic;
-
 using TMPro;
 using UnityEngine;
-
 using UnityEngine.UI;
 
 
@@ -49,7 +46,7 @@ public class AugmentPanel : MonoBehaviour
     {
         float chance_to_get_bud = 30;
         float chance_to_get_blossom = 20;
-        float randomNumber = Random.Range(0f, 100f);
+        float randomNumber = Random.Range(0, 100);
         if (randomNumber <= chance_to_get_blossom)
         {
             return "Blossom";

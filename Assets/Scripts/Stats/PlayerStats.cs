@@ -42,4 +42,5 @@ public class PlayerStats : MonoBehaviour
     public float playerBaseXP = 0f;
     public float playerLevelMultiplier = 0f;
     public float playerAbilityDuration = 0f;
+    public float playerLevelsGained = 0f;
 }
