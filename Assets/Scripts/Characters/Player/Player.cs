@@ -70,6 +70,7 @@ public class Player : MonoBehaviour
         if (playerStats.playerCurrentXP >= requiredXP)
         {
             playerStats.playerLevel++;
+            playerStats.playerLevelsGained++;
             playerStats.playerCurrentXP -= requiredXP;
             oldCurrentPlayerXP = playerStats.playerCurrentXP;
             levelBar.SetExpNeeded(GetRequiredXPForNextLevel(), playerStats.playerCurrentXP);

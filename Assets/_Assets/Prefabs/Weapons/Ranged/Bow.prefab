@@ -52,6 +52,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1944685711
   m_SortingLayer: 5
   m_SortingOrder: 0
@@ -142,7 +145,7 @@ MonoBehaviour:
   weaponWeaponType: 0
   weaponAttackType: 0
   weaponClass: 0
-  weaponAttackSpeed: 0
+  weaponAttackSpeedCooldown: 2
   weaponCritChance: 30
   weaponCritDamage: 2
   weaponRange: 4
@@ -166,7 +169,6 @@ MonoBehaviour:
   projectileRotationOffset: 135
   weaponStats: {fileID: 2923472048008297227}
   WeaponProjectile: {fileID: 3248573983623086727, guid: e93c16f0ad8523d4faaa82740371f767, type: 3}
-  attackCooldown: 2
 --- !u!1 &5340006489510552725
 GameObject:
   m_ObjectHideFlags: 0

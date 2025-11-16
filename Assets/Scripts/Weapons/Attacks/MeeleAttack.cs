@@ -1,8 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using DG.Tweening;
-using System.Runtime.CompilerServices;
-using Unity.Mathematics;
+
 
 public class MeeleAttack : MonoBehaviour
 {
@@ -80,7 +78,7 @@ public class MeeleAttack : MonoBehaviour
     {
         float playerAttackSpeed = playerStats.playerAttackSpeed / 100;
         float weaponAttackSpeedCooldown = weaponStats.weaponAttackSpeedCooldown;
-        attackCooldown = weaponAttackSpeedCooldown - weaponAttackSpeedCooldown * playerAttackSpeed;
+        attackCooldown = weaponAttackSpeedCooldown / (1f + playerAttackSpeed);
     }
     private void SearchForEnemyAndAttack()
     {
@@ -189,6 +187,4 @@ public class MeeleAttack : MonoBehaviour
             currentState = WeaponState.Idle;
         }
     }
-
-
 }

@@ -1,7 +1,12 @@
+using System;
 using UnityEngine;
 
 public class EnemyStats : MonoBehaviour
 {
+    public event Action OnEnemyDeath;
+    public event Action OnEnemyTakesDamage;
+
+    [SerializeField] private float enemyCurrentHP = 0f;
     public float enemyMaxHP = 0f; //done
     public float enemyHPPerWave = 0f; //not used  
     public float enemyDamage = 0f; //done
@@ -17,4 +22,19 @@ public class EnemyStats : MonoBehaviour
     public float enemyXPGainOnKill = 0f;
 
     public bool isKnockedBack;
+
+
+    private void Start()
+    {
+        enemyCurrentHP = enemyMaxHP;
+    }
+    public void TakeDamage(float damage)
+    {
+        enemyCurrentHP -= damage;
+        OnEnemyTakesDamage?.Invoke();
+        if (enemyCurrentHP <= 0f)
+        {
+            OnEnemyDeath?.Invoke();
+        }
+    }
 }

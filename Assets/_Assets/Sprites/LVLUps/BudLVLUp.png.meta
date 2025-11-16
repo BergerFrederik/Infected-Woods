@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 4bf6a642457bce44f8d2cbf4bc2d6f35
+guid: ec9f08e1e0aa57f4aaac7aae7b4ddcf4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8091079230504777609
-    second: Gemini_Generated_Image_mn1ip0mn1ip0mn1i_0
+      213: 8020497352971222088
+    second: BudLVLUp_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,30 +96,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gemini_Generated_Image_mn1ip0mn1ip0mn1i_0
+      name: BudLVLUp_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 724
-        height: 724
+        width: 800
+        height: 1045
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 778c838ee46b6bf80800000000000000
-      internalID: -8091079230504777609
+      spriteID: 84c7fcd19d78e4f60800000000000000
+      internalID: 8020497352971222088
       vertices: []
       indices: 
       edges: []
@@ -148,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Gemini_Generated_Image_mn1ip0mn1ip0mn1i_0: -8091079230504777609
+      BudLVLUp_0: 8020497352971222088
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
