@@ -94,14 +94,14 @@ public class SpiritArcher : MonoBehaviour
     private void OnEnable()
     {
         gameInput.Enable();
-        EnemySpawner.OnRoundOver += ResetAbilityOnRoundOver;
+        Timer.OnRoundOver += ResetAbilityOnRoundOver;
     }
 
     private void OnDisable()
     {
         gameInput.Player.UseAbility.performed -= OnUseAbilityPerformed;
         gameInput.Disable();
-        EnemySpawner.OnRoundOver -= ResetAbilityOnRoundOver;
+        Timer.OnRoundOver -= ResetAbilityOnRoundOver;
     }
 
     private void OnUseAbilityPerformed(InputAction.CallbackContext context)

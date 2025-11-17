@@ -1,17 +1,22 @@
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.TerrainTools;
 
 public class Timer : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI timerText;
-
-
+    
+    public static event Action OnRoundOver;
+    
     private WaveStats waveStats;
     private GameObject CurrentWave;
 
     private float remainingTime;
+    private bool  isTimerRed;
     private void OnEnable()
     {
         GameObject enemySpawner = GameObject.FindGameObjectWithTag("Spawner");
@@ -19,6 +24,7 @@ public class Timer : MonoBehaviour
         CurrentWave = enemySpawnerTransform.GetChild(0).gameObject;
         waveStats = CurrentWave.GetComponent<WaveStats>();
         remainingTime = waveStats.waveDuration;
+        PaintTimerWhite();
         SetTimerText();
     }
 
@@ -29,13 +35,14 @@ public class Timer : MonoBehaviour
         {
             remainingTime -= Time.deltaTime;
         }
-        if (remainingTime == 10f)
+        if (remainingTime <= 10f && !isTimerRed)
         {
             PaintTimerRed();
         }
-        if (remainingTime < 0)
+        if (remainingTime <= 0)
         {
             remainingTime = 0;
+            OnRoundOver?.Invoke();
             this.gameObject.SetActive(false);
         }
         SetTimerText();
@@ -44,6 +51,12 @@ public class Timer : MonoBehaviour
     private void PaintTimerRed()
     {
         timerText.color = Color.red;
+        isTimerRed = true;
+    }
+
+    private void PaintTimerWhite()
+    {
+        timerText.color = Color.white;
     }
 
     private void SetTimerText()

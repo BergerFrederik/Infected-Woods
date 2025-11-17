@@ -7,10 +7,9 @@ using UnityEngine.UI;
 
 public class AugmentPanel : MonoBehaviour
 {
-    [SerializeField] private GameObject levelPanel;
-    [SerializeField] private GameObject shopPanel;
     [SerializeField] private Player player;
     [SerializeField] private PlayerStats playerStats;
+    [SerializeField] private GameManager gameManager;
 
     public List<GameObject> AugmentItems;
     public Sprite[] AugmentSprites;
@@ -118,14 +117,7 @@ public class AugmentPanel : MonoBehaviour
         GameObject ChosenAugmentPrefab = ChosenAugments[buttonIndex];
         GameObject NewAugment = Instantiate(ChosenAugmentPrefab);
         NewAugment.transform.SetParent(playerAugments.transform, false);
-        if (playerStats.playerLeveledUp)
-        {
-            levelPanel.SetActive(true);
-        }
-        else
-        {
-            shopPanel.SetActive(true);
-        }
+        gameManager.CycleShops();
         this.gameObject.SetActive(false);
     }
 }

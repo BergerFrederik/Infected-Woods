@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -42,13 +43,19 @@ public class MeeleAttack : MonoBehaviour
         gameManagerStats = gameManager.GetComponent<GameManager>();
     }
 
+    private void OnEnable()
+    {
+        Timer.OnRoundOver += ResetWeaponPosition;
+    }
+
+    private void OnDisable()
+    {
+        Timer.OnRoundOver -= ResetWeaponPosition;
+    }
+
     private void Update()
     {
         UpdateCooldown();
-        if (gameManagerStats.isRoundOver)
-        {
-            ResetWeaponPosition();
-        }
         if (currentState == WeaponState.Idle || currentState == WeaponState.Cooldown)
         {
             PointWeaponAtEnemy();

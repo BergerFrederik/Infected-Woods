@@ -1,11 +1,12 @@
+using System;
 using UnityEngine;
 
 public class ShopPanel : MonoBehaviour
 {
-    [SerializeField] private GameObject enemySpawner;
+    public static event Action OnShopCycleEnd;
     public void StartNewWave()
     {
-        enemySpawner.SetActive(true);
+        OnShopCycleEnd?.Invoke();
         this.gameObject.SetActive(false);
     }
 }

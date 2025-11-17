@@ -2779,7 +2779,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 7.87, y: 19.16}
+  m_Size: {x: 3.26, y: 11.62}
   m_Direction: 0
 --- !u!50 &663990830
 Rigidbody2D:
@@ -3348,10 +3348,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38b98204ecc79b5479abcf8c745a96dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelPanel: {fileID: 1007563363}
-  shopPanel: {fileID: 1645751888}
   player: {fileID: 663990825}
   playerStats: {fileID: 663990828}
+  gameManager: {fileID: 1221680500}
   AugmentItems:
   - {fileID: 3645869977346694503, guid: aed5288555306904cbb120d71b9f06ec, type: 3}
   - {fileID: 3645869977346694503, guid: bc06c4b0f13be79479ab7374293ef49d, type: 3}
@@ -4464,6 +4463,7 @@ MonoBehaviour:
   - 1
   - 1
   - 1
+  gameManager: {fileID: 1221680500}
   StatUpgradeTitles:
   - {fileID: 1091994376}
   - {fileID: 119440548}
@@ -5498,8 +5498,18 @@ MonoBehaviour:
   CooldownAbilityOverlay: {fileID: 634998608}
   ActiveAbilityOverlay: {fileID: 879402949}
   player: {fileID: 663990825}
-  currentWaveNumber: 0
-  isRoundOver: 0
+  playerStats: {fileID: 663990828}
+  mainCam: {fileID: 519420028}
+  enemySpawner: {fileID: 2101960060}
+  augmentPanel: {fileID: 857504038}
+  levelPanel: {fileID: 1007563363}
+  shopPanel: {fileID: 1645751888}
+  augmentWaves:
+  - 1
+  - 5
+  - 10
+  - 17
+  - 25
   mapSize:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
@@ -6246,7 +6256,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0999bc4d8a6a43d46bf4e1bf3a7128bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySpawner: {fileID: 2101960058}
 --- !u!1 &1664196289
 GameObject:
   m_ObjectHideFlags: 0
@@ -7368,11 +7377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1221680500}
-  Timer: {fileID: 68421568}
-  augmentPanel: {fileID: 857504038}
-  levelPanel: {fileID: 1007563363}
-  shopPanel: {fileID: 1645751888}
-  mainCam: {fileID: 519420028}
+  timer: {fileID: 68421570}
   Waves:
   - {fileID: 6647369348481208958, guid: 2ace1d5137419fd44b1b01a22f3620a0, type: 3}
   - {fileID: 6647369348481208958, guid: 7e18590254f6b0a4691d7c76e55d6cd4, type: 3}

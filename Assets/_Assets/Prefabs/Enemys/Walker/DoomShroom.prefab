@@ -207,7 +207,7 @@ MonoBehaviour:
   enemyKnockbackResistance: 0
   enemyLightDropped: 3
   enemyLightDropChance: 70
-  enemyXPGainOnKill: 1000
+  enemyXPGainOnKill: 10000
   isKnockedBack: 0
 --- !u!70 &5157397086891573592
 CapsuleCollider2D:

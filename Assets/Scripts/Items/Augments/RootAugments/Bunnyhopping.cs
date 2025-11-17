@@ -17,14 +17,14 @@ public class Bunnyhopping : MonoBehaviour
         Player = GameObject.Find("Player");
         playerStats = Player.GetComponent<PlayerStats>();
         PlayerTakesDamage.OnPlayerTakesDamage += ApplyDamagePenalty;
-        EnemySpawner.OnRoundOver += ApplyDamagePenalty;
+        Timer.OnRoundOver += ApplyDamagePenalty;
         damageStartTime = Time.time;
     }
 
     private void OnDisable()
     {
         PlayerTakesDamage.OnPlayerTakesDamage -= ApplyDamagePenalty;
-        EnemySpawner.OnRoundOver -= ApplyDamagePenalty;
+        Timer.OnRoundOver -= ApplyDamagePenalty;
     }
 
     private void Update()

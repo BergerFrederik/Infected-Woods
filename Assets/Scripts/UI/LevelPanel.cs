@@ -13,6 +13,7 @@ public class LevelPanel : MonoBehaviour
     [SerializeField] private Button[] LVLUpButtons;
     [SerializeField] private string[] UpgradeableStats;
     [SerializeField] private float[] StatUpgradeValues;
+    [SerializeField] private GameManager gameManager;
 
     [SerializeField] private GameObject[] StatUpgradeTitles;
     [SerializeField] private GameObject[] StatUpgradeContents;
@@ -161,9 +162,9 @@ public class LevelPanel : MonoBehaviour
         float multiplier = randomRaritys[buttonIndex];
         float statToApply = chosenStat * multiplier;
         ApplyStatsToPlayer(statToApply, randomStats[buttonIndex]);
-        playerStats.playerLevelsGained--;
-        shopPanel.SetActive(true);
         this.gameObject.SetActive(false);
+        gameManager.CycleShops();
+        
     }
     private void ApplyStatsToPlayer(float value, string statName)
     {
