@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
         enemySpawner.gameObject.SetActive(false);
         DestroyRemainingEntities();
         ResetPlayerPosition();
-        player.gameObject.SetActive(false);
+        //player.gameObject.SetActive(false);
     }
     
     private void DestroyRemainingEntities()
@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
 
     private void NewWaveProcedure()
     {
-        player.gameObject.SetActive(true);
+        //player.gameObject.SetActive(true);
         Time.timeScale = 1f;
         currentWaveNumber++;
         enemySpawner.gameObject.SetActive(true);

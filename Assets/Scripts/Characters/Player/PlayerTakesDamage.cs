@@ -4,18 +4,51 @@ using UnityEngine;
 public class PlayerTakesDamage : MonoBehaviour
 {
     [SerializeField] private PlayerStats playerStats;
-    [SerializeField] private float calculate_armor = 20f;
+    [SerializeField] private Player player;
+    [SerializeField] private float calculate_armor = 20f;    
+    [SerializeField] private float iframe_formula_const_1 = 0.4f;
+    [SerializeField] private float iframe_formula_const_2 = 0.15f;
 
     public static event Action OnPlayerTakesDamage;
 
+    private float iFrameStartTime;
+    private float currentIFrames;
 
-    public float DealDamageToPlayer(EnemyStats enemyStats)
+
+    private void OnEnable()
     {
-        float damageDealtToPlayer = CalculateDamageDealtToPlayer(enemyStats);
-        playerStats.playerCurrentHP -= damageDealtToPlayer;
-        OnPlayerTakesDamage?.Invoke();
-        return damageDealtToPlayer;
+        player.OnPlayerCollidesWithEnemy += DealDamageToPlayer;
     }
+
+    private void OnDisable()
+    {
+        player.OnPlayerCollidesWithEnemy -= DealDamageToPlayer;
+    }
+
+    private void DealDamageToPlayer(EnemyStats enemyStats)
+    {
+        if (Time.time - iFrameStartTime >= currentIFrames)
+        {
+            float damageDealtToPlayer = CalculateDamageDealtToPlayer(enemyStats);
+            if (damageDealtToPlayer > 0)
+            {
+                playerStats.playerCurrentHP -= damageDealtToPlayer;
+                OnPlayerTakesDamage?.Invoke();
+                currentIFrames = SetIFrames(damageDealtToPlayer);
+                iFrameStartTime = Time.time;
+            }            
+        }
+    }
+
+    
+    private float SetIFrames(float damageDealtToPlayer)
+    {
+        float playerMaxHP = playerStats.playerMaxHP;
+        float iframes = iframe_formula_const_1 * ((damageDealtToPlayer / playerMaxHP) / iframe_formula_const_2);
+        iframes = Mathf.Clamp(iframes, 0.2f, 0.4f);
+        return iframes;
+    }
+
     private float CalculateDamageDealtToPlayer(EnemyStats enemyStats)
     {
         float damageByEnemy = enemyStats.enemyDamage;
@@ -40,4 +73,6 @@ public class PlayerTakesDamage : MonoBehaviour
 
         return totalDamageDealt;
     }
+
+
 }

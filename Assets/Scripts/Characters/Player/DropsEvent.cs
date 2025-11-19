@@ -11,6 +11,15 @@ public class DropsEvent : MonoBehaviour
         PickupItems();
     }
 
+    private void OnEnable()
+    {
+        player.OnDropCollected += ProcessDrop;
+    }
+
+    private void OnDisable()
+    {
+        player.OnDropCollected -= ProcessDrop;
+    }
     private void PickupItems()
     {
         float searchRadius = playerStats.playerLightAbsorption;
@@ -26,15 +35,12 @@ public class DropsEvent : MonoBehaviour
         }
     }
 
-    public void GainMoney(Collider2D collider)
+    private void ProcessDrop(Collider2D collider)
     {
-        if (collider.CompareTag("Drop"))
+        if (collider.TryGetComponent<LightDrop>(out LightDrop lightDrop))
         {
-            if (collider.TryGetComponent<LightDrop>(out LightDrop lightDrop))
-            {
-                Destroy(collider.gameObject);
-                playerStats.playerLightAmount += lightDrop.lightDropValue;
-            }
-        }
+            Destroy(collider.gameObject);
+            playerStats.playerLightAmount += lightDrop.lightDropValue;
+        }       
     }
 }

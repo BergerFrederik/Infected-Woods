@@ -32,7 +32,6 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Helper Stats")]
     public float playerLastLifesteal = 0f;
-    public bool playerLeveledUp = false;
     public bool playerAbilityOnCooldown = false;
     public float playerCurrentHP = 0f;
     public float playerBaseMovespeed = 0f;
