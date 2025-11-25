@@ -18,8 +18,8 @@ public class MeeleAttack : MonoBehaviour
     }
 
 
-    private GameObject gameManager;
-    private GameManager gameManagerStats;
+    private GameObject GameManager;
+    private GameManager gameManager;
     private WeaponState currentState = WeaponState.Idle;
     private Transform weaponAnchorPoint;
     private Transform playerTransform;
@@ -39,18 +39,14 @@ public class MeeleAttack : MonoBehaviour
         triggerCollider = GetComponent<BoxCollider2D>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         playerStats = playerTransform.GetComponent<PlayerStats>();
-        gameManager = GameObject.FindGameObjectWithTag("Manager");
-        gameManagerStats = gameManager.GetComponent<GameManager>();
+        GameManager = GameObject.FindGameObjectWithTag("Manager");
+        gameManager = GameManager.GetComponent<GameManager>();
+        gameManager.OnRoundOver += ResetWeaponPosition;
     }
 
-    private void OnEnable()
+    private void OnDestroy()
     {
-        Timer.OnRoundOver += ResetWeaponPosition;
-    }
-
-    private void OnDisable()
-    {
-        Timer.OnRoundOver -= ResetWeaponPosition;
+        gameManager.OnRoundOver -= ResetWeaponPosition;
     }
 
     private void Update()

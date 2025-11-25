@@ -7,11 +7,10 @@ public class DashAbility : MonoBehaviour
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private Player player;
     [SerializeField] private PlayerMovement playerMovement;
-
-    public float dash_multiplier = 0f;
-    public float dash_duration = 0f;
-    public float dash_base_speed = 0f;
-    public float dash_base_cooldown = 2f;
+    [SerializeField] private float dash_multiplier = 0f;
+    [SerializeField] private float dash_duration = 0f;
+    [SerializeField] private float dash_base_speed = 0f;
+    [SerializeField] private float dash_base_cooldown = 2f;
 
     private PlayerInput gameInput;
     private Animator animator;
@@ -29,12 +28,12 @@ public class DashAbility : MonoBehaviour
     {
         //animator = GetComponentInChildren<Animator>();
         gameInput = new PlayerInput();
-        gameInput.Player.UseDashAbility.performed += OnUseDashPerformed;
     }
 
     private void OnEnable()
     {
         gameInput.Enable();
+        gameInput.Player.UseDashAbility.performed += OnUseDashPerformed;
     }
 
     private void OnDisable()
@@ -53,7 +52,6 @@ public class DashAbility : MonoBehaviour
 
     private void CharacterAbilityExecution()
     {
-        //Code roll ability as dash
         //animator.SetTrigger("AbilityPressed");
         currentState = DashingState.dashing;       
         StartCoroutine(RollCoroutine());
@@ -67,12 +65,16 @@ public class DashAbility : MonoBehaviour
         float rollSpeed = playerMoveSpeed * dash_multiplier + dash_base_speed;
 
         Vector3 rollDir = playerMovement.CurrentMovementInput;
-        while (Time.time < startTime + dash_duration)
+        if (rollDir != Vector3.zero)
         {
-            player.transform.position += rollDir * rollSpeed * Time.deltaTime;
-            yield return null;
+            while (Time.time < startTime + dash_duration)
+            {
+                player.transform.position += rollDir * rollSpeed * Time.deltaTime;
+                yield return null;
+            }
+            StartCoroutine(ApplyCooldown());
         }
-        StartCoroutine(ApplyCooldown());
+        currentState = DashingState.dashReady;
     }
 
     

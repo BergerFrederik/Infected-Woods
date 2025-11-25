@@ -4,25 +4,29 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private PlayerGainsHP playerGainsHP;
+    [SerializeField] private PlayerTakesDamage playerTakesDamage;
+    [SerializeField] private GameManager gameManager;
     public Slider slider;
 
     private void OnEnable()
     {
         playerGainsHP.OnPlayerWasHealed += SetHealth;
-        // player loses HP
+        playerTakesDamage.OnPlayerTakesDamage += SetHealth;
+
         // Max Hp Changed
-        // game started, set max hp
     }
 
     private void OnDisable()
     {
         playerGainsHP.OnPlayerWasHealed -= SetHealth;
+        playerTakesDamage.OnPlayerTakesDamage -= SetHealth;
+
+        // Max Hp Changed
     }
 
     private void SetMaxHealth(float health)
     {
         slider.maxValue = health;
-        slider.value = health;
     }
 
     private void SetHealth(float health)

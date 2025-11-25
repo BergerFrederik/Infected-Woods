@@ -9,7 +9,8 @@ public class PlayerTakesDamage : MonoBehaviour
     [SerializeField] private float iframe_formula_const_1 = 0.4f;
     [SerializeField] private float iframe_formula_const_2 = 0.15f;
 
-    public static event Action OnPlayerTakesDamage;
+    public event Action<float> OnPlayerTakesDamage;
+    public event Action OnPlayerWasDamaged;
 
     private float iFrameStartTime;
     private float currentIFrames;
@@ -33,7 +34,8 @@ public class PlayerTakesDamage : MonoBehaviour
             if (damageDealtToPlayer > 0)
             {
                 playerStats.playerCurrentHP -= damageDealtToPlayer;
-                OnPlayerTakesDamage?.Invoke();
+                OnPlayerTakesDamage?.Invoke(damageDealtToPlayer);
+                OnPlayerWasDamaged?.Invoke();
                 currentIFrames = SetIFrames(damageDealtToPlayer);
                 iFrameStartTime = Time.time;
             }            

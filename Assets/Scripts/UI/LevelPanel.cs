@@ -14,7 +14,7 @@ public class LevelPanel : MonoBehaviour
     [SerializeField] private string[] UpgradeableStats;
     [SerializeField] private float[] StatUpgradeValues;
     [SerializeField] private GameManager gameManager;
-
+    [SerializeField] private TextMeshProUGUI levelsGainedText;
     [SerializeField] private GameObject[] StatUpgradeTitles;
     [SerializeField] private GameObject[] StatUpgradeContents;
 
@@ -42,6 +42,7 @@ public class LevelPanel : MonoBehaviour
         DetermineRarities();
         DetermineStats();
         SetSpritesToButtons();
+        SetTextToLevelsGainedUI();
     }
 
     private void StartFunction()
@@ -97,15 +98,7 @@ public class LevelPanel : MonoBehaviour
 
     private void DetermineRarities()
     {
-        float chance_for_root = 100 - chance_for_blossom - chance_for_bud - chance_for_shroom;
-        if (Random.Range(0, 100) <= 10)
-        {
-
-        }
-
         int numRarities = LVLUpBoarders.Length;
-        int numButtons = LVLUpButtons.Length;
-
         randomRaritys = new int[numRarities];
         for (int i = 0; i < numRarities; i++)
         {
@@ -131,13 +124,20 @@ public class LevelPanel : MonoBehaviour
 
     private void DetermineStats()
     {
-        int numStats = UpgradeableStats.Length;
-        randomStats = new string[numStats];
-
-        for (int i = 0; i <= numStats - 1; i++)
+        List<string> availableStats = new List<string>(UpgradeableStats); 
+    
+        int numStatsToPick = UpgradeableStats.Length;
+        randomStats = new string[numStatsToPick];
+    
+        for (int i = 0; i < numStatsToPick; i++)
         {
-            int randomStat = Random.Range(1, numStats);
-            randomStats[i] = UpgradeableStats[randomStat - 1];
+            int randomIndex = Random.Range(0, availableStats.Count); 
+        
+            string selectedStat = availableStats[randomIndex];
+        
+            randomStats[i] = selectedStat;
+        
+            availableStats.RemoveAt(randomIndex); 
         }
     }
 
@@ -156,6 +156,12 @@ public class LevelPanel : MonoBehaviour
         }
     }
 
+    private void SetTextToLevelsGainedUI()
+    {
+        float levelsGained = playerStats.playerLevelsGained + 1;
+        string text = levelsGained.ToString();
+        levelsGainedText.text = text;
+    }
     public void SelectLevelUp(int buttonIndex)
     {
         float chosenStat = StatGainMap[randomStats[buttonIndex]];

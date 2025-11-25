@@ -5,26 +5,31 @@ public class Bunnyhopping : MonoBehaviour
 {
     private GameObject Player;
     private PlayerStats playerStats;
+    private PlayerTakesDamage playerTakesDamage;
+    private GameObject GameManager;
+    private GameManager gameManager;
     [SerializeField] private float movespeed_bonus = 100f;
     [SerializeField] private float bonus_activation_penalty = 3f;
 
     private bool isBonusActive = false;
     private float damageStartTime;
     
-
-    private void OnEnable()
+    private void Start()
     {
-        Player = GameObject.Find("Player");
+        Player = this.transform.root.gameObject;
         playerStats = Player.GetComponent<PlayerStats>();
-        PlayerTakesDamage.OnPlayerTakesDamage += ApplyDamagePenalty;
-        Timer.OnRoundOver += ApplyDamagePenalty;
+        playerTakesDamage = Player.GetComponentInChildren<PlayerTakesDamage>();
+        GameManager = GameObject.FindGameObjectWithTag("Manager");
+        gameManager = GameManager.GetComponent<GameManager>();
+        playerTakesDamage.OnPlayerWasDamaged += ApplyDamagePenalty;
+        gameManager.OnRoundOver += ApplyDamagePenalty;
         damageStartTime = Time.time;
     }
-
-    private void OnDisable()
+    
+    private void OnDestroy()
     {
-        PlayerTakesDamage.OnPlayerTakesDamage -= ApplyDamagePenalty;
-        Timer.OnRoundOver -= ApplyDamagePenalty;
+        playerTakesDamage.OnPlayerWasDamaged -= ApplyDamagePenalty;
+        gameManager.OnRoundOver -= ApplyDamagePenalty;
     }
 
     private void Update()

@@ -20,6 +20,8 @@ public class PlayerDealsDamage : MonoBehaviour
     {
         float damageDealtByPlayer = damageCalculation.CalculateDamageDealtToEnemy(weaponStats, playerStats, enemyStats);
         // bonus damage
+        float bonusDamage = 0f;
+        damageDealtByPlayer += bonusDamage;
 
         enemyStats.TakeDamage(damageDealtByPlayer);
     }
