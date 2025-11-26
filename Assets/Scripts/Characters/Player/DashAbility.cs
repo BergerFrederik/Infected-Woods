@@ -15,11 +15,13 @@ public class DashAbility : MonoBehaviour
     private PlayerInput gameInput;
     private Animator animator;
 
+    private float cooldownStartTime;
+    private float remainingCooldown;
+
     private enum DashingState
     {
         dashReady,
-        dashing,
-        cooldown
+        dashing
     }
 
     private DashingState currentState = DashingState.dashReady;
@@ -34,17 +36,21 @@ public class DashAbility : MonoBehaviour
     {
         gameInput.Enable();
         gameInput.Player.UseDashAbility.performed += OnUseDashPerformed;
+        GameManager.OnRoundOver += ResetDash;
     }
 
     private void OnDisable()
     {
         gameInput.Player.UseDashAbility.performed -= OnUseDashPerformed;
+        GameManager.OnRoundOver -= ResetDash;
         gameInput.Disable();
     }
 
     private void OnUseDashPerformed(InputAction.CallbackContext context)
     {
-        if (currentState == DashingState.dashReady)
+        bool isCooldownFinished = Time.time >= cooldownStartTime + remainingCooldown;
+        bool isDashReady = currentState == DashingState.dashReady;
+        if (isDashReady && isCooldownFinished)
         {
             CharacterAbilityExecution();
         }
@@ -72,18 +78,21 @@ public class DashAbility : MonoBehaviour
                 player.transform.position += rollDir * rollSpeed * Time.deltaTime;
                 yield return null;
             }
-            StartCoroutine(ApplyCooldown());
+            remainingCooldown = ComputeCooldown();
+            cooldownStartTime = Time.time;
         }
-        currentState = DashingState.dashReady;
+        currentState = DashingState.dashReady;           
+    }
+   
+    private float ComputeCooldown()
+    {
+        float cooldownReduction = playerStats.playerDashCooldownReduction / 100f;
+        float dashCooldown = dash_base_cooldown * (1 - cooldownReduction);
+        return Mathf.Max(0f, dashCooldown);        
     }
 
-    
-    private IEnumerator ApplyCooldown()
+    private void ResetDash()
     {
-        currentState = DashingState.cooldown;
-        float cooldownReduction = playerStats.playerDashCooldownReduction / 100;
-        float dashCooldown = dash_base_cooldown - dash_base_cooldown * cooldownReduction;
-        yield return new WaitForSeconds(dashCooldown);
         currentState = DashingState.dashReady;
     }
 }

@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     private WaveStats waveStats;
     private float remainingTime;
 
-    public event Action OnRoundOver;
+    public static event Action OnRoundOver;
     public static event Action<float> OnTimerChanged;
 
     public static event Action<float> OnNewWaveRequested;
@@ -92,10 +92,10 @@ public class GameManager : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, searchRadius);
         foreach (Collider2D collider in colliders)
         {
-            if (collider.CompareTag("Enemy") || collider.CompareTag("Drop"))
+            if (collider.CompareTag("Enemy") || collider.CompareTag("Drop") || collider.CompareTag("Projectile"))
             {
                 Destroy(collider.gameObject);
-            }
+            }            
         }
     }
     

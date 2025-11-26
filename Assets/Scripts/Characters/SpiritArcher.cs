@@ -31,7 +31,7 @@ public class SpiritArcher : MonoBehaviour
 
     private PlayerInput gameInput;
     private PlayerStats playerStats;
-    private GameObject GameManager;
+    private GameObject GameManagerObject;
     private GameManager gameManager;
     private float startTime;
     private float remainingCooldown;
@@ -73,8 +73,8 @@ public class SpiritArcher : MonoBehaviour
     {       
         //animator = GetComponentInChildren<Animator>();
         gameInput = new PlayerInput();
-        GameManager = GameObject.FindGameObjectWithTag("Manager");
-        gameManager = GameManager.GetComponent<GameManager>();
+        GameManagerObject = GameObject.FindGameObjectWithTag("Manager");
+        gameManager = GameManagerObject.GetComponent<GameManager>();
     }
 
 
@@ -94,7 +94,7 @@ public class SpiritArcher : MonoBehaviour
     private void OnEnable()
     {
         gameInput.Enable();
-        gameManager.OnRoundOver += ResetAbilityOnRoundOver;
+        GameManager.OnRoundOver += ResetAbilityOnRoundOver;
         gameInput.Player.UseAbility.performed += OnUseAbilityPerformed;
     }
 
@@ -102,7 +102,7 @@ public class SpiritArcher : MonoBehaviour
     {
         gameInput.Player.UseAbility.performed -= OnUseAbilityPerformed;
         gameInput.Disable();
-        gameManager.OnRoundOver -= ResetAbilityOnRoundOver;
+        GameManager.OnRoundOver -= ResetAbilityOnRoundOver;
     }
 
     private void OnUseAbilityPerformed(InputAction.CallbackContext context)

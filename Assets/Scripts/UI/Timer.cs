@@ -1,10 +1,6 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.TerrainTools;
+
 
 public class Timer : MonoBehaviour
 {
@@ -14,11 +10,13 @@ public class Timer : MonoBehaviour
     private void OnEnable()
     {
         GameManager.OnTimerChanged += SetTimerText;
+        GameManager.OnRoundOver += ResetTimerText;
     }
 
     private void OnDisable()
     {
         GameManager.OnTimerChanged -= SetTimerText;
+        GameManager.OnRoundOver -= ResetTimerText;
     }
 
     private void PaintTimerRed()
@@ -30,6 +28,7 @@ public class Timer : MonoBehaviour
     private void PaintTimerWhite()
     {
         timerText.color = Color.white;
+        isTimerRed = false;
     }
 
     private void SetTimerText(float remainingTime)
@@ -45,6 +44,12 @@ public class Timer : MonoBehaviour
         {
             PaintTimerRed();
         }
+    }
+
+    private void ResetTimerText()
+    {
+        SetTimerText(0f);
+        PaintTimerWhite();
     }
 }
 

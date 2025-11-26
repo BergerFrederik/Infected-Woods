@@ -1,25 +1,21 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject[] Waves;
-    [SerializeField] private GameManager gameManager;
     
     public static event Action OnWaveInitialized;
     private void OnEnable()
     {
         GameManager.OnNewWaveRequested += InstantiateCurrentWave;
-        gameManager.OnRoundOver += StopSpawning;
+        GameManager.OnRoundOver += StopSpawning;
     }
 
     private void OnDisable()
     {
         GameManager.OnNewWaveRequested -= InstantiateCurrentWave;
-        gameManager.OnRoundOver += StopSpawning;
+        GameManager.OnRoundOver += StopSpawning;
     }
     
     private void InstantiateCurrentWave(float currentWaveNumber)

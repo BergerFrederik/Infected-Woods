@@ -17,9 +17,6 @@ public class MeeleAttack : MonoBehaviour
         Cooldown
     }
 
-
-    private GameObject GameManager;
-    private GameManager gameManager;
     private WeaponState currentState = WeaponState.Idle;
     private Transform weaponAnchorPoint;
     private Transform playerTransform;
@@ -34,19 +31,16 @@ public class MeeleAttack : MonoBehaviour
 
     private void Start()
     {
-        cooldownStarttime = 0;
         weaponAnchorPoint = transform.parent;
         triggerCollider = GetComponent<BoxCollider2D>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         playerStats = playerTransform.GetComponent<PlayerStats>();
-        GameManager = GameObject.FindGameObjectWithTag("Manager");
-        gameManager = GameManager.GetComponent<GameManager>();
-        gameManager.OnRoundOver += ResetWeaponPosition;
+        GameManager.OnRoundOver += ResetWeaponPosition;
     }
 
     private void OnDestroy()
     {
-        gameManager.OnRoundOver -= ResetWeaponPosition;
+        GameManager.OnRoundOver -= ResetWeaponPosition;
     }
 
     private void Update()

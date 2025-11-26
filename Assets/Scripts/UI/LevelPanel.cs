@@ -147,7 +147,6 @@ public class LevelPanel : MonoBehaviour
         {
             Sprite nextSprite = LVLUpBoarders[randomRaritys[i] - 1];
             string nextStatUpgradeTitle = randomStats[i];
-            //string nextStatUpgradeDescription = randomStats[
             LVLUpButtons[i].GetComponent<Image>().sprite = nextSprite;
             StatUpgradeTitles[i].GetComponent<TextMeshProUGUI>().text = nextStatUpgradeTitle;
             LVLUpButtons[i].onClick.RemoveAllListeners();
