@@ -14,7 +14,9 @@ public class AbilityCooldownUI : MonoBehaviour
         Overlay.fillAmount = 1;
         float abilityCooldown = playerStats.playerAbilityCooldown;
         float playerCooldownReduction = playerStats.playerCooldown;
-        cooldown = abilityCooldown - abilityCooldown * (playerCooldownReduction / 100);
+        float clampCooldown = abilityCooldown - abilityCooldown * (playerCooldownReduction / 100f);
+        cooldown = Mathf.Clamp(clampCooldown, 0.01f, abilityCooldown);
+        
     }
     private void Update()
     {

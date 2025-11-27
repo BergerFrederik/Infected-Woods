@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 80521b7d09545234fbdde7d810f0c98d
+guid: b7581439c504a3148a30230dddd5eedc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4241727045068834795
-    second: Item3_0
+      213: -334297070785448854
+    second: Reroll_Sprite_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Item3_0
+      name: Reroll_Sprite_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 1
-        width: 398
-        height: 408
+        x: 82
+        y: 86
+        width: 873
+        height: 848
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: be7ce7b1644adda30800000000000000
-      internalID: 4241727045068834795
+      spriteID: a643166d5965c5bf0800000000000000
+      internalID: -334297070785448854
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Item3_0: 4241727045068834795
+      Reroll_Sprite_0: -334297070785448854
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

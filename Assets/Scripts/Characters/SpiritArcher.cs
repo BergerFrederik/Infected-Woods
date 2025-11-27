@@ -83,7 +83,9 @@ public class SpiritArcher : MonoBehaviour
         if (!abilityReady)
         {
             float passedCooldown = Time.time - startTime;
-            remainingCooldown = ability_cooldown - passedCooldown;
+            float reducedCooldown = ability_cooldown * (1f - playerStats.playerCooldown / 100f);
+            float clampedCooldown = Mathf.Clamp(reducedCooldown, 0.01f, ability_cooldown);
+            float remainingCooldown = clampedCooldown - passedCooldown;
             if (remainingCooldown <= 0)
             {
                 abilityReady = true;
