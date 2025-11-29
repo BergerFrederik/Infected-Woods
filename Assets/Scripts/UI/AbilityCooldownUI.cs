@@ -4,25 +4,29 @@ using UnityEngine.UI;
 public class AbilityCooldownUI : MonoBehaviour
 {
     [SerializeField] private PlayerStats playerStats;
+    [SerializeField] private GameObject Character;
+    private CharacterStats characterStats;
     public Image Overlay;
 
-    private float cooldown;
-
+    private void Awake()
+    {
+        characterStats = Character.GetComponentInChildren<CharacterStats>();
+    }
 
     private void OnEnable()
     {
-        Overlay.fillAmount = 1;
-        float abilityCooldown = playerStats.playerAbilityCooldown;
-        float playerCooldownReduction = playerStats.playerCooldown;
-        float clampCooldown = abilityCooldown - abilityCooldown * (playerCooldownReduction / 100f);
-        cooldown = Mathf.Clamp(clampCooldown, 0.01f, abilityCooldown);
-        
+        Overlay.fillAmount = 1f;
     }
     private void Update()
     {
-        Overlay.fillAmount -= (1/cooldown) * Time.deltaTime;
-        if (Overlay.fillAmount == 0)
-        {        
+        if (characterStats.actualMaxCooldown > 0.001f)
+        {
+            Overlay.fillAmount = characterStats.remainingCooldown / characterStats.actualMaxCooldown;
+        }
+        
+        if (characterStats.abilityReady)
+        {
+            Overlay.fillAmount = 0f;
             this.gameObject.SetActive(false);
         }
     }

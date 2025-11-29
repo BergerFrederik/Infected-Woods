@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class ItemInformation : MonoBehaviour
 {
     public float itemRarity;
     public string itemID;

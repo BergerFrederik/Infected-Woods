@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyCurrentHP: 0
-  enemyMaxHP: 10
+  enemyMaxHP: 20000
   enemyHPPerWave: 0
   enemyDamage: 0
   enemyDamagePerWave: 0

@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    public event Action OnMovespeedChanged;
 
     [Header("Primary Stats")]
     public float playerMaxHP = 0f;  
@@ -42,4 +44,23 @@ public class PlayerStats : MonoBehaviour
     public float playerLevelMultiplier = 0f;
     public float playerAbilityDuration = 0f;
     public float playerLevelsGained = 0f;
+
+    private float oldTotalCurrentMoveSpeed = 0;
+
+    public float GetCurrentPlayerMovespeed()
+    {
+        float playerBaseMS = playerBaseMovespeed;
+        float playerMSIncrease = playerMovespeed / 100;
+        float currentPlayerMoveSpeed = playerBaseMS + playerBaseMS * playerMSIncrease;
+        return currentPlayerMoveSpeed;
+    }
+
+    private void Update()
+    {
+        if (oldTotalCurrentMoveSpeed != playerMovespeed)
+        {
+            OnMovespeedChanged?.Invoke();
+            oldTotalCurrentMoveSpeed = playerMovespeed;
+        }
+    }
 }

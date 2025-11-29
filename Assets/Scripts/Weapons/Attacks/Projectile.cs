@@ -14,8 +14,9 @@ public class Projectile : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag("Player");
         playerStats = Player.GetComponent<PlayerStats>();
         startingPosition = this.transform.position;
-        float attackRange = playerStats.playerAttackRange; 
-        distanceToTravel = attackRange + attackRange * 0.1f; // warum?
+        float playerAttackRange = playerStats.playerAttackRange;
+        float weaponAttackRange = sourceWeaponStats.weaponRange; 
+        distanceToTravel = weaponAttackRange + weaponAttackRange * playerAttackRange;
     }
 
     private void Update()

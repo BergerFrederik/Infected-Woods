@@ -22,6 +22,10 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private Button weaponRerollButton;
     [SerializeField] private TextMeshProUGUI moneyAmountText;
     [SerializeField] private PlayerStats playerStats;
+    [SerializeField] private GameObject itemVisualizerPrefab;
+    [SerializeField] private Transform itemScrollViewContent;
+    [SerializeField] private Button toggleButton;
+    [SerializeField] private StatPanel statPanel;
 
     private GameObject[] arrayOfChosenRandomItems;
     private GameObject[] arrayOfChosenRandomWeapons;
@@ -32,6 +36,8 @@ public class ShopPanel : MonoBehaviour
         startNextWaveButton.onClick.AddListener(StartNextWave);
         itemRerollButton.onClick.AddListener(RerollItems);
         weaponRerollButton.onClick.AddListener(RerollWeapons);
+        toggleButton.onClick.AddListener(ToggleStatsheet);
+
 
 
         SetSpritesToInventory();
@@ -45,6 +51,7 @@ public class ShopPanel : MonoBehaviour
         startNextWaveButton.onClick?.RemoveListener(StartNextWave);
         itemRerollButton.onClick.RemoveListener(RerollItems);
         weaponRerollButton.onClick.RemoveListener(RerollWeapons);
+        toggleButton.onClick.RemoveListener(ToggleStatsheet);
     }
 
     private void SetSpritesToInventory()
@@ -85,11 +92,27 @@ public class ShopPanel : MonoBehaviour
 
     private void BuyItem(int index)
     {
+        itemButtons[index].onClick.RemoveAllListeners();
         itemButtons[index].image.sprite = null;
         GameObject chosenItem = arrayOfChosenRandomItems[index];
         GameObject boughtItem = Instantiate(chosenItem);
         boughtItem.transform.SetParent(playerItems.transform, false);
+
+        Sprite itemSprite = chosenItem.GetComponent<SpriteRenderer>().sprite;
+        AddItemToVisualizer(itemSprite);
     }
+
+    private void AddItemToVisualizer(Sprite itemSprite)
+    {
+        GameObject itemVisual = Instantiate(itemVisualizerPrefab);
+        itemVisual.transform.SetParent(itemScrollViewContent, false);
+        Image visualImage = itemVisual.GetComponent<Image>();
+        if (visualImage != null)
+        {
+            visualImage.sprite = itemSprite;
+        }
+    }
+
 
     private void SetSpritesToWeaponShop()
     {
@@ -117,6 +140,7 @@ public class ShopPanel : MonoBehaviour
 
     private void BuyWeapon(int index)
     {
+        weaponButtons[index].onClick.RemoveAllListeners();
         int weaponAnkerIndex = GetNextEmptyWeaponSlotIndex();
         if (weaponAnkerIndex != -1)
         {
@@ -155,6 +179,11 @@ public class ShopPanel : MonoBehaviour
     private void RerollWeapons()
     {
         SetSpritesToWeaponShop();
+    }
+
+    private void ToggleStatsheet()
+    {
+        statPanel.gameObject.SetActive(true);
     }
 
     public void StartNextWave()
