@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2150101534113506578}
   - component: {fileID: 7813524177621690328}
+  - component: {fileID: 4334045847684594028}
   m_Layer: 0
   m_Name: AidingLight
   m_TagString: Root
@@ -46,4 +47,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   augmentRarity: 2
   augmentID: AidingLight
-  augmentText: Grants 20% heal and shield power
+  augmentText: Gain 20% Heal and Shield Power
+--- !u!114 &4334045847684594028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3645869977346694503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9654c01153c12747a855b23eaf7f2f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AidingLight
+  healPowerGain: 20
+  shieldPowerGain: 20

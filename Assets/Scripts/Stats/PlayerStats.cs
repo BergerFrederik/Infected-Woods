@@ -29,6 +29,8 @@ public class PlayerStats : MonoBehaviour
     public float playerLightAbsorption = 0f;
     public float playerDashCooldownReduction = 0f;
     public float playerAbilityCooldown = 0f;
+    public float playerHealPower = 0f;
+    public float playerShieldPower = 0f;
 
 
 

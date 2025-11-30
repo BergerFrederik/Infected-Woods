@@ -142,7 +142,7 @@ MonoBehaviour:
   weaponRangedDamageScale: 20
   weaponMysticDamageScale: 50
   weaponTier: 0
-  weaponWeaponType: 0
+  weaponWeaponType: Ranged
   weaponAttackType: 0
   weaponClass: 0
   weaponAttackSpeedCooldown: 2

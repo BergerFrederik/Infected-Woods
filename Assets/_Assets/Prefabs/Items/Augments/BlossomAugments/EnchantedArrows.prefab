@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2023584915236788178}
   - component: {fileID: -574583043870290485}
+  - component: {fileID: 5152052382975641690}
   m_Layer: 0
   m_Name: EnchantedArrows
   m_TagString: Untagged
@@ -44,3 +45,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59a430f9e90e7e641bd0ee0a64265f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnchantedArrows
+  cooldownSecondsReducedOnHit: 0
+--- !u!114 &5152052382975641690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2236800423731890656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 603e35742935d0b44980a936f95794fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AugmentInformation
+  augmentRarity: 0
+  augmentID: EnchantedArrows
+  augmentText: 

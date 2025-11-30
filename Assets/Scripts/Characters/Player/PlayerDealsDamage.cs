@@ -7,6 +7,7 @@ public class PlayerDealsDamage : MonoBehaviour
     [SerializeField] private PlayerStats playerStats;
 
     public event Action OnPlayerHitsEnemy;
+    public event Action<WeaponStats> OnPlayerHitsEnemyWithWeapon;
     private void OnEnable()
     {
         MeeleWeaponHitsEnemy.OnMeeleWeaponHitsEnemy += ApplyDamageToEnemy;
@@ -22,6 +23,7 @@ public class PlayerDealsDamage : MonoBehaviour
     private void ApplyDamageToEnemy(EnemyStats enemyStats, WeaponStats weaponStats)
     {
         OnPlayerHitsEnemy?.Invoke();
+        OnPlayerHitsEnemyWithWeapon?.Invoke(weaponStats);
         float damageDealtByPlayer = damageCalculation.CalculateDamageDealtToEnemy(weaponStats, playerStats, enemyStats);
         // bonus damage
         float bonusDamage = 0f;

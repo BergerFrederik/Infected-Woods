@@ -8,8 +8,8 @@ public class WeaponStats : MonoBehaviour
     public float weaponRangedDamageScale = 0f;
     public float weaponMysticDamageScale = 0f;
     public float weaponTier = 0f;
-    public float weaponWeaponType = 0f;
-    public float weaponAttackType = 0f;
+    public string weaponWeaponType;
+    public string weaponAttackType;
     public float weaponClass = 0f;
     public float weaponAttackSpeedCooldown = 0f; // in seconds
     public float weaponCritChance = 0f;

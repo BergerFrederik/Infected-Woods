@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2023584915236788178}
-  - component: {fileID: 537621495023615585}
-  - component: {fileID: -4443561343450210069}
+  - component: {fileID: 5152052382975641690}
+  - component: {fileID: 259421216496375985}
   m_Layer: 0
-  m_Name: StrideOfTheFray
+  m_Name: MasterOfTrifactor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,22 +33,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &537621495023615585
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2236800423731890656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 754087d22c87d514688a3842b860b945, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StrideOfTheFray
-  moveSpeedGainPerStack: 1
-  attackSpeedConversionRate: 0
-  strideOfTheFrayStacks: 0
---- !u!114 &-4443561343450210069
+--- !u!114 &5152052382975641690
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -61,5 +46,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AugmentInformation
   augmentRarity: 0
-  augmentID: StrideOfTheFray
+  augmentID: EnchantedArrows
   augmentText: 
+--- !u!114 &259421216496375985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2236800423731890656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 260d95e6ea689724a9d936e0f375c9ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MasterOfTrifactor
+  meeleDamageIncreaseOnHit: 1
+  rangedDamageIncreaseOnHit: 1
+  mysticDamageIncreaseOnHit: 1
