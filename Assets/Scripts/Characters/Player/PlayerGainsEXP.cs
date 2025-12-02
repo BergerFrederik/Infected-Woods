@@ -6,6 +6,7 @@ public class PlayerGainsEXP : MonoBehaviour
     [SerializeField] private PlayerStats playerStats;
 
     public event Action<float> OnPlayerGainsXP;
+
     public event Action<float> OnPlayerLeveledUp;
 
     public void GiveXPByEnemyToPlayer(EnemyStats enemyStats)
@@ -15,6 +16,7 @@ public class PlayerGainsEXP : MonoBehaviour
         playerStats.playerCurrentXP += xpGained;
         UpdatePlayerLevelAndEXP();
         OnPlayerGainsXP?.Invoke(playerStats.playerCurrentXP);
+     
     }
 
     private void UpdatePlayerLevelAndEXP()

@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class EnemyStats : MonoBehaviour
 {
+    [SerializeField] private EnemyIsHitByPlayer enemyIsHitByPlayer;
     public event Action OnEnemyDeath;
+    public static event Action<string> OnEnemyDeathByWeapon;
     public event Action OnEnemyTakesDamage;
 
-    [SerializeField] private float enemyCurrentHP = 0f;
+    public float enemyCurrentHP = 0f;
     public float enemyMaxHP = 0f; //done
     public float enemyHPPerWave = 0f; //not used  
     public float enemyDamage = 0f; //done
@@ -35,6 +37,8 @@ public class EnemyStats : MonoBehaviour
         if (enemyCurrentHP <= 0f)
         {
             OnEnemyDeath?.Invoke();
+            string lastWeaponHit = enemyIsHitByPlayer.lastWeaponHit;
+            OnEnemyDeathByWeapon?.Invoke(lastWeaponHit);
         }
     }
 }

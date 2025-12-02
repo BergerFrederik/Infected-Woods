@@ -4,9 +4,11 @@ public class EnemyDies : MonoBehaviour
 {
     [SerializeField] private EnemyStats enemyStats;
     [SerializeField] private GameObject lightDropPrefab;
+    [SerializeField] private EnemyIsHitByPlayer enemyIsHitByPlayer;
 
     private GameObject Player;
     private PlayerGainsEXP playerGainsEXP;
+    
     private void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");

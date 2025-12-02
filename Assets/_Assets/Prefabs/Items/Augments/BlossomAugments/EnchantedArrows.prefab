@@ -58,6 +58,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 603e35742935d0b44980a936f95794fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AugmentInformation
-  augmentRarity: 0
+  augmentRarity: 2
   augmentID: EnchantedArrows
   augmentText: 

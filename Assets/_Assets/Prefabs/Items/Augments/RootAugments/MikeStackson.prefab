@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2150101534113506578}
   - component: {fileID: 7813524177621690328}
+  - component: {fileID: -3912359472788496639}
   m_Layer: 0
-  m_Name: DontBlink
+  m_Name: MikeStackson
   m_TagString: Root
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +45,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 603e35742935d0b44980a936f95794fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  augmentRarity: 2
-  augmentID: DontBlink
-  augmentText: Deal 1% increased damage per 10 movement speed you have more than
-    the target.
+  augmentRarity: 0
+  augmentID: MikeStackson
+  augmentText: Gain 100% bonus movement speed. This bonus is lost for 3 seconds after
+    taking damage.
+--- !u!114 &-3912359472788496639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3645869977346694503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 317ed74592a3ef54b8effff329e36553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MikeStackson

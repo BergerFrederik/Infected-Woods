@@ -16,6 +16,9 @@ public class AugmentPanel : MonoBehaviour
     public Button[] AugmentButtons;
     public GameObject[] AugmentTitles;
     public GameObject[] AugmentContents;
+    
+    public float chance_to_get_bud = 30;
+    public float chance_to_get_blossom = 20;
 
     private GameObject[] ChosenAugments;
     private GameObject LastAugment = null;
@@ -43,8 +46,7 @@ public class AugmentPanel : MonoBehaviour
 
     private string DetermineAugmentRarity()
     {
-        float chance_to_get_bud = 30;
-        float chance_to_get_blossom = 20;
+        
         float randomNumber = Random.Range(0, 100);
         if (randomNumber <= chance_to_get_blossom)
         {

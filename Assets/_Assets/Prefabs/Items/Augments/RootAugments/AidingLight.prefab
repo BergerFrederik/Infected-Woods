@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 603e35742935d0b44980a936f95794fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  augmentRarity: 2
+  augmentRarity: 0
   augmentID: AidingLight
   augmentText: Gain 20% Heal and Shield Power
 --- !u!114 &4334045847684594028

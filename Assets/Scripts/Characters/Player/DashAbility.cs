@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,13 +11,15 @@ public class DashAbility : MonoBehaviour
     [SerializeField] private float dash_multiplier = 0f;
     [SerializeField] private float dash_duration = 0f;
     [SerializeField] private float dash_base_speed = 0f;
-    [SerializeField] private float dash_base_cooldown = 2f;
+    public float dash_base_cooldown = 2f;
 
     private PlayerInput gameInput;
     private Animator animator;
 
     private float cooldownStartTime;
     private float remainingCooldown;
+
+    public event Action OnDashUsed;
 
     private enum DashingState
     {
@@ -53,6 +56,7 @@ public class DashAbility : MonoBehaviour
         if (isDashReady && isCooldownFinished)
         {
             CharacterAbilityExecution();
+            OnDashUsed?.Invoke();
         }
     }
 

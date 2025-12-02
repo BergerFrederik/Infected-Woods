@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 603e35742935d0b44980a936f95794fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  augmentRarity: 2
+  augmentRarity: 0
   augmentID: Bunnyhopping
   augmentText: Gain 100% bonus movement speed. This bonus is lost for 3 seconds after
     taking damage.
@@ -61,3 +61,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f73e478e8a41b804ab9820be6b4ab301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movespeed_bonus: 100
+  bonus_activation_penalty: 3
