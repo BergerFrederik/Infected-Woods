@@ -22,7 +22,9 @@ public class DropsEvent : MonoBehaviour
     }
     private void PickupItems()
     {
-        float searchRadius = playerStats.playerLightAbsorption;
+        float baseRadius = playerStats.playerBasePickupRange;
+        float bonusRadius = playerStats.playerLightAbsorption / 100;
+        float searchRadius = baseRadius + baseRadius * bonusRadius;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, searchRadius);
 
         foreach (Collider2D collider in colliders)

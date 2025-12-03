@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8f36acf3cc823f644881c084a0cea35e
+guid: 380496be0eb999440a2807688cf19172
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2990618660076068077
-    second: Root1Sprite_0
+      213: 4649228506902773094
+    second: BudAugmentSprite_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,40 +96,27 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DontBlink
+      name: BudAugmentSprite_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 5
-        width: 800
-        height: 1275
+        x: 3
+        y: 0
+        width: 797
+        height: 1280
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dec1d7c83dfc08920800000000000000
-      internalID: 2990618660076068077
+      spriteID: 66d3f81c1b0658040800000000000000
+      internalID: 4649228506902773094
       vertices: []
       indices: 
       edges: []
@@ -138,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 329f8c19fe6cb8445a6e59d0ac6f8efa
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      DontBlink: 2990618660076068077
+      BudAugmentSprite_0: 4649228506902773094
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

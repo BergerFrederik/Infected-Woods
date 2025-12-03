@@ -20,20 +20,17 @@ public class MasterOfTrifactor : MonoBehaviour
     private float meeleDamageGainedOnRound;
     private float mysticDamageGainedOnRound;
 
-    private void Awake()
+    private void Start()
     {
         Player = this.transform.root;
         playerStats = Player.GetComponentInChildren<PlayerStats>();
         playerDealsDamage = Player.GetComponentInChildren<PlayerDealsDamage>();
-    }
 
-    private void OnEnable()
-    {
         playerDealsDamage.OnPlayerHitsEnemyWithWeapon += IncreaseStatsOnHit;
         GameManager.OnRoundOver += ResetGainedStatsOnRoundEnd;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         playerDealsDamage.OnPlayerHitsEnemyWithWeapon -= IncreaseStatsOnHit;
         GameManager.OnRoundOver -= ResetGainedStatsOnRoundEnd;

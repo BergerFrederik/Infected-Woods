@@ -7,18 +7,16 @@ public class EnchantedArrows : MonoBehaviour
     private CharacterStats characterStats;
     private PlayerDealsDamage playerDealsDamage;
 
-    private void Awake()
+    private void Start()
     {
         PlayerTransform = this.transform.root;
         characterStats = PlayerTransform.GetComponentInChildren<CharacterStats>();
         playerDealsDamage = PlayerTransform.GetComponentInChildren<PlayerDealsDamage>();
-    }
-    private void OnEnable()
-    {
-       playerDealsDamage.OnPlayerHitsEnemy += ReduceCooldownOnHit;
+
+        playerDealsDamage.OnPlayerHitsEnemy += ReduceCooldownOnHit;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         playerDealsDamage.OnPlayerHitsEnemy -= ReduceCooldownOnHit;
     }

@@ -99,7 +99,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6686641776044797349}
-  - component: {fileID: 5282394351615433018}
   - component: {fileID: 5496535399776737029}
   - component: {fileID: 7032754371515850491}
   - component: {fileID: 3245767678808239730}
@@ -107,8 +106,9 @@ GameObject:
   - component: {fileID: -4200341328449219895}
   - component: {fileID: 5664231920968889031}
   - component: {fileID: 1189426844486115819}
+  - component: {fileID: -8503212265006512582}
   m_Layer: 0
-  m_Name: DoomShroom
+  m_Name: LimpingFrogger
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130,20 +130,6 @@ Transform:
   - {fileID: 6680021799621683353}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5282394351615433018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7522017478837502192}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab30e37a5529e124e956000ddfd6e9b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyStats: {fileID: 3245767678808239730}
-  pathfinder: {fileID: -4200341328449219895}
 --- !u!114 &5496535399776737029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,7 +185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyIsHitByPlayer: {fileID: 5496535399776737029}
   enemyCurrentHP: 0
-  enemyMaxHP: 2
+  enemyMaxHP: 20000
   enemyHPPerWave: 0
   enemyDamage: 0
   enemyDamagePerWave: 0
@@ -292,7 +278,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDies
   enemyStats: {fileID: 3245767678808239730}
   lightDropPrefab: {fileID: 5587755970974629265, guid: 885bc4b58e95cf749b532d1303d7c58f, type: 3}
-  enemyIsHitByPlayer: {fileID: 0}
+  enemyIsHitByPlayer: {fileID: 5496535399776737029}
+--- !u!114 &-8503212265006512582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522017478837502192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86d423dcc3ba07842a7dd4008fc092b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyJumpTowardsPlayer
+  maxJumpDistance: 2
+  jumpDuration: 1
+  jumpHeight: 3
+  jumpCooldown: 2
+  rest_time: 2
+  pathfinder: {fileID: -4200341328449219895}
+  enemyStats: {fileID: 3245767678808239730}
+  enemyCollider: {fileID: 5157397086891573592}
+  currentState: 0
 --- !u!1 &7881526158095066900
 GameObject:
   m_ObjectHideFlags: 0

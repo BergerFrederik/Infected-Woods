@@ -52,6 +52,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -354789647
   m_SortingLayer: 3
   m_SortingOrder: 0
@@ -138,10 +141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b41ea03a7d4085418b31c5dd8c71f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyStats: {fileID: 3245767678808239730}
-  lightDropPrefab: {fileID: 5587755970974629265, guid: 885bc4b58e95cf749b532d1303d7c58f, type: 3}
   popUpDamage: {fileID: 7641374547317203947, guid: 70bd5822b7767c141be7c729baa81b7a, type: 3}
-  damageCalculation: {fileID: 5664231920968889031}
+  lastWeaponHit: 
 --- !u!50 &7032754371515850491
 Rigidbody2D:
   serializedVersion: 5
@@ -181,6 +182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62bd9fe36af433946a5586f827b520df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyIsHitByPlayer: {fileID: 5496535399776737029}
+  enemyCurrentHP: 0
   enemyMaxHP: 200
   enemyHPPerWave: 0
   enemyDamage: 0
@@ -242,7 +245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eaf6806ef67f1444aa3a643339de870, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyStats: {fileID: 3245767678808239730}
 --- !u!114 &-6418951652260503550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,8 +278,12 @@ MonoBehaviour:
   chargeDistanceToPlayer: 3
   chargeSpeedMultiplier: 3
   chargeCooldown: 5
+  charge_overshoot: 0.35
+  prepare_time: 1
+  rest_time: 1
   pathfinder: {fileID: -6418951652260503550}
   enemyStats: {fileID: 3245767678808239730}
+  currentState: 0
 --- !u!1 &7881526158095066900
 GameObject:
   m_ObjectHideFlags: 0

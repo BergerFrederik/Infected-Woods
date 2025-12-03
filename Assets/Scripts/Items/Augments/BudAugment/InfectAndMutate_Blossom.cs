@@ -12,7 +12,7 @@ public class InfectAndMutate_Blossom : MonoBehaviour
     private AugmentPanel augmentPanel;
     private List<GameObject> BlossomAugments;
 
-    private void Awake()
+    private void Start()
     {
         Canvas = GameObject.Find("Canvas");
         Player = this.transform.root;
@@ -20,6 +20,8 @@ public class InfectAndMutate_Blossom : MonoBehaviour
         PlayerAugments = Player.transform.Find("PlayerAugments");
         GiveRandomBlossomAugment();
     }
+
+
 
     private void GiveRandomBlossomAugment()
     {
@@ -29,6 +31,7 @@ public class InfectAndMutate_Blossom : MonoBehaviour
 
     private void GetBlossomAugments()
     {
+        BlossomAugments = new List<GameObject>();
         List<GameObject> AugmentItems = augmentPanel.AugmentItems;
         foreach (GameObject augment in AugmentItems)
         {

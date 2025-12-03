@@ -5,4 +5,5 @@ public class AugmentInformation : MonoBehaviour
     public float augmentRarity;
     public string augmentID;
     public string augmentText;
+    public string augmentTitle;
 }

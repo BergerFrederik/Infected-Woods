@@ -8,19 +8,16 @@ public class FrogLegs : MonoBehaviour
     private DashAbility dashAbility;
     private float cooldownReducedBySeconds;
 
-    private void Awake()
+    private void Start()
     {
         Player = this.transform.root;
         dashAbility = Player.GetComponentInChildren<DashAbility>();
-    }
 
-    private void OnEnable()
-    {
         dashAbility.OnDashUsed += ReduceDashCooldown;
         GameManager.OnRoundOver += ResetDashCooldownOnRoundEnd;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         dashAbility.OnDashUsed -= ReduceDashCooldown;
         GameManager.OnRoundOver -= ResetDashCooldownOnRoundEnd;
@@ -28,7 +25,7 @@ public class FrogLegs : MonoBehaviour
 
     private void ReduceDashCooldown()
     {
-        if (dashAbility.dash_base_cooldown <= 0.5)
+        if (dashAbility.dash_base_cooldown >= 0.5f)
         {
             dashAbility.dash_base_cooldown -= cooldownReductionOnDash;
             cooldownReducedBySeconds += cooldownReductionOnDash;

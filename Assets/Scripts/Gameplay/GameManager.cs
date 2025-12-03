@@ -111,10 +111,10 @@ public class GameManager : MonoBehaviour
         {
             //InitiateAugmentShop
             augmentPanel.gameObject.SetActive(true);
-            isAugmentShopOpen = false;
+            isAugmentShopOpen = false;     
         }
         else if (playerStats.playerLevelsGained > 0)
-        {
+        {  
             //InitiateLevelUpShop
             playerStats.playerLevelsGained--;
             levelPanel.gameObject.SetActive(true);

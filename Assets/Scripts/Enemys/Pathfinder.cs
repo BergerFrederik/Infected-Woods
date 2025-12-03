@@ -179,4 +179,10 @@ public class Pathfinder : MonoBehaviour
         float distanceToPlayer = Vector2.Distance(enemyPosition, playerPosition);
         return distanceToPlayer;
     }
+
+    public Vector2 GetPlayerPosition()
+    {
+        Vector2 playerPosition = player.transform.position;
+        return playerPosition;
+    }
 }

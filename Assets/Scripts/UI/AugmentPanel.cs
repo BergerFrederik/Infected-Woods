@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -7,67 +8,53 @@ using UnityEngine.UI;
 
 public class AugmentPanel : MonoBehaviour
 {
-    [SerializeField] private Player player;
-    [SerializeField] private PlayerStats playerStats;
+    [SerializeField] Player player;
+    [SerializeField] GameObject PlayerAugments;
     [SerializeField] private GameManager gameManager;
 
     public List<GameObject> AugmentItems;
-    public Sprite[] AugmentSprites;
     public Button[] AugmentButtons;
     public GameObject[] AugmentTitles;
     public GameObject[] AugmentContents;
+    public GameObject[] AugmentIcons;
     
     public float chance_to_get_bud = 30;
     public float chance_to_get_blossom = 20;
 
     private GameObject[] ChosenAugments;
     private GameObject LastAugment = null;
-    private Dictionary<string, Sprite> AugmentSpriteMap;
-
-    private GameObject playerAugments;
-
-    private void Awake()
-    {
-        AugmentSpriteMap = new Dictionary<string, Sprite>();
-        foreach (Sprite sprite in AugmentSprites)
-        {
-            AugmentSpriteMap.Add(sprite.name, sprite);
-        }
-        Transform playerAugmentsTransform = player.transform.Find("PlayerAugments");
-        playerAugments = playerAugmentsTransform.gameObject;
-    }
 
     private void OnEnable()
     {
-        string augmentRarity = DetermineAugmentRarity();
+        int augmentRarity = DetermineAugmentRarity();
         DetermineAugmentsToChooseFrom(augmentRarity);
         SetSpritesToButtons();
     }
 
-    private string DetermineAugmentRarity()
+    private int DetermineAugmentRarity()
     {
         
         float randomNumber = Random.Range(0, 100);
         if (randomNumber <= chance_to_get_blossom)
         {
-            return "Blossom";
+            return 2;
         }
         else if (randomNumber > chance_to_get_blossom && randomNumber <= chance_to_get_bud + chance_to_get_blossom)
         {
-            return "Bud";
+            return 1;
         }
         else
         {
-            return "Root";
+            return 0;
         }
     }
 
-    private void DetermineAugmentsToChooseFrom(string augmentRarity)
+    private void DetermineAugmentsToChooseFrom(int augmentRarity)
     {
         List<GameObject> augmentsToChooseFrom = new List<GameObject>();
         foreach (GameObject augment in AugmentItems)
         {
-            if (augment.CompareTag(augmentRarity))
+            if (augment.GetComponent<AugmentInformation>().augmentRarity == augmentRarity)
             {
                 augmentsToChooseFrom.Add(augment);
             }
@@ -100,12 +87,21 @@ public class AugmentPanel : MonoBehaviour
     {
         for (int i = 0; i < ChosenAugments.Length; i++)
         {
-            string augmentText = ChosenAugments[i].gameObject.GetComponent<AugmentInformation>().augmentText;
-            string ID = ChosenAugments[i].GetComponent<AugmentInformation>().augmentID;
-            Sprite AugmentButtonSprite = AugmentSpriteMap[ID];
+            AugmentInformation augmentInformation = ChosenAugments[i].gameObject.GetComponent<AugmentInformation>();
+            string augmentText = augmentInformation.augmentText;
+            string augmentTitle = augmentInformation.augmentTitle;
+
+            Transform AugmentVisuals = ChosenAugments[i].transform.GetChild(0);
+            GameObject AugmentSpiteObject = AugmentVisuals.Find("Sprite").gameObject;
+            GameObject AugmentIconObject = AugmentVisuals.Find("Icon").gameObject;
+
+            Sprite AugmentButtonSprite = AugmentSpiteObject.GetComponent<Image>().sprite;
+            Sprite AugmentButtonIcon = AugmentIconObject.GetComponent<Image>().sprite;
+
             AugmentButtons[i].GetComponent<Image>().sprite = AugmentButtonSprite;
-            AugmentTitles[i].GetComponent<TextMeshProUGUI>().text = ID;
+            AugmentTitles[i].GetComponent<TextMeshProUGUI>().text = augmentTitle;
             AugmentContents[i].GetComponent<TextMeshProUGUI>().text = augmentText;
+            AugmentIcons[i].GetComponent<Image>().sprite = AugmentButtonIcon;
 
 
             AugmentButtons[i].onClick.RemoveAllListeners();
@@ -118,7 +114,17 @@ public class AugmentPanel : MonoBehaviour
     {
         GameObject ChosenAugmentPrefab = ChosenAugments[buttonIndex];
         GameObject NewAugment = Instantiate(ChosenAugmentPrefab);
-        NewAugment.transform.SetParent(playerAugments.transform, false);
+        NewAugment.transform.SetParent(PlayerAugments.transform, false);
+        StartCoroutine(SetPlayerActiveAndReturn());        
+    }
+
+    private IEnumerator SetPlayerActiveAndReturn()
+    {
+        Time.timeScale = 1.0f;
+        player.gameObject.SetActive(true); // This is need for augments to load into stats
+        yield return new WaitForSeconds(0.05f);
+        Time.timeScale = 0f;
+        player.gameObject.SetActive(false); // This is need for augments to load into stats
         gameManager.CycleShops();
         this.gameObject.SetActive(false);
     }

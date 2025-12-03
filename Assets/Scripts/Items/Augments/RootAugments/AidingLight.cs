@@ -8,13 +8,14 @@ public class AidingLight : MonoBehaviour
 
     private Transform Player;
     private PlayerStats playerStats;
-    private void Awake()
+    private void Start()
     {
         Player = this.transform.root;
-        playerStats = this.GetComponent<PlayerStats>();
+        playerStats = Player.GetComponent<PlayerStats>();
+        GiveStatsToPlayer();
     }
 
-    private void Start()
+    private void GiveStatsToPlayer()
     {
         playerStats.playerHealPower += healPowerGain;
         playerStats.playerShieldPower += shieldPowerGain;

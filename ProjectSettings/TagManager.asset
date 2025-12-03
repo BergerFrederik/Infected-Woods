@@ -17,6 +17,7 @@ TagManager:
   - Floor
   - Boarder
   - Canvas
+  - MeeleWeapon
   layers:
   - Default
   - TransparentFX

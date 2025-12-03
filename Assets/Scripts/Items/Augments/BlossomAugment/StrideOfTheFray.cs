@@ -12,21 +12,19 @@ public class StrideOfTheFray : MonoBehaviour
 
     public int strideOfTheFrayStacks;
 
-    private void Awake()
+    private void Start()
     {
         PlayerTransform = this.transform.root;
         playerStats = this.GetComponentInParent<PlayerStats>();
         playerDealsDamage = PlayerTransform.GetComponentInChildren<PlayerDealsDamage>();
-        
-    }
-    private void OnEnable()
-    {
+
         playerDealsDamage.OnPlayerHitsEnemy += AddMovespeedToPlayerStats;
-        GameManager.OnRoundOver             += ResetStacks;
-        playerStats.OnMovespeedChanged      += RecalculateAttackSpeed;
+        GameManager.OnRoundOver += ResetStacks;
+        playerStats.OnMovespeedChanged += RecalculateAttackSpeed;
+
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         playerDealsDamage.OnPlayerHitsEnemy -= AddMovespeedToPlayerStats;
         GameManager.OnRoundOver             -= ResetStacks;

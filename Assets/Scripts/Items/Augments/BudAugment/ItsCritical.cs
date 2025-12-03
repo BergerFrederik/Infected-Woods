@@ -8,7 +8,7 @@ public class ItsCritical : MonoBehaviour
     private Transform Player;
     private PlayerStats playerStats;
 
-    private void Awake()
+    private void Start()
     {
         Player = this.transform.root;
         playerStats =  Player.GetComponent<PlayerStats>();

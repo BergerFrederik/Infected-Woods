@@ -18,7 +18,7 @@ public class EnemyIsHitByPlayer : MonoBehaviour
                 SetLastWeaponHit(weaponStats);
             }
         } 
-        else if (collider.CompareTag("Meele"))
+        else if (collider.CompareTag("MeeleWeapon"))
         {
             if (collider.TryGetComponent<WeaponStats>(out WeaponStats weaponStats))
             {

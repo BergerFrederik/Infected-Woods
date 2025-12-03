@@ -18,21 +18,18 @@ public class MikeStackson : MonoBehaviour
     
     private float lastTimestampOfDamageTaken;
 
-    private void Awake()
+    private void Start()
     {
         Player = this.transform.root;
         playerStats = Player.GetComponent<PlayerStats>();
 
         playerTakesDamage = Player.GetComponentInChildren<PlayerTakesDamage>();
-    }
 
-    private void OnEnable()
-    {
         EnemyStats.OnEnemyDeathByWeapon += PerformAugment;
         playerTakesDamage.OnPlayerWasDamaged += SetLastTimestampOfDamageTaken;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         EnemyStats.OnEnemyDeathByWeapon -= PerformAugment;
         playerTakesDamage.OnPlayerWasDamaged -= SetLastTimestampOfDamageTaken;
