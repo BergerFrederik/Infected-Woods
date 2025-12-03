@@ -291,11 +291,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86d423dcc3ba07842a7dd4008fc092b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyJumpTowardsPlayer
-  maxJumpDistance: 2
-  jumpDuration: 1
+  maxJumpDistance: 5
+  jumpDuration: 0.5
   jumpHeight: 3
-  jumpCooldown: 2
-  rest_time: 2
+  jumpCooldown: 1.5
   pathfinder: {fileID: -4200341328449219895}
   enemyStats: {fileID: 3245767678808239730}
   enemyCollider: {fileID: 5157397086891573592}

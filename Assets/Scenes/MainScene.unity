@@ -2613,6 +2613,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StartButton
   startButton: {fileID: 1089409187}
   gameManager: {fileID: 1221680500}
+--- !u!1 &380648314
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 380648315}
+  m_Layer: 0
+  m_Name: StickyStinger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &380648315
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380648314}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 843.1345, y: 558.203}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &389064433
 GameObject:
   m_ObjectHideFlags: 0
@@ -5355,6 +5390,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 831023895}
   m_CullTransparentMesh: 1
+--- !u!1001 &845583722
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6686641776044797349, guid: c05e7fa8fc808eb49a2658be932bf042, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.219249
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686641776044797349, guid: c05e7fa8fc808eb49a2658be932bf042, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.0763526
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686641776044797349, guid: c05e7fa8fc808eb49a2658be932bf042, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686641776044797349, guid: c05e7fa8fc808eb49a2658be932bf042, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686641776044797349, guid: c05e7fa8fc808eb49a2658be932bf042, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686641776044797349, guid: c05e7fa8fc808eb49a2658be932bf042, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686641776044797349, guid: c05e7fa8fc808eb49a2658be932bf042, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686641776044797349, guid: c05e7fa8fc808eb49a2658be932bf042, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686641776044797349, guid: c05e7fa8fc808eb49a2658be932bf042, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686641776044797349, guid: c05e7fa8fc808eb49a2658be932bf042, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7522017478837502192, guid: c05e7fa8fc808eb49a2658be932bf042, type: 3}
+      propertyPath: m_Name
+      value: LimpingFrogger
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c05e7fa8fc808eb49a2658be932bf042, type: 3}
 --- !u!1 &857504038
 GameObject:
   m_ObjectHideFlags: 0
@@ -12561,3 +12653,5 @@ SceneRoots:
   - {fileID: 1221680501}
   - {fileID: 257752096}
   - {fileID: 1125227182}
+  - {fileID: 380648315}
+  - {fileID: 845583722}

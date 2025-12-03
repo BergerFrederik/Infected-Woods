@@ -78,6 +78,7 @@ public class EnemyJumpTowardsPlayer : MonoBehaviour
 
     private IEnumerator JumpArc(Vector2 start, Vector2 end, float duration, float height)
     {
+        pathfinder.enabled = false;
         float timeElapsed = 0f;
 
         while (timeElapsed < duration)
@@ -99,6 +100,8 @@ public class EnemyJumpTowardsPlayer : MonoBehaviour
 
         // Stelle sicher, dass die Landeposition exakt erreicht wird
         transform.position = new Vector3(end.x, end.y, transform.position.z);
+
+        pathfinder.enabled = true;
 
         // Sprung beendet:
         enemyCollider.enabled = true; // Collider wieder aktivieren
