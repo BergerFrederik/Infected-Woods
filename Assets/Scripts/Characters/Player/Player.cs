@@ -22,6 +22,12 @@ public class Player : MonoBehaviour
         if (collider.CompareTag("Drop"))
         {
             OnDropCollected?.Invoke(collider);
-        }        
+        }
+
+        if (collider.TryGetComponent<EnemyProjectile>(out EnemyProjectile enemyProjectile))
+        {
+            EnemyStats enemyStats = enemyProjectile.GetEnemyStats();
+            OnPlayerCollidesWithEnemy?.Invoke(enemyStats);
+        }
     }  
 }

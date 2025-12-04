@@ -61,14 +61,14 @@ TagManager:
   - name: Drops
     uniqueID: 357087153
     locked: 0
-  - name: Enemy
-    uniqueID: 3940177649
-    locked: 0
   - name: Player
     uniqueID: 2026402519
     locked: 0
   - name: Weapon
     uniqueID: 1944685711
+    locked: 0
+  - name: Enemy
+    uniqueID: 3940177649
     locked: 0
   - name: UI
     uniqueID: 945072919
@@ -78,6 +78,9 @@ TagManager:
     locked: 0
   - name: AugmentIcon
     uniqueID: 3433221377
+    locked: 0
+  - name: New Layer 9
+    uniqueID: 1216387837
     locked: 0
   m_RenderingLayers:
   - Default

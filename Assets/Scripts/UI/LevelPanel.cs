@@ -11,6 +11,7 @@ public class LevelPanel : MonoBehaviour
 
     [SerializeField] private Sprite[] LVLUpBoarders;
     [SerializeField] private Button[] LVLUpButtons;
+    [SerializeField] private Button RerollButton;
     [SerializeField] private string[] UpgradeableStats;
     [SerializeField] private float[] StatUpgradeValues;
     [SerializeField] private GameManager gameManager;
@@ -36,13 +37,12 @@ public class LevelPanel : MonoBehaviour
 
     private void OnEnable()
     {
+        RerollButton.onClick.AddListener(RerollStats);
         StartFunction();
         SetTextToPrimayStats();
         SetTextToSecondaryStats();
-        DetermineRarities();
-        DetermineStats();
-        SetSpritesToButtons();
-        SetTextToLevelsGainedUI();
+        SetLogic();
+        SetUI();
     }
 
     private void StartFunction()
@@ -62,7 +62,18 @@ public class LevelPanel : MonoBehaviour
                 Debug.LogWarning($"StatMapper Warnung: Der Key '{statName}' ist doppelt vorhanden und wurde ignoriert.");
             }
         }
+    }
 
+    private void SetLogic()
+    {
+        DetermineRarities();
+        DetermineStats();
+    }
+
+    private void SetUI()
+    {
+        SetSpritesToButtons();
+        SetTextToLevelsGainedUI();
     }
     private void SetTextToPrimayStats()
     {
@@ -155,10 +166,16 @@ public class LevelPanel : MonoBehaviour
         }
     }
 
+    private void RerollStats()
+    {
+        SetLogic();
+        SetUI();
+    }
+
     private void SetTextToLevelsGainedUI()
     {
         float levelsGained = playerStats.playerLevelsGained + 1;
-        string text = levelsGained.ToString();
+        string text = "[" + levelsGained.ToString() + "]";
         levelsGainedText.text = text;
     }
     public void SelectLevelUp(int buttonIndex)
@@ -169,7 +186,6 @@ public class LevelPanel : MonoBehaviour
         ApplyStatsToPlayer(statToApply, randomStats[buttonIndex]);
         this.gameObject.SetActive(false);
         gameManager.CycleShops();
-        
     }
     private void ApplyStatsToPlayer(float value, string statName)
     {
