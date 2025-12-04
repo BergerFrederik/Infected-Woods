@@ -42,7 +42,6 @@ public class StrideOfTheFray : MonoBehaviour
         playerStats.playerAttackSpeed -= currentASModFromMS;
         float totalCurrentMoveSpeed = playerStats.GetCurrentPlayerMovespeed();
         float newASMod = totalCurrentMoveSpeed * (attackSpeedConversionRate/100);
-        Debug.Log(newASMod);
         playerStats.playerAttackSpeed += newASMod;
         currentASModFromMS = newASMod;
     }

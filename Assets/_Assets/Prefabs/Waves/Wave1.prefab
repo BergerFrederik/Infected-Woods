@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b90056a18b104c840a02eed83bead8e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveDuration: 10
+  waveDuration: 2
   amountEnemyDoomshroom: 5
   amountEnemyInfectedSnail: 5
 --- !u!114 &-4345058850768677505
