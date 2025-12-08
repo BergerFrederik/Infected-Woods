@@ -59,7 +59,7 @@ public class EnemyJumpTowardsPlayer : MonoBehaviour
         }
     }
 
-    private Vector2 CalculateTargetPosition()
+    public Vector2 CalculateTargetPosition()
     {
         Vector2 playerPosition = pathfinder.GetPlayerPosition();
         Vector2 currentPosition = transform.position;
