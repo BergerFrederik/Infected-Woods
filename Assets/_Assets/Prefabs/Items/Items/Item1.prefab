@@ -49,6 +49,7 @@ MonoBehaviour:
   itemID: Item1
   itemText: +10% Attackspeed, -5% Movespeed
   itemLimit: 0
+  itemPrice: 13
 --- !u!212 &-4918276591096138597
 SpriteRenderer:
   m_ObjectHideFlags: 0

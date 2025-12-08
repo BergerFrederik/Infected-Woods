@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1944685711
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -5028376074188591101, guid: bca5a0ed9503f154c99c6d6b5c1cc263, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -136,6 +136,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df8db80a6c1b1db4aadcc965bcd7bd8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponName: Spirit Bow
+  weaponSubtitle: Cool Bow
   weaponProjectileSpeed: 20
   weaponBaseDamage: 50
   weaponMeeleDamageScale: 100
@@ -151,7 +153,7 @@ MonoBehaviour:
   weaponRange: 4
   weaponKnockback: 0
   weaponLifesteal: 0
-  weaponPrice: 0
+  weaponPrice: 30
   currentTotalDamage: 0
 --- !u!114 &6919582871292908103
 MonoBehaviour:

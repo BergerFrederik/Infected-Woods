@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df8db80a6c1b1db4aadcc965bcd7bd8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponName: Spirit Sword
+  weaponSubtitle: Very cool sword
   weaponProjectileSpeed: 20
   weaponBaseDamage: 5
   weaponMeeleDamageScale: 100
@@ -63,7 +65,7 @@ MonoBehaviour:
   weaponRange: 4
   weaponKnockback: 0
   weaponLifesteal: 0
-  weaponPrice: 0
+  weaponPrice: 25
   currentTotalDamage: 0
 --- !u!114 &1869917964682256196
 MonoBehaviour:
@@ -247,7 +249,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1944685711
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 2613348730587745498, guid: 517d3edcb285f3142ae15c7f33a4c192, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

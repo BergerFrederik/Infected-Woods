@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class WeaponStats : MonoBehaviour
 {
+    public string weaponName;
+    public string weaponSubtitle;
     public float weaponProjectileSpeed = 0f;
     public float weaponBaseDamage = 0f;
     public float weaponMeeleDamageScale = 0f;

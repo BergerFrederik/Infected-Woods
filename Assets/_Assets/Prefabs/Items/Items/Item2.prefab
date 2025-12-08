@@ -46,9 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
   itemRarity: 4
-  itemID: Item1
+  itemID: Item2
   itemText: +10% Attackspeed, -5% Movespeed
   itemLimit: 0
+  itemPrice: 20
 --- !u!212 &8834191485202303626
 SpriteRenderer:
   m_ObjectHideFlags: 0
