@@ -106,8 +106,11 @@ GameObject:
   - component: {fileID: -4200341328449219895}
   - component: {fileID: 5664231920968889031}
   - component: {fileID: 1189426844486115819}
-  - component: {fileID: 864186481241031060}
   - component: {fileID: 5890143594061011252}
+  - component: {fileID: 8675068244485247496}
+  - component: {fileID: 3174210079518212410}
+  - component: {fileID: 5967012863727897997}
+  - component: {fileID: -2268824301418307569}
   m_Layer: 0
   m_Name: Big Lou
   m_TagString: Enemy
@@ -228,7 +231,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -280,26 +283,6 @@ MonoBehaviour:
   enemyStats: {fileID: 3245767678808239730}
   lightDropPrefab: {fileID: 5587755970974629265, guid: 885bc4b58e95cf749b532d1303d7c58f, type: 3}
   enemyIsHitByPlayer: {fileID: 0}
---- !u!114 &864186481241031060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7522017478837502192}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86d423dcc3ba07842a7dd4008fc092b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyJumpTowardsPlayer
-  maxJumpDistance: 9999
-  jumpDuration: 1
-  jumpHeight: 3
-  jumpCooldown: 2
-  pathfinder: {fileID: -4200341328449219895}
-  enemyStats: {fileID: 3245767678808239730}
-  enemyCollider: {fileID: 5157397086891573592}
-  currentState: 0
 --- !u!114 &5890143594061011252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,22 +297,94 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BigLou
   enemyStats: {fileID: 3245767678808239730}
   pathfinder: {fileID: -4200341328449219895}
-  enemyJumpTowardsPlayer: {fileID: 864186481241031060}
-  bossCollider: {fileID: 5157397086891573592}
+  rollAttack: {fileID: 3174210079518212410}
+  stompAttack: {fileID: 5967012863727897997}
+  infectionAttack: {fileID: -2268824301418307569}
   stompAttackCooldown: 2
   infectionAttackCooldown: 2
   rollAttackCooldown: 2
-  stompDamage: 100
-  infectionDamage: 100
-  rollDamage: 100
-  stompAttackChargeTime: 1
-  stompAttackFloatTime: 3
-  stompJumpSpeed: 10
-  rollDamageMultiplier: 0
   restTime: 1
   minCooldown: 2
   maxCooldown: 5
   currentState: 0
+--- !u!114 &8675068244485247496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522017478837502192}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86d423dcc3ba07842a7dd4008fc092b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyJumpTowardsPlayer
+  maxJumpDistance: 2
+  jumpDuration: 1
+  jumpHeight: 3
+  jumpCooldown: 2
+  pathfinder: {fileID: -4200341328449219895}
+  enemyStats: {fileID: 3245767678808239730}
+  enemyCollider: {fileID: 5157397086891573592}
+  currentState: 0
+--- !u!114 &3174210079518212410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522017478837502192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51a3cda14a89b6f4fad41414c563580c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RollAttack
+  pathfinder: {fileID: -4200341328449219895}
+  bigLou: {fileID: 5890143594061011252}
+  rollAcceleratorTime: 1
+  rollAttackDuration: 10
+  rollSpeed: 6
+  rollBoostPerHit: 0.2
+--- !u!114 &5967012863727897997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522017478837502192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99d6087bd38a8aa42b54a946a7ae9844, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StompAttack
+  pathfinder: {fileID: -4200341328449219895}
+  bossCollider: {fileID: 5157397086891573592}
+  enemyJumpTowardsPlayer: {fileID: 8675068244485247496}
+  bigLou: {fileID: 5890143594061011252}
+  stompAttackChargeTime: 1
+  stompAttackFloatTime: 2
+  stompJumpSpeed: 10
+--- !u!114 &-2268824301418307569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522017478837502192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b880d20914265f24e886b648ca68f0a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InfectionAttack
+  infectionBlobPrefab: {fileID: 8734162820818037192, guid: 413ebad523a038440ad19f898481a526, type: 3}
+  PlayerObject: {fileID: 0}
+  pathfinder: {fileID: -4200341328449219895}
+  numberOfBlobs: 8
+  coneAngle: 60
+  attackPrepTime: 0.5
+  blobDuration: 2
+  flightDuration: 1
+  apexHeight: 5
 --- !u!1 &7881526158095066900
 GameObject:
   m_ObjectHideFlags: 0

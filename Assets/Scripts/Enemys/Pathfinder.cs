@@ -185,4 +185,9 @@ public class Pathfinder : MonoBehaviour
         Vector2 playerPosition = player.transform.position;
         return playerPosition;
     }
+
+    public GameObject GetPlayerObject()
+    {
+        return player;
+    }
 }
