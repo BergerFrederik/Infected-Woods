@@ -58,18 +58,19 @@ public class Ranged : MonoBehaviour
     }
     private void SearchForEnemyAndAttack()
     {
-        float closestDistance = Mathf.Infinity;
         Transform closestEnemy = FindClosestEnemy();
+
         if (closestEnemy != null)
         {
-            closestDistance = Vector2.Distance(transform.position, closestEnemy.transform.position);
-        }
-        float attackRange = weaponStats.weaponRange + weaponStats.weaponRange * (PlayerTransform.GetComponent<PlayerStats>().playerAttackRange / 100);
-
-        if (closestEnemy != null && closestDistance <= attackRange)
-        {           
-            directionToEnemy = (closestEnemy.position - transform.position);
-            currentWeaponState = WeaponState.Shoot;
+            Collider2D enemyCollider = closestEnemy.GetComponent<Collider2D>();
+            Vector2 closestPointOnEdge = enemyCollider.ClosestPoint(transform.position);
+            float distanceToEdge = Vector2.Distance(transform.position, closestPointOnEdge);
+            float attackRange = weaponStats.weaponRange + weaponStats.weaponRange * (PlayerTransform.GetComponent<PlayerStats>().playerAttackRange / 100);
+            if (distanceToEdge <= attackRange)
+            {           
+                directionToEnemy = (closestEnemy.position - transform.position);
+                currentWeaponState = WeaponState.Shoot;
+            }
         }
     }
 
@@ -100,20 +101,21 @@ public class Ranged : MonoBehaviour
 
     private Transform FindClosestEnemy()
     {
-        float searchRadius = Mathf.Infinity;
+        float searchRadius = 200;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, searchRadius);
         float closestDistance = Mathf.Infinity;
         Transform closestEnemy = null;
-        float weaponDistanceToEnemy = 0f;
         foreach (Collider2D collider in colliders)
         {
+            if (collider.gameObject == this.gameObject) continue;
             if (collider.CompareTag("Enemy"))
             {
-                weaponDistanceToEnemy = Vector2.Distance(transform.position, collider.transform.position);
-
-                if (weaponDistanceToEnemy < closestDistance)
+                Vector2 closestPoint = collider.ClosestPoint(transform.position);
+                float distanceToEdge = Vector2.Distance(transform.position, closestPoint);
+                
+                if (distanceToEdge < closestDistance)
                 {
-                    closestDistance = weaponDistanceToEnemy;
+                    closestDistance = distanceToEdge;
                     closestEnemy = collider.transform;
                 }
             }

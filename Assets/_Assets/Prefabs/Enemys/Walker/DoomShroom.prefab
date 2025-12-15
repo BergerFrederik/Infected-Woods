@@ -199,7 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyIsHitByPlayer: {fileID: 5496535399776737029}
   enemyCurrentHP: 0
-  enemyMaxHP: 2
+  enemyMaxHP: 15744.5
   enemyHPPerWave: 0
   enemyDamage: 0
   enemyDamagePerWave: 0
