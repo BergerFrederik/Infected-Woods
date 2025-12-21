@@ -231,7 +231,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -282,7 +282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDies
   enemyStats: {fileID: 3245767678808239730}
   lightDropPrefab: {fileID: 5587755970974629265, guid: 885bc4b58e95cf749b532d1303d7c58f, type: 3}
-  enemyIsHitByPlayer: {fileID: 0}
+  enemyIsHitByPlayer: {fileID: 5496535399776737029}
 --- !u!114 &5890143594061011252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,9 +342,9 @@ MonoBehaviour:
   pathfinder: {fileID: -4200341328449219895}
   bigLou: {fileID: 5890143594061011252}
   rollAcceleratorTime: 1
-  rollAttackDuration: 10
-  rollSpeed: 6
-  rollBoostPerHit: 0.2
+  rollAttackDuration: 15
+  rollSpeed: 10
+  rollBoostPerHit: 0.05
 --- !u!114 &5967012863727897997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,7 +363,7 @@ MonoBehaviour:
   bigLou: {fileID: 5890143594061011252}
   stompAttackChargeTime: 1
   stompAttackFloatTime: 2
-  stompJumpSpeed: 10
+  stompJumpSpeed: 90
 --- !u!114 &-2268824301418307569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,6 +379,7 @@ MonoBehaviour:
   infectionBlobPrefab: {fileID: 8734162820818037192, guid: 413ebad523a038440ad19f898481a526, type: 3}
   PlayerObject: {fileID: 0}
   pathfinder: {fileID: -4200341328449219895}
+  bigLou: {fileID: 5890143594061011252}
   numberOfBlobs: 8
   coneAngle: 60
   attackPrepTime: 0.5

@@ -2,15 +2,21 @@ using UnityEngine;
 
 public class Item3 : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    // +5% Movementspeed; -2.5% Attackspeed
+    [SerializeField] private float attackSpeedLoss;
+    [SerializeField] private float movementSpeedain;
+    private PlayerStats playerStats;
+    
+    
+    private void Start()
     {
-        
+        playerStats = transform.root.GetComponent<PlayerStats>();
+        ApplyItem();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ApplyItem()
     {
-        
+        playerStats.playerAttackSpeed -= attackSpeedLoss;
+        playerStats.playerMovespeed += movementSpeedain;
     }
 }

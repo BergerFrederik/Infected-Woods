@@ -14,41 +14,38 @@ public class StompAttack : MonoBehaviour
 
     public IEnumerator performStompAttack()
     {
-        // disable pathfinder to get him out of bounds
         pathfinder.enabled = false;
 
-        // charge the jump
         yield return new WaitForSeconds(stompAttackChargeTime);
 
-        // jump in the air
         bossCollider.enabled = false;
-        Vector3 targetY30 = new Vector3(this.transform.position.x, 30f, this.transform.position.z);
+        Vector3 targetY30 = new Vector3(transform.position.x, 30f, transform.position.z);
 
-        // Die Schleife läuft, solange die aktuelle Position nicht exakt die Zielposition ist.
-        while (this.transform.position != targetY30)
+        while (Vector3.Distance(transform.position, targetY30) > 0.1f)
         {
-            float step = stompJumpSpeed * Time.deltaTime;
-            this.transform.position = Vector3.MoveTowards(this.transform.position, targetY30, step);
+            transform.position = Vector3.MoveTowards(transform.position, targetY30, stompJumpSpeed * Time.deltaTime);
             yield return null;
         }
-
-        // float in the air and create landing circle
-        Vector2 targetPosition = enemyJumpTowardsPlayer.CalculateTargetPosition();
-        Vector3 floatPos = new Vector3(targetPosition.x, transform.position.y, 0);
-        transform.position = floatPos;
-        yield return new WaitForSeconds(stompAttackFloatTime);
-
-        // execute stomp attack
+        transform.position = targetY30;
+        
+        Vector2 playerPosition = pathfinder.GetPlayerPosition();
+        float floatStartTime = Time.time;
+        while (Time.time - floatStartTime <= stompAttackFloatTime)
+        {
+            playerPosition = pathfinder.GetPlayerPosition();
+            transform.position = new Vector3(playerPosition.x, 30f, 0);
+            yield return null;
+        }
+        
+        while (Vector3.Distance(transform.position, playerPosition) > 0.1f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, playerPosition, stompJumpSpeed * Time.deltaTime);
+            yield return null;
+        }
+    
+        transform.position = playerPosition;
         bossCollider.enabled = true;
-        while (transform.position != (Vector3)targetPosition)
-        {
-            transform.position += new Vector3(0, -1, 0) * stompJumpSpeed * Time.deltaTime;
-            if (transform.position.y <= targetPosition.y + 0.2f)
-            {
-                transform.position = targetPosition;
-            }
-            yield return null;
-        }
+    
         pathfinder.enabled = true;
         bigLou.currentState = BigLou.BossState.Resting;
     }

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    [Header("Wave")]
     [SerializeField] private GameObject[] Waves;
     
     public static event Action OnWaveInitialized;

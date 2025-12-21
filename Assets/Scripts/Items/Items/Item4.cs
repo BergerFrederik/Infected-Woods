@@ -2,15 +2,23 @@ using UnityEngine;
 
 public class Item4 : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    // +5% Cooldown Reduction; +5% Attackspeed; -1 Armor;
+    [SerializeField] private float cooldownReduction;
+    [SerializeField] private float attackSpeedGain;
+    [SerializeField] private float armorLoss;
+    private PlayerStats playerStats;
+    
+    
+    private void Start()
     {
-        
+        playerStats = transform.root.GetComponent<PlayerStats>();
+        ApplyItem();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ApplyItem()
     {
-        
+        playerStats.playerCooldown += cooldownReduction;
+        playerStats.playerAttackSpeed += attackSpeedGain;
+        playerStats.playerArmor -= armorLoss;
     }
 }

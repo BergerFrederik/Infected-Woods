@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b90056a18b104c840a02eed83bead8e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveDuration: 20100
+  waveDuration: 3
   amountEnemyDoomshroom: 5
   amountEnemyInfectedSnail: 5
 --- !u!114 &-4345058850768677505
@@ -64,4 +64,6 @@ MonoBehaviour:
   enemySpawner: {fileID: 0}
   enemyPrefabs:
   - {fileID: 7522017478837502192, guid: e0390948ad167ff4496bfcf490f2dc99, type: 3}
-  - {fileID: 7522017478837502192, guid: 622f2f617ec47a24786314e544e53af3, type: 3}
+  - {fileID: 7522017478837502192, guid: 92e3e9bab9ce8ee48bdcef9d39b51b87, type: 3}
+  - {fileID: 7522017478837502192, guid: 92e3e9bab9ce8ee48bdcef9d39b51b87, type: 3}
+  - {fileID: 7522017478837502192, guid: 92e3e9bab9ce8ee48bdcef9d39b51b87, type: 3}

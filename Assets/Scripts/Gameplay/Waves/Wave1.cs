@@ -20,7 +20,7 @@ public class Wave1 : MonoBehaviour
         
 
 
-        StartCoroutine(spawnEnemy(0.5f, enemyPrefabs[0]));
+        StartCoroutine(spawnEnemy(0.5f));
     }
 
     // Update is called once per frame
@@ -34,10 +34,12 @@ public class Wave1 : MonoBehaviour
         }
     }
 
-    private IEnumerator spawnEnemy(float interval, GameObject enemy)
+    private IEnumerator spawnEnemy(float interval)
     {
         yield return new WaitForSeconds(interval);
+        int randomIndex = Random.Range(0, enemyPrefabs.Length);
+        GameObject enemy = enemyPrefabs[randomIndex];
         GameObject newEnemy = Instantiate(enemy, new Vector3(Random.Range(-5f, 5f), Random.Range(-6f, 6f), 0), Quaternion.identity);
-        StartCoroutine(spawnEnemy(interval, enemy));
+        StartCoroutine(spawnEnemy(interval));
     }
 }

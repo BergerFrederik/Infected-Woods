@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
         DestroyRemainingEntities();
         ResetPlayerPosition();
-        player.gameObject.SetActive(false);
+        HandlePlayerWhileShop(false);
     }
     
     private void DestroyRemainingEntities()
@@ -103,6 +103,14 @@ public class GameManager : MonoBehaviour
     {
         player.transform.position = new Vector3(0, 0, 0);
         mainCam.transform.position = new Vector3(0, 0, -10);
+    }
+    
+    private void HandlePlayerWhileShop(bool playerStatus)
+    {
+        PlayerMovement playerMovement = player.GetComponentInChildren<PlayerMovement>();
+        DashAbility dashAbility = player.GetComponentInChildren<DashAbility>();
+        playerMovement.enabled = playerStatus;
+        dashAbility.enabled = playerStatus;
     }
 
     public void CycleShops()
@@ -136,7 +144,7 @@ public class GameManager : MonoBehaviour
         GameObject enemySpawner = GameObject.FindGameObjectWithTag("Spawner");
         Transform enemySpawnerTransform = enemySpawner.transform;
         CurrentWaveObject = enemySpawnerTransform.GetChild(0).gameObject;
-        player.gameObject.SetActive(true);
+        HandlePlayerWhileShop(true);
         Time.timeScale = 1f;
         waveStats = CurrentWaveObject.GetComponent<WaveStats>();
         remainingTime = waveStats.waveDuration;

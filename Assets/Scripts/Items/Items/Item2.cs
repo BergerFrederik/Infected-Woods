@@ -2,15 +2,24 @@ using UnityEngine;
 
 public class Item2 : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    // + 2 hp - 2 hp reg
+    [SerializeField] private float hpGain;
+    [SerializeField] private float hpRegLoss;
+    private GameObject Player;
+    private PlayerStats playerStats;
+    
+    
+    private void Start()
     {
-        
+        Player = this.transform.root.gameObject;
+        playerStats = Player.GetComponent<PlayerStats>();
+
+        ApplyItem();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ApplyItem()
     {
-        
+        playerStats.playerMaxHP += hpGain;
+        playerStats.playerHPRegeneration -= hpRegLoss;
     }
 }

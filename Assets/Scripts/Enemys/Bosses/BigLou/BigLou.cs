@@ -63,7 +63,8 @@ public class BigLou : MonoBehaviour
                 FollowPlayer();
                 break;
             case BossState.PrepareAttack:
-                int randomAttack = Random.Range(2, 2);
+                int randomAttack = Random.Range(0, 3);
+                Debug.Log(randomAttack);
                 if (randomAttack == 0)
                 {
                     StartCoroutine(stompAttack.performStompAttack());

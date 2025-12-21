@@ -6,7 +6,8 @@ using UnityEngine;
 // gain one random Blossom Augment
 public class InfectAndMutate_Blossom : MonoBehaviour
 {
-    private GameObject Canvas;
+    private GameObject AugmentPanel;
+    private GameObject GameManager;
     private Transform Player;
     private Transform PlayerAugments;
     private AugmentPanel augmentPanel;
@@ -14,15 +15,13 @@ public class InfectAndMutate_Blossom : MonoBehaviour
 
     private void Start()
     {
-        Canvas = GameObject.Find("Canvas");
+        AugmentPanel = GameObject.Find("AugmentPanel");
         Player = this.transform.root;
-        augmentPanel = Canvas.GetComponentInChildren<AugmentPanel>();
+        augmentPanel = AugmentPanel.GetComponent<AugmentPanel>();
         PlayerAugments = Player.transform.Find("PlayerAugments");
         GiveRandomBlossomAugment();
     }
-
-
-
+    
     private void GiveRandomBlossomAugment()
     {
         GetBlossomAugments();

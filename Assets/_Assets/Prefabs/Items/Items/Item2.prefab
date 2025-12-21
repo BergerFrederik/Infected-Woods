@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3274855233477239822}
   - component: {fileID: 6021458999131785386}
   - component: {fileID: 8834191485202303626}
+  - component: {fileID: 5695108626953717729}
   m_Layer: 0
   m_Name: Item2
   m_TagString: Untagged
@@ -47,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
   itemRarity: 4
   itemID: Item2
-  itemText: +10% Attackspeed, -5% Movespeed
+  itemText: +2% HP; -2 HP Regeneration
   itemLimit: 0
   itemPrice: 20
 --- !u!212 &8834191485202303626
@@ -108,3 +109,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5695108626953717729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4580672808124899462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2078363240adf2040941f05f8bafad4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Item2
+  hpGain: 2
+  hpRegLoss: 2

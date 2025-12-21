@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -354789647
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 923330594433319311, guid: cb0b59c82613cd84696f5aa44181654b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 5664231920968889031}
   - component: {fileID: -6418951652260503550}
   - component: {fileID: -1036665840808181212}
+  - component: {fileID: 6362928307992253972}
   m_Layer: 0
   m_Name: MossCharger
   m_TagString: Enemy
@@ -184,7 +185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyIsHitByPlayer: {fileID: 5496535399776737029}
   enemyCurrentHP: 0
-  enemyMaxHP: 200
+  enemyMaxHP: 15
   enemyHPPerWave: 0
   enemyDamage: 0
   enemyDamagePerWave: 0
@@ -284,6 +285,21 @@ MonoBehaviour:
   pathfinder: {fileID: -6418951652260503550}
   enemyStats: {fileID: 3245767678808239730}
   currentState: 0
+--- !u!114 &6362928307992253972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522017478837502192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c792bd613e6ede442b7c4e4278896f81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDies
+  enemyStats: {fileID: 3245767678808239730}
+  lightDropPrefab: {fileID: 5587755970974629265, guid: 885bc4b58e95cf749b532d1303d7c58f, type: 3}
+  enemyIsHitByPlayer: {fileID: 5496535399776737029}
 --- !u!1 &7881526158095066900
 GameObject:
   m_ObjectHideFlags: 0

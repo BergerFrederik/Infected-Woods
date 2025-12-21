@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyStats : MonoBehaviour
 {
     [SerializeField] private EnemyIsHitByPlayer enemyIsHitByPlayer;
+    //game manager referenzieren
     public event Action OnEnemyDeath;
     public static event Action<string> OnEnemyDeathByWeapon;
     public event Action OnEnemyTakesDamage;
@@ -29,6 +30,8 @@ public class EnemyStats : MonoBehaviour
     private void Start()
     {
         enemyCurrentHP = enemyMaxHP;
+        // game manager setzten
+        // event abbonieren
     }
     public void TakeDamage(float damage)
     {
@@ -41,4 +44,8 @@ public class EnemyStats : MonoBehaviour
             OnEnemyDeathByWeapon?.Invoke(lastWeaponHit);
         }
     }
+    
+    //on new wave vom Gamemanager
+    // hole dir die wave NUmber
+    // berechne hp basierend auf wave nUmber
 }

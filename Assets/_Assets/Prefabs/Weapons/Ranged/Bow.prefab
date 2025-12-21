@@ -139,7 +139,7 @@ MonoBehaviour:
   weaponName: Spirit Bow
   weaponSubtitle: Cool Bow
   weaponProjectileSpeed: 20
-  weaponBaseDamage: 50
+  weaponBaseDamage: 10
   weaponMeeleDamageScale: 100
   weaponRangedDamageScale: 20
   weaponMysticDamageScale: 50
@@ -147,7 +147,7 @@ MonoBehaviour:
   weaponWeaponType: Ranged
   weaponAttackType: 0
   weaponClass: 0
-  weaponAttackSpeedCooldown: 2
+  weaponAttackSpeedCooldown: 1.5
   weaponCritChance: 30
   weaponCritDamage: 2
   weaponRange: 4

@@ -89,7 +89,7 @@ public class Pathfinder : MonoBehaviour
             // Vektor von Gegner zu Gegner invertieren
             Vector2 invertedDirToClosestEnemy = dirToClosestEnemy * -1;
 
-            // Beide Vektoren über lerp verbinden
+            // Beide Vektoren ï¿½ber lerp verbinden
 
             float liveWeight = Mathf.Abs(closestDistance / searchRadius);
 
@@ -156,6 +156,7 @@ public class Pathfinder : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (!this.enabled) return;
         ClampToMapBounds(gameManagerScript.mapSize);
     }
     private void ClampToMapBounds(Bounds mapBounds)

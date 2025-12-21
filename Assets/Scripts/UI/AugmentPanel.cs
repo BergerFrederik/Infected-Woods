@@ -115,16 +115,13 @@ public class AugmentPanel : MonoBehaviour
         GameObject ChosenAugmentPrefab = ChosenAugments[buttonIndex];
         GameObject NewAugment = Instantiate(ChosenAugmentPrefab);
         NewAugment.transform.SetParent(PlayerAugments.transform, false);
-        StartCoroutine(SetPlayerActiveAndReturn());        
+        StartCoroutine(WaitForAugmentsToLoadReferences());
     }
 
-    private IEnumerator SetPlayerActiveAndReturn()
+    private IEnumerator WaitForAugmentsToLoadReferences() // we need this function to load references on the Augments
     {
         Time.timeScale = 1.0f;
-        player.gameObject.SetActive(true); // This is need for augments to load into stats
-        yield return new WaitForSeconds(0.05f);
-        Time.timeScale = 0f;
-        player.gameObject.SetActive(false); // This is need for augments to load into stats
+        yield return new WaitForSeconds(0.1f);
         gameManager.CycleShops();
         this.gameObject.SetActive(false);
     }

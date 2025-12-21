@@ -11,7 +11,13 @@ public class SpiritArcher : MonoBehaviour
     private bool abilityOnCooldown = false;
     private IEnumerator runningAbility;
 
+    [Header("Ability")]
     public float boost_by_ability = 50f; //value is just added to playerStats and used in the weapons script
+    
+    [Header("Passive")]
+    public float rangeModifier;
+    public float attackSpeedModifier;
+    
 
     private void Awake()
     {       

@@ -4,7 +4,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private PlayerStats playerStats;
-
+    
     public event Action<EnemyStats> OnPlayerCollidesWithEnemy;
     public event Action<Collider2D> OnDropCollected;
 

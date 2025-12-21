@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3274855233477239822}
   - component: {fileID: 6021458999131785386}
   - component: {fileID: -4918276591096138597}
+  - component: {fileID: 1361145453290841410}
   m_Layer: 0
   m_Name: Item1
   m_TagString: Untagged
@@ -108,3 +109,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1361145453290841410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4580672808124899462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05ca56a08c5ff2f40ad94a17592657ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Item1
+  attackSpeedGain: 10
+  movementSpeedLoss: 5

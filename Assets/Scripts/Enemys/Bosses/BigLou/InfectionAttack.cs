@@ -7,6 +7,7 @@ public class InfectionAttack : MonoBehaviour
     [SerializeField] private GameObject infectionBlobPrefab;
     [SerializeField] private GameObject PlayerObject;
     [SerializeField] private Pathfinder pathfinder;
+    [SerializeField] private BigLou bigLou;
 
     [Header("Attack Parameters")]
     [SerializeField] private int numberOfBlobs = 8;
@@ -17,12 +18,6 @@ public class InfectionAttack : MonoBehaviour
     [Header("Flight Parameters (Without Rigidbody)")]
     [SerializeField] private float flightDuration = 1.0f; 
     [SerializeField] private float apexHeight = 5f;
-
-    // Methode, um die Spieler-Referenz von BigLou zu erhalten
-    private void SetPlayerTarget(Transform player)
-    {
-        
-    }
 
     public IEnumerator PerformInfectionAttack()
     {
@@ -37,7 +32,7 @@ public class InfectionAttack : MonoBehaviour
             Vector3 targetDirection = (PlayerObject.transform.position - transform.position);
             targetDirection.Normalize();
 
-            // 2b. Zufälligen Winkel bestimmen und Richtung rotieren
+            // 2b. Zufï¿½lligen Winkel bestimmen und Richtung rotieren
             float halfCone = coneAngle / 2f;
             float randomAngleOffset = Random.Range(-halfCone, halfCone);
             Quaternion rotation = Quaternion.Euler(0, 0, randomAngleOffset);
@@ -57,13 +52,13 @@ public class InfectionAttack : MonoBehaviour
             // 2d. Blob spawnen
             GameObject blob = Instantiate(infectionBlobPrefab, transform.position, Quaternion.identity);
 
-            // 2e. Starte die separate Flug-Coroutine für diesen Blob
+            // 2e. Starte die separate Flug-Coroutine fï¿½r diesen Blob
             StartCoroutine(MoveBlobInArc(blob.transform, landingTarget));
         }
-
-        // Wichtig: Der Boss geht in den Resting-Zustand über, BEVOR die Blobs landen.
-        // Wenn BigLou warten soll, bis alle Blobs gelandet sind, müssten wir hier warten.
-        // Da dies ein Feuerstoß ist, lassen wir ihn hier den Zustand wechseln.
+        bigLou.currentState = BigLou.BossState.Resting;
+        // Wichtig: Der Boss geht in den Resting-Zustand ï¿½ber, BEVOR die Blobs landen.
+        // Wenn BigLou warten soll, bis alle Blobs gelandet sind, mï¿½ssten wir hier warten.
+        // Da dies ein Feuerstoï¿½ ist, lassen wir ihn hier den Zustand wechseln.
     }
 
     private IEnumerator MoveBlobInArc(Transform blobTransform, Vector3 target)
@@ -82,7 +77,7 @@ public class InfectionAttack : MonoBehaviour
             // Eine Funktion, die bei t=0 und t=1 Null ist und bei t=0.5 maximal ist: (4 * t * (1 - t))
             float arcFactor = 4 * t * (1 - t);
 
-            // Füge die Bogenhöhe zur Y-Position hinzu
+            // Fï¿½ge die Bogenhï¿½he zur Y-Position hinzu
             position.y += arcFactor * apexHeight;
 
             // Blob aktualisieren
@@ -92,7 +87,7 @@ public class InfectionAttack : MonoBehaviour
             yield return null;
         }
 
-        // Am Ende des Bogens: Position exakt setzen und Blob zerstören
+        // Am Ende des Bogens: Position exakt setzen und Blob zerstï¿½ren
         blobTransform.position = target;
         yield return new WaitForSeconds(blobDuration);
         Destroy(blobTransform.gameObject);       
