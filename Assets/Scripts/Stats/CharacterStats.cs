@@ -25,9 +25,9 @@ public class CharacterStats : MonoBehaviour
 
     [Header("Ability")]
     public float ability_cooldown = 5f;
-    public float ability_duration = 10f; //seconds
+    public float ability_duration = 10f;
 
-    private PlayerInput gameInput;
+    private GameInput gameInput;
     private PlayerStats playerStats;
 
     public float actualMaxCooldown;
@@ -35,7 +35,15 @@ public class CharacterStats : MonoBehaviour
     public bool abilityReady = true;
 
     public event Action OnExecuteAbility;
-
+    
+    private void Awake()
+    {
+        if (gameInput == null)
+        {
+            gameInput = FindFirstObjectByType<GameInput>();
+        }
+    }
+    
     void Start()
     {
         playerStats = this.transform.GetComponentInParent<PlayerStats>();
@@ -64,26 +72,14 @@ public class CharacterStats : MonoBehaviour
         playerStats.playerCurrentHP = characterMaxHP;
     }
 
-    private void Awake()
-    {
-        //animator = GetComponentInChildren<Animator>();
-        gameInput = new PlayerInput();
-    }
-
-    private void OnEnable()
-    {
-        gameInput.Enable();
-        gameInput.Player.UseAbility.performed += OnUseAbilityPerformed;
-    }
-
-    private void OnDisable()
-    {
-        gameInput.Player.UseAbility.performed -= OnUseAbilityPerformed;
-        gameInput.Disable();
-    }
-
     private void Update()
     {
+        if (gameInput != null && gameInput.IsAbilityPressed() && abilityReady)
+        {
+            OnExecuteAbility?.Invoke();
+            abilityReady = false;
+        }
+
         if (!abilityReady && remainingCooldown <= 0)
         {
             float reducedCooldown = ability_cooldown * (1f - playerStats.playerCooldown / 100f);
@@ -98,14 +94,6 @@ public class CharacterStats : MonoBehaviour
             {
                 abilityReady = true;
             }
-        }
-    }
-
-    private void OnUseAbilityPerformed(InputAction.CallbackContext context)
-    {
-        if (abilityReady)
-        {
-            OnExecuteAbility?.Invoke();
         }
     }
 }

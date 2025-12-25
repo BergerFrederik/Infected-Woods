@@ -15,10 +15,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject levelPanel;
     [SerializeField] private GameObject shopPanel;
     [SerializeField] private List<float> augmentWaves;
+    [SerializeField] private GameObject[] Characters;
+    [SerializeField] private GameObject PlayerCharacter;
+    [SerializeField] private GameObject[] Weapons;
+    [SerializeField] private GameObject PlayerFirstWeaponAnker;
 
     private bool isAugmentShopOpen = true;
     private bool IsWaveActive;
-    private float currentWaveNumber;
+    public float currentWaveNumber;
     public Bounds mapSize;
     
     private GameObject CurrentWaveObject;
@@ -54,6 +58,7 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
+        SetCharacterItems();
         RequestNewWave();
     }
     private void Update()
@@ -134,6 +139,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void SetCharacterItems()
+    {
+        GameObject ChosenCharacter = Instantiate(Characters[0], player.transform.position, Quaternion.identity);
+        ChosenCharacter.transform.SetParent(PlayerCharacter.transform);
+        ChosenCharacter.transform.localScale = Vector3.one;
+        
+        GameObject StartWeapon = Instantiate(Weapons[0], PlayerFirstWeaponAnker.transform.position, Quaternion.identity);
+        StartWeapon.transform.SetParent(PlayerFirstWeaponAnker.transform);
+        StartWeapon.transform.localScale = Vector3.one;
+    }
+
     private void RequestNewWave()
     {
         currentWaveNumber++;
@@ -141,6 +157,7 @@ public class GameManager : MonoBehaviour
     }
     private void NewWaveProcedure()
     {
+        playerStats.playerCurrentHP = playerStats.playerMaxHP;
         GameObject enemySpawner = GameObject.FindGameObjectWithTag("Spawner");
         Transform enemySpawnerTransform = enemySpawner.transform;
         CurrentWaveObject = enemySpawnerTransform.GetChild(0).gameObject;
@@ -151,7 +168,6 @@ public class GameManager : MonoBehaviour
         IsWaveActive = true;
     }
     
-
     public void SetAbilityUIActive()
     {
         ActiveAbilityOverlay.SetActive(true);
@@ -170,6 +186,13 @@ public class GameManager : MonoBehaviour
     public void StopAbilityCooldown()
     {
         CooldownAbilityOverlay.SetActive(false);
+    }
+    
+    public void RestartGame()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
+        );
     }
 }
 

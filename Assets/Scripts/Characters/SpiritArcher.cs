@@ -19,7 +19,7 @@ public class SpiritArcher : MonoBehaviour
     public float attackSpeedModifier;
     
 
-    private void Awake()
+    private void Start()
     {       
         GameManagerObject = GameObject.FindGameObjectWithTag("Manager");
         gameManager = GameManagerObject.GetComponent<GameManager>();

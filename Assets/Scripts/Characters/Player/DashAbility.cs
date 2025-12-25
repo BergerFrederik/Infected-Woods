@@ -1,21 +1,19 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class DashAbility : MonoBehaviour
 {
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private Player player;
     [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private GameInput gameInput; 
     [SerializeField] private float dash_multiplier = 0f;
     [SerializeField] private float dash_duration = 0f;
     [SerializeField] private float dash_base_speed = 0f;
     public float dash_base_cooldown = 2f;
 
-    private PlayerInput gameInput;
     private Animator animator;
-
     private float cooldownStartTime;
     private float remainingCooldown;
 
@@ -31,25 +29,27 @@ public class DashAbility : MonoBehaviour
 
     private void Awake()
     {
-        //animator = GetComponentInChildren<Animator>();
-        gameInput = new PlayerInput();
     }
 
     private void OnEnable()
     {
-        gameInput.Enable();
-        gameInput.Player.UseDashAbility.performed += OnUseDashPerformed;
         GameManager.OnRoundOver += ResetDash;
     }
 
     private void OnDisable()
     {
-        gameInput.Player.UseDashAbility.performed -= OnUseDashPerformed;
         GameManager.OnRoundOver -= ResetDash;
-        gameInput.Disable();
     }
 
-    private void OnUseDashPerformed(InputAction.CallbackContext context)
+    private void Update()
+    {
+        if (gameInput != null && gameInput.IsDashPressed())
+        {
+            HandleDashInput();
+        }
+    }
+
+    private void HandleDashInput()
     {
         bool isCooldownFinished = Time.time >= cooldownStartTime + remainingCooldown;
         bool isDashReady = currentState == DashingState.dashReady;
@@ -62,11 +62,9 @@ public class DashAbility : MonoBehaviour
 
     private void CharacterAbilityExecution()
     {
-        //animator.SetTrigger("AbilityPressed");
         currentState = DashingState.dashing;       
         StartCoroutine(RollCoroutine());
     }
-
 
     private IEnumerator RollCoroutine()
     {

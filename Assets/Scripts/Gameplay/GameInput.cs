@@ -1,21 +1,28 @@
-using System;
-using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameInput : MonoBehaviour
 {
-
     private PlayerInput playerInput;
-
-    public object Player { get; internal set; }
 
     private void Awake()
     {               
         playerInput = new PlayerInput();
         playerInput.Player.Enable();
     }
+
+    private void OnDisable()
+    {
+        if (playerInput != null)
+        {
+            playerInput.Player.Disable();
+            playerInput.Dispose();
+        }
+    }
+
     public Vector2 GetMovementVectorNormalized()
     {
+        if (playerInput == null) return Vector2.zero;
         Vector2 inputVector = playerInput.Player.Move.ReadValue<Vector2>();
         if (inputVector.sqrMagnitude > 1)
         {
@@ -24,13 +31,15 @@ public class GameInput : MonoBehaviour
         return inputVector;
     }
 
-    internal void Enable()
+    public bool IsDashPressed()
     {
-        throw new NotImplementedException();
+        if (playerInput == null) return false;
+        return playerInput.Player.UseDashAbility.WasPressedThisFrame();
     }
 
-    internal void Disable()
+    public bool IsAbilityPressed()
     {
-        throw new NotImplementedException();
+        if (playerInput == null) return false;
+        return playerInput.Player.UseAbility.WasPressedThisFrame();
     }
 }

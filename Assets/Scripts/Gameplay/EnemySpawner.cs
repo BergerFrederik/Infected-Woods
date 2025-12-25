@@ -16,7 +16,7 @@ public class EnemySpawner : MonoBehaviour
     private void OnDisable()
     {
         GameManager.OnNewWaveRequested -= InstantiateCurrentWave;
-        GameManager.OnRoundOver += StopSpawning;
+        GameManager.OnRoundOver -= StopSpawning;
     }
     
     private void InstantiateCurrentWave(float currentWaveNumber)

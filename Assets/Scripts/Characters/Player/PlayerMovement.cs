@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private GameManager gameManager;
     [SerializeField] private float playerRadius;
+    [SerializeField] private GameObject playerCharacter;
 
     public Vector2 CurrentMovementInput { get; private set; }
 
@@ -20,8 +21,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void MoveCharacterByInput(float playerMoveSpeed)
     {
-        Vector2 inputVector = gameInput.GetMovementVectorNormalized();             
-        Vector3 currentScale = player.transform.GetChild(0).GetChild(0).localScale;
+        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector3 currentScale = playerCharacter.transform.localScale;
         SetSpriteDirection(inputVector, currentScale);
         player.transform.position += (Vector3)inputVector * playerMoveSpeed * Time.deltaTime;
 
@@ -51,12 +52,12 @@ public class PlayerMovement : MonoBehaviour
         if (inputVector.x > 0 && currentScale.x > 0)
         {
             currentScale.x *= -1;
-            player.transform.GetChild(0).GetChild(0).localScale = currentScale;
+            playerCharacter.transform.localScale = currentScale;
         }
         else if (inputVector.x < 0 && currentScale.x < 0)
         {
             currentScale.x *= -1;
-            player.transform.GetChild(0).GetChild(0).localScale = currentScale;
+            playerCharacter.transform.localScale = currentScale;
         }
     }
 }
