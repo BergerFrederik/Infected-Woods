@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour
         
         GameObject StartWeapon = Instantiate(Weapons[0], PlayerFirstWeaponAnker.transform.position, Quaternion.identity);
         StartWeapon.transform.SetParent(PlayerFirstWeaponAnker.transform);
-        StartWeapon.transform.localScale = Vector3.one;
+        StartWeapon.transform.localScale /= 10f;
     }
 
     private void RequestNewWave()

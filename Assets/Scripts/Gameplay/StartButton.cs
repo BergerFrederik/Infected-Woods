@@ -17,6 +17,6 @@ public class StartButton : MonoBehaviour
     private void StartGame()
     {
         OnGameStarted?.Invoke();
-        this.gameObject.SetActive(false);
+        this.transform.parent.gameObject.SetActive(false);
     }
 }

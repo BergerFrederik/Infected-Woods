@@ -256,6 +256,7 @@ MonoBehaviour:
   maxCurrentWeight: 0
   enemyTransform: {fileID: 6686641776044797349}
   enemyRadius: 0
+  enemyVisuals: {fileID: 6680021799621683353}
 --- !u!114 &5664231920968889031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,6 +366,7 @@ MonoBehaviour:
   stompAttackChargeTime: 1
   stompAttackFloatTime: 2
   stompJumpSpeed: 90
+  stompDescendPauseTime: 0
 --- !u!114 &-2268824301418307569
 MonoBehaviour:
   m_ObjectHideFlags: 0
