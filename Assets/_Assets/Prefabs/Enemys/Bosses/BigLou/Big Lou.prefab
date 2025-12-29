@@ -188,17 +188,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyIsHitByPlayer: {fileID: 5496535399776737029}
-  enemyCurrentHP: 20000
-  enemyMaxHP: 20000
+  enemyCurrentHP: 0
+  enemyMaxHP: 5000
   enemyHPPerWave: 0
   enemyDamage: 0
   enemyDamagePerWave: 0
-  enemyAttackSpeed: 0
-  enemyAttackRange: 0
   enemyMoveSpeed: 1
   enemyKnockbackResistance: 99999
   enemyLightDropped: 500
-  enemyLightDropChance: 70
   enemyXPGainOnKill: 10000
   isKnockedBack: 0
 --- !u!70 &5157397086891573592
@@ -343,7 +340,7 @@ MonoBehaviour:
   pathfinder: {fileID: -4200341328449219895}
   bigLou: {fileID: 5890143594061011252}
   rollAcceleratorTime: 1
-  rollAttackDuration: 15
+  rollAttackDuration: 5
   rollSpeed: 10
   rollBoostPerHit: 0.05
 --- !u!114 &5967012863727897997
@@ -364,9 +361,9 @@ MonoBehaviour:
   bigLou: {fileID: 5890143594061011252}
   Indicator: {fileID: 3423649097729882964, guid: a3453e9fec4c4204d93d855af6fa75dc, type: 3}
   stompAttackChargeTime: 1
-  stompAttackFloatTime: 2
+  stompAttackFloatTime: 5
   stompJumpSpeed: 90
-  stompDescendPauseTime: 0
+  stompDescendPauseTime: 0.5
 --- !u!114 &-2268824301418307569
 MonoBehaviour:
   m_ObjectHideFlags: 0

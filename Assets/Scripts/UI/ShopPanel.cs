@@ -25,6 +25,7 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private Transform itemScrollViewContent;
     [SerializeField] private TextMeshProUGUI[] itemTitles;
     [SerializeField] private TextMeshProUGUI[] itemButtonText;
+    [SerializeField] private TextMeshProUGUI[] itemDescriptionText;
     [SerializeField] private GameObject[] itemObjects;
     
     [Header("Weapons")]
@@ -33,6 +34,7 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI[] weaponTitles;
     [SerializeField] private TextMeshProUGUI[] weaponSubtitles;
     [SerializeField] private TextMeshProUGUI[] weaponButtonText;
+    [SerializeField] private TextMeshProUGUI[] weaponDescriptionText;
     [SerializeField] private List<GameObject> weaponPrefabs;
     [SerializeField] private GameObject[] playerWeaponAnkers;
     [SerializeField] private Button weaponRerollButton;
@@ -63,6 +65,7 @@ public class ShopPanel : MonoBehaviour
         itemRerollButton.onClick.RemoveListener(RerollItems);
         weaponRerollButton.onClick.RemoveListener(RerollWeapons);
         toggleButton.onClick.RemoveListener(ToggleStatsheet);
+        ResetItemText();
     }
 
     private void SetSpritesToInventory()
@@ -102,13 +105,16 @@ public class ShopPanel : MonoBehaviour
             
             // set Text to Title
             itemTitles[i].text = itemInformation.itemID;
-            
+
             // set Text to description
-            
+            foreach (string itemDescription in itemInformation.itemText)
+            {
+                itemDescriptionText[i].text += itemDescription + System.Environment.NewLine;
+            }
+
             // set Text to Buttons
             itemButtonText[i].text = itemInformation.itemPrice.ToString();
             
-
             // Add Listeners to Button
             itemButtons[i].onClick.RemoveAllListeners();
             int index = i;
@@ -175,6 +181,7 @@ public class ShopPanel : MonoBehaviour
             weaponSubtitles[i].text = weaponStats.weaponSubtitle;
             
             // set information text
+
             
             // set cost to button
             weaponButtonText[i].text = weaponStats.weaponPrice.ToString();
@@ -233,7 +240,20 @@ public class ShopPanel : MonoBehaviour
 
     private void RerollItems()
     {
+        ResetItemText();
         SetSpritesToItemshop();
+    }
+
+    private void ResetItemText()
+    {
+        for (int i = 0; i < itemDescriptionText.Length; i++)
+        {
+            if (itemDescriptionText[i] == null)
+            {
+                break;
+            }
+            itemDescriptionText[i].text = "";
+        }
     }
 
     private void RerollWeapons()

@@ -48,7 +48,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
   itemRarity: 4
   itemID: Item3
-  itemText: +5% Movementspeed; -2,5% Attackspeed
+  itemText:
+  - '- +2.5% Attackspeed'
+  - '- -5% Movementspeed'
   itemLimit: 0
   itemPrice: 19
 --- !u!212 &-7529262571685688887

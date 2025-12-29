@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem.XR.Haptics;
 
 public class EnemySpacePlayer : MonoBehaviour
 {
@@ -22,8 +21,7 @@ public class EnemySpacePlayer : MonoBehaviour
     {
         Space,
         Prepare,
-        Attacking,
-        
+        Attacking,     
     }
 
     private AttackState currentState = AttackState.Space;
@@ -101,9 +99,10 @@ public class EnemySpacePlayer : MonoBehaviour
     private void AttackPlayer()
     {
         playerPos = pathfinder.GetPlayerPosition();
-        GameObject projectileInstance = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-        EnemyProjectile enemyProjectile = projectileInstance.GetComponent<EnemyProjectile>();
         Vector2 shootDirection = (playerPos - (Vector2)transform.position).normalized;
+        float angle = Mathf.Atan2(shootDirection.y, shootDirection.x) * Mathf.Rad2Deg;
+        GameObject projectileInstance = Instantiate(projectilePrefab, transform.position, Quaternion.Euler(0, 0, angle - 90f));
+        EnemyProjectile enemyProjectile = projectileInstance.GetComponent<EnemyProjectile>();     
         enemyProjectile.SetEnemyStats(enemyStats);
         enemyProjectile.Initialize(shootDirection, projectileSpeed);
         cooldownStarttime = Time.time;

@@ -48,7 +48,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
   itemRarity: 4
   itemID: Item4
-  itemText: +5% Cooldownreduction; +5% Attackspeed; -1 Armor
+  itemText:
+  - '- +5% Cooldownreduction'
+  - '- -5% Attackspeed'
+  - '- -1  Armor'
   itemLimit: 0
   itemPrice: 14
 --- !u!212 &9141421031635755602

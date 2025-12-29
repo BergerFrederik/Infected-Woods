@@ -48,7 +48,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
   itemRarity: 4
   itemID: Item2
-  itemText: +2% HP; -2 HP Regeneration
+  itemText:
+  - '- +2 HP'
+  - '- -2HPReg/s'
   itemLimit: 0
   itemPrice: 20
 --- !u!212 &8834191485202303626

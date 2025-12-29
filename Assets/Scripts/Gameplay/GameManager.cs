@@ -153,6 +153,11 @@ public class GameManager : MonoBehaviour
     private void RequestNewWave()
     {
         currentWaveNumber++;
+        if (currentWaveNumber == 6f)
+        {
+            RestartGame();
+            return;
+        }
         OnNewWaveRequested?.Invoke(currentWaveNumber);
     }
     private void NewWaveProcedure()
