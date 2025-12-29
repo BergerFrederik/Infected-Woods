@@ -36,13 +36,10 @@ public class EnemyDies : MonoBehaviour
     }
     private void InstantiateDropsOnDeath()
     {
-        if (Random.Range(0f, 100f) <= enemyStats.enemyLightDropChance)
+        GameObject newLightDrop = Instantiate(lightDropPrefab, transform.position, Quaternion.identity);
+        if (newLightDrop.TryGetComponent<LightDrop>(out LightDrop lightDrop))
         {
-            GameObject newLightDrop = Instantiate(lightDropPrefab, transform.position, Quaternion.identity);
-            if (newLightDrop.TryGetComponent<LightDrop>(out LightDrop lightDrop))
-            {
-                lightDrop.lightDropValue = enemyStats.enemyLightDropped;
-            }
+            lightDrop.lightDropValue = enemyStats.enemyLightDropped;
         }
     }
 

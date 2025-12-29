@@ -185,17 +185,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyIsHitByPlayer: {fileID: 5496535399776737029}
   enemyCurrentHP: 0
-  enemyMaxHP: 15
-  enemyHPPerWave: 0
-  enemyDamage: 0
-  enemyDamagePerWave: 0
-  enemyAttackSpeed: 0
-  enemyAttackRange: 0
+  enemyMaxHP: 20
+  enemyHPPerWave: 11
+  enemyDamage: 2
+  enemyDamagePerWave: 0.85
   enemyMoveSpeed: 3
-  enemyKnockbackResistance: 0
+  enemyKnockbackResistance: 0.9
   enemyLightDropped: 3
-  enemyLightDropChance: 70
-  enemyXPGainOnKill: 10
+  enemyXPGainOnKill: 20
   isKnockedBack: 0
 --- !u!70 &5157397086891573592
 CapsuleCollider2D:

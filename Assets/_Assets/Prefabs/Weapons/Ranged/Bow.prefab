@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1944685711
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: -5028376074188591101, guid: bca5a0ed9503f154c99c6d6b5c1cc263, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -137,23 +137,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: Spirit Bow
-  weaponSubtitle: Cool Bow
+  weaponSubtitle: Forged by the ancient spirits of the lost woods
   weaponProjectileSpeed: 20
   weaponBaseDamage: 10
-  weaponMeeleDamageScale: 100
-  weaponRangedDamageScale: 20
-  weaponMysticDamageScale: 50
+  weaponMeeleDamageScale: 0
+  weaponRangedDamageScale: 60
+  weaponMysticDamageScale: 0
   weaponTier: 0
   weaponWeaponType: Ranged
   weaponAttackType: 0
   weaponClass: 0
-  weaponAttackSpeedCooldown: 1.5
+  weaponAttackSpeedCooldown: 1.13
   weaponCritChance: 30
-  weaponCritDamage: 2
+  weaponCritDamage: 1.5
   weaponRange: 4
-  weaponKnockback: 0
+  weaponKnockback: 8
   weaponLifesteal: 0
-  weaponPrice: 30
+  weaponPrice: 16
   currentTotalDamage: 0
 --- !u!114 &6919582871292908103
 MonoBehaviour:

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4493303894778821965}
   - component: {fileID: 3003876143664416518}
   - component: {fileID: -4345058850768677505}
+  - component: {fileID: 4343575906225731655}
   m_Layer: 0
   m_Name: Wave1
   m_TagString: Untagged
@@ -45,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b90056a18b104c840a02eed83bead8e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveDuration: 3
+  waveDuration: 20
   amountEnemyDoomshroom: 5
   amountEnemyInfectedSnail: 5
 --- !u!114 &-4345058850768677505
@@ -61,9 +62,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveStats: {fileID: 3003876143664416518}
-  enemySpawner: {fileID: 0}
+  SpawnIndicatorPrefab: {fileID: 7722597048738164697, guid: 4deff3018a62e514b8d5645caabe1970, type: 3}
+  waveEnemyHandler: {fileID: 4343575906225731655}
+  spawn_indicator_delay: 0.8
   enemyPrefabs:
   - {fileID: 7522017478837502192, guid: e0390948ad167ff4496bfcf490f2dc99, type: 3}
-  - {fileID: 7522017478837502192, guid: 92e3e9bab9ce8ee48bdcef9d39b51b87, type: 3}
-  - {fileID: 7522017478837502192, guid: 92e3e9bab9ce8ee48bdcef9d39b51b87, type: 3}
-  - {fileID: 7522017478837502192, guid: 92e3e9bab9ce8ee48bdcef9d39b51b87, type: 3}
+  spawn_start_interval: 2
+  spawn_end_interval: 1
+  spawnlimit_at_once: 4
+  enemy_limit: 100
+--- !u!114 &4343575906225731655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6647369348481208958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93240960688df784796413f5b3fc15fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveEnemyHandler
+  maxSpawnDistance: 10
+  minSpawnDistance: 2

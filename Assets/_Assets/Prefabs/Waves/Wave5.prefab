@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4493303894778821965}
   - component: {fileID: 3003876143664416518}
-  - component: {fileID: -4345058850768677505}
+  - component: {fileID: 8906447429777084106}
   m_Layer: 0
   m_Name: Wave5
   m_TagString: Untagged
@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b90056a18b104c840a02eed83bead8e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveDuration: 11
+  waveDuration: 120
   amountEnemyDoomshroom: 5
   amountEnemyInfectedSnail: 5
---- !u!114 &-4345058850768677505
+--- !u!114 &8906447429777084106
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,11 +57,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6647369348481208958}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d389c01d3d934ab4bb9805af1d14cd2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b4bd3f0d863fad4ea212a6861bb962a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  waveStats: {fileID: 3003876143664416518}
-  enemySpawner: {fileID: 0}
-  enemyPrefabs:
-  - {fileID: 7522017478837502192, guid: e0390948ad167ff4496bfcf490f2dc99, type: 3}
-  - {fileID: 7522017478837502192, guid: 622f2f617ec47a24786314e544e53af3, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::BossWave
+  BossPrefeab: {fileID: 7522017478837502192, guid: cdff4cab979cc5d4ca58b07595869d7b, type: 3}

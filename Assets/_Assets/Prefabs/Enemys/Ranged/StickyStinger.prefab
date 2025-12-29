@@ -186,16 +186,13 @@ MonoBehaviour:
   enemyIsHitByPlayer: {fileID: 5496535399776737029}
   enemyCurrentHP: 0
   enemyMaxHP: 10
-  enemyHPPerWave: 0
-  enemyDamage: 0
-  enemyDamagePerWave: 0
-  enemyAttackSpeed: 0
-  enemyAttackRange: 0
-  enemyMoveSpeed: 3
+  enemyHPPerWave: 0.5
+  enemyDamage: 2
+  enemyDamagePerWave: 2
+  enemyMoveSpeed: 2
   enemyKnockbackResistance: 0
-  enemyLightDropped: 3
-  enemyLightDropChance: 70
-  enemyXPGainOnKill: 10
+  enemyLightDropped: 1
+  enemyXPGainOnKill: 3
   isKnockedBack: 0
 --- !u!70 &5157397086891573592
 CapsuleCollider2D:

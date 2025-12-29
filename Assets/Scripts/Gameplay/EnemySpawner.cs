@@ -7,6 +7,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject[] Waves;
     
     public static event Action OnWaveInitialized;
+    
     private void OnEnable()
     {
         GameManager.OnNewWaveRequested += InstantiateCurrentWave;

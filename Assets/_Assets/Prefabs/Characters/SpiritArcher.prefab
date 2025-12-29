@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterStats: {fileID: 6457424289827497899}
-  boost_by_ability: 5000
+  boost_by_ability: 100
   rangeModifier: 0
   attackSpeedModifier: 0
 --- !u!114 &6457424289827497899
@@ -70,7 +70,7 @@ MonoBehaviour:
   characterMeeleDamage: 0
   characterRangedDamage: 0
   characterMysticDamage: 0
-  characterAttackSpeed: 200
+  characterAttackSpeed: 100
   characterKnockback: 0
   characterCooldown: 0
   characterCritChance: 0
