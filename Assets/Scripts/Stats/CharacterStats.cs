@@ -6,6 +6,7 @@ public class CharacterStats : MonoBehaviour
 {
     [Header("Stats")]
     public float characterMaxHP = 0f;
+    public float characterMaxMP = 0f;
     public float characterHPRegeneration = 0f;
     public float characterArmor = 0f;
     public float characterLifeSteal = 0f;
@@ -49,6 +50,7 @@ public class CharacterStats : MonoBehaviour
         playerStats = this.transform.GetComponentInParent<PlayerStats>();
 
         playerStats.playerMaxHP = characterMaxHP;
+        playerStats.playerMaxMP = characterMaxMP;
         playerStats.playerHPRegeneration = characterHPRegeneration;
         playerStats.playerArmor = characterArmor;
         playerStats.playerLifeSteal = characterLifeSteal;
@@ -70,6 +72,7 @@ public class CharacterStats : MonoBehaviour
         playerStats.playerAbilityDuration = ability_duration;
 
         playerStats.playerCurrentHP = characterMaxHP;
+        playerStats.playerCurrentMP = characterMaxMP;
     }
 
     private void Update()

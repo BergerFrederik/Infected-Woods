@@ -1,17 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RestartButton : MonoBehaviour
+public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private Button restartButton;
     [SerializeField] private GameManager gameManager;
-    
-    private void Awake()
+
+    private void OnEnable()
     {
         restartButton.onClick.AddListener(() => RestartGame());
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         restartButton.onClick.RemoveAllListeners();
     }

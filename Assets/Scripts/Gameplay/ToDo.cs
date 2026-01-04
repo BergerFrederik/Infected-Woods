@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class ToDo : MonoBehaviour
 {
-    // TODO: LVLUpShop rerolls
+    // TODO: Ist es besser die playerstats events zu feuern oder ein onwavestart event und die anderen lassen weil direkter?
     // TODO: 
-    // TODO: Hp Update und events
-    // TODO: Augments haben alle 0, balancing gesamt kurz vor launch
+    // TODO: 
+    // TODO: 
     // TODO: geht meine range auf die mitte oder den colliderrand. Für Boss geändert, aber auch für alle Mobs?
-    // TODO: map size muss neu gemacht werden. Sollte on start der Spielrunde geschehen
+    // TODO: 
     // TODO:
     // TODO:
     // TODO:

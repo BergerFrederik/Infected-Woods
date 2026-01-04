@@ -5,23 +5,23 @@ public class HealthBar : MonoBehaviour
 {
     [SerializeField] private PlayerGainsHP playerGainsHP;
     [SerializeField] private PlayerTakesDamage playerTakesDamage;
-    [SerializeField] private GameManager gameManager;
-    public Slider slider;
-
+    [SerializeField] private PlayerStats playerStats;
+    [SerializeField] private Slider slider;
+    
     private void OnEnable()
     {
         playerGainsHP.OnPlayerWasHealed += SetHealth;
         playerTakesDamage.OnPlayerTakesDamage += SetHealth;
-
-        // Max Hp Changed
+        playerStats.OnMaxHPChanged += SetMaxHealth;
+        playerStats.OnCurrentHPChanged += SetHealth;
     }
 
     private void OnDisable()
     {
         playerGainsHP.OnPlayerWasHealed -= SetHealth;
         playerTakesDamage.OnPlayerTakesDamage -= SetHealth;
-
-        // Max Hp Changed
+        playerStats.OnMaxHPChanged -= SetMaxHealth;
+        playerStats.OnCurrentHPChanged -= SetHealth;
     }
 
     private void SetMaxHealth(float health)

@@ -13,6 +13,7 @@ public class SpiritArcher : MonoBehaviour
 
     [Header("Ability")]
     public float boost_by_ability = 50f; //value is just added to playerStats and used in the weapons script
+    [SerializeField] private float manaCost;
     
     [Header("Passive")]
     public float rangeModifier;
@@ -40,8 +41,9 @@ public class SpiritArcher : MonoBehaviour
 
     public void CharacterAbilityExecution()
     {
-        if (!abilityRunning)
+        if (!abilityRunning && playerStats.playerCurrentMP >= manaCost)
         {
+            playerStats.playerCurrentMP -= manaCost;
             StartAbility();
             RunAbility();
         }

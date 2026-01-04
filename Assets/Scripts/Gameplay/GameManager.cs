@@ -19,15 +19,21 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject PlayerCharacter;
     [SerializeField] private GameObject[] Weapons;
     [SerializeField] private GameObject PlayerFirstWeaponAnker;
+    [SerializeField] private DifficultySelection difficultySelection;
+    [SerializeField] private GameInput gameInput;
+    [SerializeField] private GameObject PausePanel;
 
     private bool isAugmentShopOpen = true;
-    private bool IsWaveActive;
+    private bool isWaveActive;
+    private bool isPlayerInRound;
     public float currentWaveNumber;
     public Bounds mapSize;
     
     private GameObject CurrentWaveObject;
     private WaveStats waveStats;
     private float remainingTime;
+
+    public event Action OnGameLoopStart;
 
     public static event Action OnRoundOver;
     public static event Action<float> OnTimerChanged;
@@ -46,24 +52,27 @@ public class GameManager : MonoBehaviour
     {
         ShopPanel.OnShopCycleEnd += RequestNewWave;
         EnemySpawner.OnWaveInitialized += NewWaveProcedure;
-        StartButton.OnGameStarted += StartGame;
+        difficultySelection.OnDifficultySelected += StartGame;
+        gameInput.OnPausePerformed += HandlePauseRequest;
     }
 
     private void OnDisable()
     {
         ShopPanel.OnShopCycleEnd -= RequestNewWave;
         EnemySpawner.OnWaveInitialized -= NewWaveProcedure;
-        StartButton.OnGameStarted -= StartGame;
+        difficultySelection.OnDifficultySelected -= StartGame;
+        gameInput.OnPausePerformed -= HandlePauseRequest;
     }
 
-    private void StartGame()
+    private void StartGame(int difficulty)
     {
+        isPlayerInRound = true;
         SetCharacterItems();
         RequestNewWave();
     }
     private void Update()
     {
-        if (IsWaveActive)
+        if (isWaveActive)
         {
             WaveTimer();
         }
@@ -84,7 +93,7 @@ public class GameManager : MonoBehaviour
     
     private void EndWaveProcedure()
     {
-        IsWaveActive = false;
+        isWaveActive = false;
         Time.timeScale = 0f;
         DestroyRemainingEntities();
         ResetPlayerPosition();
@@ -163,6 +172,7 @@ public class GameManager : MonoBehaviour
     private void NewWaveProcedure()
     {
         playerStats.playerCurrentHP = playerStats.playerMaxHP;
+        playerStats.playerCurrentMP = playerStats.playerMaxMP;
         GameObject enemySpawner = GameObject.FindGameObjectWithTag("Spawner");
         Transform enemySpawnerTransform = enemySpawner.transform;
         CurrentWaveObject = enemySpawnerTransform.GetChild(0).gameObject;
@@ -170,7 +180,8 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         waveStats = CurrentWaveObject.GetComponent<WaveStats>();
         remainingTime = waveStats.waveDuration;
-        IsWaveActive = true;
+        isWaveActive = true;
+        OnGameLoopStart?.Invoke();
     }
     
     public void SetAbilityUIActive()
@@ -199,5 +210,25 @@ public class GameManager : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
         );
     }
+
+    private void HandlePauseRequest()
+    {
+        if (!PausePanel.activeSelf && isPlayerInRound)
+        {
+            PausePanel.SetActive(true);
+            if (isWaveActive)
+            {
+                Time.timeScale = 0f;
+            }  
+        }
+        else
+        {
+            PausePanel.SetActive(false);
+            if (isWaveActive)
+            {
+                Time.timeScale = 1f;
+            }                    
+        }        
+    }  
 }
 

@@ -8,7 +8,6 @@ public class PlayerGainsHP : MonoBehaviour
     private float hpAccumulator;
 
     public event Action<float> OnPlayerWasHealed;
-    public event Action<float> OnPlayerChangedMaxHP;
 
     private void OnEnable()
     {

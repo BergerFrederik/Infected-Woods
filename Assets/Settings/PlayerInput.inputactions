@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "PlayerInput",
     "maps": [
         {
@@ -141,6 +142,34 @@
                     "processors": "",
                     "groups": "",
                     "action": "UseDashAbility",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "MenuControls",
+            "id": "e404f869-0f5f-467c-9089-5edb6e643074",
+            "actions": [
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "16262086-3847-49c4-adc6-e81d27422749",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9ecc3125-6271-48e2-ac6a-baa3f8fc4f83",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

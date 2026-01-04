@@ -1,14 +1,22 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GameInput : MonoBehaviour
 {
     private PlayerInput playerInput;
+    public event Action OnPausePerformed;
 
     private void Awake()
     {               
         playerInput = new PlayerInput();
-        playerInput.Player.Enable();
+        playerInput.Player.Enable(); 
+        playerInput.MenuControls.Enable();
+    }
+
+    private void OnEnable()
+    {
+        playerInput.MenuControls.Pause.performed += PausePerformed;
     }
 
     private void OnDisable()
@@ -16,8 +24,16 @@ public class GameInput : MonoBehaviour
         if (playerInput != null)
         {
             playerInput.Player.Disable();
+            playerInput.MenuControls.Disable();
             playerInput.Dispose();
+            playerInput.MenuControls.Pause.performed -= PausePerformed;
         }
+    }
+
+    private void PausePerformed(InputAction.CallbackContext obj)
+    {
+        OnPausePerformed?.Invoke();
+        Debug.Log("pressed");
     }
 
     public Vector2 GetMovementVectorNormalized()

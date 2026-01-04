@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterStats: {fileID: 6457424289827497899}
   boost_by_ability: 100
+  manaCost: 25
   rangeModifier: 0
   attackSpeedModifier: 0
 --- !u!114 &6457424289827497899
@@ -63,6 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
   characterMaxHP: 20
+  characterMaxMP: 100
   characterHPRegeneration: 0
   characterArmor: 0
   characterLifeSteal: 0
