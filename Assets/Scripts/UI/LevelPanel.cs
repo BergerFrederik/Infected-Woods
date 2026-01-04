@@ -39,7 +39,7 @@ public class LevelPanel : MonoBehaviour
     {
         RerollButton.onClick.AddListener(RerollStats);
         StartFunction();
-        SetTextToPrimayStats();
+        SetTextToPrimayStats(primaryStatsText);
         SetTextToSecondaryStats();
         SetLogic();
         SetUI();
@@ -75,11 +75,11 @@ public class LevelPanel : MonoBehaviour
         SetSpritesToButtons();
         SetTextToLevelsGainedUI();
     }
-    private void SetTextToPrimayStats()
+    public void SetTextToPrimayStats(TextMeshProUGUI statText)
     {
         string display = "";
 
-        display += $"Max. HP: \t\t{playerStats.playerMaxHP}\n"; // :
+        display += $"Max. HP: \t\t{playerStats.playerMaxHP}\n";
         display += $"HP Regeneration: \t{playerStats.playerHPRegeneration}\n";
         display += $"Lifesteal: \t\t{playerStats.playerLifeSteal}\n";
         display += $"Damage: \t\t{playerStats.playerDamage}\n";
@@ -94,7 +94,7 @@ public class LevelPanel : MonoBehaviour
         display += $"Luck: \t\t\t{playerStats.playerLuck}\n";
         display += $"Cooldown: \t\t{playerStats.playerCooldown}\n";
 
-        primaryStatsText.text = display;
+        statText.text = display;
     }
 
     private void SetTextToSecondaryStats()

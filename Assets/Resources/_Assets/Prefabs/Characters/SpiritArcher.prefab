@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterStats: {fileID: 6457424289827497899}
-  boost_by_ability: 100
+  boost_by_ability: 5000
   manaCost: 25
   rangeModifier: 0
   attackSpeedModifier: 0

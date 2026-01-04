@@ -6,7 +6,7 @@ public class CharacterSelection : MonoBehaviour
     [SerializeField] private Button returnButton;
     [SerializeField] private Button selectCharacterButton;
     [SerializeField] private GameObject DifficultySelectionPanel;
-    [SerializeField] private GameObject MenuPanel;
+    [SerializeField] private GameObject TitleScreen;
 
     private void OnEnable()
     {
@@ -22,7 +22,7 @@ public class CharacterSelection : MonoBehaviour
 
     private void ReturnToMenu()
     {
-        MenuPanel.SetActive(true);
+        TitleScreen.SetActive(true);
         this.gameObject.SetActive(false);
     }
 

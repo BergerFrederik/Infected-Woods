@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class GameInput : MonoBehaviour
 {
-    private PlayerInput playerInput;
+    public PlayerInput playerInput;
     public event Action OnPausePerformed;
 
     private void Awake()
@@ -33,7 +33,6 @@ public class GameInput : MonoBehaviour
     private void PausePerformed(InputAction.CallbackContext obj)
     {
         OnPausePerformed?.Invoke();
-        Debug.Log("pressed");
     }
 
     public Vector2 GetMovementVectorNormalized()

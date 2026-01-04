@@ -7,6 +7,7 @@ public class DifficultySelection : MonoBehaviour
     [SerializeField] private Button[] DifficultyButtons;
     [SerializeField] private Button returnButton;
     [SerializeField] private GameObject CharacterSelectionPanel;
+    [SerializeField] private GameObject MainMenu;
 
     public event Action<int> OnDifficultySelected;
 
@@ -33,6 +34,7 @@ public class DifficultySelection : MonoBehaviour
     {
         OnDifficultySelected?.Invoke(index);
         this.gameObject.SetActive(false);
+        MainMenu.SetActive(false);
     }
 
     private void ReturnToCharacterSelection()

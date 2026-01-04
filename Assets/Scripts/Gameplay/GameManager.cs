@@ -211,11 +211,12 @@ public class GameManager : MonoBehaviour
         );
     }
 
-    private void HandlePauseRequest()
+    public void HandlePauseRequest()
     {
         if (!PausePanel.activeSelf && isPlayerInRound)
         {
             PausePanel.SetActive(true);
+            gameInput.playerInput.Player.Disable();
             if (isWaveActive)
             {
                 Time.timeScale = 0f;
@@ -224,6 +225,7 @@ public class GameManager : MonoBehaviour
         else
         {
             PausePanel.SetActive(false);
+            gameInput.playerInput.Player.Enable();
             if (isWaveActive)
             {
                 Time.timeScale = 1f;
