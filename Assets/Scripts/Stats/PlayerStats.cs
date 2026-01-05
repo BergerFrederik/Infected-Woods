@@ -10,8 +10,24 @@ public class PlayerStats : MonoBehaviour
     public event Action<float> OnMaxHPChanged;
 
     [Header("Primary Stats")]
-    public float playerMaxHP = 0f;
-    public float playerMaxMP = 0f;
+    [SerializeField] private float _playerMaxHP;
+    public float playerMaxHP
+    {
+        get { return _playerMaxHP; }
+        set { _playerMaxHP = value;
+            OnMaxHPChanged?.Invoke(value);
+        }
+    }
+
+    [SerializeField] private float _playerMaxMP;
+    public float playerMaxMP
+    {
+        get => _playerMaxMP;
+        set { _playerMaxMP = value;            
+            OnMaxMPChanged?.Invoke(value);
+        }
+    }
+
     public float playerHPRegeneration = 0f;
     public float playerMPRegeneration = 0f;
     public float playerLifeSteal = 0f;
@@ -43,17 +59,39 @@ public class PlayerStats : MonoBehaviour
     [Header("Helper Stats")]
     public float playerLastLifesteal = 0f;
     public bool playerAbilityOnCooldown = false;
-    public float playerCurrentHP = 0f;
-    public float playerCurrentMP = 0f;
-    public float playerBaseMovespeed = 0f;
+    
+    [SerializeField] private float _playerCurrentHP = 0f;
+    public float playerCurrentHP
+    {
+        get { return _playerCurrentHP; }
+        set { 
+            _playerCurrentHP = value;
+            OnCurrentHPChanged.Invoke(value);
+        }
+    }
+
+
+    [SerializeField] private float _playerCurrentMP;
+    public float playerCurrentMP
+    {
+        get { return _playerCurrentMP; }
+        set
+        {
+            _playerCurrentMP = value;
+            OnCurrentMPChanged.Invoke(value);
+        }
+    }
     public float playerLightAmount = 0f;
     public float playerOverallXP = 0f;
-    public float playerCurrentXP = 0f;   
-    public float playerBaseXP = 0f;
+    public float playerCurrentXP = 0f;     
     public float playerLevelMultiplier = 0f;
     public float playerAbilityDuration = 0f;
     public float playerLevelsGained = 0f;
+    
+    [Header("Base Stats")]
     public float playerBasePickupRange = 0f;
+    public float playerBaseMovespeed = 0f;
+    public float playerBaseXP = 0f;
 
 
     public float GetCurrentPlayerMovespeed()
@@ -67,8 +105,6 @@ public class PlayerStats : MonoBehaviour
     private void Update()
     {
         CommunicateMovementspeedChanged();
-        CommunicateMPChanged();
-        CommunicateHPChanged();
     }
 
     private float oldTotalCurrentMoveSpeed = 0;
@@ -78,40 +114,6 @@ public class PlayerStats : MonoBehaviour
         {
             OnMovespeedChanged?.Invoke();
             oldTotalCurrentMoveSpeed = playerMovespeed;
-        }
-    }
-
-    private float oldCurrentMP;
-    private float oldMaxMP;
-
-    private void CommunicateMPChanged()
-    {
-        if (oldCurrentMP != playerCurrentMP)
-        {
-            OnCurrentMPChanged?.Invoke(playerCurrentMP);
-            oldCurrentMP = playerCurrentMP;
-        }
-
-        if (oldMaxMP != playerMaxMP)
-        {
-            OnMaxMPChanged?.Invoke(playerMaxMP);
-            oldMaxMP = playerMaxMP;
-        }
-    }
-
-    private float oldCurrentHP;
-    private float oldMaxHP;
-    private void CommunicateHPChanged()
-    {
-        if (oldCurrentHP != playerCurrentHP)
-        {
-            OnCurrentHPChanged?.Invoke(playerCurrentHP);
-            oldCurrentHP = playerCurrentHP;
-        }
-        if (oldMaxHP != playerMaxHP)
-        {
-            OnMaxHPChanged?.Invoke(playerMaxHP);
-            oldMaxHP = playerMaxHP;
         }
     }
 }

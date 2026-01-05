@@ -6,12 +6,12 @@ public class RestartButton : MonoBehaviour
     [SerializeField] private Button restartButton;
     [SerializeField] private GameManager gameManager;
     
-    private void Awake()
+    private void OnEnable()
     {
-        restartButton.onClick.AddListener(() => RestartGame());
+        restartButton.onClick.AddListener(RestartGame);
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         restartButton.onClick.RemoveAllListeners();
     }
