@@ -23,6 +23,9 @@ public class CharacterSelection : MonoBehaviour
     [SerializeField] private TextMeshProUGUI weaponNameText;
     [SerializeField] private TextMeshProUGUI weaponStatsText;
     [SerializeField] private TextMeshProUGUI weaponSpecialsText;
+    [SerializeField] private Image characterBackgroundImage;
+    [SerializeField] private Image weaponBackgroundImage;
+    [SerializeField] private Image characterAbilityImage;
     
     private Dictionary<string, GameObject> _availableWeaponsMap = new Dictionary<string, GameObject>(); 
 
@@ -30,6 +33,7 @@ public class CharacterSelection : MonoBehaviour
     {
         returnButton.onClick.AddListener(() => ReturnToMenu());
         selectCharacterButton.onClick.AddListener(() => SelectCharacter());
+        ClearCharacterInformation();
     }
     
     private void OnDisable()
@@ -53,7 +57,6 @@ public class CharacterSelection : MonoBehaviour
         foreach (GameObject character in PlayerCharacters)
         {
             GameObject newCharacterButtonObject = Instantiate(CharacterButtonPrefab,  PlayerCharacterList.transform);
-            newCharacterButtonObject.transform.GetChild(0).GetComponent<Image>().sprite = character.GetComponentInChildren<SpriteRenderer>().sprite;
             OnHover onHover = newCharacterButtonObject.GetComponentInChildren<OnHover>();
             onHover.OnCursorHoverEnter += DisplayCharacterInformation;
             onHover.OnCursorHoverExit += ClearCharacterInformation;
@@ -61,12 +64,20 @@ public class CharacterSelection : MonoBehaviour
         }
     }
 
-    private void SetInformationToButton(GameObject character, GameObject CharacterButton)
+    private void SetInformationToButton(GameObject character, GameObject CharacterButtonObject)
     {
-        CharacterSelectionButtonInformation characterInformation = CharacterButton.GetComponentInChildren<CharacterSelectionButtonInformation>();
+        CharacterSelectionButtonInformation characterInformation = CharacterButtonObject.GetComponentInChildren<CharacterSelectionButtonInformation>();
         CharacterStats characterStats = character.GetComponentInChildren<CharacterStats>();
         GameObject characterWeapon = _availableWeaponsMap[characterStats.startWeaponID];
         WeaponStats weaponStats = characterWeapon.GetComponent<WeaponStats>();
+        GameObject ButtonObject = CharacterButtonObject.GetComponentInChildren<Button>().gameObject;
+        Button newCharacterButton = CharacterButtonObject.GetComponentInChildren<Button>();
+        GameObject buttonAbilityImageGameobject = ButtonObject.transform.Find("CharacterAbilityImage").gameObject;
+        Image characterAbilityImageOnButton = buttonAbilityImageGameobject.GetComponentInChildren<Image>();
+        GameObject characterUIVisuals = character.transform.Find("UIVisuals").gameObject;
+        
+        newCharacterButton.GetComponent<Image>().sprite = character.GetComponentInChildren<SpriteRenderer>().sprite;
+        characterAbilityImageOnButton.sprite = characterUIVisuals.GetComponentInChildren<SpriteRenderer>().sprite;
         
         characterInformation.CharacterName = character.name;
         characterInformation.CharacterPassive = "";
@@ -80,11 +91,24 @@ public class CharacterSelection : MonoBehaviour
         characterInformation.WeaponSpecialAbility= weaponStats.weaponSpecialAbility;
     }
     
-    private void DisplayCharacterInformation(GameObject CharacterButton)
+    private void DisplayCharacterInformation(GameObject characterButtonObject)
     {
-        CharacterSelectionButtonInformation characterInformation = CharacterButton.GetComponentInChildren<CharacterSelectionButtonInformation>();
-        SetCharacterInformationSkills(CharacterButton, characterInformation);
-        SetCharacterInformationWeapon(CharacterButton, characterInformation);
+        CharacterSelectionButtonInformation characterInformation = characterButtonObject.GetComponentInChildren<CharacterSelectionButtonInformation>();
+        SetCharacterInformationSkills(characterButtonObject, characterInformation);
+        SetCharacterInformationWeapon(characterButtonObject, characterInformation);
+        
+        Button characterSelectionButton = characterButtonObject.GetComponentInChildren<Button>();
+        characterBackgroundImage.sprite = characterSelectionButton.GetComponent<Image>().sprite;
+
+        float midrangeImageAlphaValue = 0.5f;
+        SetImageAlpha(characterBackgroundImage, midrangeImageAlphaValue);
+        
+        GameObject characterWeapon = _availableWeaponsMap[characterInformation.WeaponName];
+        weaponBackgroundImage.sprite = characterWeapon.GetComponentInChildren<SpriteRenderer>().sprite;
+        SetImageAlpha(weaponBackgroundImage, midrangeImageAlphaValue);
+        
+        characterAbilityImage.sprite = characterSelectionButton.gameObject.transform.GetChild(0).GetComponent<Image>().sprite;
+        SetImageAlpha(characterAbilityImage, 1f);
     }
 
     private void SetCharacterInformationSkills(GameObject CharacterButton, CharacterSelectionButtonInformation characterInformation)
@@ -102,6 +126,7 @@ public class CharacterSelection : MonoBehaviour
         weaponSpecialsText.text = characterInformation.WeaponSpecialAbility;
     }
     
+    
     private void ClearCharacterInformation()
     {
         characterNameText.text = "";   
@@ -112,6 +137,21 @@ public class CharacterSelection : MonoBehaviour
         weaponNameText.text = "";
         weaponStatsText.text = "";
         weaponSpecialsText.text = "";
+
+        float transparentImageAlphaValue = 0f;
+        characterBackgroundImage.sprite = null;
+        SetImageAlpha(characterBackgroundImage, transparentImageAlphaValue);
+        weaponBackgroundImage.sprite = null;
+        SetImageAlpha(weaponBackgroundImage, transparentImageAlphaValue);
+        characterAbilityImage.sprite = null;
+        SetImageAlpha(characterAbilityImage, transparentImageAlphaValue);
+    }
+    
+    private void SetImageAlpha(Image image, float alpha)
+    {
+        Color transparentImage = image.color;
+        transparentImage.a = alpha;
+        image.color = transparentImage;
     }
 
 
