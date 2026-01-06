@@ -67,6 +67,7 @@ MonoBehaviour:
   weaponLifesteal: 0
   weaponPrice: 25
   currentTotalDamage: 0
+  weaponSpecialAbility: Auch krass
 --- !u!114 &1869917964682256196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,7 +250,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1944685711
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 2613348730587745498, guid: 517d3edcb285f3142ae15c7f33a4c192, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

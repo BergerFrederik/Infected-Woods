@@ -4,6 +4,9 @@ using UnityEngine.InputSystem;
 
 public class CharacterStats : MonoBehaviour
 {
+    [Header("Information")]
+    public string startWeaponID;
+    
     [Header("Stats")]
     public float characterMaxHP = 0f;
     public float characterMaxMP = 0f;
@@ -27,6 +30,8 @@ public class CharacterStats : MonoBehaviour
     [Header("Ability")]
     public float ability_cooldown = 5f;
     public float ability_duration = 10f;
+    public float ability_manaCost = 25f;
+    public string abilityDescription;
 
     private GameInput gameInput;
     private PlayerStats playerStats;

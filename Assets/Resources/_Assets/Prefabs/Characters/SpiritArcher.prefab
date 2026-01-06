@@ -48,7 +48,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterStats: {fileID: 6457424289827497899}
   boost_by_ability: 5000
-  manaCost: 25
   rangeModifier: 0
   attackSpeedModifier: 0
 --- !u!114 &6457424289827497899
@@ -63,6 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4801647633ae8a43af39a8660babe29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
+  startWeaponID: SpiritBow
   characterMaxHP: 20
   characterMaxMP: 100
   characterHPRegeneration: 0
@@ -83,6 +83,8 @@ MonoBehaviour:
   characterLightAbsorption: 1
   ability_cooldown: 20
   ability_duration: 10
+  ability_manaCost: 25
+  abilityDescription: Gain Attackspeed
   actualMaxCooldown: 0
   remainingCooldown: 0
   abilityReady: 1
