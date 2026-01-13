@@ -27,7 +27,9 @@ public class CharacterSelection : MonoBehaviour
     [SerializeField] private Image weaponBackgroundImage;
     [SerializeField] private Image characterAbilityImage;
     
-    private Dictionary<string, GameObject> _availableWeaponsMap = new Dictionary<string, GameObject>(); 
+    private Dictionary<string, GameObject> _availableWeaponsMap = new Dictionary<string, GameObject>();
+
+    private GameObject preselectedCharacter;
 
     private void OnEnable()
     {
@@ -40,6 +42,8 @@ public class CharacterSelection : MonoBehaviour
     {
         returnButton.onClick.RemoveAllListeners();
         selectCharacterButton.onClick.RemoveAllListeners();
+
+        preselectedCharacter = null;
     }
 
     private void Start()
@@ -57,6 +61,7 @@ public class CharacterSelection : MonoBehaviour
         foreach (GameObject character in PlayerCharacters)
         {
             GameObject newCharacterButtonObject = Instantiate(CharacterButtonPrefab,  PlayerCharacterList.transform);
+            newCharacterButtonObject.GetComponentInChildren<Button>().onClick.AddListener(() => PreselectCharacter(newCharacterButtonObject));
             OnHover onHover = newCharacterButtonObject.GetComponentInChildren<OnHover>();
             onHover.OnCursorHoverEnter += DisplayCharacterInformation;
             onHover.OnCursorHoverExit += ClearCharacterInformation;
@@ -129,22 +134,31 @@ public class CharacterSelection : MonoBehaviour
     
     private void ClearCharacterInformation()
     {
-        characterNameText.text = "";   
-        characterPassiveText.text = "";
-        characterActiveText.text = "";
-        characterActiveDescriptionText.text = "";
+        if (preselectedCharacter == null)
+        {
+            characterNameText.text = "";   
+            characterPassiveText.text = "";
+            characterActiveText.text = "";
+            characterActiveDescriptionText.text = "";
     
-        weaponNameText.text = "";
-        weaponStatsText.text = "";
-        weaponSpecialsText.text = "";
+            weaponNameText.text = "";
+            weaponStatsText.text = "";
+            weaponSpecialsText.text = "";
 
-        float transparentImageAlphaValue = 0f;
-        characterBackgroundImage.sprite = null;
-        SetImageAlpha(characterBackgroundImage, transparentImageAlphaValue);
-        weaponBackgroundImage.sprite = null;
-        SetImageAlpha(weaponBackgroundImage, transparentImageAlphaValue);
-        characterAbilityImage.sprite = null;
-        SetImageAlpha(characterAbilityImage, transparentImageAlphaValue);
+            float transparentImageAlphaValue = 0f;
+            characterBackgroundImage.sprite = null;
+            SetImageAlpha(characterBackgroundImage, transparentImageAlphaValue);
+            weaponBackgroundImage.sprite = null;
+            SetImageAlpha(weaponBackgroundImage, transparentImageAlphaValue);
+            characterAbilityImage.sprite = null;
+            SetImageAlpha(characterAbilityImage, transparentImageAlphaValue);
+        }
+
+        else
+        {
+            DisplayCharacterInformation(preselectedCharacter);
+        }
+        
     }
     
     private void SetImageAlpha(Image image, float alpha)
@@ -154,7 +168,13 @@ public class CharacterSelection : MonoBehaviour
         image.color = transparentImage;
     }
 
+    private void PreselectCharacter(GameObject characterObject)
+    {
+        //Highlight button Object
+        //setHoverOnDefault
+        preselectedCharacter = characterObject;
 
+    }
     private void ReturnToMenu()
     {
         TitleScreen.SetActive(true);
