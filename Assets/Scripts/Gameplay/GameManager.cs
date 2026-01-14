@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private DifficultySelection difficultySelection;
     [SerializeField] private GameInput gameInput;
     [SerializeField] private GameObject PausePanel;
+    [SerializeField] private CharacterSelection _characterSelection;
 
     private bool isAugmentShopOpen = true;
     private bool isWaveActive;
@@ -150,13 +151,13 @@ public class GameManager : MonoBehaviour
 
     private void SetCharacterItems()
     {
-        GameObject ChosenCharacter = Instantiate(Characters[0], player.transform.position, Quaternion.identity);
-        ChosenCharacter.transform.SetParent(PlayerCharacter.transform);
+        GameObject preselectedCharacterPrefab = _characterSelection.PreselectedCharacterPrefab;
+        GameObject ChosenCharacter = Instantiate(preselectedCharacterPrefab, PlayerCharacter.transform);
         ChosenCharacter.transform.localScale = Vector3.one;
-        
-        GameObject StartWeapon = Instantiate(Weapons[0], PlayerFirstWeaponAnker.transform.position, Quaternion.identity);
-        StartWeapon.transform.SetParent(PlayerFirstWeaponAnker.transform);
-        StartWeapon.transform.localScale /= 10f;
+
+        GameObject startWeaponPrefab = _characterSelection.PreselectedCharacterWeapon;
+        GameObject StartWeapon = Instantiate(startWeaponPrefab, PlayerFirstWeaponAnker.transform);
+        //StartWeapon.transform.localScale = 10f;
     }
 
     private void RequestNewWave()

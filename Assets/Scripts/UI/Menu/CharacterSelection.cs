@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class CharacterSelection : MonoBehaviour
@@ -29,10 +28,17 @@ public class CharacterSelection : MonoBehaviour
     
     private Dictionary<string, GameObject> _availableWeaponsMap = new Dictionary<string, GameObject>();
 
-    private GameObject preselectedCharacter;
+    private GameObject _preselectedCharacterButtonObject;
+    private GameObject _preselectedCharacterPrefab;
+    private GameObject _preselectedCharacterWeapon;
+    
+    public GameObject PreselectedCharacterPrefab => _preselectedCharacterPrefab;
+    public GameObject PreselectedCharacterWeapon => _preselectedCharacterWeapon;
+    
 
     private void OnEnable()
     {
+        ResetPanel();
         returnButton.onClick.AddListener(() => ReturnToMenu());
         selectCharacterButton.onClick.AddListener(() => SelectCharacter());
         ClearCharacterInformation();
@@ -42,8 +48,6 @@ public class CharacterSelection : MonoBehaviour
     {
         returnButton.onClick.RemoveAllListeners();
         selectCharacterButton.onClick.RemoveAllListeners();
-
-        preselectedCharacter = null;
     }
 
     private void Start()
@@ -61,9 +65,9 @@ public class CharacterSelection : MonoBehaviour
         foreach (GameObject character in PlayerCharacters)
         {
             GameObject newCharacterButtonObject = Instantiate(CharacterButtonPrefab,  PlayerCharacterList.transform);
-            newCharacterButtonObject.GetComponentInChildren<Button>().onClick.AddListener(() => PreselectCharacter(newCharacterButtonObject));
+            newCharacterButtonObject.GetComponentInChildren<Button>().onClick.AddListener(() => PreselectCharacter(newCharacterButtonObject, character));
             OnHover onHover = newCharacterButtonObject.GetComponentInChildren<OnHover>();
-            onHover.OnCursorHoverEnter += DisplayCharacterInformation;
+            onHover.OnCursorHoverEnter += (obj) => DisplayCharacterInformation(newCharacterButtonObject);
             onHover.OnCursorHoverExit += ClearCharacterInformation;
             SetInformationToButton(character, newCharacterButtonObject);
         }
@@ -134,7 +138,7 @@ public class CharacterSelection : MonoBehaviour
     
     private void ClearCharacterInformation()
     {
-        if (preselectedCharacter == null)
+        if (_preselectedCharacterButtonObject == null)
         {
             characterNameText.text = "";   
             characterPassiveText.text = "";
@@ -156,9 +160,21 @@ public class CharacterSelection : MonoBehaviour
 
         else
         {
-            DisplayCharacterInformation(preselectedCharacter);
+            DisplayCharacterInformation(_preselectedCharacterButtonObject);
         }
         
+    }
+
+    private void ResetPanel()
+    {
+        if (_preselectedCharacterButtonObject == null)
+        {
+            return;
+        }
+        HandleHighlightButton(_preselectedCharacterButtonObject, Color.black);
+        _preselectedCharacterButtonObject = null;
+        _preselectedCharacterWeapon = null;
+        _preselectedCharacterPrefab = null;
     }
     
     private void SetImageAlpha(Image image, float alpha)
@@ -168,12 +184,33 @@ public class CharacterSelection : MonoBehaviour
         image.color = transparentImage;
     }
 
-    private void PreselectCharacter(GameObject characterObject)
+    private void PreselectCharacter(GameObject characterButtonObject, GameObject character)
     {
-        //Highlight button Object
-        //setHoverOnDefault
-        preselectedCharacter = characterObject;
+        if (_preselectedCharacterButtonObject != characterButtonObject)
+        {
+            if (_preselectedCharacterButtonObject != null)
+            {
+                HandleHighlightButton(_preselectedCharacterButtonObject, Color.black);    
+            }
+            HandleHighlightButton(characterButtonObject, Color.white);
+            SetPreselectedGameObject(characterButtonObject, character);
+        }
+        else
+        {
+            HandleHighlightButton(characterButtonObject, Color.black);
+            SetPreselectedGameObject(null, null);  
+        }
+    }
 
+    private void HandleHighlightButton(GameObject characterButtonObject, Color color)
+    {
+        characterButtonObject.GetComponentInChildren<Image>().color = color;
+    }
+
+    private void SetPreselectedGameObject(GameObject characterButtonObject, GameObject character)
+    {
+        _preselectedCharacterButtonObject = characterButtonObject;
+        _preselectedCharacterPrefab = character;
     }
     private void ReturnToMenu()
     {
@@ -183,6 +220,14 @@ public class CharacterSelection : MonoBehaviour
 
     private void SelectCharacter()
     {
+        if (_preselectedCharacterButtonObject == null)
+        {
+            return;
+        }
+
+        string characterWeaponName = _preselectedCharacterPrefab.GetComponent<CharacterStats>().startWeaponID;
+        _preselectedCharacterWeapon = _availableWeaponsMap[characterWeaponName];
+        
         DifficultySelectionPanel.SetActive(true);
         this.gameObject.SetActive(false);
     }

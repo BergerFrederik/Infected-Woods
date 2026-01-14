@@ -4000,8 +4000,10 @@ MonoBehaviour:
   PlayerCharacterList: {fileID: 1575924578}
   PlayerCharacters:
   - {fileID: 3534616681876155847, guid: 642614cff998b3a42abac478706e36c4, type: 3}
+  - {fileID: 3534616681876155847, guid: 5098a2711409dc24783514e5e56ab667, type: 3}
   WeaponList:
   - {fileID: 2679728442328743979, guid: e84d6765d301a104cacc088bd79db7d2, type: 3}
+  - {fileID: 2679728442328743979, guid: e4fcc17868a68dc44a913d7fa2b92650, type: 3}
   CharacterButtonPrefab: {fileID: 7167094210300857674, guid: c460721bf6a6c7b4dbc1b536dec6974e, type: 3}
   characterNameText: {fileID: 84777309}
   characterPassiveText: {fileID: 359158694}
@@ -17053,6 +17055,7 @@ MonoBehaviour:
   difficultySelection: {fileID: 1439074270}
   gameInput: {fileID: 1223334015}
   PausePanel: {fileID: 571574824}
+  _characterSelection: {fileID: 293783756}
   currentWaveNumber: 0
   mapSize:
     m_Center: {x: 0, y: 0, z: 0}
