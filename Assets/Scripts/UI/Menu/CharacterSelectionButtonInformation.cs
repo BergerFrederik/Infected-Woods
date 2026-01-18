@@ -8,11 +8,12 @@ public class CharacterSelectionButtonInformation : MonoBehaviour
         set => _characterName = value;
     }
 
-    public string CharacterPassive
+    public string[] CharacterPassiveEffects
     {
-        get => _characterPassive;
-        set => _characterPassive = value;
+        get => _characterPassiveEffects;
+        set => _characterPassiveEffects = value;
     }
+
 
     public string CharacterActiveCooldown
     {
@@ -44,16 +45,10 @@ public class CharacterSelectionButtonInformation : MonoBehaviour
         set => _weaponName = value;
     }
 
-    public string WeaponDamage
+    public string WeaponLore
     {
-        get => _weaponDamage;
-        set => _weaponDamage = value;
-    }
-
-    public string WeaponAttackSpeed
-    {
-        get => _weaponAttackSpeed;
-        set => _weaponAttackSpeed = value;
+        get => _weaponLore;
+        set => _weaponLore = value;
     }
 
     public string WeaponSpecialAbility
@@ -63,7 +58,7 @@ public class CharacterSelectionButtonInformation : MonoBehaviour
     }
 
     private string _characterName;
-    private string _characterPassive;
+    private string[] _characterPassiveEffects;
     
     private string _characterActiveCooldown;
     private string _characterActiveDuration;
@@ -71,8 +66,7 @@ public class CharacterSelectionButtonInformation : MonoBehaviour
     private string _characterActiveDescription;
     
     private string _weaponName;
-    private string _weaponDamage;
-    private string _weaponAttackSpeed;
+    private string _weaponLore;
     private string _weaponSpecialAbility;
 
 

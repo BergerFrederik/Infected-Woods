@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 3044386558665927546}
   - component: {fileID: 2923472048008297227}
   - component: {fileID: 6919582871292908103}
+  - component: {fileID: 6763817416200018253}
   m_Layer: 6
   m_Name: SpiritBow
   m_TagString: Weapon
@@ -155,7 +156,9 @@ MonoBehaviour:
   weaponLifesteal: 0
   weaponPrice: 16
   currentTotalDamage: 0
-  weaponSpecialAbility: Voll krass dat Dingen
+  weaponSpecialAbility: 5% Chance to gain 20% Attackspeed for 5 seconds on hit
+  weaponLore: A group of Spirits fled to the top of remainig trees. In order to defend
+    themself, they crafted this bow out of vines, twigs and leaves
 --- !u!114 &6919582871292908103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +175,22 @@ MonoBehaviour:
   projectileRotationOffset: 135
   weaponStats: {fileID: 2923472048008297227}
   WeaponProjectile: {fileID: 3248573983623086727, guid: e93c16f0ad8523d4faaa82740371f767, type: 3}
+--- !u!114 &6763817416200018253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2679728442328743979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ffc5de4f76349947a8b76112ede8351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpiritBow
+  _chanceToGainAttackspeed: 5
+  _attackspeedBoost: 20
+  _attackspeedBoostTime: 5
+  _ranged: {fileID: 6919582871292908103}
 --- !u!1 &5340006489510552725
 GameObject:
   m_ObjectHideFlags: 0

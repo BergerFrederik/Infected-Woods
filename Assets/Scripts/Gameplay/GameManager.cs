@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, searchRadius);
         foreach (Collider2D collider in colliders)
         {
-            if (collider.CompareTag("Enemy") || collider.CompareTag("Drop") || collider.CompareTag("Projectile"))
+            if (collider.CompareTag("Enemy") || collider.CompareTag("Drop") || collider.CompareTag("Deletable") || collider.CompareTag("Projectile"))
             {
                 Destroy(collider.gameObject);
             }            

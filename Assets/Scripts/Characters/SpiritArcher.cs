@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SpiritArcher : MonoBehaviour
 {
     [SerializeField] private CharacterStats characterStats;
+    private PlayerDealsDamage _playerDealsDamage;
     private PlayerStats playerStats;
     private GameObject GameManagerObject;
     private GameManager gameManager;
@@ -15,27 +18,26 @@ public class SpiritArcher : MonoBehaviour
     public float boost_by_ability = 50f; //value is just added to playerStats and used in the weapons script
     
     [Header("Passive")]
-    public float rangeModifier;
-    public float attackSpeedModifier;
-    
+    [SerializeField] private float _chanceToGainLight;
 
     private void Start()
     {       
         GameManagerObject = GameObject.FindGameObjectWithTag("Manager");
         gameManager = GameManagerObject.GetComponent<GameManager>();
         playerStats = this.transform.GetComponentInParent<PlayerStats>();
-    }
-
-    private void OnEnable()
-    {
+        _playerDealsDamage = this.transform.root.GetComponentInChildren<PlayerDealsDamage>();
+        
         characterStats.OnExecuteAbility += CharacterAbilityExecution;
         GameManager.OnRoundOver += ResetAbilityOnRoundOver;
+        _playerDealsDamage.OnPlayerHitsEnemy += GainLightOnHit;
     }
+    
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         GameManager.OnRoundOver -= ResetAbilityOnRoundOver;
         characterStats.OnExecuteAbility -= CharacterAbilityExecution;
+        _playerDealsDamage.OnPlayerHitsEnemy -= GainLightOnHit;
     }
 
     public void CharacterAbilityExecution()
@@ -94,5 +96,15 @@ public class SpiritArcher : MonoBehaviour
         }
         characterStats.abilityReady = true;
         abilityRunning = false;
+    }
+
+    private void GainLightOnHit()
+    {
+        int randomNum = Random.Range(0, 100);
+        if (randomNum < _chanceToGainLight)
+        {
+            Debug.Log("Light");
+            playerStats.playerLightAmount += 1f;
+        }
     }
 }

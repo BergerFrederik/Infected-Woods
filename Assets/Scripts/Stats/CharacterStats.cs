@@ -33,6 +33,9 @@ public class CharacterStats : MonoBehaviour
     public float ability_manaCost = 25f;
     public string abilityDescription;
 
+    [Header("Passive")] 
+    public string[] characterPassiveEffects;
+
     private GameInput gameInput;
     private PlayerStats playerStats;
 

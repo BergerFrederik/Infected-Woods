@@ -22,4 +22,5 @@ public class WeaponStats : MonoBehaviour
     public float weaponPrice = 0f;
     public float currentTotalDamage = 0f;
     public string weaponSpecialAbility;
+    public string weaponLore;
 }

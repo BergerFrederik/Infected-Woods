@@ -48,9 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterStats: {fileID: 6457424289827497899}
-  boost_by_ability: 5000
-  rangeModifier: 0
-  attackSpeedModifier: 0
+  boost_by_ability: 100
+  _chanceToGainLight: 10
 --- !u!114 &6457424289827497899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,7 +76,7 @@ MonoBehaviour:
   characterKnockback: 0
   characterCooldown: 0
   characterCritChance: 0
-  characterAttackRange: 0
+  characterAttackRange: 50
   characterDodge: 0
   characterBaseMovespeed: 4
   characterLuck: 0
@@ -85,7 +84,11 @@ MonoBehaviour:
   ability_cooldown: 20
   ability_duration: 10
   ability_manaCost: 25
-  abilityDescription: Gain Attackspeed
+  abilityDescription: Gain 100% Attackspeed. Attacks bounce between enemys.
+  characterPassiveEffects:
+  - +100% Attackspeed
+  - +50% Range
+  - 10% chance to extract light on hit
   actualMaxCooldown: 0
   remainingCooldown: 0
   abilityReady: 1

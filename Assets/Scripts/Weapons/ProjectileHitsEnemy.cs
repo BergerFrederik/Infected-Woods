@@ -6,6 +6,8 @@ public class ProjectileHitsEnemy : MonoBehaviour
     [SerializeField] private Projectile projectile;
     private WeaponStats weaponStats;
 
+    public event Action OnWeaponProjectileHitsEnemyTrigger;
+
     private void Start()
     {
         weaponStats = projectile.sourceWeaponStats;
@@ -17,6 +19,7 @@ public class ProjectileHitsEnemy : MonoBehaviour
         {
             if (collider.TryGetComponent<EnemyStats>(out EnemyStats enemyStats))
             {
+                OnWeaponProjectileHitsEnemyTrigger?.Invoke();
                 OnProjectileHitsEnemy?.Invoke(enemyStats, weaponStats);
                 Destroy(this.gameObject);
             }

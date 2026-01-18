@@ -1,5 +1,6 @@
+using System;
 using UnityEngine;
-using UnityEngine.UIElements;
+
 
 public class Projectile : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Projectile : MonoBehaviour
     private float distanceToTravel;
     private GameObject Player;
     private PlayerStats playerStats;
+    
     private void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
@@ -23,7 +25,7 @@ public class Projectile : MonoBehaviour
     {
         if (CalculateDistanceTraveled() < distanceToTravel)
         {
-            this.transform.position += -(this.transform.up + this.transform.right) * sourceWeaponStats.weaponProjectileSpeed * Time.deltaTime; //Sprites müssen nach oben zeigen
+            this.transform.position += -(this.transform.up + this.transform.right) * sourceWeaponStats.weaponProjectileSpeed * Time.deltaTime; //Sprites mï¿½ssen nach oben zeigen
         }
         else 
         {

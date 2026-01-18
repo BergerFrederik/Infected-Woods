@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using UnityEngine;
 
 public class Ranged : MonoBehaviour
@@ -15,6 +15,8 @@ public class Ranged : MonoBehaviour
 
     private float attackCooldown;
     private float cooldownStarttime;
+    
+    public event Action OnWeaponProjectileHitsEnemy;
 
     private enum WeaponState
     {
@@ -82,10 +84,17 @@ public class Ranged : MonoBehaviour
 
         GameObject newProjectile = Instantiate(WeaponProjectile, transform.position, targetRotation);
         Projectile projectileScript = newProjectile.GetComponent<Projectile>();
+        ProjectileHitsEnemy projectileHitsEnemy = newProjectile.GetComponent<ProjectileHitsEnemy>();
+        projectileHitsEnemy.OnWeaponProjectileHitsEnemyTrigger += FireEventHitEnemy;
         cooldownStarttime = Time.time;
 
         projectileScript.sourceWeaponStats = this.weaponStats;
         currentWeaponState = WeaponState.Idle;
+    }
+
+    private void FireEventHitEnemy()
+    {
+        OnWeaponProjectileHitsEnemy?.Invoke();
     }
 
     private void PointWeaponAtEnemy()

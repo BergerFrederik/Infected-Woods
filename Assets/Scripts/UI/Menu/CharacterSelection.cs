@@ -14,13 +14,13 @@ public class CharacterSelection : MonoBehaviour
     [SerializeField] private GameObject[] WeaponList;
     [SerializeField] private GameObject CharacterButtonPrefab;
     
-    [Header("UI)")]
+    [Header("UI")]
     [SerializeField] private TextMeshProUGUI characterNameText;
     [SerializeField] private TextMeshProUGUI characterPassiveText;
     [SerializeField] private TextMeshProUGUI characterActiveText;
     [SerializeField] private TextMeshProUGUI characterActiveDescriptionText;
     [SerializeField] private TextMeshProUGUI weaponNameText;
-    [SerializeField] private TextMeshProUGUI weaponStatsText;
+    [SerializeField] private TextMeshProUGUI weaponLoreText;
     [SerializeField] private TextMeshProUGUI weaponSpecialsText;
     [SerializeField] private Image characterBackgroundImage;
     [SerializeField] private Image weaponBackgroundImage;
@@ -34,6 +34,8 @@ public class CharacterSelection : MonoBehaviour
     
     public GameObject PreselectedCharacterPrefab => _preselectedCharacterPrefab;
     public GameObject PreselectedCharacterWeapon => _preselectedCharacterWeapon;
+
+    private Color resetColor = new Color32(43, 43, 43, 255);
     
 
     private void OnEnable()
@@ -89,14 +91,13 @@ public class CharacterSelection : MonoBehaviour
         characterAbilityImageOnButton.sprite = characterUIVisuals.GetComponentInChildren<SpriteRenderer>().sprite;
         
         characterInformation.CharacterName = character.name;
-        characterInformation.CharacterPassive = "";
+        characterInformation.CharacterPassiveEffects = characterStats.characterPassiveEffects;
         characterInformation.CharacterActiveCooldown = characterStats.ability_cooldown.ToString();
         characterInformation.CharacterActiveDuration = characterStats.ability_duration.ToString();
         characterInformation.CharacterActiveManaCost = characterStats.ability_manaCost.ToString();
         characterInformation.CharacterActiveDescription = characterStats.abilityDescription;
         characterInformation.WeaponName = characterWeapon.name;
-        characterInformation.WeaponDamage = weaponStats.weaponBaseDamage.ToString();
-        characterInformation.WeaponAttackSpeed = weaponStats.weaponAttackSpeedCooldown.ToString();
+        characterInformation.WeaponLore = weaponStats.weaponLore;
         characterInformation.WeaponSpecialAbility= weaponStats.weaponSpecialAbility;
     }
     
@@ -109,7 +110,7 @@ public class CharacterSelection : MonoBehaviour
         Button characterSelectionButton = characterButtonObject.GetComponentInChildren<Button>();
         characterBackgroundImage.sprite = characterSelectionButton.GetComponent<Image>().sprite;
 
-        float midrangeImageAlphaValue = 0.5f;
+        float midrangeImageAlphaValue = 0.15f;
         SetImageAlpha(characterBackgroundImage, midrangeImageAlphaValue);
         
         GameObject characterWeapon = _availableWeaponsMap[characterInformation.WeaponName];
@@ -122,16 +123,23 @@ public class CharacterSelection : MonoBehaviour
 
     private void SetCharacterInformationSkills(GameObject CharacterButton, CharacterSelectionButtonInformation characterInformation)
     {   
-        characterNameText.text = characterInformation.CharacterName;   
-        characterPassiveText.text = characterInformation.CharacterPassive;
-        characterActiveText.text = characterInformation.CharacterActiveCooldown;
+        characterNameText.text = characterInformation.CharacterName;
+        characterPassiveText.text = "";
+        foreach (string information in characterInformation.CharacterPassiveEffects)
+        {
+            characterPassiveText.text += information + System.Environment.NewLine;
+        }
+        characterActiveText.text = $"Cooldown: {characterInformation.CharacterActiveCooldown}s\n" +
+                                   $"Mana Cost: {characterInformation.CharacterActiveManaCost}\n" +
+                                   $"Duration: {characterInformation.CharacterActiveDuration}s";
         characterActiveDescriptionText.text = characterInformation.CharacterActiveDescription;
     }
+
 
     private void SetCharacterInformationWeapon(GameObject CharacterButton, CharacterSelectionButtonInformation characterInformation)
     {
         weaponNameText.text = characterInformation.WeaponName;
-        weaponStatsText.text = characterInformation.WeaponAttackSpeed;
+        weaponLoreText.text = characterInformation.WeaponLore;
         weaponSpecialsText.text = characterInformation.WeaponSpecialAbility;
     }
     
@@ -146,7 +154,7 @@ public class CharacterSelection : MonoBehaviour
             characterActiveDescriptionText.text = "";
     
             weaponNameText.text = "";
-            weaponStatsText.text = "";
+            weaponLoreText.text = "";
             weaponSpecialsText.text = "";
 
             float transparentImageAlphaValue = 0f;
@@ -171,7 +179,7 @@ public class CharacterSelection : MonoBehaviour
         {
             return;
         }
-        HandleHighlightButton(_preselectedCharacterButtonObject, Color.black);
+        HandleHighlightButton(_preselectedCharacterButtonObject, resetColor);
         _preselectedCharacterButtonObject = null;
         _preselectedCharacterWeapon = null;
         _preselectedCharacterPrefab = null;
@@ -190,14 +198,14 @@ public class CharacterSelection : MonoBehaviour
         {
             if (_preselectedCharacterButtonObject != null)
             {
-                HandleHighlightButton(_preselectedCharacterButtonObject, Color.black);    
+                HandleHighlightButton(_preselectedCharacterButtonObject, resetColor);    
             }
             HandleHighlightButton(characterButtonObject, Color.white);
             SetPreselectedGameObject(characterButtonObject, character);
         }
         else
         {
-            HandleHighlightButton(characterButtonObject, Color.black);
+            HandleHighlightButton(characterButtonObject, resetColor);
             SetPreselectedGameObject(null, null);  
         }
     }
