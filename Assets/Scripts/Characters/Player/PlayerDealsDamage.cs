@@ -10,7 +10,7 @@ public class PlayerDealsDamage : MonoBehaviour
     
     public event Action OnPlayerHitsEnemy;
     public event Action<WeaponStats> OnPlayerHitsEnemyWithWeapon;
-    public event Action<Transform, float> OnInstantiatePopUpDamageUI;
+    public event Action<Transform, float, bool> OnInstantiatePopUpDamageUI;
     private void OnEnable()
     {
         MeeleWeaponHitsEnemy.OnMeeleWeaponHitsEnemy += ApplyDamageToEnemy;
@@ -27,14 +27,19 @@ public class PlayerDealsDamage : MonoBehaviour
     {
         OnPlayerHitsEnemy?.Invoke();
         OnPlayerHitsEnemyWithWeapon?.Invoke(weaponStats);
-        float damageDealtByPlayer = damageCalculation.CalculateDamageDealtToEnemy(weaponStats, playerStats, enemyStats);
+        
+        var result = damageCalculation.CalculateDamageDealtToEnemy(weaponStats, playerStats);
+        float damageDealtByPlayer = result.damage;
+        bool didCrit = result.isCrit;
+        
         // bonus damage
         float bonusDamage = 0f;
         damageDealtByPlayer += bonusDamage;
+        
         enemyStats.TakeDamage(damageDealtByPlayer);
         
         Transform enemyTransform = enemyStats.transform;
-        OnInstantiatePopUpDamageUI?.Invoke(enemyTransform, damageDealtByPlayer);
+        OnInstantiatePopUpDamageUI?.Invoke(enemyTransform, damageDealtByPlayer, didCrit);
     }
 
 }

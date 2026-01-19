@@ -11362,8 +11362,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -20847,6 +20847,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PopUpDamage
   playerDealsDamage: {fileID: 1729712748}
   popUpDmgUI: {fileID: 5293165250185406988, guid: 70bd5822b7767c141be7c729baa81b7a, type: 3}
+  popUpTimer: 0.3
+  popUpFadeTimer: 0.5
+  popUpPositionOffset: 0
+  wobbleSpeed: 60
+  wobbleDamping: 10
+  wobbleStrength: 0.4
 --- !u!1 &1643862214
 GameObject:
   m_ObjectHideFlags: 0

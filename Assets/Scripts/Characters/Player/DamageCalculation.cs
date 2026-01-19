@@ -2,14 +2,19 @@ using UnityEngine;
 
 public class DamageCalculation : MonoBehaviour
 {
-    public float CalculateDamageDealtToEnemy(
+    public (float damage, bool isCrit) CalculateDamageDealtToEnemy(
         WeaponStats weaponStats, 
-        PlayerStats playerStats,
-        EnemyStats enemyStats)
+        PlayerStats playerStats)
     {
-        float weaponDamge = ComputeWeaponDamage(weaponStats, playerStats);
-        float totalDamage = ComputeTotalDamage(weaponDamge, weaponStats, playerStats);
-        return totalDamage;
+        float weaponDamage = ComputeWeaponDamage(weaponStats, playerStats);
+        bool isCrit = UnityEngine.Random.Range(0, 100) < playerStats.playerCritChance;
+        float totalDamage = weaponDamage;
+
+        if (isCrit)
+        {
+            totalDamage = weaponDamage + (weaponDamage * weaponStats.weaponCritDamage);
+        }
+        return (totalDamage, isCrit);
     }
 
     private float ComputeWeaponDamage(
@@ -31,19 +36,6 @@ public class DamageCalculation : MonoBehaviour
 
         float totalDamage = newWeaponBaseDamage + increaseByPlayerDamage;
 
-        return totalDamage;
-    }
-
-    private float ComputeTotalDamage(
-        float weaponDamage, 
-        WeaponStats weaponStats,
-        PlayerStats playerStats)
-    {
-        float totalDamage = weaponDamage;
-        if (Random.Range(0f, 100f) <= playerStats.playerCritChance)
-        {
-            totalDamage = weaponDamage + weaponDamage * weaponStats.weaponCritDamage;            
-        }
         return totalDamage;
     }
 }
