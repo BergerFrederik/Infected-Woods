@@ -1,7 +1,7 @@
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PopUpDamage : MonoBehaviour
 {
@@ -9,7 +9,9 @@ public class PopUpDamage : MonoBehaviour
     [SerializeField] private GameObject popUpDmgUI;
     [SerializeField] private float popUpTimer;
     [SerializeField] private float popUpFadeTimer;
-    [SerializeField] private float popUpPositionOffset;
+    [SerializeField] private float popUpPositionOffsetYAxis;
+    [SerializeField] private float popUpPositionOffsetXAxisPositiv;
+    [SerializeField] private float popUpPositionOffsetXAxisNegativ;
     [SerializeField] private float wobbleSpeed;
     [SerializeField] private float wobbleDamping;
     
@@ -34,14 +36,26 @@ public class PopUpDamage : MonoBehaviour
     private IEnumerator PopUpDamageRuntime(Transform enemyTransform, float damageDealtByPlayer, bool didPlayerCrit)
     {
         float roundedDamage = Mathf.RoundToInt(damageDealtByPlayer);
+        float randomXDir = Random.Range(popUpPositionOffsetXAxisNegativ, popUpPositionOffsetXAxisPositiv);
         
-        Vector3 spawnPos = enemyTransform.position + Vector3.up * popUpPositionOffset;
+        Vector3 spawnPos = enemyTransform.position + Vector3.up * popUpPositionOffsetYAxis + new Vector3(randomXDir, 0, 0);
         GameObject newPopUpDamageUI = Instantiate(popUpDmgUI, spawnPos, Quaternion.identity);
         TextMeshPro popUpText = newPopUpDamageUI.GetComponent<TextMeshPro>();
 
+        ModifyText(popUpText, didPlayerCrit, roundedDamage);
+        yield return StartCoroutine(WobblePopUp(newPopUpDamageUI));
+        yield return StartCoroutine(FadeOutPopUp(popUpText));
+        Destroy(newPopUpDamageUI);
+    }
+
+    private void ModifyText(TextMeshPro popUpText, bool didPlayerCrit, float roundedDamage)
+    {
         popUpText.color = didPlayerCrit ? Color.yellow : Color.white;
         popUpText.text = roundedDamage.ToString();
-        
+    }
+
+    private IEnumerator WobblePopUp(GameObject newPopUpDamageUI)
+    {
         Vector3 startPos = newPopUpDamageUI.transform.position;
         float elapsedTime = 0f;
 
@@ -57,14 +71,14 @@ public class PopUpDamage : MonoBehaviour
         }
         
         newPopUpDamageUI.transform.position = startPos;
-        
-        yield return new WaitForSeconds(popUpTimer);
-        
+    }
+    private IEnumerator FadeOutPopUp(TextMeshPro popUpText)
+    {
         float fadeTime = 0f;
         Color startColor = popUpText.color;
         Color targetColor = new Color(startColor.r, startColor.g, startColor.b, 0f);
         
-        while (elapsedTime < popUpFadeTimer)
+        while (fadeTime < popUpFadeTimer)
         {
             fadeTime += Time.deltaTime;
             
@@ -74,7 +88,5 @@ public class PopUpDamage : MonoBehaviour
 
             yield return null;
         }
-        
-        Destroy(newPopUpDamageUI);
     }
 }

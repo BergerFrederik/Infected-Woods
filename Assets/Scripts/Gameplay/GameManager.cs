@@ -218,19 +218,13 @@ public class GameManager : MonoBehaviour
         {
             PausePanel.SetActive(true);
             gameInput.playerInput.Player.Disable();
-            if (isWaveActive)
-            {
-                Time.timeScale = 0f;
-            }  
+            Time.timeScale = 0f;
         }
         else
         {
             PausePanel.SetActive(false);
             gameInput.playerInput.Player.Enable();
-            if (isWaveActive)
-            {
-                Time.timeScale = 1f;
-            }                    
+            Time.timeScale = 1f;
         }        
     }  
 }
