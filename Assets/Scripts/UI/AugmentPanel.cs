@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework.Internal;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,11 +19,15 @@ public class AugmentPanel : MonoBehaviour
     public GameObject[] AugmentContents;
     public GameObject[] AugmentIcons;
     
-    public float chance_to_get_bud = 30;
-    public float chance_to_get_blossom = 20;
+    [Range(0f, 100f)][SerializeField] float chance_to_get_bud = 30;
+    [Range(0f, 100f)][SerializeField] float chance_to_get_root = 20;
 
     private GameObject[] ChosenAugments;
-    private GameObject LastAugment = null;
+    private GameObject LastAugment;
+
+    private int blossom_rarity_code = 2;
+    private int bud_rarity_code = 1;
+    private int root_rarity_code = 0;
 
     private void OnEnable()
     {
@@ -33,19 +38,18 @@ public class AugmentPanel : MonoBehaviour
 
     private int DetermineAugmentRarity()
     {
-        
-        float randomNumber = Random.Range(0, 100);
-        if (randomNumber <= chance_to_get_blossom)
+        int randomNumber = Random.Range(0, 100);
+        if (randomNumber < chance_to_get_root)
         {
-            return 2;
+            return root_rarity_code;
         }
-        else if (randomNumber > chance_to_get_blossom && randomNumber <= chance_to_get_bud + chance_to_get_blossom)
+        else if (randomNumber >= chance_to_get_root && randomNumber < chance_to_get_bud + chance_to_get_root)
         {
-            return 1;
+            return bud_rarity_code;
         }
         else
         {
-            return 0;
+            return blossom_rarity_code;
         }
     }
 

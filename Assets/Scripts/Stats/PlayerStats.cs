@@ -48,7 +48,7 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Secondary Stats")]
     public float playerKnockback = 0f;
-    public float playerLightAbsorption = 0f;
+    public float playerLightPickupRange = 0f;
     public float playerDashCooldownReduction = 0f;
     public float playerAbilityCooldown = 0f;
     public float playerHealPower = 0f;

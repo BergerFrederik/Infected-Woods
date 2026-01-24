@@ -16,12 +16,12 @@ public class LevelPanel : MonoBehaviour
     [SerializeField] private float[] StatUpgradeValues;
     [SerializeField] private GameManager gameManager;
     [SerializeField] private TextMeshProUGUI levelsGainedText;
-    [SerializeField] private GameObject[] StatUpgradeTitles;
-    [SerializeField] private GameObject[] StatUpgradeContents;
+    [SerializeField] private TextMeshProUGUI[] StatUpgradeTitles;
+    [SerializeField] private TextMeshProUGUI[] StatUpgradeContents;
 
-    [Range(0f, 100f)][SerializeField] private float chance_for_blossom;
-    [Range(0f, 100f)][SerializeField] private float chance_for_bud;
+    [Range(0f, 100f)][SerializeField] private float chance_for_root;
     [Range(0f, 100f)][SerializeField] private float chance_for_shroom;
+    [Range(0f, 100f)][SerializeField] private float chance_for_bud;
 
     private const int rarity_code_blossom = 4;
     private const int rarity_code_bud = 3;
@@ -32,17 +32,24 @@ public class LevelPanel : MonoBehaviour
     private int[] randomRaritys;
     private string[] randomStats;
     
-    public TextMeshProUGUI primaryStatsText;
-    public TextMeshProUGUI secondaryStatsText;
+    [SerializeField] private TextMeshProUGUI primaryStatsText;
+    [SerializeField] private TextMeshProUGUI primaryStatsValues;
+    [SerializeField] private TextMeshProUGUI secondaryStatsText;
+    [SerializeField] private TextMeshProUGUI secondaryStatsValues;
 
     private void OnEnable()
     {
         RerollButton.onClick.AddListener(RerollStats);
         StartFunction();
         SetTextToPrimayStats(primaryStatsText);
-        SetTextToSecondaryStats();
+        SetTextToSecondaryStats(secondaryStatsText);
         SetLogic();
         SetUI();
+    }
+
+    private void OnDisable()
+    {
+        RerollButton.onClick.RemoveListener(RerollStats);
     }
 
     private void StartFunction()
@@ -72,39 +79,17 @@ public class LevelPanel : MonoBehaviour
 
     private void SetUI()
     {
-        SetSpritesToButtons();
+        SetUIToButtons();
         SetTextToLevelsGainedUI();
     }
-    public void SetTextToPrimayStats(TextMeshProUGUI statText)
+    public void SetTextToPrimayStats(TextMeshProUGUI primaryStatsText)
     {
-        string display = "";
-
-        display += $"Max. HP: \t\t{playerStats.playerMaxHP}\n";
-        display += $"HP Regeneration: \t{playerStats.playerHPRegeneration}\n";
-        display += $"Lifesteal: \t\t{playerStats.playerLifeSteal}\n";
-        display += $"Damage: \t\t{playerStats.playerDamage}\n";
-        display += $"Meele Damage: \t{playerStats.playerMeeleDamage}\n";
-        display += $"Ranged Damage: \t{playerStats.playerRangedDamage}\n";
-        display += $"Mystic Damage: \t{playerStats.playerMysticDamage}\n";
-        display += $"Attackspeed: \t{playerStats.playerAttackSpeed}\n";
-        display += $"Crit Chance: \t{playerStats.playerCritChance}\n";
-        display += $"Armor: \t\t{playerStats.playerArmor}\n";
-        display += $"Dodge: \t\t{playerStats.playerDodge}\n";
-        display += $"Movementspeed: \t{playerStats.playerMovespeed}\n";
-        display += $"Luck: \t\t\t{playerStats.playerLuck}\n";
-        display += $"Cooldown: \t\t{playerStats.playerCooldown}\n";
-
-        statText.text = display;
+        StaticHelpers.SetPrimaryStatsToTextUI(primaryStatsText, primaryStatsValues, playerStats);
     }
 
-    private void SetTextToSecondaryStats()
+    private void SetTextToSecondaryStats(TextMeshProUGUI secondaryStatsText)
     {
-        string display = "";
-
-        display += $"Knockback: \t\t{playerStats.playerKnockback}\n";
-        display += $"Pickup Range: \t{playerStats.playerLightAbsorption}\n";
-
-        secondaryStatsText.text = display;
+        StaticHelpers.SetSecondaryStatsToTextUI(secondaryStatsText, secondaryStatsValues, playerStats);
     }
 
     private void DetermineRarities()
@@ -114,21 +99,22 @@ public class LevelPanel : MonoBehaviour
         for (int i = 0; i < numRarities; i++)
         {
             int rarity = Random.Range(0, 100);
-            if (rarity <= chance_for_blossom)
+            rarity += (int)playerStats.playerLevel;
+            if (rarity < chance_for_root)
             {
-                randomRaritys[i] = rarity_code_blossom;
+                randomRaritys[i] = rarity_code_root;
             }
-            else if (rarity > chance_for_blossom && rarity <= chance_for_bud + chance_for_blossom)
-            {
-                randomRaritys[i] = rarity_code_bud;
-            }
-            else if (rarity > chance_for_blossom + chance_for_bud && rarity <= chance_for_shroom + chance_for_bud + chance_for_blossom)
+            else if (rarity >= chance_for_root && rarity < chance_for_root + chance_for_shroom)
             {
                 randomRaritys[i] = rarity_code_shroom;
             }
+            else if (rarity >= chance_for_root + chance_for_shroom && rarity < chance_for_root + chance_for_shroom + chance_for_bud)
+            {
+                randomRaritys[i] = rarity_code_bud;
+            }
             else
             {
-                randomRaritys[i] = rarity_code_root;
+                randomRaritys[i] = rarity_code_blossom;
             }
         }
     }
@@ -152,19 +138,24 @@ public class LevelPanel : MonoBehaviour
         }
     }
 
-    private void SetSpritesToButtons()
+    private void SetUIToButtons()
     {
         for (int i = 0; i <= LVLUpButtons.Length - 1; i++)
         {
             Sprite nextSprite = LVLUpBoarders[randomRaritys[i] - 1];
             string nextStatUpgradeTitle = randomStats[i];
+            
             LVLUpButtons[i].GetComponent<Image>().sprite = nextSprite;
-            StatUpgradeTitles[i].GetComponent<TextMeshProUGUI>().text = nextStatUpgradeTitle;
+            StatUpgradeTitles[i].text = nextStatUpgradeTitle;
+            float statUpgradeValue = StatGainMap[nextStatUpgradeTitle] * randomRaritys[i];
+            StatUpgradeContents[i].text = statUpgradeValue.ToString();
+            
             LVLUpButtons[i].onClick.RemoveAllListeners();
             int index = i;
             LVLUpButtons[i].onClick.AddListener(() => SelectLevelUp(index));           
         }
     }
+
 
     private void RerollStats()
     {
@@ -174,6 +165,7 @@ public class LevelPanel : MonoBehaviour
 
     private void SetTextToLevelsGainedUI()
     {
+        // +1 because it should show 1 when you select the last level up
         float levelsGained = playerStats.playerLevelsGained + 1;
         string text = "[" + levelsGained.ToString() + "]";
         levelsGainedText.text = text;
@@ -194,7 +186,7 @@ public class LevelPanel : MonoBehaviour
             case "Max HP":
                 playerStats.playerMaxHP += value;
                 break;
-            case "Regeneration":
+            case "HP Regeneration":
                 playerStats.playerHPRegeneration += value;
                 break;
             case "Lifesteal":
@@ -235,6 +227,12 @@ public class LevelPanel : MonoBehaviour
                 break;
             case "Cooldown":
                 playerStats.playerCooldown += value;
+                break;
+            case "Max MP":
+                playerStats.playerMaxMP += value;
+                break;
+            case "MP Regeneration":
+                playerStats.playerMPRegeneration += value;
                 break;
         }
     }

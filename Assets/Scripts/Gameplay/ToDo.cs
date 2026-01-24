@@ -1,6 +1,4 @@
-using UnityEngine;
-
-public class ToDo : MonoBehaviour
+public class ToDo
 {
     // TODO: Menu handler?
     // TODO: 
@@ -10,7 +8,7 @@ public class ToDo : MonoBehaviour
     // TODO: Meele Weapon/Ranged Weapon hits enemy. Static event. Singleton? Ich weiß nicht wie. Felix?
     // TODO: 
     // TODO: Shop toggle
-    // TODO: lvl up fertig machen
+    // TODO: lvl up fertig machen / reroll kosten
     // TODO: sprite größen
     // TODO: zweiter char
     // TODO: mit zweitem char animation???????????????!!!!!!!!!!!!!!
@@ -21,8 +19,8 @@ public class ToDo : MonoBehaviour
     // TODO: wie wird schaden berechnet, wenn viele Gegner gleichzeitig in einem drin sind
     // TODO: current hp läuft weiter bei pause - nicht mehr, aber mal schauen wie der time scale nach der wave gesetzt werden muss
     // TODO: character selection Texte auto machen
-    // TODO:
-    // TODO:
+    // TODO: schauen wie range berechnet und addiert wird
+    // TODO: Bei Augment im Stat Panel bei mutate Augments Reihenfolge rip
     // TODO:
     // TODO:
     // TODO:

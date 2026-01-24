@@ -137,7 +137,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7522017478837502192}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab30e37a5529e124e956000ddfd6e9b5, type: 3}
   m_Name: 
@@ -198,8 +198,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyIsHitByPlayer: {fileID: 5496535399776737029}
-  enemyCurrentHP: 497.98
-  enemyMaxHP: 629.97
+  enemyCurrentHP: 0
+  enemyMaxHP: 3
   enemyHPPerWave: 2
   enemyDamage: 1
   enemyDamagePerWave: 0.6

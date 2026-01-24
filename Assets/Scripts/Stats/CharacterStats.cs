@@ -74,7 +74,7 @@ public class CharacterStats : MonoBehaviour
         playerStats.playerDodge = characterDodge;
         playerStats.playerMovespeed = characterBaseMovespeed;
         playerStats.playerLuck = characterLuck;
-        playerStats.playerLightAbsorption = characterLightAbsorption;
+        playerStats.playerLightPickupRange = characterLightAbsorption;
 
         playerStats.playerAbilityCooldown = ability_cooldown;
         playerStats.playerAbilityDuration = ability_duration;
