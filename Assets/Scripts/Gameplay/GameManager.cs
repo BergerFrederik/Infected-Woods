@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject Floor;
     [SerializeField] private GameObject CooldownAbilityOverlay;
     [SerializeField] private GameObject ActiveAbilityOverlay;
+    [SerializeField] private Image abilityImage;
     [SerializeField] private Player player;
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private GameObject mainCam;
@@ -15,7 +17,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject levelPanel;
     [SerializeField] private GameObject shopPanel;
     [SerializeField] private List<float> augmentWaves;
-    [SerializeField] private GameObject[] Characters;
     [SerializeField] private GameObject PlayerCharacter;
     [SerializeField] private GameObject[] Weapons;
     [SerializeField] private GameObject PlayerFirstWeaponAnker;
@@ -69,6 +70,7 @@ public class GameManager : MonoBehaviour
     {
         isPlayerInRound = true;
         SetCharacterItems();
+        SetAbilitySprite();
         RequestNewWave();
     }
     private void Update()
@@ -183,6 +185,13 @@ public class GameManager : MonoBehaviour
         remainingTime = waveStats.waveDuration;
         isWaveActive = true;
         OnGameLoopStart?.Invoke();
+    }
+
+    private void SetAbilitySprite()
+    {
+        Transform characterUIVisuals = PlayerCharacter.transform.GetChild(0).GetChild(1);
+        Sprite characterUIImage = characterUIVisuals.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
+        abilityImage.sprite = characterUIImage;
     }
     
     public void SetAbilityUIActive()

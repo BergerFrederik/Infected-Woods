@@ -32,6 +32,10 @@ public class DifficultySelection : MonoBehaviour
 
     private void SelectDifficulty(int index)
     {
+        foreach (Button button in DifficultyButtons)
+        {
+            button.onClick.RemoveAllListeners();
+        } 
         OnDifficultySelected?.Invoke(index);
         this.gameObject.SetActive(false);
         MainMenu.SetActive(false);

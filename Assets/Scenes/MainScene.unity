@@ -15759,7 +15759,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Continue
+  m_text: Continue (Kommt noch)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1b1cfa31198ebb34c9d151103f6ad60b, type: 2}
   m_sharedMaterial: {fileID: -2123248813766186043, guid: 1b1cfa31198ebb34c9d151103f6ad60b, type: 2}
@@ -19195,6 +19195,7 @@ MonoBehaviour:
   Floor: {fileID: 179582772}
   CooldownAbilityOverlay: {fileID: 634998608}
   ActiveAbilityOverlay: {fileID: 879402949}
+  abilityImage: {fileID: 291441685}
   player: {fileID: 663990825}
   playerStats: {fileID: 663990828}
   mainCam: {fileID: 519420028}
@@ -19208,8 +19209,6 @@ MonoBehaviour:
   - 10
   - 17
   - 25
-  Characters:
-  - {fileID: 3534616681876155847, guid: 642614cff998b3a42abac478706e36c4, type: 3}
   PlayerCharacter: {fileID: 294301014}
   Weapons:
   - {fileID: 2679728442328743979, guid: e84d6765d301a104cacc088bd79db7d2, type: 3}
