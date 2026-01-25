@@ -16,6 +16,9 @@ public class StatPanel : MonoBehaviour
     [Header("Augemnts")]
     [SerializeField] private Image[] augmentSlots;
     [SerializeField] private GameObject playerAugments;
+    [SerializeField] private TextMeshProUGUI[] AugmentTitles;
+    [SerializeField] private TextMeshProUGUI[] AugmentContents;
+    [SerializeField] private Image[] AugmentIcons;
     
     
     private void OnEnable()
@@ -49,9 +52,9 @@ public class StatPanel : MonoBehaviour
             Sprite augmentButtonIcon = augmentIconObject.GetComponent<Image>().sprite;
 
             augmentSlots[i].GetComponent<Image>().sprite = augmentButtonSprite;
-            //AugmentTitles[i].GetComponent<TextMeshProUGUI>().text = augmentTitle;
-            //AugmentContents[i].GetComponent<TextMeshProUGUI>().text = augmentText;
-            //AugmentIcons[i].GetComponent<Image>().sprite = AugmentButtonIcon;
+            AugmentTitles[i].text = augmentTitle;
+            AugmentContents[i].text = augmentText;
+            AugmentIcons[i].sprite = augmentButtonIcon;
         }
     }
     
