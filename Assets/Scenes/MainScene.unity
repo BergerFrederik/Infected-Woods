@@ -23986,7 +23986,8 @@ MonoBehaviour:
   popUpDmgUI: {fileID: 5293165250185406988, guid: 70bd5822b7767c141be7c729baa81b7a, type: 3}
   popUpTimer: 0.3
   popUpFadeTimer: 0.5
-  popUpPositionOffsetYAxis: 0.5
+  popUpPositionOffsetYAxisMax: 1
+  popUpPositionOffsetYAxisMin: 0.5
   popUpPositionOffsetXAxisPositiv: 0.5
   popUpPositionOffsetXAxisNegativ: -0.5
   wobbleSpeed: 60

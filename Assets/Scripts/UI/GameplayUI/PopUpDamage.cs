@@ -9,7 +9,8 @@ public class PopUpDamage : MonoBehaviour
     [SerializeField] private GameObject popUpDmgUI;
     [SerializeField] private float popUpTimer;
     [SerializeField] private float popUpFadeTimer;
-    [SerializeField] private float popUpPositionOffsetYAxis;
+    [SerializeField] private float popUpPositionOffsetYAxisMax;
+    [SerializeField] private float popUpPositionOffsetYAxisMin;
     [SerializeField] private float popUpPositionOffsetXAxisPositiv;
     [SerializeField] private float popUpPositionOffsetXAxisNegativ;
     [SerializeField] private float wobbleSpeed;
@@ -37,8 +38,8 @@ public class PopUpDamage : MonoBehaviour
     {
         float roundedDamage = Mathf.RoundToInt(damageDealtByPlayer);
         float randomXDir = Random.Range(popUpPositionOffsetXAxisNegativ, popUpPositionOffsetXAxisPositiv);
-        
-        Vector3 spawnPos = enemyTransform.position + Vector3.up * popUpPositionOffsetYAxis + new Vector3(randomXDir, 0, 0);
+        float randomYDir = Random.Range(popUpPositionOffsetYAxisMin, popUpPositionOffsetYAxisMax);
+        Vector3 spawnPos = enemyTransform.position + new Vector3(randomXDir, randomYDir, 0);
         GameObject newPopUpDamageUI = Instantiate(popUpDmgUI, spawnPos, Quaternion.identity);
         TextMeshPro popUpText = newPopUpDamageUI.GetComponent<TextMeshPro>();
 

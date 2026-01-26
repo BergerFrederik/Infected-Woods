@@ -27,26 +27,16 @@ public class DashAbility : MonoBehaviour
 
     private DashingState currentState = DashingState.dashReady;
 
-    private void Awake()
-    {
-    }
-
     private void OnEnable()
     {
         GameManager.OnRoundOver += ResetDash;
+        gameInput.OnDashStarted += HandleDashInput;
     }
 
     private void OnDisable()
     {
         GameManager.OnRoundOver -= ResetDash;
-    }
-
-    private void Update()
-    {
-        if (gameInput != null && gameInput.IsDashPressed())
-        {
-            HandleDashInput();
-        }
+        gameInput.OnDashStarted -= HandleDashInput;
     }
 
     private void HandleDashInput()

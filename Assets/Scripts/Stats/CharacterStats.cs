@@ -44,6 +44,7 @@ public class CharacterStats : MonoBehaviour
     public bool abilityReady = true;
 
     public event Action OnExecuteAbility;
+    public event Action OnStopAbility;
     
     private void Awake()
     {
@@ -53,8 +54,11 @@ public class CharacterStats : MonoBehaviour
         }
     }
     
-    void Start()
+    private void Start()
     {
+        gameInput.OnAbilityStarted += StartAbility;
+        gameInput.OnAbilityCanceled += EndAbility;
+        
         playerStats = this.transform.GetComponentInParent<PlayerStats>();
 
         playerStats.playerMaxHP = characterMaxHP;
@@ -83,14 +87,14 @@ public class CharacterStats : MonoBehaviour
         playerStats.playerCurrentMP = characterMaxMP;
     }
 
+    private void OnDestroy()
+    {
+        gameInput.OnAbilityStarted -= StartAbility;
+        gameInput.OnAbilityCanceled -= EndAbility;
+    }
+
     private void Update()
     {
-        if (gameInput != null && gameInput.IsAbilityPressed() && abilityReady)
-        {
-            OnExecuteAbility?.Invoke();
-            abilityReady = false;
-        }
-
         if (!abilityReady && remainingCooldown <= 0)
         {
             float reducedCooldown = ability_cooldown * (1f - playerStats.playerCooldown / 100f);
@@ -106,5 +110,15 @@ public class CharacterStats : MonoBehaviour
                 abilityReady = true;
             }
         }
+    }
+
+    private void StartAbility()
+    {
+        OnExecuteAbility?.Invoke();
+    }
+
+    private void EndAbility()
+    {
+        OnStopAbility?.Invoke();
     }
 }
