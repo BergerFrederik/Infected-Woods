@@ -7,7 +7,7 @@ public class DamageCalculation : MonoBehaviour
         PlayerStats playerStats)
     {
         float weaponDamage = ComputeWeaponDamage(weaponStats, playerStats);
-        bool isCrit = UnityEngine.Random.Range(0, 100) < playerStats.playerCritChance;
+        bool isCrit = UnityEngine.Random.Range(0, 100) < playerStats.playerCritChance + weaponStats.weaponCritChance;
         float totalDamage = weaponDamage;
 
         if (isCrit)

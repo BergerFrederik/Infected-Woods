@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     private WaveStats waveStats;
     private float remainingTime;
 
-    public event Action OnGameLoopStart;
+    public event Action OnCharacterSet;
 
     public static event Action OnRoundOver;
     public static event Action<float> OnTimerChanged;
@@ -160,6 +160,8 @@ public class GameManager : MonoBehaviour
         GameObject startWeaponPrefab = _characterSelection.PreselectedCharacterWeapon;
         GameObject StartWeapon = Instantiate(startWeaponPrefab, PlayerFirstWeaponAnker.transform);
         //StartWeapon.transform.localScale = 10f;
+        
+        OnCharacterSet?.Invoke();
     }
 
     private void RequestNewWave()
@@ -184,7 +186,6 @@ public class GameManager : MonoBehaviour
         waveStats = CurrentWaveObject.GetComponent<WaveStats>();
         remainingTime = waveStats.waveDuration;
         isWaveActive = true;
-        OnGameLoopStart?.Invoke();
     }
 
     private void SetAbilitySprite()

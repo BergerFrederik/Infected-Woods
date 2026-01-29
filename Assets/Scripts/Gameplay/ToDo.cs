@@ -21,7 +21,7 @@ public class ToDo
     // TODO: character selection Texte auto machen
     // TODO: schauen wie range berechnet und addiert wird
     // TODO: Bei Augment im Stat Panel bei mutate Augments Reihenfolge rip
-    // TODO:
+    // TODO: in der Schadensberechnung, ist da waffen crit chance mit drin?
     // TODO:
     // TODO:
     // TODO:

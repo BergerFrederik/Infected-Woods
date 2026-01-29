@@ -31,8 +31,4 @@ public class EnemyIsHitByPlayer : MonoBehaviour
     {
         lastWeaponHit = weaponStats.weaponWeaponType;
     }
-    private void InstantiatePopUpDamage()
-    {
-        //Instantiate(popUpDamage, transform.position, Quaternion.identity);
-    }
 }

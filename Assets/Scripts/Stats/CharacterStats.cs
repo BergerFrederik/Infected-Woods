@@ -42,9 +42,14 @@ public class CharacterStats : MonoBehaviour
     public float actualMaxCooldown;
     public float remainingCooldown;
     public bool abilityReady = true;
+    public bool cooldownStarted;
+    
+    private float _reducedCooldown;
+    private float _clampedCooldown;
 
     public event Action OnExecuteAbility;
     public event Action OnStopAbility;
+    public event Action<EnemyStats, float, bool> OnAbilityDealsDamage;
     
     private void Awake()
     {
@@ -95,12 +100,18 @@ public class CharacterStats : MonoBehaviour
 
     private void Update()
     {
-        if (!abilityReady && remainingCooldown <= 0)
+        HandleCooldown();
+    }
+
+    private void HandleCooldown()
+    {
+        if (cooldownStarted)
         {
-            float reducedCooldown = ability_cooldown * (1f - playerStats.playerCooldown / 100f);
-            float clampedCooldown = Mathf.Clamp(reducedCooldown, 0.01f, ability_cooldown);
-            actualMaxCooldown = clampedCooldown;
-            remainingCooldown = clampedCooldown;
+            _reducedCooldown = ability_cooldown * (1f - playerStats.playerCooldown / 100f);
+            _clampedCooldown = Mathf.Clamp(_reducedCooldown, 0.01f, ability_cooldown);
+            remainingCooldown = _clampedCooldown;
+            actualMaxCooldown = _clampedCooldown;
+            cooldownStarted = false;
         }
         if (!abilityReady)
         {
@@ -120,5 +131,10 @@ public class CharacterStats : MonoBehaviour
     private void EndAbility()
     {
         OnStopAbility?.Invoke();
+    }
+
+    public void InvokeAbilityDamage(EnemyStats enemyStats, float damage, bool didCrit)
+    {
+        OnAbilityDealsDamage?.Invoke(enemyStats, damage, didCrit);
     }
 }

@@ -25389,7 +25389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageCalculation: {fileID: 1729712749}
   playerStats: {fileID: 663990828}
-  popUpDmgUI: {fileID: 0}
+  gameManager: {fileID: 1221680500}
 --- !u!114 &1729712749
 MonoBehaviour:
   m_ObjectHideFlags: 0
