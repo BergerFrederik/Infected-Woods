@@ -33,7 +33,14 @@ public class GameManager : MonoBehaviour
     
     private GameObject CurrentWaveObject;
     private WaveStats waveStats;
-    private float remainingTime;
+
+    public float remainingTime
+    {
+        get => _remainingTime;
+        set { _remainingTime = value; }
+    }
+    
+    private float _remainingTime;
 
     public event Action OnCharacterSet;
 
@@ -41,6 +48,7 @@ public class GameManager : MonoBehaviour
     public static event Action<float> OnTimerChanged;
 
     public static event Action<float> OnNewWaveRequested;
+    
 
     private void Start()
     {
@@ -83,11 +91,11 @@ public class GameManager : MonoBehaviour
 
     private void WaveTimer()
     {
-        remainingTime -= Time.deltaTime;
-        OnTimerChanged?.Invoke(remainingTime);
-        if (remainingTime <= 0)
+        _remainingTime -= Time.deltaTime;
+        OnTimerChanged?.Invoke(_remainingTime);
+        if (_remainingTime <= 0)
         {
-            remainingTime = 0;
+            _remainingTime = 0;
             OnRoundOver?.Invoke();
             EndWaveProcedure();
             CycleShops();
@@ -167,7 +175,7 @@ public class GameManager : MonoBehaviour
     private void RequestNewWave()
     {
         currentWaveNumber++;
-        if (currentWaveNumber == 6f)
+        if (currentWaveNumber == 11f)
         {
             RestartGame();
             return;
@@ -236,6 +244,6 @@ public class GameManager : MonoBehaviour
             gameInput.playerInput.Player.Enable();
             Time.timeScale = 1f;
         }        
-    }  
+    }
 }
 

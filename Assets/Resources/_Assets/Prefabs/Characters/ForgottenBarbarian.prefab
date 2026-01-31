@@ -358,8 +358,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: -354789647
-  m_SortingLayer: 6
+  m_SortingLayerID: 2026402519
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 6762997127934126369, guid: c95e5fe980a558d4b8c9b611d4239d2f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -426,13 +426,13 @@ MonoBehaviour:
   characterMaxHP: 20
   characterMaxMP: 100
   characterHPRegeneration: 0
-  characterArmor: 0
-  characterLifeSteal: 0
+  characterArmor: 5
+  characterLifeSteal: 10
   characterDamage: 0
   characterMeeleDamage: 0
   characterRangedDamage: 0
   characterMysticDamage: 0
-  characterAttackSpeed: 100
+  characterAttackSpeed: 0
   characterKnockback: 0
   characterCooldown: 0
   characterCritChance: 0
@@ -444,8 +444,11 @@ MonoBehaviour:
   ability_cooldown: 5
   ability_duration: 0
   ability_manaCost: 10
-  abilityDescription: Spin around and combine all Meele Weapons into damage
-  characterPassiveEffects: []
+  abilityDescription: Spin around and deal combined damage based on your weapons
+  characterPassiveEffects:
+  - + 10 Lifesteal
+  - + 5 Armor
+  - Coole Passive noch
   actualMaxCooldown: 0
   remainingCooldown: 0
   abilityReady: 1

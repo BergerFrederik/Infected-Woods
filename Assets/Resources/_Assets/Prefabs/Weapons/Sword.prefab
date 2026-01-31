@@ -68,8 +68,9 @@ MonoBehaviour:
   weaponLifesteal: 0
   weaponPrice: 25
   currentTotalDamage: 0
-  weaponSpecialAbility: Auch krass
-  weaponLore: 
+  weaponSpecialAbility: Kp was der koennen soll, stellt euch vor sie hat einen hammer
+    Effekt
+  weaponLore: Wurde safe von so nem komischen Lichtfutzen geschmieded oder so
 --- !u!114 &1869917964682256196
 MonoBehaviour:
   m_ObjectHideFlags: 0

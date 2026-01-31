@@ -8,6 +8,7 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private Slider slider;
     
+    
     private void OnEnable()
     {
         playerGainsHP.OnPlayerWasHealed += SetHealth;

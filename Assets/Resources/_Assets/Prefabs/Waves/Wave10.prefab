@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8906447429777084106}
   - component: {fileID: -9029380448485046703}
   m_Layer: 0
-  m_Name: Wave5
+  m_Name: Wave10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,8 +61,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b4bd3f0d863fad4ea212a6861bb962a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossWave
-  bossPrefab: {fileID: 7522017478837502192, guid: cdff4cab979cc5d4ca58b07595869d7b, type: 3}
-  enemyStats: {fileID: 3245767678808239730, guid: cdff4cab979cc5d4ca58b07595869d7b, type: 3}
+  bossPrefab: {fileID: 0}
+  enemyStats: {fileID: 0}
 --- !u!82 &-9029380448485046703
 AudioSource:
   m_ObjectHideFlags: 0
@@ -76,7 +76,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 2ade51bc47f9f744082df5c7da10a445, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.149
+  m_Volume: 0.176
   m_Pitch: 1
   Loop: 0
   Mute: 0

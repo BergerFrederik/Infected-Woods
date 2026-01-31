@@ -8,6 +8,7 @@ public class EnemyStats : MonoBehaviour
     public event Action OnEnemyDeath;
     public static event Action<string> OnEnemyDeathByWeapon;
     public event Action OnEnemyTakesDamage;
+    public event Action<float> OnEnemyTakesDamageAmount;
 
     public float enemyCurrentHP = 0f; //done
     public float enemyMaxHP = 0f; //done
@@ -31,8 +32,10 @@ public class EnemyStats : MonoBehaviour
         enemyDamage += enemyDamagePerWave * (gameManager.currentWaveNumber - 1f);
         enemyCurrentHP = enemyMaxHP;
     }
+    
     public void TakeDamage(float damage)
     {
+        OnEnemyTakesDamageAmount?.Invoke(damage);
         enemyCurrentHP -= damage;
         OnEnemyTakesDamage?.Invoke();
         if (enemyCurrentHP <= 0f)
