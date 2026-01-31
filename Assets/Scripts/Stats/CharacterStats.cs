@@ -49,7 +49,6 @@ public class CharacterStats : MonoBehaviour
 
     public event Action OnExecuteAbility;
     public event Action OnStopAbility;
-    public event Action<EnemyStats, float, bool> OnAbilityDealsDamage;
     
     private void Awake()
     {
@@ -131,10 +130,5 @@ public class CharacterStats : MonoBehaviour
     private void EndAbility()
     {
         OnStopAbility?.Invoke();
-    }
-
-    public void InvokeAbilityDamage(EnemyStats enemyStats, float damage, bool didCrit)
-    {
-        OnAbilityDealsDamage?.Invoke(enemyStats, damage, didCrit);
     }
 }

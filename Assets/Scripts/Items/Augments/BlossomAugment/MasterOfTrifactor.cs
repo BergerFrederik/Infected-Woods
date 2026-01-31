@@ -38,14 +38,14 @@ public class MasterOfTrifactor : MonoBehaviour
 
     private void IncreaseStatsOnHit(WeaponStats weaponStats)
     {
-        if (weaponStats.weaponWeaponType == "Meele")
+        if (weaponStats.weaponWeaponType == WeaponStats.weaponTypeOptions.Melee)
         {
             playerStats.playerRangedDamage += rangedDamageIncreaseOnHit;
             playerStats.playerMysticDamage += mysticDamageIncreaseOnHit;
             rangedDamageGainedOnRound += rangedDamageIncreaseOnHit;
             mysticDamageGainedOnRound += mysticDamageIncreaseOnHit;
         }
-        else if (weaponStats.weaponWeaponType == "Ranged")
+        else if (weaponStats.weaponWeaponType == WeaponStats.weaponTypeOptions.Ranged)
         {
             playerStats.playerMeeleDamage += meeleDamageIncreaseOnHit;
             playerStats.playerMysticDamage += mysticDamageIncreaseOnHit;

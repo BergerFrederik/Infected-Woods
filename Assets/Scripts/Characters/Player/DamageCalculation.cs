@@ -7,7 +7,7 @@ public class DamageCalculation : MonoBehaviour
         PlayerStats playerStats)
     {
         float weaponDamage = ComputeWeaponDamage(weaponStats, playerStats);
-        bool isCrit = UnityEngine.Random.Range(0, 100) < playerStats.playerCritChance + weaponStats.weaponCritChance;
+        bool isCrit = UnityEngine.Random.Range(1f, 100f) < playerStats.playerCritChance + weaponStats.weaponCritChance;
         float totalDamage = weaponDamage;
 
         if (isCrit)
@@ -26,13 +26,13 @@ public class DamageCalculation : MonoBehaviour
         float playerRangedDamage = playerStats.playerRangedDamage;
         float playerMysticDamage = playerStats.playerMysticDamage;
 
-        float increaseByMeeleScaling = playerMeeleDamage * (weaponStats.weaponMeeleDamageScale / 100);
-        float increaseByRangedScaling = playerRangedDamage * (weaponStats.weaponMysticDamageScale / 100);
-        float increaseByMysticScaling = playerMysticDamage * (weaponStats.weaponRangedDamageScale / 100);
+        float increaseByMeeleScaling = playerMeeleDamage * (weaponStats.weaponMeeleDamageScale / 100f);
+        float increaseByRangedScaling = playerRangedDamage * (weaponStats.weaponMysticDamageScale / 100f);
+        float increaseByMysticScaling = playerMysticDamage * (weaponStats.weaponRangedDamageScale / 100f);
 
         float newWeaponBaseDamage = weaponStats.weaponBaseDamage + increaseByMeeleScaling + increaseByMysticScaling + increaseByRangedScaling;
 
-        float increaseByPlayerDamage = (playerPercentDamage / 100) * newWeaponBaseDamage;
+        float increaseByPlayerDamage = (playerPercentDamage / 100f) * newWeaponBaseDamage;
 
         float totalDamage = newWeaponBaseDamage + increaseByPlayerDamage;
 

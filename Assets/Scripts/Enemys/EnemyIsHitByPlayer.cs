@@ -3,32 +3,26 @@ using UnityEngine;
 
 public class EnemyIsHitByPlayer : MonoBehaviour
 {
-    [SerializeField] private Transform popUpDamage;
-
     public String lastWeaponHit;
-    
-   
     
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.CompareTag("Projectile"))
+        if (collider.TryGetComponent<WeaponStats>(out WeaponStats weaponStats))
         {
-            if (collider.TryGetComponent<WeaponStats>(out WeaponStats weaponStats))
+            if (collider.CompareTag("Projectile"))
             {
                 SetLastWeaponHit(weaponStats);
             }
-        } 
-        else if (collider.CompareTag("MeeleWeapon"))
-        {
-            if (collider.TryGetComponent<WeaponStats>(out WeaponStats weaponStats))
+            else if ((weaponStats.weaponWeaponType == WeaponStats.weaponTypeOptions.Melee))
             {
                 SetLastWeaponHit(weaponStats);
             }
         }
+
     }
     
     private void SetLastWeaponHit(WeaponStats weaponStats)
     {
-        lastWeaponHit = weaponStats.weaponWeaponType;
+        lastWeaponHit = weaponStats.weaponWeaponType.ToString();
     }
 }

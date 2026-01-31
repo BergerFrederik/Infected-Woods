@@ -156,7 +156,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b41ea03a7d4085418b31c5dd8c71f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpDamage: {fileID: 7641374547317203947, guid: 70bd5822b7767c141be7c729baa81b7a, type: 3}
   lastWeaponHit: 
 --- !u!50 &7032754371515850491
 Rigidbody2D:

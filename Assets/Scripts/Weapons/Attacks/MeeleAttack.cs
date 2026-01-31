@@ -28,6 +28,16 @@ public class MeeleAttack : MonoBehaviour
     private float attackCooldown;
     private float cooldownStarttime;
 
+    private void OnEnable()
+    {
+        ResetWeaponPosition();
+    }
+
+    private void OnDisable()
+    {
+        ResetWeaponPosition();
+        Debug.Log("reset");
+    }
 
     private void Start()
     {
@@ -79,22 +89,22 @@ public class MeeleAttack : MonoBehaviour
     }
     private void SearchForEnemyAndAttack()
     {
-        float searchRadius = Mathf.Infinity;
-        float closestDistance = Mathf.Infinity;
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, searchRadius);
         Transform closestEnemy = FindClosestEnemy();
+
         if (closestEnemy != null)
         {
-            closestDistance = Vector2.Distance(transform.position, closestEnemy.transform.position);
-        }       
-        float attackRange = weaponStats.weaponRange + weaponStats.weaponRange * (playerStats.playerAttackRange / 100);
+            Collider2D enemyCollider = closestEnemy.GetComponent<Collider2D>();
+            Vector2 closestPointOnEdge = enemyCollider.ClosestPoint(transform.position);
+            float distanceToEdge = Vector2.Distance(transform.position, closestPointOnEdge);
+            float attackRange = weaponStats.weaponRange +
+                                weaponStats.weaponRange * (playerStats.playerAttackRange / 100);
 
-        if (closestEnemy != null && closestDistance <= attackRange)
-        {
-            currentState = WeaponState.Attacking;
-            initialAttackPosition = transform.position;
-            transform.parent = null;
-            directionToEnemy = (closestEnemy.position - transform.position);
+            if (distanceToEdge <= attackRange)
+            {
+                currentState = WeaponState.Attacking;
+                initialAttackPosition = transform.position;
+                directionToEnemy = (closestEnemy.position - transform.position);
+            }
         }
     }
 
@@ -133,8 +143,6 @@ public class MeeleAttack : MonoBehaviour
 
         if (Vector3.Distance(transform.position, targetPosition) < 1f)
         {
-            transform.SetParent(weaponAnchorPoint);
-            // Positioniere die Waffe exakt am Ankerpunkt
             transform.localPosition = new Vector3(0, 0, 0);
             cooldownStarttime = Time.time;
             currentState = WeaponState.Idle;
@@ -154,20 +162,21 @@ public class MeeleAttack : MonoBehaviour
 
     private Transform FindClosestEnemy()
     {
-        float searchRadius = Mathf.Infinity;
+        float searchRadius = 200;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, searchRadius);
         float closestDistance = Mathf.Infinity;
         Transform closestEnemy = null;
-        float weaponDistanceToEnemy = 0f;
         foreach (Collider2D collider in colliders)
         {
+            if (collider.gameObject == this.gameObject) continue;
             if (collider.CompareTag("Enemy"))
             {
-                weaponDistanceToEnemy = Vector2.Distance(transform.position, collider.transform.position);
-
-                if (weaponDistanceToEnemy < closestDistance)
+                Vector2 closestPoint = collider.ClosestPoint(transform.position);
+                float distanceToEdge = Vector2.Distance(transform.position, closestPoint);
+                
+                if (distanceToEdge < closestDistance)
                 {
-                    closestDistance = weaponDistanceToEnemy;
+                    closestDistance = distanceToEdge;
                     closestEnemy = collider.transform;
                 }
             }
@@ -177,11 +186,7 @@ public class MeeleAttack : MonoBehaviour
 
     private void ResetWeaponPosition()
     {
-        if (this.transform.parent == null && currentState != WeaponState.Idle)
-        {
-            transform.SetParent(weaponAnchorPoint);
-            transform.localPosition = new Vector3(0, 0, 0);
-            currentState = WeaponState.Idle;
-        }
+        transform.localPosition = new Vector3(0, 0, 0);
+        currentState = WeaponState.Idle;
     }
 }

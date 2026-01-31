@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Barbar : MonoBehaviour
@@ -14,13 +13,16 @@ public class Barbar : MonoBehaviour
     private bool _abilityRunning;
     private IEnumerator _runningAbility;
     private Coroutine _manaDrainCoroutine;
+    private Coroutine _dealDamageCoroutine;
     private List<GameObject> _playerWeaponSlots;
     private List<GameObject> _playerWeapons;
-    private Dictionary<string, float> _combinedDamageMap;
 
     [Header("Ability")]
     [SerializeField] private float ability;
     [SerializeField] private Collider2D wwCollider;
+    [SerializeField] private WeaponStats abilityWeaponStats;
+    [SerializeField] private GameObject wwIndicator;
+    [SerializeField] private float attackSpeedBoost = 200;
     
     [Header("Passive")]
     [SerializeField] private float passive;
@@ -38,6 +40,7 @@ public class Barbar : MonoBehaviour
         GameManager.OnRoundOver += ResetAbilityOnRoundOver;
         
         wwCollider.enabled = false;
+        wwIndicator.SetActive(false);
     }
     
 
@@ -60,32 +63,31 @@ public class Barbar : MonoBehaviour
     {        
         _abilityRunning = true;
         _gameManager.SetAbilityUIActive();
-        _manaDrainCoroutine = StartCoroutine(AbilityTickRoutine());            
+        
+        _playerWeapons = GetPlayerWeapons();
+        SetAbilityWeaponStats(_playerWeapons);
+        foreach (GameObject weapon in _playerWeapons)
+        {
+            weapon.SetActive(false);
+        }
+        
+        wwCollider.enabled = true;
+        wwIndicator.SetActive(true);
+        
+        _manaDrainCoroutine = StartCoroutine(AbilityTickRoutine());
+        _dealDamageCoroutine = StartCoroutine(AbilityDamageRoutine());
     }
 
     private IEnumerator AbilityTickRoutine()
     {
-        _playerWeapons = GetPlayerWeapons();
-        _combinedDamageMap = GetCombinedWeaponStats(_playerWeapons);
-        
         float manaPerTick = characterStats.ability_manaCost / 10f;
         float tickInterval = 0.1f;
-
-        foreach (GameObject weaponSlot in _playerWeaponSlots)
-        {
-            weaponSlot.SetActive(false);
-        }
         
-        wwCollider.enabled = true;
-    
         while (_abilityRunning)
         {
             if (_playerStats.playerCurrentMP >= manaPerTick)
             {
                 _playerStats.playerCurrentMP -= manaPerTick;
-                
-                Whirlwind(_combinedDamageMap);
-                
                 yield return new WaitForSeconds(tickInterval);
             }
             else
@@ -96,25 +98,56 @@ public class Barbar : MonoBehaviour
         }
     }
 
+    private IEnumerator AbilityDamageRoutine()
+    {
+        while (_abilityRunning)
+        {
+            float speedFactor = 1f + (_playerStats.playerAttackSpeed / 100f);
+            float attackSpeedCooldown = abilityWeaponStats.weaponAttackSpeedCooldown / speedFactor;
+            attackSpeedCooldown = Mathf.Max(attackSpeedCooldown, 0.05f);
+            Debug.Log(attackSpeedCooldown);
+            DealWhirlwindDamage();
+            yield return new WaitForSeconds(attackSpeedCooldown);
+        }
+    }
+    
+    private void DealWhirlwindDamage()
+    {
+        float radius = ((CircleCollider2D)wwCollider).radius * transform.lossyScale.x;
+        
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, radius);
+
+        foreach (Collider2D enemyCollider in hitEnemies)
+        {
+            if (enemyCollider.CompareTag("Enemy"))
+            {
+                if (enemyCollider.TryGetComponent<EnemyStats>(out EnemyStats enemyStats))
+                {
+                    _playerDealsDamage.ApplyDamageToEnemy(enemyStats, abilityWeaponStats);
+                }
+            }
+        }
+    }
+
     private void EndAbility()
     {
         if (!_abilityRunning) return; // Verhindert doppeltes Ausführen
 
         _abilityRunning = false;
         
-        if (_manaDrainCoroutine != null)
-        {
-            StopCoroutine(_manaDrainCoroutine);
-        }
+        if (_manaDrainCoroutine != null) StopCoroutine(_manaDrainCoroutine);
+        if (_dealDamageCoroutine != null) StopCoroutine(_dealDamageCoroutine);
         
-        foreach (GameObject weaponSlot in _playerWeaponSlots)
+        foreach (GameObject weapon in _playerWeapons)
         {
-            weaponSlot.SetActive(true);
+            weapon.SetActive(true);
         }
 
         wwCollider.enabled = false;
+        wwIndicator.SetActive(false);
         characterStats.abilityReady = false;
         characterStats.cooldownStarted = true;
+        
         
         _gameManager.StartAbilityCooldown();
         _gameManager.SetAbilityUIInactive();
@@ -155,15 +188,19 @@ public class Barbar : MonoBehaviour
         {
             if (weaponSlot.transform.childCount != 0)
             {
-                GameObject weaponPrefab = weaponSlot.transform.GetChild(0).gameObject;
-                playerWeapons.Add(weaponPrefab);
+                WeaponStats weaponStats = weaponSlot.GetComponentInChildren<WeaponStats>();
+                if (weaponStats.weaponWeaponType == WeaponStats.weaponTypeOptions.Melee)
+                {
+                    GameObject weaponPrefab = weaponSlot.transform.GetChild(0).gameObject;
+                    playerWeapons.Add(weaponPrefab);
+                }
             }
         }
 
         return playerWeapons;
     }
 
-    private Dictionary<string, float> GetCombinedWeaponStats(List<GameObject> playerWeapons)
+    private void SetAbilityWeaponStats(List<GameObject> playerWeapons)
     {
         float combinedBaseDamage = 0f;
         float combinedMeeleScaling = 0f;
@@ -171,60 +208,29 @@ public class Barbar : MonoBehaviour
         float combinedMysticScaling = 0f;
         float averageAttackSpeed = 0f;
         float combinedCritChance = 0f;
-        float combinedCritDamage = 0f;
-        
-        Dictionary<string, float> combinedDamageMap = new Dictionary<string, float>();
+        float averageCritDamage = 0f;
+
         foreach (var weapon in playerWeapons)
         {
             WeaponStats weaponStats = weapon.GetComponent<WeaponStats>();
             combinedBaseDamage += weaponStats.weaponBaseDamage;
-
+            combinedMeeleScaling += weaponStats.weaponMeeleDamageScale;
+            combinedRangedScaling += weaponStats.weaponRangedDamageScale;
+            combinedMysticScaling += weaponStats.weaponMysticDamageScale;
             averageAttackSpeed += weaponStats.weaponAttackSpeedCooldown;
             combinedCritChance += weaponStats.weaponCritChance;
-            combinedCritDamage += weaponStats.weaponCritDamage;
-            
+            averageCritDamage += weaponStats.weaponCritDamage;
         }
-        combinedDamageMap.Add("BaseDamage", combinedBaseDamage);
-        combinedDamageMap.Add("MeleeScaling", combinedMeeleScaling);
-        combinedDamageMap.Add("RangedScaling", combinedRangedScaling);
-        combinedDamageMap.Add("MysticScaling", combinedMysticScaling);
-        combinedDamageMap.Add("AttackSpeed", averageAttackSpeed);
-        combinedDamageMap.Add("CritChance", combinedCritChance);
-        combinedDamageMap.Add("CritDamage", combinedCritDamage);
         
-        return combinedDamageMap;
-    }
-    
-    private void Whirlwind(Dictionary<string, float> combinedDamageMap)
-    {
-        
-        
-    }
-
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (collider.CompareTag("Enemy"))
-        {
-            if (collider.TryGetComponent<EnemyStats>(out EnemyStats enemyStats))
-            {
-                var overallDamage = ComputeOverallDamage(_combinedDamageMap);
-                Debug.Log("Triggert");
-                float damage = overallDamage.damage;
-                bool didCrit = overallDamage.didCrit;
-                characterStats.InvokeAbilityDamage(enemyStats, damage, didCrit);
-            }
-        }
-    }
-
-    private (float damage, bool didCrit) ComputeOverallDamage(Dictionary<string, float> combinedDamageMap)
-    {
-        float damage = combinedDamageMap["BaseDamage"];
-        bool isCrit = Random.Range(0, 100) < _playerStats.playerCritChance;
-        float overallDamage = damage;
-        if (isCrit)
-        {
-            overallDamage *= 2f;
-        }
-        return (overallDamage, isCrit);
+        int numWeapons = playerWeapons.Count;
+        float averageAttackSpeedPerWeapon = averageAttackSpeed/numWeapons;
+        float finalAttackSpeed = averageAttackSpeedPerWeapon / (1 + attackSpeedBoost);
+        abilityWeaponStats.weaponBaseDamage = combinedBaseDamage;
+        abilityWeaponStats.weaponAttackSpeedCooldown = finalAttackSpeed;
+        abilityWeaponStats.weaponMeeleDamageScale = combinedMeeleScaling;
+        abilityWeaponStats.weaponRangedDamageScale = combinedRangedScaling;
+        abilityWeaponStats.weaponMysticDamageScale = combinedMysticScaling;
+        abilityWeaponStats.weaponCritChance = combinedCritChance;
+        abilityWeaponStats.weaponCritDamage = averageCritDamage/numWeapons;
     }
 }

@@ -4,13 +4,13 @@ public class ToDo
     // TODO: 
     // TODO: 
     // TODO: 
-    // TODO: geht meine range auf die mitte oder den colliderrand. Für Boss geändert, aber auch für alle Mobs?
-    // TODO: Meele Weapon/Ranged Weapon hits enemy. Static event. Singleton? Ich weiß nicht wie. Felix?
+    // TODO: geht meine range auf die mitte oder den colliderrand. Für Boss geändert, aber auch für alle Mobs? // fixed, aber vielleicht zentralisieren
+    // TODO: Meele Weapon/Ranged Weapon hits enemy. Static event. Singleton? Ich weiß nicht wie. Felix? // einfach public ohne event
     // TODO: 
     // TODO: Shop toggle
     // TODO: lvl up fertig machen / reroll kosten
-    // TODO: sprite größen
-    // TODO: zweiter char
+    // TODO: 
+    // TODO: 
     // TODO: mit zweitem char animation???????????????!!!!!!!!!!!!!!
     // TODO: boss ist arsch
     // TODO: meelewaffe range
@@ -21,9 +21,9 @@ public class ToDo
     // TODO: character selection Texte auto machen
     // TODO: schauen wie range berechnet und addiert wird
     // TODO: Bei Augment im Stat Panel bei mutate Augments Reihenfolge rip
-    // TODO: in der Schadensberechnung, ist da waffen crit chance mit drin?
-    // TODO:
-    // TODO:
+    // TODO: 
+    // TODO: Bei Rechnungen /100 immer ein f hinzufügen 100f
+    // TODO: Rundungen in den stats
     // TODO:
     // TODO:
     // TODO:

@@ -5,7 +5,9 @@ using Random = UnityEngine.Random;
 
 public class PopUpDamage : MonoBehaviour
 {
+    [SerializeField] private Transform playerTransform;
     [SerializeField] private PlayerDealsDamage playerDealsDamage;
+    [SerializeField] private PlayerTakesDamage playerTakesDamage;
     [SerializeField] private GameObject popUpDmgUI;
     [SerializeField] private float popUpTimer;
     [SerializeField] private float popUpFadeTimer;
@@ -21,37 +23,51 @@ public class PopUpDamage : MonoBehaviour
 
     private void OnEnable()
     {
-        playerDealsDamage.OnInstantiatePopUpDamageUI += InstantiatePopUpDamage;
+        playerDealsDamage.OnInstantiatePopUpDamageUI += InstantiatePopUpDamageEnemy;
+        playerTakesDamage.OnPlayerTakesDamage += InstantiatePopUpDamagePlayer;
     }
 
     private void OnDisable()
     {
-        playerDealsDamage.OnInstantiatePopUpDamageUI -= InstantiatePopUpDamage;
+        playerDealsDamage.OnInstantiatePopUpDamageUI -= InstantiatePopUpDamageEnemy;
+        playerTakesDamage.OnPlayerTakesDamage -= InstantiatePopUpDamagePlayer;
     }
 
-    private void InstantiatePopUpDamage(Transform enemyTransform, float damageDealtByPlayer, bool didPlayerCrit)
+    private void InstantiatePopUpDamageEnemy(Transform enemyTransform, float damageDealtByPlayer, bool didPlayerCrit)
     {
         StartCoroutine(PopUpDamageRuntime(enemyTransform, damageDealtByPlayer, didPlayerCrit));
     }
-    
-    private IEnumerator PopUpDamageRuntime(Transform enemyTransform, float damageDealtByPlayer, bool didPlayerCrit)
+
+    private void InstantiatePopUpDamagePlayer(float damageDoneToPlayer)
     {
-        float roundedDamage = Mathf.RoundToInt(damageDealtByPlayer);
+        StartCoroutine(PopUpDamageRuntime(playerTransform, damageDoneToPlayer, false));
+    }
+    
+    private IEnumerator PopUpDamageRuntime(Transform objectTransform, float damage, bool didPlayerCrit)
+    {
+        float roundedDamage = Mathf.RoundToInt(damage);
         float randomXDir = Random.Range(popUpPositionOffsetXAxisNegativ, popUpPositionOffsetXAxisPositiv);
         float randomYDir = Random.Range(popUpPositionOffsetYAxisMin, popUpPositionOffsetYAxisMax);
-        Vector3 spawnPos = enemyTransform.position + new Vector3(randomXDir, randomYDir, 0);
+        Vector3 spawnPos = objectTransform.position + new Vector3(randomXDir, randomYDir, 0);
         GameObject newPopUpDamageUI = Instantiate(popUpDmgUI, spawnPos, Quaternion.identity);
         TextMeshPro popUpText = newPopUpDamageUI.GetComponent<TextMeshPro>();
 
-        ModifyText(popUpText, didPlayerCrit, roundedDamage);
+        ModifyText(popUpText, didPlayerCrit, roundedDamage, objectTransform);
         yield return StartCoroutine(WobblePopUp(newPopUpDamageUI));
         yield return StartCoroutine(FadeOutPopUp(popUpText));
         Destroy(newPopUpDamageUI);
     }
 
-    private void ModifyText(TextMeshPro popUpText, bool didPlayerCrit, float roundedDamage)
+    private void ModifyText(TextMeshPro popUpText, bool didPlayerCrit, float roundedDamage, Transform objectTransform)
     {
-        popUpText.color = didPlayerCrit ? Color.yellow : Color.white;
+        if (objectTransform == playerTransform)
+        {
+            popUpText.color = Color.red;
+        }
+        else
+        {
+            popUpText.color = didPlayerCrit ? Color.yellow : Color.white;
+        }
         popUpText.text = roundedDamage.ToString();
     }
 

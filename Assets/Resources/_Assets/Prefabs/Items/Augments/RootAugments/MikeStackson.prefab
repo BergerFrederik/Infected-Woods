@@ -247,5 +247,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MikeStackson
   meeleDamageGainedPerStack: 0.2
-  secondsWithoutDamageTakenRequired: 5
+  secondsWithoutDamageTakenRequired: 3
+  chanceToGainStacks: 25
   mikeStacksonStacks: 0

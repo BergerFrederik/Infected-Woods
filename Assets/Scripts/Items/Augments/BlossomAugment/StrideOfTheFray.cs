@@ -18,7 +18,7 @@ public class StrideOfTheFray : MonoBehaviour
         playerStats = this.GetComponentInParent<PlayerStats>();
         playerDealsDamage = PlayerTransform.GetComponentInChildren<PlayerDealsDamage>();
 
-        playerDealsDamage.OnPlayerHitsEnemy += AddMovespeedToPlayerStats;
+        playerDealsDamage.OnPlayerHitsEnemyWithWeapon += AddMovespeedToPlayerStats;
         GameManager.OnRoundOver += ResetStacks;
         playerStats.OnMovespeedChanged += RecalculateAttackSpeed;
 
@@ -26,15 +26,18 @@ public class StrideOfTheFray : MonoBehaviour
 
     private void OnDestroy()
     {
-        playerDealsDamage.OnPlayerHitsEnemy -= AddMovespeedToPlayerStats;
+        playerDealsDamage.OnPlayerHitsEnemyWithWeapon -= AddMovespeedToPlayerStats;
         GameManager.OnRoundOver             -= ResetStacks;
         playerStats.OnMovespeedChanged      -= RecalculateAttackSpeed;
     }
 
-    private void AddMovespeedToPlayerStats()
+    private void AddMovespeedToPlayerStats(WeaponStats weaponStats)
     {
-        strideOfTheFrayStacks++;
-        playerStats.playerMovespeed += moveSpeedGainPerStack;
+        if (weaponStats.weaponWeaponType != WeaponStats.weaponTypeOptions.Ability)
+        {
+            strideOfTheFrayStacks++;
+            playerStats.playerMovespeed += moveSpeedGainPerStack; 
+        }
     }
 
     private void RecalculateAttackSpeed()

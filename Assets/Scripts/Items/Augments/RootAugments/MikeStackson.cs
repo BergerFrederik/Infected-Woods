@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 
 public class MikeStackson : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class MikeStackson : MonoBehaviour
 
     [SerializeField] private float meeleDamageGainedPerStack;
     [SerializeField] private float secondsWithoutDamageTakenRequired;
+    [SerializeField] private float chanceToGainStacks;
 
     public float mikeStacksonStacks;
 
@@ -37,9 +40,14 @@ public class MikeStackson : MonoBehaviour
 
     private void PerformAugment(String weaponType)
     {
-        if (weaponType == "Meele")
+        if (weaponType != "Melee")
         {
-            if (Time.time - lastTimestampOfDamageTaken >= secondsWithoutDamageTakenRequired)
+            return;
+        }
+
+        if (Time.time - lastTimestampOfDamageTaken >= secondsWithoutDamageTakenRequired)
+        {
+            if (Random.Range(0, 100) < chanceToGainStacks)
             {
                 playerStats.playerMeeleDamage += meeleDamageGainedPerStack;
                 mikeStacksonStacks++;

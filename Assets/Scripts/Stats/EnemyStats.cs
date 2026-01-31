@@ -27,8 +27,8 @@ public class EnemyStats : MonoBehaviour
     private void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        enemyMaxHP += enemyHPPerWave * gameManager.currentWaveNumber;
-        enemyDamage += enemyDamagePerWave * gameManager.currentWaveNumber;
+        enemyMaxHP += enemyHPPerWave * (gameManager.currentWaveNumber - 1f);
+        enemyDamage += enemyDamagePerWave * (gameManager.currentWaveNumber - 1f);
         enemyCurrentHP = enemyMaxHP;
     }
     public void TakeDamage(float damage)
