@@ -40,6 +40,10 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private Button weaponRerollButton;
     [SerializeField] private Image[] inventoryImages;
     [SerializeField] private GameObject[] weaponObjects;
+
+    [Header("Inventory")] 
+    [SerializeField] private GameObject characterObject;
+    [SerializeField] private Image characterInventoryImage;
     
     
     private GameObject[] arrayOfChosenRandomItems;
@@ -78,6 +82,10 @@ public class ShopPanel : MonoBehaviour
                 inventoryImages[i].sprite = sprite;
             }
         }
+        GameObject chosenCharacterObject = characterObject.transform.GetChild(0).gameObject;
+        GameObject characterVisuals = chosenCharacterObject.transform.Find("CharacterVisuals").gameObject;
+        Sprite characterSprite = characterVisuals.GetComponentInChildren<SpriteRenderer>().sprite;
+        characterInventoryImage.sprite = characterSprite;
     }
 
     private void SetSpritesToItemshop()

@@ -5,28 +5,36 @@ using UnityEngine;
 
 public class MeeleAttack : MonoBehaviour
 {
+    [Header("Weapon Settings")]
     [SerializeField] private WeaponStats weaponStats;
-    [SerializeField] private float weaponRotationOffsetLeave = 0f;
-    [SerializeField] private float weaponRotationOffsetReturn = 0f;
-    private enum WeaponState
-    {
-        Idle,
-        Attacking,
-        Waiting,
-        Returning,
-        Cooldown
-    }
+    [SerializeField] private float weaponRotationOffset = 0f;
+    
+    [Header("Attack Timings (Brotato Style)")]
+    [SerializeField] private float recoilDuration = 0.1f;
+    [SerializeField] private float thrustDuration = 0.05f;
+    [SerializeField] private float returnDuration = 0.2f;
+    [SerializeField] private float postAttackWaitDelay = 0.15f;
+
+    [Header("Attack Distances")]
+    [SerializeField] private float recoilDistance = 0.5f;
+    [SerializeField] private float enemySearchRadius = 20f;
+    [SerializeField] private float returnSnapDistance = 1f;
+
+    
+    private enum WeaponState { Idle, Attacking, Cooldown }
 
     private WeaponState currentState = WeaponState.Idle;
+    
     private Transform weaponAnchorPoint;
-    private Transform playerTransform;
     private PlayerStats playerStats;
-    private Vector3 initialAttackPosition;
-    private Vector3 directionToEnemy;
     private BoxCollider2D triggerCollider;
 
-    private float attackCooldown;
-    private float cooldownStarttime;
+    private float lastAttackTime;
+
+    private void Awake()
+    {
+        triggerCollider = this.gameObject.GetComponent<BoxCollider2D>();
+    }
 
     private void OnEnable()
     {
@@ -36,15 +44,18 @@ public class MeeleAttack : MonoBehaviour
     private void OnDisable()
     {
         ResetWeaponPosition();
-        Debug.Log("reset");
     }
 
     private void Start()
     {
         weaponAnchorPoint = transform.parent;
-        triggerCollider = GetComponent<BoxCollider2D>();
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        playerStats = playerTransform.GetComponent<PlayerStats>();
+        
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            playerStats = player.GetComponent<PlayerStats>();
+        }
+        
         GameManager.OnRoundOver += ResetWeaponPosition;
     }
 
@@ -55,129 +66,109 @@ public class MeeleAttack : MonoBehaviour
 
     private void Update()
     {
-        UpdateCooldown();
-        if (currentState == WeaponState.Idle || currentState == WeaponState.Cooldown)
+        if (currentState == WeaponState.Idle)
         {
             PointWeaponAtEnemy();
-        }
-        switch (currentState)
-        {
-            case WeaponState.Idle:
-                if (Time.time - cooldownStarttime >= attackCooldown)
-                {
-                    SearchForEnemyAndAttack();                    
-                }
-                break;
-            case WeaponState.Attacking:
-                MoveToTargetPosition();
-                break;
-            case WeaponState.Waiting:
-                break;
-            case WeaponState.Returning:
-                ReturnToPlayer();
-                break;
-            case WeaponState.Cooldown:
-                break;
-        }
-    }
-
-    private void UpdateCooldown()
-    {
-        float playerAttackSpeed = playerStats.playerAttackSpeed / 100;
-        float weaponAttackSpeedCooldown = weaponStats.weaponAttackSpeedCooldown;
-        attackCooldown = weaponAttackSpeedCooldown / (1f + playerAttackSpeed);
-    }
-    private void SearchForEnemyAndAttack()
-    {
-        Transform closestEnemy = FindClosestEnemy();
-
-        if (closestEnemy != null)
-        {
-            Collider2D enemyCollider = closestEnemy.GetComponent<Collider2D>();
-            Vector2 closestPointOnEdge = enemyCollider.ClosestPoint(transform.position);
-            float distanceToEdge = Vector2.Distance(transform.position, closestPointOnEdge);
-            float attackRange = weaponStats.weaponRange +
-                                weaponStats.weaponRange * (playerStats.playerAttackRange / 100);
-
-            if (distanceToEdge <= attackRange)
+            
+            float attackCooldown = weaponStats.weaponAttackSpeedCooldown / (1f + playerStats.playerAttackSpeed / 100f);
+            
+            if (Time.time - lastAttackTime >= attackCooldown)
             {
-                currentState = WeaponState.Attacking;
-                initialAttackPosition = transform.position;
-                directionToEnemy = (closestEnemy.position - transform.position);
+                CheckForAttack();
             }
         }
     }
-
-    private void MoveToTargetPosition()
+    
+    private void CheckForAttack()
     {
-        triggerCollider.enabled = true;
-        float projectileSpeed = weaponStats.weaponProjectileSpeed;        
-        float weaponRange = weaponStats.weaponRange + weaponStats.weaponRange * (playerStats.playerAttackRange / 100); 
-        Vector3 travelDirection = directionToEnemy;
-        transform.position += travelDirection.normalized * projectileSpeed * Time.deltaTime;
-        float distanceTraveled = Vector2.Distance(initialAttackPosition, transform.position);
-        if (distanceTraveled >= weaponRange)
+        Transform target = FindClosestEnemy();
+        if (target == null) return;
+        
+        float currentRange = weaponStats.weaponRange * (1f + playerStats.playerAttackRange / 100f);
+        
+        if (Vector2.Distance(transform.position, target.position) <= currentRange)
         {
-            triggerCollider.enabled = false;
-            StartCoroutine(ReturnAfterDelay());
+            StartCoroutine(ThrustAttackRoutine(target.position, currentRange));
         }
     }
-
-    private IEnumerator ReturnAfterDelay()
+    
+    
+    private IEnumerator ThrustAttackRoutine(Vector3 targetPos, float range)
     {
-        currentState = WeaponState.Waiting;
-        float attackDelay = 0.15f;
-        yield return new WaitForSeconds(attackDelay);
-        currentState = WeaponState.Returning;
-    }
+        currentState = WeaponState.Attacking;
+        
+        // Richtung beim Start des Angriffs fixieren
+        Vector3 attackDir = (targetPos - transform.position).normalized;
+        Vector3 startLocalPos = Vector3.zero;
 
-    private void ReturnToPlayer()
-    {
-        float projectileSpeed = weaponStats.weaponProjectileSpeed;
-        Vector3 targetPosition = weaponAnchorPoint.position;
-        Vector3 targetDirection = (targetPosition - transform.position).normalized;
-        transform.position += targetDirection * projectileSpeed * Time.deltaTime;
-
-        float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg + weaponRotationOffsetReturn;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-
-        if (Vector3.Distance(transform.position, targetPosition) < 1f)
+        // --- PHASE 1: RECOIL (Ausholen) ---
+        float elapsed = 0;
+        Vector3 recoilPos = startLocalPos - attackDir * recoilDistance;
+        while (elapsed < recoilDuration)
         {
-            transform.localPosition = new Vector3(0, 0, 0);
-            cooldownStarttime = Time.time;
-            currentState = WeaponState.Idle;
-        }           
+            transform.localPosition = Vector3.Lerp(startLocalPos, recoilPos, elapsed / recoilDuration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // --- PHASE 2: THRUST (Zustoßen) ---
+
+        triggerCollider.enabled = true; 
+        elapsed = 0;
+        Vector3 targetLocalPos = startLocalPos + attackDir * range;
+        while (elapsed < thrustDuration)
+        {
+            transform.localPosition = Vector3.Lerp(recoilPos, targetLocalPos, elapsed / thrustDuration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        transform.localPosition = targetLocalPos;
+
+        // --- PHASE 3: WAIT (Kurzes Verweilen am Zielpunkt) ---
+        yield return new WaitForSeconds(postAttackWaitDelay);
+
+        // --- PHASE 4: RETURN (Zurückkehren) ---
+        triggerCollider.enabled = false; 
+        elapsed = 0;
+        while (elapsed < returnDuration)
+        {
+            transform.localPosition = Vector3.Lerp(targetLocalPos, startLocalPos, elapsed / returnDuration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Abschluss
+        transform.localPosition = startLocalPos;
+        lastAttackTime = Time.time;
+        currentState = WeaponState.Idle;
     }
 
     private void PointWeaponAtEnemy()
     {
-        Transform closestEnemy = FindClosestEnemy();
-        if (closestEnemy != null)
+        Transform target = FindClosestEnemy();
+        if (target != null)
         {
-            Vector3 directionToEnemy = closestEnemy.position - transform.position;
-            float angle = Mathf.Atan2(directionToEnemy.y, directionToEnemy.x) * Mathf.Rad2Deg + weaponRotationOffsetLeave;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
+            Vector3 dir = target.position - transform.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + weaponRotationOffset;
+            transform.rotation = Quaternion.Euler(0, 0, angle + weaponRotationOffset);
         }
     }
 
     private Transform FindClosestEnemy()
     {
-        float searchRadius = 200;
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, searchRadius);
-        float closestDistance = Mathf.Infinity;
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, enemySearchRadius);
         Transform closestEnemy = null;
-        foreach (Collider2D collider in colliders)
+        float closestDistance = Mathf.Infinity;
+
+        foreach (var collider in colliders)
         {
-            if (collider.gameObject == this.gameObject) continue;
             if (collider.CompareTag("Enemy"))
             {
-                Vector2 closestPoint = collider.ClosestPoint(transform.position);
-                float distanceToEdge = Vector2.Distance(transform.position, closestPoint);
-                
-                if (distanceToEdge < closestDistance)
-                {
-                    closestDistance = distanceToEdge;
-                    closestEnemy = collider.transform;
+                float distanceToEnemy = Vector2.Distance(transform.position, collider.transform.position);
+                if (distanceToEnemy < closestDistance) 
+                { 
+                    closestDistance = distanceToEnemy; 
+                    closestEnemy = collider.transform; 
                 }
             }
         }
@@ -186,7 +177,9 @@ public class MeeleAttack : MonoBehaviour
 
     private void ResetWeaponPosition()
     {
-        transform.localPosition = new Vector3(0, 0, 0);
+        StopAllCoroutines();
+        transform.localPosition = Vector3.zero;
+        triggerCollider.enabled = false;
         currentState = WeaponState.Idle;
     }
 }

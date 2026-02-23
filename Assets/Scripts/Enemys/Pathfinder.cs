@@ -59,12 +59,14 @@ public class Pathfinder : MonoBehaviour
 
     public Vector2 CalculateEnemyMovementVector()
     {
-        // Vektor von Gegner zu Spieler
+        if (player == null)
+        {
+            return Vector2.zero;
+        }
+        
         Vector2 playerPosition = player.transform.position;
         Vector2 enemyPosition = transform.position;
         Vector2 moveDirTowardsPlayer = playerPosition - enemyPosition;
-
-        // Closest Gegner Finden
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, searchRadius);
         float closestDistance = Mathf.Infinity;

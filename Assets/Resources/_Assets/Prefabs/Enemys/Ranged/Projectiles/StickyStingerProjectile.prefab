@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 7753162578876731767}
   - component: {fileID: 2807607891196704069}
   m_Layer: 0
-  m_Name: Reroll_Sprite_0
+  m_Name: SpriteRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

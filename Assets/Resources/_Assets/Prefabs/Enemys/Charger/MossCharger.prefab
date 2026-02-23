@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9116756552876527678}
   - component: {fileID: 2476968895397184443}
   m_Layer: 0
-  m_Name: MossCharger_Sprite_0
+  m_Name: SpriteRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,8 +76,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -354789647
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: -5233803398061153503, guid: c76202bf4f6ca2d418d963f0afa5671b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -142,7 +142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b41ea03a7d4085418b31c5dd8c71f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpDamage: {fileID: 7641374547317203947, guid: 70bd5822b7767c141be7c729baa81b7a, type: 3}
   lastWeaponHit: 
 --- !u!50 &7032754371515850491
 Rigidbody2D:
@@ -185,11 +184,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyIsHitByPlayer: {fileID: 5496535399776737029}
   enemyCurrentHP: 0
-  enemyMaxHP: 20
-  enemyHPPerWave: 11
-  enemyDamage: 2
+  enemyMaxHP: 4
+  enemyHPPerWave: 2.5
+  enemyDamage: 1
   enemyDamagePerWave: 0.85
-  enemyMoveSpeed: 3
+  enemyMoveSpeed: 4
   enemyKnockbackResistance: 0.9
   enemyLightDropped: 3
   enemyXPGainOnKill: 20

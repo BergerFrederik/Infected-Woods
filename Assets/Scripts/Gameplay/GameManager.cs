@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameInput gameInput;
     [SerializeField] private GameObject PausePanel;
     [SerializeField] private CharacterSelection _characterSelection;
+    [SerializeField] private WaveManager waveManager;
 
     private bool isAugmentShopOpen = true;
     private bool isWaveActive;
@@ -186,13 +187,13 @@ public class GameManager : MonoBehaviour
     {
         playerStats.playerCurrentHP = playerStats.playerMaxHP;
         playerStats.playerCurrentMP = playerStats.playerMaxMP;
-        GameObject enemySpawner = GameObject.FindGameObjectWithTag("Spawner");
-        Transform enemySpawnerTransform = enemySpawner.transform;
-        CurrentWaveObject = enemySpawnerTransform.GetChild(0).gameObject;
+        
+        remainingTime = waveManager.currentWave.waveDuration;
+        Debug.Log(remainingTime);
+        waveManager.StartWave();
+        
         HandlePlayerWhileShop(true);
         Time.timeScale = 1f;
-        waveStats = CurrentWaveObject.GetComponent<WaveStats>();
-        remainingTime = waveStats.waveDuration;
         isWaveActive = true;
     }
 
