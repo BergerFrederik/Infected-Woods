@@ -11,7 +11,7 @@ public class Pathfinder : MonoBehaviour
     [SerializeField] private float maxCurrentWeight = 0f;
     [SerializeField] private Transform enemyTransform;
     [SerializeField] private float enemyRadius = 0f;
-    [SerializeField] private Transform enemyVisuals;
+    [SerializeField] private Transform visualFlipAnchor;
 
     private GameObject player;
     private GameObject gameManager;
@@ -52,7 +52,7 @@ public class Pathfinder : MonoBehaviour
         }
         else
         {
-            Vector3 currentScale = enemyVisuals.localScale;
+            Vector3 currentScale = visualFlipAnchor.localScale;
             SetSpriteDirection(CalculateEnemyMovementVector(), currentScale);
         }
     }
@@ -153,7 +153,7 @@ public class Pathfinder : MonoBehaviour
         {
             currentScale.x *= -1;
         }
-        enemyVisuals.localScale = currentScale;
+        visualFlipAnchor.localScale = currentScale;
     }
 
     private void LateUpdate()
