@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -9,7 +8,7 @@ public class MeeleAttack : MonoBehaviour
     [SerializeField] private WeaponStats weaponStats;
     [SerializeField] private float weaponRotationOffset = 0f;
     
-    [Header("Attack Timings (Brotato Style)")]
+    [Header("Attack Timings")]
     [SerializeField] private float recoilDuration = 0.1f;
     [SerializeField] private float thrustDuration = 0.05f;
     [SerializeField] private float returnDuration = 0.2f;
@@ -18,14 +17,12 @@ public class MeeleAttack : MonoBehaviour
     [Header("Attack Distances")]
     [SerializeField] private float recoilDistance = 0.5f;
     [SerializeField] private float enemySearchRadius = 20f;
-    [SerializeField] private float returnSnapDistance = 1f;
 
     
-    private enum WeaponState { Idle, Attacking, Cooldown }
+    private enum WeaponState { Idle, Attacking }
 
     private WeaponState currentState = WeaponState.Idle;
     
-    private Transform weaponAnchorPoint;
     private PlayerStats playerStats;
     private BoxCollider2D triggerCollider;
 
@@ -48,8 +45,6 @@ public class MeeleAttack : MonoBehaviour
 
     private void Start()
     {
-        weaponAnchorPoint = transform.parent;
-        
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
@@ -68,27 +63,27 @@ public class MeeleAttack : MonoBehaviour
     {
         if (currentState == WeaponState.Idle)
         {
-            PointWeaponAtEnemy();
+            Transform closestEnemy = FindClosestEnemy();
+            PointWeaponAtEnemy(closestEnemy);
             
             float attackCooldown = weaponStats.weaponAttackSpeedCooldown / (1f + playerStats.playerAttackSpeed / 100f);
             
             if (Time.time - lastAttackTime >= attackCooldown)
             {
-                CheckForAttack();
+                CheckForAttack(closestEnemy);
             }
         }
     }
     
-    private void CheckForAttack()
+    private void CheckForAttack(Transform closestEnemy)
     {
-        Transform target = FindClosestEnemy();
-        if (target == null) return;
+        if (closestEnemy == null) return;
         
         float currentRange = weaponStats.weaponRange * (1f + playerStats.playerAttackRange / 100f);
         
-        if (Vector2.Distance(transform.position, target.position) <= currentRange)
+        if (Vector2.Distance(transform.position, closestEnemy.position) <= currentRange)
         {
-            StartCoroutine(ThrustAttackRoutine(target.position, currentRange));
+            StartCoroutine(ThrustAttackRoutine(closestEnemy.position, currentRange));
         }
     }
     
@@ -143,13 +138,12 @@ public class MeeleAttack : MonoBehaviour
         currentState = WeaponState.Idle;
     }
 
-    private void PointWeaponAtEnemy()
+    private void PointWeaponAtEnemy(Transform closestEnemy)
     {
-        Transform target = FindClosestEnemy();
-        if (target != null)
+        if (closestEnemy != null)
         {
-            Vector3 dir = target.position - transform.position;
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + weaponRotationOffset;
+            Vector3 dir = closestEnemy.position - transform.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, angle + weaponRotationOffset);
         }
     }

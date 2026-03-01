@@ -18,7 +18,7 @@ MonoBehaviour:
   spawnRadius: 20
   waveUnitsData:
   - enemyPrefab: {fileID: 7522017478837502192, guid: 78ea686c7896bb64ab918243cc6b94f3, type: 3}
-    minNumber: 3
-    maxNumber: 4
+    minNumber: 4
+    maxNumber: 5
   isBoss: 0
   isHorde: 0

@@ -1,10 +1,34 @@
 fileFormatVersion: 2
-guid: 3a7ae168ba862c344bf9a7ae308d9548
+guid: 7bae505bf10cd674180d7cfd9219d83d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7070912062570777588
-    second: SpawnBlob_Sprite_0
+      213: 1325941233044960626
+    second: SpawnBlobAufgeplatzt_Sprite_0
+  - first:
+      213: 672815882981947427
+    second: SpawnBlobAufgeplatzt_Sprite_1
+  - first:
+      213: 1059368131147472227
+    second: SpawnBlobAufgeplatzt_Sprite_2
+  - first:
+      213: 2798033367714492036
+    second: SpawnBlobAufgeplatzt_Sprite_3
+  - first:
+      213: -6005268451123730137
+    second: SpawnBlobAufgeplatzt_Sprite_4
+  - first:
+      213: 5337989337633881368
+    second: SpawnBlobAufgeplatzt_Sprite_5
+  - first:
+      213: -5609147950380643901
+    second: SpawnBlobAufgeplatzt_Sprite_6
+  - first:
+      213: 2052651044343944757
+    second: SpawnBlobAufgeplatzt_Sprite_7
+  - first:
+      213: 2955236369034096377
+    second: SpawnBlobAufgeplatzt_Sprite_8
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +124,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SpawnBlob_Sprite_0
+      name: SpawnBlobAufgeplatzt_Sprite_4
       rect:
         serializedVersion: 2
-        x: 243
-        y: 370
-        width: 538
-        height: 366
+        x: 194
+        y: 96
+        width: 690
+        height: 862
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c04b17041f21fdd90800000000000000
-      internalID: -7070912062570777588
+      spriteID: 729e8e5392009aca0800000000000000
+      internalID: -6005268451123730137
       vertices: []
       indices: 
       edges: []
@@ -125,7 +149,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f2c59384d605416429cc85c894293bc1
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +159,15 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      SpawnBlob_Sprite_0: -7070912062570777588
+      SpawnBlobAufgeplatzt_Sprite_0: 1325941233044960626
+      SpawnBlobAufgeplatzt_Sprite_1: 672815882981947427
+      SpawnBlobAufgeplatzt_Sprite_2: 1059368131147472227
+      SpawnBlobAufgeplatzt_Sprite_3: 2798033367714492036
+      SpawnBlobAufgeplatzt_Sprite_4: -6005268451123730137
+      SpawnBlobAufgeplatzt_Sprite_5: 5337989337633881368
+      SpawnBlobAufgeplatzt_Sprite_6: -5609147950380643901
+      SpawnBlobAufgeplatzt_Sprite_7: 2052651044343944757
+      SpawnBlobAufgeplatzt_Sprite_8: 2955236369034096377
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
