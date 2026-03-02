@@ -11484,7 +11484,7 @@ MonoBehaviour:
   playerAbilityDuration: 0
   playerLevelsGained: 0
   playerBasePickupRange: 2
-  playerBaseMovespeed: 5
+  playerBaseMovespeed: 6
   playerBaseXP: 100
 --- !u!70 &663990829
 CapsuleCollider2D:
@@ -20537,7 +20537,7 @@ MonoBehaviour:
   gameInput: {fileID: 1223334015}
   PausePanel: {fileID: 571574824}
   _characterSelection: {fileID: 293783756}
-  waveManager: {fileID: 1816767105}
+  waveManager: {fileID: 2101960062}
   currentWaveNumber: 0
   mapSize:
     m_Center: {x: 0, y: 0, z: 0}
@@ -28129,52 +28129,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1814008655}
   m_CullTransparentMesh: 1
---- !u!1 &1816767104
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1816767106}
-  - component: {fileID: 1816767105}
-  m_Layer: 0
-  m_Name: WaveManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1816767105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1816767104}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69b454519cebc1c4fb33de9b675aa588, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WaveManager
-  currentWave: {fileID: 11400000, guid: ead9655e57996cd4fa86b06ad97c5dad, type: 2}
-  entitySpawner: {fileID: 2101960061}
---- !u!4 &1816767106
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1816767104}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1819596188
 GameObject:
   m_ObjectHideFlags: 0
@@ -31358,6 +31312,7 @@ GameObject:
   - component: {fileID: 2101960059}
   - component: {fileID: 2101960060}
   - component: {fileID: 2101960061}
+  - component: {fileID: 2101960062}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Spawner
@@ -31397,7 +31352,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4d9e81eab46fd1d4bacd137a9a322228, type: 2}
   - {fileID: 11400000, guid: a1841133d7a7e054d921823f27de039c, type: 2}
   - {fileID: 11400000, guid: 4f180426ef1493f46b3727230bd29f8a, type: 2}
-  waveManager: {fileID: 1816767105}
+  waveManager: {fileID: 2101960062}
 --- !u!114 &2101960061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31412,11 +31367,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EntitySpawner
   entityBirthPrefab: {fileID: 7722597048738164697, guid: 4deff3018a62e514b8d5645caabe1970, type: 3}
   spawnDelay: 0.05
-  initialMinDistFromPlayer: 4
+  initialMinDistFromPlayer: 0
   gameManager: {fileID: 1221680500}
   playerTransform: {fileID: 663990824}
-  minGroupDist: 4
-  maxGroupDist: 8
+  minGroupDist: 1
+  maxGroupDist: 2
+--- !u!114 &2101960062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101960058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69b454519cebc1c4fb33de9b675aa588, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveManager
+  currentWave: {fileID: 0}
+  entitySpawner: {fileID: 2101960061}
 --- !u!1 &2107933434
 GameObject:
   m_ObjectHideFlags: 0
@@ -32058,6 +32027,5 @@ SceneRoots:
   - {fileID: 2101960059}
   - {fileID: 1223334016}
   - {fileID: 1221680501}
-  - {fileID: 1816767106}
   - {fileID: 257752096}
   - {fileID: 1125227182}

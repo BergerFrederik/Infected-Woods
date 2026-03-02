@@ -293,7 +293,7 @@ GameObject:
   - component: {fileID: 5233259511423149566}
   - component: {fileID: 3106115539045982795}
   m_Layer: 0
-  m_Name: Barbar_0
+  m_Name: SpriteRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

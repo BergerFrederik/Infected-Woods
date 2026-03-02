@@ -67,7 +67,7 @@ public class Ranged : MonoBehaviour
             Collider2D enemyCollider = closestEnemy.GetComponent<Collider2D>();
             Vector2 closestPointOnEdge = enemyCollider.ClosestPoint(transform.position);
             float distanceToEdge = Vector2.Distance(transform.position, closestPointOnEdge);
-            float attackRange = weaponStats.weaponRange + weaponStats.weaponRange * (PlayerTransform.GetComponent<PlayerStats>().playerAttackRange / 100);
+            float attackRange = weaponStats.weaponRange + weaponStats.weaponRange * (PlayerTransform.GetComponent<PlayerStats>().playerAttackRange / 100f);
             if (distanceToEdge <= attackRange)
             {           
                 directionToEnemy = (closestEnemy.position - transform.position);

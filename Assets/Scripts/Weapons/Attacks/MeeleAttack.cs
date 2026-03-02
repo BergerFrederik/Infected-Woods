@@ -78,13 +78,13 @@ public class MeeleAttack : MonoBehaviour
     private void CheckForAttack(Transform closestEnemy)
     {
         if (closestEnemy == null) return;
-        
-        
-        float currentRange = weaponStats.weaponRange * (1f + playerStats.playerAttackRange / 100f);
-        
-        if (Vector2.Distance(transform.position, closestEnemy.position) <= currentRange)
+        Collider2D enemyCollider = closestEnemy.GetComponent<Collider2D>();
+        Vector2 closestPointOnEdge = enemyCollider.ClosestPoint(transform.position);
+        float distanceToEdge = Vector2.Distance(transform.position, closestPointOnEdge);
+        float attackRange = weaponStats.weaponRange + weaponStats.weaponRange * (playerStats.playerAttackRange / 100f);
+        if (distanceToEdge <= attackRange)
         {
-            StartCoroutine(ThrustAttackRoutine(closestEnemy.position, currentRange));
+            StartCoroutine(ThrustAttackRoutine(closestEnemy.position, attackRange));
         }
     }
     
@@ -94,32 +94,36 @@ public class MeeleAttack : MonoBehaviour
         currentState = WeaponState.Attacking;
         
         // Richtung beim Start des Angriffs fixieren
-        Vector3 attackDir = (targetPos - transform.position).normalized;
-        Vector3 startLocalPos = Vector3.zero;
+        
+        Vector3 worldStartPos = transform.position;
+        Vector3 attackDir = (targetPos - worldStartPos).normalized;
+        
+        Vector3 worldRecoilPos = worldStartPos - attackDir * recoilDistance;
+        Vector3 worldTargetPos = worldStartPos + attackDir * range;
 
         // --- PHASE 1: RECOIL (Ausholen) ---
         float elapsed = 0;
-        Vector3 recoilPos = startLocalPos - attackDir * recoilDistance;
         while (elapsed < recoilDuration)
         {
-            transform.localPosition = Vector3.Lerp(startLocalPos, recoilPos, elapsed / recoilDuration);
+            transform.position = Vector3.Lerp(worldStartPos, worldRecoilPos, elapsed / recoilDuration);
             elapsed += Time.deltaTime;
             yield return null;
         }
-
+        transform.position = worldRecoilPos;
+        
         // --- PHASE 2: THRUST (Zustoßen) ---
 
         triggerCollider.enabled = true; 
         elapsed = 0;
-        Vector3 targetLocalPos = startLocalPos + attackDir * range;
-        float thrustDuration = Vector3.Distance(targetLocalPos, recoilPos) / attackSpeedUnit;
+        
+        float thrustDuration = Vector3.Distance(worldTargetPos, worldRecoilPos) / attackSpeedUnit;
         while (elapsed < thrustDuration)
         {
-            transform.localPosition = Vector3.Lerp(recoilPos, targetLocalPos, elapsed / thrustDuration);
+            transform.position = Vector3.Lerp(worldRecoilPos, worldTargetPos, elapsed / thrustDuration);
             elapsed += Time.deltaTime;
             yield return null;
         }
-        transform.localPosition = targetLocalPos;
+        transform.position = worldTargetPos;
 
         // --- PHASE 3: WAIT (Kurzes Verweilen am Zielpunkt) ---
         yield return new WaitForSeconds(postAttackWaitDelay);
@@ -127,16 +131,19 @@ public class MeeleAttack : MonoBehaviour
         // --- PHASE 4: RETURN (Zurückkehren) ---
         triggerCollider.enabled = false; 
         elapsed = 0;
-        float returnDuration = Vector3.Distance(transform.position, startLocalPos) / returnSpeedUnit;
+        
+        Vector3 positionAtReturnStart = transform.position;
+        float returnDuration = Vector3.Distance(positionAtReturnStart, transform.parent.position) / returnSpeedUnit;
+        
         while (elapsed < returnDuration)
         {
-            transform.localPosition = Vector3.Lerp(targetLocalPos, startLocalPos, elapsed / returnDuration);
+            transform.position = Vector3.Lerp(positionAtReturnStart, transform.parent.position, elapsed / returnDuration);
             elapsed += Time.deltaTime;
             yield return null;
         }
 
         // Abschluss
-        transform.localPosition = startLocalPos;
+        transform.localPosition = Vector3.zero;
         lastAttackTime = Time.time;
         currentState = WeaponState.Idle;
     }
