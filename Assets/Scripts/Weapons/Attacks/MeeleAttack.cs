@@ -10,8 +10,8 @@ public class MeeleAttack : MonoBehaviour
     
     [Header("Attack Timings")]
     [SerializeField] private float recoilDuration = 0.1f;
-    [SerializeField] private float thrustDuration = 0.05f;
-    [SerializeField] private float returnDuration = 0.2f;
+    [SerializeField] private float attackSpeedUnit = 10f; 
+    [SerializeField] private float returnSpeedUnit = 5f;
     [SerializeField] private float postAttackWaitDelay = 0.15f;
 
     [Header("Attack Distances")]
@@ -24,13 +24,13 @@ public class MeeleAttack : MonoBehaviour
     private WeaponState currentState = WeaponState.Idle;
     
     private PlayerStats playerStats;
-    private BoxCollider2D triggerCollider;
+    private Collider2D triggerCollider;
 
     private float lastAttackTime;
 
     private void Awake()
     {
-        triggerCollider = this.gameObject.GetComponent<BoxCollider2D>();
+        triggerCollider = this.gameObject.GetComponent<Collider2D>();
     }
 
     private void OnEnable()
@@ -79,6 +79,7 @@ public class MeeleAttack : MonoBehaviour
     {
         if (closestEnemy == null) return;
         
+        
         float currentRange = weaponStats.weaponRange * (1f + playerStats.playerAttackRange / 100f);
         
         if (Vector2.Distance(transform.position, closestEnemy.position) <= currentRange)
@@ -111,6 +112,7 @@ public class MeeleAttack : MonoBehaviour
         triggerCollider.enabled = true; 
         elapsed = 0;
         Vector3 targetLocalPos = startLocalPos + attackDir * range;
+        float thrustDuration = Vector3.Distance(targetLocalPos, recoilPos) / attackSpeedUnit;
         while (elapsed < thrustDuration)
         {
             transform.localPosition = Vector3.Lerp(recoilPos, targetLocalPos, elapsed / thrustDuration);
@@ -125,6 +127,7 @@ public class MeeleAttack : MonoBehaviour
         // --- PHASE 4: RETURN (Zurückkehren) ---
         triggerCollider.enabled = false; 
         elapsed = 0;
+        float returnDuration = Vector3.Distance(transform.position, startLocalPos) / returnSpeedUnit;
         while (elapsed < returnDuration)
         {
             transform.localPosition = Vector3.Lerp(targetLocalPos, startLocalPos, elapsed / returnDuration);

@@ -31416,7 +31416,7 @@ MonoBehaviour:
   gameManager: {fileID: 1221680500}
   playerTransform: {fileID: 663990824}
   minGroupDist: 4
-  maxGroupDist: 10
+  maxGroupDist: 8
 --- !u!1 &2107933434
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,7 +31,6 @@ public class WaveManager : MonoBehaviour
 
     private IEnumerator SpawnGroupRoutine(WaveGroupData group)
     {
-        // 1. Warte auf den ersten Einsatz der Gruppe
         yield return new WaitForSeconds(group.spawnTiming);
 
         int spawnsPerformed = 0;

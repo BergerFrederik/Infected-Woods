@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3044386558665927546}
   - component: {fileID: 2923472048008297227}
   - component: {fileID: 1869917964682256196}
-  - component: {fileID: 8555612650839277727}
   - component: {fileID: 3107034620220399251}
   - component: {fileID: 5620509450126988290}
+  - component: {fileID: 610181231554656219}
   m_Layer: 6
   m_Name: Illuminator
   m_TagString: MeeleWeapon
@@ -63,7 +63,7 @@ MonoBehaviour:
   weaponAttackSpeedCooldown: 1.01
   weaponCritChance: 20
   weaponCritDamage: 2.5
-  weaponRange: 2
+  weaponRange: 2.6
   weaponKnockback: 2
   weaponLifesteal: 0
   weaponPrice: 15
@@ -84,16 +84,54 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponStats: {fileID: 2923472048008297227}
-  weaponRotationOffset: 245
+  weaponRotationOffset: 130
   recoilDuration: 0.1
-  thrustDuration: 0.05
-  returnDuration: 0.2
+  attackSpeedUnit: 40
+  returnSpeedUnit: 35
   postAttackWaitDelay: 0.15
   recoilDistance: 0.5
   enemySearchRadius: 20
-  returnSnapDistance: 1
---- !u!61 &8555612650839277727
-BoxCollider2D:
+--- !u!114 &3107034620220399251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2679728442328743979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc0ae1bbc14a8e746bb75bdbb0e6ae15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponHitsEnemy
+--- !u!50 &5620509450126988290
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2679728442328743979}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!60 &610181231554656219
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -136,47 +174,14 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.93, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &3107034620220399251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2679728442328743979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc0ae1bbc14a8e746bb75bdbb0e6ae15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponHitsEnemy
---- !u!50 &5620509450126988290
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2679728442328743979}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 1
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 0
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.00557214, y: 0.18646932}
+      - {x: -0.5052864, y: -0.35406616}
+      - {x: -0.9551737, y: -1.1111684}
+      - {x: -0.6963576, y: -1.0630987}
+      - {x: 0.18210292, y: -0.09217608}
+  m_UseDelaunayMesh: 0
 --- !u!1 &5340006489510552725
 GameObject:
   m_ObjectHideFlags: 0
