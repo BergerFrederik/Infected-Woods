@@ -12,10 +12,11 @@ public class EntitySpawner : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameManager gameManager;
     [SerializeField] private Transform playerTransform;
+    [SerializeField] private WaveManager waveManager;
     
     [Header("Spawn Distances")]
-    [SerializeField] private float minGroupDist = 8f;
-    [SerializeField] private float maxGroupDist = 13f;
+    [SerializeField] private float minGroupDist = 10f;
+    [SerializeField] private float maxGroupDist = 15f;
 
     private List<GameObject> activeEnemies = new List<GameObject>();
     private List<SpawnRequest> queueToSpawn = new List<SpawnRequest>();
@@ -32,25 +33,35 @@ public class EntitySpawner : MonoBehaviour
         StartCoroutine(ProcessQueueLoop());
     }
 
-    // Entspricht on_group_spawn_timing_reached
     public void AddGroupToQueue(WaveGroupData group)
     {
         if (_isCleaningUp) return;
 
-        // 1. Gruppen-Zentrum bestimmen (wie get_group_pos)
+        // 1. Check: Haben wir das Limit aus WaveData bereits erreicht?
+        // Wir zählen aktive Gegner + die, die bereits in der Warteschlange stehen.
+        int currentTotal = activeEnemies.Count + queueToSpawn.Count;
+        int limit = (waveManager.currentWave != null) ? waveManager.currentWave.maxEnemies : 100;
+
+        if (currentTotal >= limit) return;
+
         Vector2 groupCenter = CalculateGroupCenter(group);
 
-        // 2. Einheiten der Gruppe verarbeiten
         foreach (var unit in group.waveUnitsData)
         {
-            int count = Random.Range(unit.minNumber, unit.maxNumber + 1);
+            if (Random.Range(0f, 1f) > unit.spawnChance) continue;
+
+            int count = Random.Range((int)unit.minNumber, (int)unit.maxNumber + 1);
+            
             for (int i = 0; i < count; i++)
             {
-                // Nutzt jetzt deinen neuen spawnRadius!
-                Vector2 spawnPos = CalculateValidSpawnPos(groupCenter, group);
+                // Zweiter Check innerhalb der Schleife, falls die Gruppe das Limit sprengt
+                if (activeEnemies.Count + queueToSpawn.Count >= limit) break;
+
+                // Wir übergeben jetzt auch die unit-Daten für den individuellen Distanz-Check
+                Vector2 spawnPos = CalculateValidSpawnPos(groupCenter, group, unit);
                 
                 queueToSpawn.Add(new SpawnRequest { 
-                    prefab = unit.enemyPrefab, 
+                    prefab = unit.enemyUnit, 
                     position = spawnPos 
                 });
             }
@@ -59,47 +70,74 @@ public class EntitySpawner : MonoBehaviour
 
     private Vector2 CalculateGroupCenter(WaveGroupData group)
     {
+        if (group.spawnEdgeOfMap) return playerTransform.position;
+
         Vector2 randomDir = Random.insideUnitCircle.normalized;
         float randomDistance = Random.Range(minGroupDist, maxGroupDist);
     
-        Vector2 pos = (Vector2)playerTransform.position + randomDir * randomDistance;
-        return pos;;
+        return (Vector2)playerTransform.position + randomDir * randomDistance;
     }
 
-    private Vector2 CalculateValidSpawnPos(Vector2 center, WaveGroupData group)
+    private Vector2 CalculateValidSpawnPos(Vector2 center, WaveGroupData group, WaveDataUnit unit)
     {
         Vector2 finalPos = center;
-        float currentMinDist = initialMinDistFromPlayer;
+        
+        // Brotato-Logik: Basis-Distanz + individueller Bonus der Unit
+        float currentMinDist = initialMinDistFromPlayer + unit.additionalMinDistanceFromPlayer;
         
         int attempts = 0;
         bool validFound = false;
+        Bounds b = gameManager.mapSize;
 
-        while (!validFound && attempts < 10)
+        while (!validFound && attempts < 15)
         {
-            // 1. Punkt im Gruppen-Radius würfeln (Entspricht get_spawn_pos_in_area)
-            finalPos = center + Random.insideUnitCircle * group.spawnRadius;
-
-            // 2. Map-Bounds Check (Damit er nicht außerhalb der Welt landet)
-            Bounds b = gameManager.mapSize;
-            finalPos.x = Mathf.Clamp(finalPos.x, b.min.x + 1f, b.max.x - 1f);
-            finalPos.y = Mathf.Clamp(finalPos.y, b.min.y + 1f, b.max.y - 1f);
-
-            // 3. Distanz-Check zum Spieler
-            float distSq = (finalPos - (Vector2)playerTransform.position).sqrMagnitude;
-        
-            if (distSq > currentMinDist * currentMinDist)
+            if (group.spawnEdgeOfMap)
             {
-                validFound = true; // Punkt ist weit genug weg!
+                finalPos = GetRandomEdgePosition(b, group.spawnDistAwayFromEdges);
+            }
+            else if (group.area < 0)
+            {
+                finalPos = new Vector2(
+                    Random.Range(b.min.x + 1f, b.max.x - 1f),
+                    Random.Range(b.min.y + 1f, b.max.y - 1f)
+                );
             }
             else
             {
-                // Wenn zu nah: Verringere den Anspruch etwas (wie im Godot Code: max(25, min_dist - 5))
-                currentMinDist = Mathf.Max(2f, currentMinDist - 0.5f);
+                finalPos = center + Random.insideUnitCircle * group.area;
+            }
+
+            finalPos.x = Mathf.Clamp(finalPos.x, b.min.x + 1f, b.max.x - 1f);
+            finalPos.y = Mathf.Clamp(finalPos.y, b.min.y + 1f, b.max.y - 1f);
+
+            if (Vector2.Distance(finalPos, playerTransform.position) > currentMinDist)
+            {
+                validFound = true;
+            }
+            else
+            {
+                // Wenn kein Platz frei ist, Distanzanspruch leicht senken (Brotato-Algorithmus)
+                currentMinDist = Mathf.Max(3f, currentMinDist - 0.5f);
                 attempts++;
             }
         }
-
         return finalPos;
+    }
+
+    private Vector2 GetRandomEdgePosition(Bounds b, float edgeOffset)
+    {
+        int side = Random.Range(0, 4);
+        // Wir nutzen hier dein Feld 'spawnDistAwayFromEdges'
+        float offset = Mathf.Max(1f, edgeOffset); 
+
+        switch (side)
+        {
+            case 0: return new Vector2(Random.Range(b.min.x, b.max.x), b.max.y - offset);
+            case 1: return new Vector2(b.max.x - offset, Random.Range(b.min.y, b.max.y));
+            case 2: return new Vector2(Random.Range(b.min.x, b.max.x), b.min.y + offset);
+            case 3: return new Vector2(b.min.x + offset, Random.Range(b.min.y, b.max.y));
+            default: return b.center;
+        }
     }
 
     private IEnumerator ProcessQueueLoop()
@@ -118,13 +156,25 @@ public class EntitySpawner : MonoBehaviour
         }
     }
 
-    public void RegisterEnemy(GameObject enemy) => activeEnemies.Add(enemy);
+    public void RegisterEnemy(GameObject enemy)
+    {
+        if (enemy != null) activeEnemies.Add(enemy);
+    }
+
+    // WICHTIG: Wenn ein Gegner stirbt, muss er sich hier abmelden!
+    public void UnregisterEnemy(GameObject enemy)
+    {
+        if (activeEnemies.Contains(enemy)) activeEnemies.Remove(enemy);
+    }
     
     public void ClearEnemies()
     {
         _isCleaningUp = true;
         queueToSpawn.Clear();
-        foreach (var e in activeEnemies) if (e != null) Destroy(e);
+        for (int i = activeEnemies.Count - 1; i >= 0; i--)
+        {
+            if (activeEnemies[i] != null) Destroy(activeEnemies[i]);
+        }
         activeEnemies.Clear();
         _isCleaningUp = false;
     }

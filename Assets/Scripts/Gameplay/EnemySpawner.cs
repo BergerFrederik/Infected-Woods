@@ -8,13 +8,17 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private List<WaveData> waves; 
     
     [SerializeField] private WaveManager waveManager;
-    public static event Action OnWaveInitialized;
+    public static event Action<WaveData> OnWaveInitialized;
     
     private EntitySpawner _entitySpawner;
 
     private void Awake()
     {
         _entitySpawner = GetComponent<EntitySpawner>();
+        
+        // Sicherheitscheck: Falls der WaveManager im Inspector vergessen wurde
+        if (waveManager == null) 
+            waveManager = GetComponent<WaveManager>();
     }
 
     private void OnEnable()
@@ -31,18 +35,29 @@ public class EnemySpawner : MonoBehaviour
     
     private void SetupNextWave(float currentWaveNumber)
     {
-        int index = (int)currentWaveNumber - 1;
+        // Index berechnen (Welle 1 -> Index 0)
+        int index = Mathf.RoundToInt(currentWaveNumber) - 1;
 
         if (index >= 0 && index < waves.Count)
         {
-            waveManager.currentWave = waves[index];
-            OnWaveInitialized?.Invoke();
+            // 1. Welle im Manager setzen
+            WaveData waveToStart = waves[index];
+            waveManager.StartWave(waveToStart);
+            OnWaveInitialized?.Invoke(waveToStart);
+            Debug.Log($"Welle {currentWaveNumber} gestartet.");
+        }
+        else
+        {
+            Debug.LogWarning($"Welle {currentWaveNumber} wurde angefordert, existiert aber nicht in der Liste!");
         }
     }
 
     private void StopSpawning()
     {
-        waveManager.StopWave();
-        _entitySpawner.ClearEnemies(); // Nutzt die neue Clear-Funktion im EntitySpawner
+        // Stoppt den internen Timer und die Update-Logik im WaveManager
+        waveManager.EndWave(); 
+        
+        // Entfernt alle Gegner von der Map
+        _entitySpawner.ClearEnemies(); 
     }
 }

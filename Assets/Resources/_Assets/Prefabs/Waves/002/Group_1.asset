@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24e611ce37bc5f24bbdc7ec18967b2c9, type: 3}
+  m_Name: Group_1
+  m_EditorClassIdentifier: Assembly-CSharp::WaveGroupData
+  spawnChance: 1
+  spawnTiming: 1
+  repeating: 999
+  repeatingInterval: 3
+  reduceRepeatingInterval: 0
+  minRepeatingInterval: 1
+  area: -1
+  spawnDistAwayFromEdges: 0
+  spawnEdgeOfMap: 0
+  waveUnitsData:
+  - {fileID: 11400000, guid: 3fe9945c6de17524c85d411d01bb5fb5, type: 2}
+  isBoss: 0
+  isHorde: 0
+  isLoot: 0
+  isNeutral: 0
+  minDifficulty: 0
+  minWave: 0
+  maxWave: 99999

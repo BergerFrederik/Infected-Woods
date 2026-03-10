@@ -15,5 +15,5 @@ MonoBehaviour:
   waveDuration: 25
   maxEnemies: 100
   groupsData:
-  - {fileID: 11400000, guid: 109725f33cd5a1d479f882a290102669, type: 2}
-  - {fileID: 11400000, guid: 72da9509d795e3148b119afcffb8d040, type: 2}
+  - {fileID: 11400000, guid: 83847a34a6c1c7f4395b299fcc19b76a, type: 2}
+  - {fileID: 11400000, guid: 0dd80fa214fccd14c9a2e0792f19d97d, type: 2}

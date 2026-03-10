@@ -45,6 +45,10 @@ public class EntityBirth : MonoBehaviour
     private void Spawn()
     {
         GameObject enemy = Instantiate(_enemyPrefab, transform.position, Quaternion.identity);
+        if (enemy.TryGetComponent<EnemyDies>(out EnemyDies enemyDies))
+        {
+            enemyDies.SetupSpawner(_spawner);
+        }
         _spawner.RegisterEnemy(enemy); 
         StartCoroutine(DeleteSequence());
         

@@ -9,6 +9,13 @@ public class EnemyDies : MonoBehaviour
     private GameObject Player;
     private PlayerGainsEXP playerGainsEXP;
     
+    private EntitySpawner _entitySpawner;
+
+    public void SetupSpawner(EntitySpawner entitySpawner)
+    {
+        _entitySpawner = entitySpawner;
+    }
+    
     private void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
@@ -25,9 +32,11 @@ public class EnemyDies : MonoBehaviour
 
     private void OnEnemyDeath()
     {
-        KillEnemy();
+        _entitySpawner.UnregisterEnemy(this.gameObject);
+        
         InstantiateDropsOnDeath();
         GiveEXP();
+        KillEnemy();
     }
 
     private void KillEnemy()

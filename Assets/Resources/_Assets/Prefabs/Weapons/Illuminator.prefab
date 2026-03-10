@@ -63,7 +63,7 @@ MonoBehaviour:
   weaponAttackSpeedCooldown: 1.01
   weaponCritChance: 20
   weaponCritDamage: 2.5
-  weaponRange: 2.6
+  weaponRange: 2
   weaponKnockback: 2
   weaponLifesteal: 0
   weaponPrice: 15
@@ -86,10 +86,10 @@ MonoBehaviour:
   weaponStats: {fileID: 2923472048008297227}
   weaponRotationOffset: 130
   recoilDuration: 0.1
+  recoilSpeed: 4
   attackSpeedUnit: 40
   returnSpeedUnit: 35
   postAttackWaitDelay: 0.15
-  recoilDistance: 0.5
   enemySearchRadius: 20
 --- !u!114 &3107034620220399251
 MonoBehaviour:

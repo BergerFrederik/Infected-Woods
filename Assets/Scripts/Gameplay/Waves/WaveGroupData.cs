@@ -5,24 +5,27 @@ using System.Collections.Generic;
 public class WaveGroupData : ScriptableObject 
 {
     [Header("Spawn Settings")]
-    public float spawnTiming = 1f;        // Wann startet die Gruppe (Sekunden)
-    public int repeating = 999;           // Wie oft wiederholen
-    public float repeatingInterval = 3f;  // Pause zwischen den Wiederholungen
-    public float spawnRadius = 3;
+    public float spawnChance;
+    public float spawnTiming;        // Wann startet die Gruppe (Sekunden)
+    public int repeating;           // Wie oft wiederholen
+    public float repeatingInterval;  // Pause zwischen den Wiederholungen
+    public float reduceRepeatingInterval;
+    public float minRepeatingInterval;
+    public float area;
+    public float spawnDistAwayFromEdges;
+    public bool spawnEdgeOfMap;
 
     [Header("Enemy Units")]
-    public List<WaveUnitData> waveUnitsData; // Liste der Gegner in dieser Gruppe
+    public List<WaveDataUnit> waveUnitsData; // Liste der Gegner in dieser Gruppe
 
     [Header("Special Flags")]
     public bool isBoss = false;
     public bool isHorde = false;
-}
-
-// Eine kleine Hilfsklasse, um Gegner und Anzahl zu bündeln
-[System.Serializable]
-public class WaveUnitData 
-{
-    public GameObject enemyPrefab;
-    public int minNumber;
-    public int maxNumber;
+    public bool isLoot = false;
+    public bool isNeutral = false;
+    
+    [Header("Difficulty")]
+    public float minDifficulty;
+    public float minWave;
+    public float maxWave;
 }

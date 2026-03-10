@@ -44,7 +44,11 @@ public class InfectAndMutate_Blossom : MonoBehaviour
     private void AddRandomAugmentToPlayer()
     {
         int randomIndex = Random.Range(0, BlossomAugments.Count);
-        GameObject NewAugment = Instantiate(BlossomAugments[randomIndex]);
-        NewAugment.transform.SetParent(PlayerAugments.transform, false);
+        GameObject newAugment = Instantiate(BlossomAugments[randomIndex]);
+        newAugment.transform.SetParent(PlayerAugments.transform, false);
+        string originalAugmentTitle = newAugment.GetComponent<AugmentInformation>().augmentTitle;
+        string newAugmentTitle = "Infect and Mutate: " + originalAugmentTitle;
+        newAugment.GetComponent<AugmentInformation>().augmentTitle = newAugmentTitle;
+        Destroy(this.gameObject);
     }
 }

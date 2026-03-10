@@ -10,15 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24e611ce37bc5f24bbdc7ec18967b2c9, type: 3}
-  m_Name: RottenLarvae
+  m_Name: Group_1
   m_EditorClassIdentifier: Assembly-CSharp::WaveGroupData
+  spawnChance: 1
   spawnTiming: 1
   repeating: 999
   repeatingInterval: 3
-  spawnRadius: 20
+  reduceRepeatingInterval: 0
+  minRepeatingInterval: 1
+  area: -1
+  spawnDistAwayFromEdges: 0
+  spawnEdgeOfMap: 0
   waveUnitsData:
-  - enemyPrefab: {fileID: 7522017478837502192, guid: 78ea686c7896bb64ab918243cc6b94f3, type: 3}
-    minNumber: 4
-    maxNumber: 5
+  - {fileID: 11400000, guid: 44a28ec10420f1041887de802dd67064, type: 2}
   isBoss: 0
   isHorde: 0
+  isLoot: 0
+  isNeutral: 0
+  minDifficulty: 0
+  minWave: 0
+  maxWave: 99999

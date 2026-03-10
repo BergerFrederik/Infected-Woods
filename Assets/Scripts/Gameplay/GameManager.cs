@@ -183,18 +183,19 @@ public class GameManager : MonoBehaviour
         }
         OnNewWaveRequested?.Invoke(currentWaveNumber);
     }
-    private void NewWaveProcedure()
+    private void NewWaveProcedure(WaveData incomingWave)
     {
         playerStats.playerCurrentHP = playerStats.playerMaxHP;
         playerStats.playerCurrentMP = playerStats.playerMaxMP;
         
-        remainingTime = waveManager.currentWave.waveDuration;
-        Debug.Log(remainingTime);
-        waveManager.StartWave();
+        remainingTime = incomingWave.waveDuration;
+        
+        waveManager.StartWave(incomingWave);
         
         HandlePlayerWhileShop(true);
         Time.timeScale = 1f;
         isWaveActive = true;
+        isAugmentShopOpen = true; 
     }
 
     private void SetAbilitySprite()
