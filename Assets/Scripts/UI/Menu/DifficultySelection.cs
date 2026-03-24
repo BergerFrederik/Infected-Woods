@@ -9,7 +9,7 @@ public class DifficultySelection : MonoBehaviour
     [SerializeField] private GameObject CharacterSelectionPanel;
     [SerializeField] private GameObject MainMenu;
 
-    public event Action<int> OnDifficultySelected;
+    public event Action<string> OnDifficultySelected;
 
     private void OnEnable()
     {
@@ -35,8 +35,22 @@ public class DifficultySelection : MonoBehaviour
         foreach (Button button in DifficultyButtons)
         {
             button.onClick.RemoveAllListeners();
-        } 
-        OnDifficultySelected?.Invoke(index);
+        }
+
+        string selectedDifficulty;
+        if (index == 0)
+        {
+            selectedDifficulty = "Easy";
+        }
+        else if (index == 1)
+        {
+            selectedDifficulty = "Normal";
+        }
+        else
+        {
+            selectedDifficulty = "Hard";
+        }
+        OnDifficultySelected?.Invoke(selectedDifficulty);
         this.gameObject.SetActive(false);
         MainMenu.SetActive(false);
     }

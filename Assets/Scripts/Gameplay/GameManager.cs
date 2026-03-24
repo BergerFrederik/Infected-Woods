@@ -30,6 +30,13 @@ public class GameManager : MonoBehaviour
     private bool isWaveActive;
     private bool isPlayerInRound;
     public float currentWaveNumber;
+    
+    private string _gameDifficulty;
+    public string gameDifficulty
+    {
+        get => _gameDifficulty;
+    }
+    
     public Bounds mapSize;
     
     private GameObject CurrentWaveObject;
@@ -75,8 +82,9 @@ public class GameManager : MonoBehaviour
         gameInput.OnPausePerformed -= HandlePauseRequest;
     }
 
-    private void StartGame(int difficulty)
+    private void StartGame(string difficulty)
     {
+        _gameDifficulty = difficulty;
         isPlayerInRound = true;
         SetCharacterItems();
         SetAbilitySprite();

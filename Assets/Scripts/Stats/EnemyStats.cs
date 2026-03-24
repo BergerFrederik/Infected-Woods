@@ -4,6 +4,9 @@ using UnityEngine;
 public class EnemyStats : MonoBehaviour
 {
     [SerializeField] private EnemyIsHitByPlayer enemyIsHitByPlayer;
+    [SerializeField] private float difficultyOneFactor = 25;
+    [SerializeField] private float difficultyTwoFactor = 50;
+    
     private GameManager gameManager;
     public event Action OnEnemyDeath;
     public static event Action<string> OnEnemyDeathByWeapon;
@@ -31,6 +34,32 @@ public class EnemyStats : MonoBehaviour
         enemyMaxHP += enemyHPPerWave * (gameManager.currentWaveNumber - 1f);
         enemyDamage += enemyDamagePerWave * (gameManager.currentWaveNumber - 1f);
         enemyCurrentHP = enemyMaxHP;
+        
+        float factor = GetDifficultyFactor();
+        if (factor >= 0f)
+        {
+            ComputeDifficulty(factor);    
+        }
+    }
+
+    private void ComputeDifficulty(float factor)
+    {
+        enemyMaxHP += enemyMaxHP * factor;
+        enemyDamage += enemyDamage * factor;
+        enemyCurrentHP += enemyCurrentHP * factor;
+    }
+
+    private float GetDifficultyFactor()
+    {
+        if (gameManager.gameDifficulty == "Normal")
+        {
+            return difficultyOneFactor / 100f;
+        }
+        else if (gameManager.gameDifficulty == "Hard")
+        {
+            return difficultyTwoFactor / 100f;
+        }
+        return 0f;    
     }
     
     public void TakeDamage(float damage)
