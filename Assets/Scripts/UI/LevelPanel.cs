@@ -36,6 +36,9 @@ public class LevelPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI primaryStatsValues;
     [SerializeField] private TextMeshProUGUI secondaryStatsText;
     [SerializeField] private TextMeshProUGUI secondaryStatsValues;
+    
+    [SerializeField] private RerollMechanic rerollMechanic;
+    [SerializeField] private TextMeshProUGUI rerollCostText;
 
     private void OnEnable()
     {
@@ -81,6 +84,7 @@ public class LevelPanel : MonoBehaviour
     {
         SetUIToButtons();
         SetTextToLevelsGainedUI();
+        SetRerollCostText();
     }
     public void SetTextToPrimayStats(TextMeshProUGUI primaryStatsText)
     {
@@ -156,9 +160,14 @@ public class LevelPanel : MonoBehaviour
         }
     }
 
+    private void SetRerollCostText()
+    {
+        rerollCostText.text = rerollMechanic.GetRerollPrice().ToString();
+    }
 
     private void RerollStats()
     {
+        rerollMechanic.numRerolls++;
         SetLogic();
         SetUI();
     }
