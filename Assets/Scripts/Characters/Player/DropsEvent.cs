@@ -4,45 +4,44 @@ public class DropsEvent : MonoBehaviour
 {
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private Player player;
-    [SerializeField] private float drop_floatspeed= 7f;
+    [SerializeField] private CircleCollider2D pickupCollider;
 
-    private void Update()
+    private void Start()
     {
-        PickupItems();
+        float baseRadius = playerStats.playerBasePickupRange;
+        float bonusRadius = playerStats.playerLightPickupRange / 100f;
+        pickupCollider.radius = baseRadius + bonusRadius;
     }
 
     private void OnEnable()
     {
-        player.OnDropCollected += ProcessDrop;
+        playerStats.OnLightPickupRangeChanged += AlterColliderRadius;
     }
 
     private void OnDisable()
     {
-        player.OnDropCollected -= ProcessDrop;
+        playerStats.OnLightPickupRangeChanged -= AlterColliderRadius;
     }
-    private void PickupItems()
-    {
-        float baseRadius = playerStats.playerBasePickupRange;
-        float bonusRadius = playerStats.playerLightPickupRange / 100;
-        float searchRadius = baseRadius + baseRadius * bonusRadius;
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, searchRadius);
 
-        foreach (Collider2D collider in colliders)
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        PickupItems(collider);
+    }
+    private void PickupItems(Collider2D collider)
+    {
+        if (collider.CompareTag("Drop"))
         {
-            if (collider.CompareTag("Drop"))
+            if (collider.TryGetComponent<DropBehaviour>(out DropBehaviour drop))
             {
-                Vector3 directionToPlayer = player.transform.position - collider.transform.position;
-                collider.transform.position += directionToPlayer.normalized * drop_floatspeed * Time.deltaTime;
+                drop.CollectDrop(this.transform.root);
             }
         }
     }
 
-    private void ProcessDrop(Collider2D collider)
+    private void AlterColliderRadius(float bonusPickupRange)
     {
-        if (collider.TryGetComponent<LightDrop>(out LightDrop lightDrop))
-        {
-            Destroy(collider.gameObject);
-            playerStats.playerLightAmount += lightDrop.lightDropValue;
-        }       
+        float baseRadius = playerStats.playerBasePickupRange;
+        float bonusRadius = bonusPickupRange / 100f;
+        pickupCollider.radius = baseRadius + bonusRadius;
     }
 }

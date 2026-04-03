@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 
 public class LevelPanel : MonoBehaviour
@@ -15,14 +17,26 @@ public class LevelPanel : MonoBehaviour
     [SerializeField] private string[] UpgradeableStats;
     [SerializeField] private float[] StatUpgradeValues;
     [SerializeField] private GameManager gameManager;
+    
+    [Header("StatUpgrades")]
     [SerializeField] private TextMeshProUGUI levelsGainedText;
     [SerializeField] private TextMeshProUGUI[] StatUpgradeTitles;
     [SerializeField] private TextMeshProUGUI[] StatUpgradeContents;
+    
+    [Header("MoneyAmount")]
+    [SerializeField] private TextMeshProUGUI moneyAmountText;
 
-    [Range(0f, 100f)][SerializeField] private float chance_for_root;
-    [Range(0f, 100f)][SerializeField] private float chance_for_shroom;
-    [Range(0f, 100f)][SerializeField] private float chance_for_bud;
-
+    [Header("Odds")]
+    [SerializeField] private float shroomChanceIncrease = 3f;
+    [SerializeField] private float budChanceIncrease = 1f;
+    [SerializeField] private float blossomChanceIncrease = 0.5f;
+    [SerializeField] private float shroomIncreaseAt;
+    [SerializeField] private float budIncreaseAt;
+    [SerializeField] private float blossomIncreaseAt;
+    [SerializeField] private float shroomIncreaseCap;
+    [SerializeField] private float budIncreaseCap;
+    private float _baseChanceForRoot = 100f;
+    
     private const int rarity_code_blossom = 4;
     private const int rarity_code_bud = 3;
     private const int rarity_code_shroom = 2;
@@ -32,11 +46,13 @@ public class LevelPanel : MonoBehaviour
     private int[] randomRaritys;
     private string[] randomStats;
     
+    [Header("Stats")]
     [SerializeField] private TextMeshProUGUI primaryStatsText;
     [SerializeField] private TextMeshProUGUI primaryStatsValues;
     [SerializeField] private TextMeshProUGUI secondaryStatsText;
     [SerializeField] private TextMeshProUGUI secondaryStatsValues;
     
+    [Header("Reroll")]
     [SerializeField] private RerollMechanic rerollMechanic;
     [SerializeField] private TextMeshProUGUI rerollCostTextLeft;
     [SerializeField] private TextMeshProUGUI rerollCostTextRight;
@@ -54,6 +70,8 @@ public class LevelPanel : MonoBehaviour
     private void OnDisable()
     {
         RerollButton.onClick.RemoveListener(RerollStats);
+        rerollCostTextLeft.color = Color.white;
+        rerollCostTextRight.color = Color.white;
     }
 
     private void StartFunction()
@@ -83,6 +101,7 @@ public class LevelPanel : MonoBehaviour
 
     private void SetUI()
     {
+        SetUIToMoneyAmount();
         SetUIToButtons();
         SetTextToLevelsGainedUI();
         SetRerollCostText();
@@ -101,19 +120,38 @@ public class LevelPanel : MonoBehaviour
     {
         int numRarities = LVLUpBoarders.Length;
         randomRaritys = new int[numRarities];
+        float lvl = playerStats.playerLevel;
+        
+        float rawBlossom = ComputeChances(lvl, blossomChanceIncrease, blossomIncreaseAt, Mathf.Infinity, 0f);
+        float rawBud     = ComputeChances(lvl, budChanceIncrease, budIncreaseAt, budIncreaseCap, 0f);
+        float rawShroom  = ComputeChances(lvl, shroomChanceIncrease, shroomIncreaseAt, shroomIncreaseCap, 0f);
+        
+        float currentBlossom = rawBlossom;
+        float currentBud     = Mathf.Max(0, rawBud - currentBlossom);
+        float currentShroom  = Mathf.Max(0, rawShroom - currentBud - currentBlossom);
+        float currentRoot = Mathf.Max(0, _baseChanceForRoot - currentShroom - currentBud - currentBlossom);
+        
+        Debug.Log($"root: {currentRoot}");
+        Debug.Log($"shr: {currentShroom}");
+        Debug.Log($"bud: {currentBud}");
+        Debug.Log($"bl: {currentBlossom}");
+        
+        float thresholdShroom = currentRoot + currentShroom;
+        float thresholdBud = thresholdShroom + currentBud;
+
         for (int i = 0; i < numRarities; i++)
         {
-            int rarity = Random.Range(0, 100);
-            rarity += (int)playerStats.playerLevel;
-            if (rarity < chance_for_root)
+            float roll = Random.Range(0f, 100f);
+            Debug.Log($"roll: {roll}");
+            if (roll < currentRoot)
             {
                 randomRaritys[i] = rarity_code_root;
             }
-            else if (rarity >= chance_for_root && rarity < chance_for_root + chance_for_shroom)
+            else if (roll < thresholdShroom)
             {
                 randomRaritys[i] = rarity_code_shroom;
             }
-            else if (rarity >= chance_for_root + chance_for_shroom && rarity < chance_for_root + chance_for_shroom + chance_for_bud)
+            else if (roll < thresholdBud)
             {
                 randomRaritys[i] = rarity_code_bud;
             }
@@ -123,6 +161,20 @@ public class LevelPanel : MonoBehaviour
             }
         }
     }
+
+    private float ComputeChances(float playerLvl, float increase, float minLvl, float maxLvl, float baseChance)
+    {
+        if (playerLvl < minLvl)
+        {
+            return baseChance;
+        }
+        
+        float cappedLvl = Mathf.Min(playerLvl, maxLvl);
+        float levelDiff = cappedLvl - (minLvl - 1);
+        
+        return increase * levelDiff + baseChance;
+    }
+
 
     private void DetermineStats()
     {
@@ -141,6 +193,11 @@ public class LevelPanel : MonoBehaviour
         
             availableStats.RemoveAt(randomIndex); 
         }
+    }
+
+    private void SetUIToMoneyAmount()
+    {
+        moneyAmountText.text = playerStats.playerLightAmount.ToString();
     }
 
     private void SetUIToButtons()
@@ -164,6 +221,7 @@ public class LevelPanel : MonoBehaviour
     private void SetRerollCostText()
     {
         int rerollCost = rerollMechanic.GetRerollPrice();
+        
         rerollCostTextLeft.text = $"Reroll - {rerollCost}";
         rerollCostTextRight.text = $"Reroll - {rerollCost}";
         
@@ -176,14 +234,13 @@ public class LevelPanel : MonoBehaviour
 
     private void RerollStats()
     {
-        if (playerStats.playerLightAmount < rerollMechanic.GetRerollPrice())
+        if (playerStats.playerLightAmount >= rerollMechanic.GetRerollPrice())
         {
-            return;
+            playerStats.playerLightAmount -= rerollMechanic.GetRerollPrice();
+            rerollMechanic.numRerolls++;
+            SetLogic();
+            SetUI();
         }
-        
-        rerollMechanic.numRerolls++;
-        SetLogic();
-        SetUI();
     }
 
     private void SetTextToLevelsGainedUI()

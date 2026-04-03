@@ -10,6 +10,10 @@ public class EntityBirth : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRendererStart;
     [SerializeField] private SpriteRenderer spriteRendererEnd;
     
+    [Header("Particles")]
+    [SerializeField] private ParticleSystem burstParticles;
+    [SerializeField] private float YAchseesOffset = 1;
+
     private GameObject _enemyPrefab;
     private EntitySpawner _spawner;
 
@@ -30,15 +34,17 @@ public class EntityBirth : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
             float ratio = elapsedTime / birthTime;
-            
+
             transform.localScale = Vector3.Lerp(initialScale, targetScale, ratio);
-            
+
             yield return null;
         }
-        
+
         spriteRendererStart.enabled = false;
+        SpawnParticles();
+        yield return new WaitForSeconds(0.1f);
         spriteRendererEnd.enabled = true;
-        
+
         Spawn();
     }
 
@@ -49,9 +55,15 @@ public class EntityBirth : MonoBehaviour
         {
             enemyDies.SetupSpawner(_spawner);
         }
-        _spawner.RegisterEnemy(enemy); 
+
+        _spawner.RegisterEnemy(enemy);
         StartCoroutine(DeleteSequence());
-        
+    }
+
+    private void SpawnParticles()
+    {
+        ParticleSystem newBurstParticles = Instantiate(burstParticles, transform.position + new Vector3(0, YAchseesOffset, 0), burstParticles.transform.rotation );
+        newBurstParticles.Play();
     }
 
     private IEnumerator DeleteSequence()

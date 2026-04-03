@@ -66,6 +66,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7702892752487469426
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -111,6 +112,7 @@ SpriteRenderer:
   m_SortingLayerID: -354789647
   m_SortingLayer: 4
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -5966705143719854544, guid: facf5346218e8fe4393635c16864d2fc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -120,7 +122,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &7522017478837502192
 GameObject:
@@ -188,6 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b41ea03a7d4085418b31c5dd8c71f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particlesOnHit: {fileID: 8088709192594815973, guid: 5bcca261a1991b344875136b26629acf, type: 3}
   lastWeaponHit: 
 --- !u!50 &7032754371515850491
 Rigidbody2D:
@@ -229,6 +231,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyIsHitByPlayer: {fileID: 5496535399776737029}
+  difficultyOneFactor: 25
+  difficultyTwoFactor: 50
   enemyCurrentHP: 0
   enemyMaxHP: 1
   enemyHPPerWave: 1

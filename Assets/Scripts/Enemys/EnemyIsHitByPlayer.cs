@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class EnemyIsHitByPlayer : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem particlesOnHit;
     public String lastWeaponHit;
     
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.TryGetComponent<WeaponStats>(out WeaponStats weaponStats))
         {
+            PlayParticleEffect();
             if (collider.CompareTag("Projectile"))
             {
                 SetLastWeaponHit(weaponStats);
@@ -18,7 +20,12 @@ public class EnemyIsHitByPlayer : MonoBehaviour
                 SetLastWeaponHit(weaponStats);
             }
         }
+    }
 
+    private void PlayParticleEffect()
+    {
+        ParticleSystem onHitEffect = Instantiate(particlesOnHit, transform.position, particlesOnHit.transform.rotation);
+        onHitEffect.Play();
     }
     
     private void SetLastWeaponHit(WeaponStats weaponStats)

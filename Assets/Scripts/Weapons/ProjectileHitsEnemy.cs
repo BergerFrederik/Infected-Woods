@@ -4,7 +4,7 @@ using UnityEngine;
 public class ProjectileHitsEnemy : MonoBehaviour
 {
     [SerializeField] private Projectile projectile;
-    private WeaponStats weaponStats;
+    [SerializeField] private WeaponStats weaponStats;
 
     public event Action OnWeaponProjectileHitsEnemyTrigger;
 

@@ -8,6 +8,7 @@ public class PlayerStats : MonoBehaviour
     public event Action<float> OnMaxMPChanged;
     public event Action<float> OnCurrentHPChanged;
     public event Action<float> OnMaxHPChanged;
+    public event Action<float> OnLightPickupRangeChanged;
 
     [Header("Primary Stats")]
     [SerializeField] private float _playerMaxHP;
@@ -48,7 +49,16 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Secondary Stats")]
     public float playerKnockback = 0f;
-    public float playerLightPickupRange = 0f;
+    [SerializeField] private float _plyerLightPickupRange;
+
+    public float playerLightPickupRange
+    {
+        get => _plyerLightPickupRange;
+        set { _plyerLightPickupRange = value;            
+            OnLightPickupRangeChanged?.Invoke(value);
+            Debug.Log("Set");
+        }
+    }
     public float playerDashCooldownReduction = 0f;
     public float playerAbilityCooldown = 0f;
     public float playerHealPower = 0f;
