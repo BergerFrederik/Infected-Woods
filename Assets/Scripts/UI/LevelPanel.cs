@@ -10,6 +10,7 @@ public class LevelPanel : MonoBehaviour
 {
     [SerializeField] private GameObject shopPanel;
     [SerializeField] private PlayerStats playerStats;
+    [SerializeField] private RandomRollEvent randomRollEvent;
 
     [SerializeField] private Sprite[] LVLUpBoarders;
     [SerializeField] private Button[] LVLUpButtons;
@@ -141,17 +142,17 @@ public class LevelPanel : MonoBehaviour
 
         for (int i = 0; i < numRarities; i++)
         {
-            float roll = Random.Range(0f, 100f);
+            float roll = randomRollEvent.GetRandomFloatRoll(0f, 100f);
             Debug.Log($"roll: {roll}");
-            if (roll < currentRoot)
+            if (roll <= currentRoot)
             {
                 randomRaritys[i] = rarity_code_root;
             }
-            else if (roll < thresholdShroom)
+            else if (roll <= thresholdShroom)
             {
                 randomRaritys[i] = rarity_code_shroom;
             }
-            else if (roll < thresholdBud)
+            else if (roll <= thresholdBud)
             {
                 randomRaritys[i] = rarity_code_bud;
             }

@@ -21,7 +21,7 @@ public class ToDo
     // TODO: character selection Texte auto machen
     // TODO: schauen wie range berechnet und addiert wird
     // TODO: Bei Augment im Stat Panel bei mutate Augments Reihenfolge rip
-    // TODO: 
+    // TODO: Alle rolls ausfindig machen und ersetzen
     // TODO: Bei Rechnungen /100 immer ein f hinzufügen 100f
     // TODO: Rundungen in den stats
     // TODO:
