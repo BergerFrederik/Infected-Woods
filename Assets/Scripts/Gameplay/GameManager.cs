@@ -213,26 +213,6 @@ public class GameManager : MonoBehaviour
         abilityImage.sprite = characterUIImage;
     }
     
-    public void SetAbilityUIActive()
-    {
-        ActiveAbilityOverlay.SetActive(true);
-    }
-
-    public void SetAbilityUIInactive()
-    {
-        ActiveAbilityOverlay.SetActive(false);
-    }
-
-    public void StartAbilityCooldown()
-    {
-        CooldownAbilityOverlay.SetActive(true);
-    }
-
-    public void StopAbilityCooldown()
-    {
-        CooldownAbilityOverlay.SetActive(false);
-    }
-    
     public void RestartGame()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(

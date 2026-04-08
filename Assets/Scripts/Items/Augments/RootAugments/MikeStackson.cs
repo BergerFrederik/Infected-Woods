@@ -17,6 +17,7 @@ public class MikeStackson : MonoBehaviour
 
     private Transform Player;
     private PlayerStats playerStats;
+    private RandomRollEvent _randomRollEvent;
     private PlayerTakesDamage playerTakesDamage;
     
     private float lastTimestampOfDamageTaken;
@@ -25,7 +26,7 @@ public class MikeStackson : MonoBehaviour
     {
         Player = this.transform.root;
         playerStats = Player.GetComponent<PlayerStats>();
-
+        _randomRollEvent = Player.GetComponentInChildren<RandomRollEvent>();
         playerTakesDamage = Player.GetComponentInChildren<PlayerTakesDamage>();
 
         EnemyStats.OnEnemyDeathByWeapon += PerformAugment;
@@ -47,7 +48,7 @@ public class MikeStackson : MonoBehaviour
 
         if (Time.time - lastTimestampOfDamageTaken >= secondsWithoutDamageTakenRequired)
         {
-            if (Random.Range(0, 100) < chanceToGainStacks)
+            if (_randomRollEvent.GetRandomFloatRoll(0f, 100f) > 1 - chanceToGainStacks) //Muss 1- sein, damit luck einen Einfluss hat. Luck erhöht den Roll
             {
                 playerStats.playerMeeleDamage += meeleDamageGainedPerStack;
                 mikeStacksonStacks++;

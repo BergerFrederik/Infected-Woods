@@ -9,7 +9,6 @@ public class Barbar : MonoBehaviour
     private PlayerDealsDamage _playerDealsDamage;
     private PlayerStats _playerStats;
     private GameObject _gameManagerObject;
-    private GameManager _gameManager;
     private bool _abilityRunning;
     private IEnumerator _runningAbility;
     private Coroutine _manaDrainCoroutine;
@@ -27,13 +26,14 @@ public class Barbar : MonoBehaviour
     [Header("Passive")]
     [SerializeField] private float passive;
 
+    private AbilityUI _abilityUI;
+
     private void Start()
     {       
-        _gameManagerObject = GameObject.FindGameObjectWithTag("Manager");
-        _gameManager = _gameManagerObject.GetComponent<GameManager>();
         _playerStats = this.transform.GetComponentInParent<PlayerStats>();
         _playerDealsDamage = this.transform.root.GetComponentInChildren<PlayerDealsDamage>();
         _playerWeaponSlots = GetPlayerWeaponSlots();
+        _abilityUI = FindAnyObjectByType<AbilityUI>();
         
         characterStats.OnExecuteAbility += CharacterAbilityExecution;
         characterStats.OnStopAbility += EndAbility;
@@ -62,7 +62,7 @@ public class Barbar : MonoBehaviour
     private void StartAbility()
     {        
         _abilityRunning = true;
-        _gameManager.SetAbilityUIActive();
+        _abilityUI.StartActiveAbilityUI();
         
         _playerWeapons = GetPlayerWeapons();
         SetAbilityWeaponStats(_playerWeapons);
@@ -105,7 +105,6 @@ public class Barbar : MonoBehaviour
             float speedFactor = 1f + (_playerStats.playerAttackSpeed / 100f);
             float attackSpeedCooldown = abilityWeaponStats.weaponAttackSpeedCooldown / speedFactor;
             attackSpeedCooldown = Mathf.Max(attackSpeedCooldown, 0.05f);
-            Debug.Log(attackSpeedCooldown);
             DealWhirlwindDamage();
             yield return new WaitForSeconds(attackSpeedCooldown);
         }
@@ -148,9 +147,7 @@ public class Barbar : MonoBehaviour
         characterStats.abilityReady = false;
         characterStats.cooldownStarted = true;
         
-        
-        _gameManager.StartAbilityCooldown();
-        _gameManager.SetAbilityUIInactive();
+        _abilityUI.EndActiveAbilityUI();
     }
 
     private void ResetAbilityOnRoundOver()
@@ -159,10 +156,7 @@ public class Barbar : MonoBehaviour
         {
             EndAbility();
         }
-        else if (!characterStats.abilityReady)
-        {
-            _gameManager.StopAbilityCooldown();
-        }
+        
         characterStats.abilityReady = true;
         _abilityRunning = false;
     }

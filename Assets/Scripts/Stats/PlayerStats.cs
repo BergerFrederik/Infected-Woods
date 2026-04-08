@@ -7,6 +7,7 @@ public class PlayerStats : MonoBehaviour
     public event Action<float> OnCurrentMPChanged;
     public event Action<float> OnMaxMPChanged;
     public event Action<float> OnCurrentHPChanged;
+    public event Action<float> OnPlayerHealed;
     public event Action<float> OnMaxHPChanged;
     public event Action<float> OnLightPickupRangeChanged;
 
@@ -56,7 +57,6 @@ public class PlayerStats : MonoBehaviour
         get => _plyerLightPickupRange;
         set { _plyerLightPickupRange = value;            
             OnLightPickupRangeChanged?.Invoke(value);
-            Debug.Log("Set");
         }
     }
     public float playerDashCooldownReduction = 0f;
@@ -68,15 +68,18 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Helper Stats")]
     public float playerLastLifesteal = 0f;
-    public bool playerAbilityOnCooldown = false;
     
     [SerializeField] private float _playerCurrentHP = 0f;
     public float playerCurrentHP
     {
         get { return _playerCurrentHP; }
-        set { 
+        set {
+            if (value > _playerCurrentHP && _playerCurrentHP > 0)
+            {
+                OnPlayerHealed?.Invoke(value - _playerCurrentHP);
+            }
             _playerCurrentHP = value;
-            OnCurrentHPChanged.Invoke(value);
+            OnCurrentHPChanged?.Invoke(value);
         }
     }
 
@@ -95,7 +98,6 @@ public class PlayerStats : MonoBehaviour
     public float playerOverallXP = 0f;
     public float playerCurrentXP = 0f;     
     public float playerLevelMultiplier = 0f;
-    public float playerAbilityDuration = 0f;
     public float playerLevelsGained = 0f;
     
     [Header("Base Stats")]

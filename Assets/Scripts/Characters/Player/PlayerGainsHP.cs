@@ -1,22 +1,28 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayerGainsHP : MonoBehaviour
 {
     [SerializeField] private PlayerStats playerStats;
+    [SerializeField] private GameObject popUpPrefab;
     [SerializeField] private float hp_regen_division_const = 10f;
+    [SerializeField] private InstantiatePopUp instantiatePopUp;
+    
     private float hpAccumulator;
 
     public event Action<float> OnPlayerWasHealed;
 
     private void OnEnable()
     {
+        playerStats.OnPlayerHealed += InstantiatePopUp;
         MeeleWeaponHitsEnemy.OnMeeleWeaponHitsEnemy += TryApplyLifesteal;
         ProjectileHitsEnemy.OnProjectileHitsEnemy += TryApplyLifesteal;
     }
 
     private void OnDisable()
     {
+        playerStats.OnPlayerHealed -= InstantiatePopUp;
         MeeleWeaponHitsEnemy.OnMeeleWeaponHitsEnemy -= TryApplyLifesteal;
         ProjectileHitsEnemy.OnProjectileHitsEnemy -= TryApplyLifesteal;
     }
@@ -72,5 +78,10 @@ public class PlayerGainsHP : MonoBehaviour
             playerStats.playerCurrentHP++;
             OnPlayerWasHealed?.Invoke(playerStats.playerCurrentHP);
         }
+    }
+
+    private void InstantiatePopUp(float amount)
+    {
+        instantiatePopUp.Instantiate(amount, false, this.transform);
     }
 }

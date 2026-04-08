@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class SpiritBow : MonoBehaviour
 {
@@ -9,13 +7,16 @@ public class SpiritBow : MonoBehaviour
     [SerializeField] private float _attackspeedBoost;
     [SerializeField] private float _attackspeedBoostTime;
     [SerializeField] private Ranged _ranged;
+    
     private GameObject _playerObject;
     private PlayerStats _playerStats;
+    private RandomRollEvent _randomRollEvent;
 
     private void Start()
     {
         _playerObject = GameObject.FindGameObjectWithTag("Player");
         _playerStats = _playerObject.GetComponent<PlayerStats>();
+        _randomRollEvent = _playerObject.GetComponentInChildren<RandomRollEvent>();
        _ranged.OnWeaponProjectileHitsEnemy += IncreaseAttackSpeed;
     }
 
@@ -26,8 +27,8 @@ public class SpiritBow : MonoBehaviour
 
     private void IncreaseAttackSpeed()
     {
-        int rndNum = Random.Range(0, 100);
-        if (rndNum < _chanceToGainAttackspeed)
+        float rndNum = _randomRollEvent.GetRandomFloatRoll(0f, 100f);
+        if (rndNum < 1 - _chanceToGainAttackspeed) //Muss 1- sein, damit luck einen Einfluss hat. Luck erhöht den Roll
         {
             StartCoroutine(GainAttackSpeedForSeconds());
         }

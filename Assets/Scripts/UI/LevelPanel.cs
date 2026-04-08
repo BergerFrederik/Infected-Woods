@@ -238,7 +238,7 @@ public class LevelPanel : MonoBehaviour
         if (playerStats.playerLightAmount >= rerollMechanic.GetRerollPrice())
         {
             playerStats.playerLightAmount -= rerollMechanic.GetRerollPrice();
-            rerollMechanic.numRerolls++;
+            rerollMechanic.NumRerolls++;
             SetLogic();
             SetUI();
         }

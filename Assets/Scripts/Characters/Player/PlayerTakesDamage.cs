@@ -8,6 +8,7 @@ public class PlayerTakesDamage : MonoBehaviour
     [SerializeField] private float calculate_armor = 20f;    
     [SerializeField] private float iframe_formula_const_1 = 0.4f;
     [SerializeField] private float iframe_formula_const_2 = 0.15f;
+    [SerializeField] private InstantiatePopUp instantiatePopUp;
 
     public event Action<float> OnPlayerTakesDamage;
     public event Action OnPlayerWasDamaged;
@@ -33,6 +34,7 @@ public class PlayerTakesDamage : MonoBehaviour
             float damageDealtToPlayer = CalculateDamageDealtToPlayer(enemyStats);
             if (damageDealtToPlayer > 0)
             {
+                instantiatePopUp.Instantiate(damageDealtToPlayer, false, this.transform);
                 playerStats.playerCurrentHP -= damageDealtToPlayer;
                 OnPlayerTakesDamage?.Invoke(damageDealtToPlayer);
                 OnPlayerWasDamaged?.Invoke();

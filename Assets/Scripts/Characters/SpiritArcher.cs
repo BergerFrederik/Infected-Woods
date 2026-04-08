@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class SpiritArcher : MonoBehaviour
 {
@@ -9,10 +7,10 @@ public class SpiritArcher : MonoBehaviour
     private PlayerDealsDamage _playerDealsDamage;
     private PlayerStats playerStats;
     private GameObject GameManagerObject;
-    private GameManager gameManager;
     private bool abilityRunning = false;
-    private bool abilityOnCooldown = false;
     private IEnumerator runningAbility;
+    private AbilityUI _abilityUI;
+    private RandomRollEvent _randomRollEvent;
 
     [Header("Ability")]
     public float boost_by_ability = 50f; //value is just added to playerStats and used in the weapons script
@@ -22,10 +20,10 @@ public class SpiritArcher : MonoBehaviour
 
     private void Start()
     {       
-        GameManagerObject = GameObject.FindGameObjectWithTag("Manager");
-        gameManager = GameManagerObject.GetComponent<GameManager>();
-        playerStats = this.transform.GetComponentInParent<PlayerStats>();
+        playerStats = this.transform.root.GetComponent<PlayerStats>();
         _playerDealsDamage = this.transform.root.GetComponentInChildren<PlayerDealsDamage>();
+        _randomRollEvent = this.transform.root.GetComponentInChildren<RandomRollEvent>();
+        _abilityUI = FindAnyObjectByType<AbilityUI>();
         
         characterStats.OnExecuteAbility += CharacterAbilityExecution;
         GameManager.OnRoundOver += ResetAbilityOnRoundOver;
@@ -43,7 +41,7 @@ public class SpiritArcher : MonoBehaviour
     public void CharacterAbilityExecution()
     {
         float manaCost = characterStats.ability_manaCost;
-        if (!abilityRunning && playerStats.playerCurrentMP >= manaCost)
+        if (characterStats.abilityReady && !abilityRunning && playerStats.playerCurrentMP >= manaCost)
         {
             playerStats.playerCurrentMP -= manaCost;
             StartAbility();
@@ -54,7 +52,7 @@ public class SpiritArcher : MonoBehaviour
     private void StartAbility()
     {        
         playerStats.playerAttackSpeed += boost_by_ability;
-        gameManager.SetAbilityUIActive();              
+        _abilityUI.StartActiveAbilityUI();           
     }
 
     private void RunAbility()
@@ -76,10 +74,10 @@ public class SpiritArcher : MonoBehaviour
 
     private void EndAbility()
     {
+        _abilityUI.EndActiveAbilityUI();
+        characterStats.cooldownStarted = true;
         playerStats.playerAttackSpeed -= boost_by_ability;
-        abilityOnCooldown = true;
         characterStats.abilityReady = false;
-        gameManager.StartAbilityCooldown();
     }
 
     private void ResetAbilityOnRoundOver()
@@ -87,12 +85,12 @@ public class SpiritArcher : MonoBehaviour
         if (abilityRunning) 
         {
             StopCoroutine(runningAbility);                     
-            gameManager.SetAbilityUIInactive();
+            _abilityUI.EndActiveAbilityUI();
             playerStats.playerAttackSpeed -= boost_by_ability;
         }
-        else if (abilityOnCooldown)
+        else if (!characterStats.abilityReady)
         {
-            gameManager.StopAbilityCooldown();
+            _abilityUI.EndActiveAbilityUI();
         }
         characterStats.abilityReady = true;
         abilityRunning = false;
@@ -100,10 +98,9 @@ public class SpiritArcher : MonoBehaviour
 
     private void GainLightOnHit()
     {
-        int randomNum = Random.Range(0, 100);
-        if (randomNum < _chanceToGainLight)
+        float randomNum = _randomRollEvent.GetRandomFloatRoll(0f, 100f);
+        if (randomNum > 1 - _chanceToGainLight) //Muss 1- sein, damit luck einen Einfluss hat. Luck erhöht den Roll
         {
-            Debug.Log("Light");
             playerStats.playerLightAmount += 1f;
         }
     }

@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropBehaviour
   initialFlySpeed: 6
-  speedIncreaseFactor: 0.5
+  speedIncreaseFactor: 1
   liftSpeed: 7
   liftDistanceY: 0.5
   waitTime: 0.2

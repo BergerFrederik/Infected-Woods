@@ -7,11 +7,7 @@ public class ProjectileHitsEnemy : MonoBehaviour
     [SerializeField] private WeaponStats weaponStats;
 
     public event Action OnWeaponProjectileHitsEnemyTrigger;
-
-    private void Start()
-    {
-        weaponStats = projectile.sourceWeaponStats;
-    }
+    
     public static event Action<EnemyStats, WeaponStats> OnProjectileHitsEnemy;
     private void OnTriggerEnter2D(Collider2D collider)
     {

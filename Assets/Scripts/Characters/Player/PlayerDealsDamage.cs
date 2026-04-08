@@ -6,6 +6,7 @@ public class PlayerDealsDamage : MonoBehaviour
 {
     [SerializeField] private DamageCalculation damageCalculation;
     [SerializeField] private PlayerStats playerStats;
+    [SerializeField] private InstantiatePopUp instantiatePopUp;
     
     public event Action OnPlayerHitsEnemy;
     public event Action<WeaponStats> OnPlayerHitsEnemyWithWeapon;
@@ -44,6 +45,6 @@ public class PlayerDealsDamage : MonoBehaviour
         enemyStats.TakeDamage(damageDealtByPlayer);
         
         Transform enemyTransform = enemyStats.transform;
-        OnInstantiatePopUpDamageUI?.Invoke(enemyTransform, damageDealtByPlayer, didCrit);
+        instantiatePopUp.Instantiate(damageDealtByPlayer, didCrit, enemyTransform);
     }
 }

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 15302c883697ac44a880ff2883192d9b
+guid: dccf3c6f5c1c88c4297986b64e1eed78
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7544611565683969064
-    second: SpiritArcherAbility_0
+      213: -7220392734295664366
+    second: DashAbilityIcon_Sprite_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SpiritArcherAbility_0
+      name: DashAbilityIcon_Sprite_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8d37a1b01c72c4790800000000000000
-      internalID: -7544611565683969064
+      spriteID: 219de7d30130ccb90800000000000000
+      internalID: -7220392734295664366
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      SpiritArcherAbility_0: -7544611565683969064
+      DashAbilityIcon_Sprite_0: -7220392734295664366
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

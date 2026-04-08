@@ -172,15 +172,14 @@ MonoBehaviour:
   characterBaseMovespeed: 4
   characterLuck: 0
   characterLightAbsorption: 0
-  ability_cooldown: 20
-  ability_duration: 10
+  ability_cooldown: 10
+  ability_duration: 5
   ability_manaCost: 25
   abilityDescription: Gain 100% Attackspeed. Attacks bounce between enemys.
   characterPassiveEffects:
   - +100% Attackspeed
   - +50% Range
   - 10% chance to extract light on hit
-  actualMaxCooldown: 0
   remainingCooldown: 0
   abilityReady: 1
   cooldownStarted: 0

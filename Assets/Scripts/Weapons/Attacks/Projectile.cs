@@ -1,11 +1,10 @@
-using System;
 using UnityEngine;
 
 
 public class Projectile : MonoBehaviour
 {
-    [HideInInspector] public WeaponStats sourceWeaponStats;
-
+    public WeaponStats sourceWeaponStats;
+    [SerializeField] private WeaponStats weaponStats;
     private Vector3 startingPosition;
     private float distanceToTravel;
     private GameObject Player;
@@ -15,10 +14,17 @@ public class Projectile : MonoBehaviour
     {
         Player = GameObject.FindGameObjectWithTag("Player");
         playerStats = Player.GetComponent<PlayerStats>();
+        
+        if (sourceWeaponStats != null && weaponStats != null)
+        {
+            weaponStats.CopyFrom(sourceWeaponStats);
+        }
+        
         startingPosition = this.transform.position;
+        
         float playerAttackRange = playerStats.playerAttackRange;
-        float weaponAttackRange = sourceWeaponStats.weaponRange; 
-        distanceToTravel = weaponAttackRange + weaponAttackRange * playerAttackRange;
+        float weaponAttackRange = weaponStats.weaponRange; 
+        distanceToTravel = weaponAttackRange * (1f + (playerAttackRange / 100f));
     }
 
     private void Update()

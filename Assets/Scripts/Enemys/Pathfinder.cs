@@ -22,17 +22,10 @@ public class Pathfinder : MonoBehaviour
 
 
     private float currentWeight = 1.0f;
-    private float knockback_duration = .2f;
-
-    private bool isKnockedBack = false;
+    
+    
     Vector2 moveDirRegardingEnemys;
-
-    float playerKnockback;
-    float weaponKnockback;
-    float knockbackResistance;
-    float knockbackStrength;
-    float startTime;
-
+    
 
     private void Start()
     {
@@ -46,15 +39,8 @@ public class Pathfinder : MonoBehaviour
 
     private void Update()
     {
-        if (isKnockedBack)
-        {
-            KnockEnemyBack();            
-        }
-        else
-        {
-            Vector3 currentScale = visualFlipAnchor.localScale;
-            SetSpriteDirection(CalculateEnemyMovementVector(), currentScale);
-        }
+        Vector3 currentScale = visualFlipAnchor.localScale;
+        SetSpriteDirection(CalculateEnemyMovementVector(), currentScale);
     }
 
     public Vector2 CalculateEnemyMovementVector()
@@ -112,37 +98,13 @@ public class Pathfinder : MonoBehaviour
         {
             moveDirRegardingEnemys = moveDirTowardsPlayer;
         }
+        
+        
+        
         return moveDirRegardingEnemys.normalized;
     }
 
-    private void KnockEnemyBack()
-    {
-        Vector3 invertedDirToPlayer = (transform.position - player.transform.position).normalized;
-        transform.position += invertedDirToPlayer * knockbackStrength * Time.deltaTime;
-        if (Time.time - startTime > knockback_duration)
-        {
-            isKnockedBack = false;
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (collider.TryGetComponent<WeaponStats>(out WeaponStats weaponStats))
-        {
-            if (!isKnockedBack)
-            {
-                startTime = Time.time;
-                playerKnockback = playerStats.playerKnockback / 100;
-                weaponKnockback = weaponStats.weaponKnockback;
-                knockbackResistance = enemyStats.enemyKnockbackResistance;
-                knockbackStrength = (weaponKnockback + weaponKnockback * playerKnockback) * (1 - (knockbackResistance / 100));
-                if (knockbackStrength > 0)
-                {
-                    isKnockedBack = true;
-                }
-            }
-        }
-    }
+    
     private void SetSpriteDirection(Vector2 moveDir, Vector3 currentScale)
     {
         if (moveDir.x > 0 && currentScale.x > 0)

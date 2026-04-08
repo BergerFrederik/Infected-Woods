@@ -30,4 +30,31 @@ public class WeaponStats : MonoBehaviour
     public float currentTotalDamage = 0f;
     public string weaponSpecialAbility;
     public string weaponLore;
+    
+    public void CopyFrom(WeaponStats other)
+    {
+        if (other == null) return;
+
+        this.weaponName = other.weaponName;
+        this.weaponSubtitle = other.weaponSubtitle;
+        this.weaponProjectileSpeed = other.weaponProjectileSpeed;
+        this.weaponBaseDamage = other.weaponBaseDamage;
+        this.weaponMeeleDamageScale = other.weaponMeeleDamageScale;
+        this.weaponRangedDamageScale = other.weaponRangedDamageScale;
+        this.weaponMysticDamageScale = other.weaponMysticDamageScale;
+        this.weaponTier = other.weaponTier;
+        this.weaponWeaponType = other.weaponWeaponType;
+        this.weaponAttackType = other.weaponAttackType;
+        this.weaponClass = other.weaponClass;
+        this.weaponAttackSpeedCooldown = other.weaponAttackSpeedCooldown;
+        this.weaponCritChance = other.weaponCritChance;
+        this.weaponCritDamage = other.weaponCritDamage;
+        this.weaponRange = other.weaponRange;
+        this.weaponKnockback = other.weaponKnockback;
+        this.weaponLifesteal = other.weaponLifesteal;
+        this.weaponPrice = other.weaponPrice;
+        this.currentTotalDamage = other.currentTotalDamage;
+        this.weaponSpecialAbility = other.weaponSpecialAbility;
+        this.weaponLore = other.weaponLore;
+    }
 }

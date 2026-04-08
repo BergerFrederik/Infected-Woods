@@ -6,8 +6,8 @@ public class RerollMechanic : MonoBehaviour
     [SerializeField] private GameManager gameManager;
     private event Action OnRerolled;
     private int _numRerolls;
-    private int waveNumber;
-    public int numRerolls
+    private int _waveNumber;
+    public int NumRerolls
     {
         get { return _numRerolls; }
         set
@@ -21,9 +21,9 @@ public class RerollMechanic : MonoBehaviour
 
     private void OnEnable()
     {
-        waveNumber = (int)gameManager.currentWaveNumber;
-        int basePrice = Mathf.FloorToInt(waveNumber * 0.75f);
-        int overallPrice = basePrice + GetRerollIncrease(waveNumber);
+        _waveNumber = (int)gameManager.currentWaveNumber;
+        int basePrice = Mathf.FloorToInt(_waveNumber * 0.75f);
+        int overallPrice = basePrice + GetRerollIncrease(_waveNumber);
         _currentRerollPrice = overallPrice;
         
         OnRerolled += IncreaseRerollPrice;
@@ -38,7 +38,7 @@ public class RerollMechanic : MonoBehaviour
 
     private void IncreaseRerollPrice()
     {
-        _currentRerollPrice += GetRerollIncrease(waveNumber); 
+        _currentRerollPrice += GetRerollIncrease(_waveNumber); 
     }
 
     public int GetRerollPrice()

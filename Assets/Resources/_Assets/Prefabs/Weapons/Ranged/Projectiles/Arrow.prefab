@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sourceWeaponStats: {fileID: 0}
+  weaponStats: {fileID: 9175152949316958774}
 --- !u!50 &7243138097599915757
 Rigidbody2D:
   serializedVersion: 5

@@ -38,14 +38,15 @@ public class CharacterStats : MonoBehaviour
 
     private GameInput gameInput;
     private PlayerStats playerStats;
-
-    public float actualMaxCooldown;
+    
     public float remainingCooldown;
     public bool abilityReady = true;
     public bool cooldownStarted;
     
     private float _reducedCooldown;
     private float _clampedCooldown;
+    
+    private AbilityUI _abilityUI;
 
     public event Action OnExecuteAbility;
     public event Action OnStopAbility;
@@ -54,14 +55,16 @@ public class CharacterStats : MonoBehaviour
     {
         if (gameInput == null)
         {
-            gameInput = FindFirstObjectByType<GameInput>();
+            gameInput = FindAnyObjectByType<GameInput>();
         }
+        _abilityUI = FindAnyObjectByType<AbilityUI>();
     }
     
     private void Start()
     {
         gameInput.OnAbilityStarted += StartAbility;
         gameInput.OnAbilityCanceled += EndAbility;
+        GameManager.OnRoundOver += ResetCooldown;
         
         playerStats = this.transform.GetComponentInParent<PlayerStats>();
 
@@ -84,9 +87,6 @@ public class CharacterStats : MonoBehaviour
         playerStats.playerLuck = characterLuck;
         playerStats.playerLightPickupRange = characterLightAbsorption;
 
-        playerStats.playerAbilityCooldown = ability_cooldown;
-        playerStats.playerAbilityDuration = ability_duration;
-
         playerStats.playerCurrentHP = characterMaxHP;
         playerStats.playerCurrentMP = characterMaxMP;
     }
@@ -95,6 +95,7 @@ public class CharacterStats : MonoBehaviour
     {
         gameInput.OnAbilityStarted -= StartAbility;
         gameInput.OnAbilityCanceled -= EndAbility;
+        GameManager.OnRoundOver += ResetCooldown;
     }
 
     private void Update()
@@ -109,7 +110,7 @@ public class CharacterStats : MonoBehaviour
             _reducedCooldown = ability_cooldown * (1f - playerStats.playerCooldown / 100f);
             _clampedCooldown = Mathf.Clamp(_reducedCooldown, 0.01f, ability_cooldown);
             remainingCooldown = _clampedCooldown;
-            actualMaxCooldown = _clampedCooldown;
+            _abilityUI.StartAbilityCooldownUI(remainingCooldown);
             cooldownStarted = false;
         }
         if (!abilityReady)
@@ -120,6 +121,11 @@ public class CharacterStats : MonoBehaviour
                 abilityReady = true;
             }
         }
+    }
+
+    private void ResetCooldown()
+    {
+        remainingCooldown = 0f;
     }
 
     private void StartAbility()

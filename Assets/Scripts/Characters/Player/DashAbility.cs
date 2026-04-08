@@ -18,6 +18,7 @@ public class DashAbility : MonoBehaviour
     private float remainingCooldown;
 
     public event Action OnDashUsed;
+    public event Action<float> OnDashEnded;
 
     private enum DashingState
     {
@@ -72,6 +73,7 @@ public class DashAbility : MonoBehaviour
             }
             remainingCooldown = ComputeCooldown();
             cooldownStartTime = Time.time;
+            OnDashEnded?.Invoke(remainingCooldown);
         }
         currentState = DashingState.dashReady;           
     }
