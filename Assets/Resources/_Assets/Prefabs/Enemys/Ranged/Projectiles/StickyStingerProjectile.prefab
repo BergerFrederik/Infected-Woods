@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 3246508466665967354}
   - component: {fileID: 5757811464455577324}
   - component: {fileID: 7243138097599915757}
+  - component: {fileID: -5761634004950714411}
   m_Layer: 0
   m_Name: StickyStingerProjectile
   m_TagString: Projectile
@@ -143,6 +144,31 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &-5761634004950714411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3248573983623086727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62bd9fe36af433946a5586f827b520df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
+  enemyIsHitByPlayer: {fileID: 0}
+  difficultyOneFactor: 25
+  difficultyTwoFactor: 50
+  enemyCurrentHP: 0
+  enemyMaxHP: 0
+  enemyHPPerWave: 0
+  enemyDamage: 0
+  enemyDamagePerWave: 0
+  enemyMoveSpeed: 0
+  enemyKnockbackResistance: 0
+  enemyLightDropped: 0
+  enemyXPGainOnKill: 0
+  isKnockedBack: 0
 --- !u!1 &4994096879797467817
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,6 +203,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2807607891196704069
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -220,8 +247,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -354789647
-  m_SortingLayer: 6
+  m_SortingLayer: 4
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -7742330801847407682, guid: 576312c88c005e04aab37529dba081fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -231,5 +259,4 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0

@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 public class EnemyChargeTowardsPlayer : MonoBehaviour
@@ -12,28 +10,15 @@ public class EnemyChargeTowardsPlayer : MonoBehaviour
     [SerializeField] private float rest_time = 1;
     [SerializeField] Pathfinder pathfinder;
     [SerializeField] EnemyStats enemyStats;
+    [SerializeField] EnemyKnockback knockback;
 
-    private float cooldownStarttime;
-    private float prepareStartTime;
-    private float restStartTime;
-
-    private Vector2 moveDir;
-    private Vector2 startPosition;
-
+    private float cooldownStarttime, prepareStartTime, restStartTime;
+    private Vector2 moveDir, startPosition;
+    public enum ChargeState { Walking, Preparing, Charging, Resting }
     public ChargeState currentState = ChargeState.Walking;
 
-    public enum ChargeState
-    {
-        Walking,        
-        Preparing,
-        Charging,
-        Resting
-    }
+    private void Start() => cooldownStarttime = -chargeCooldown;
 
-    private void Start()
-    {
-        cooldownStarttime = -chargeCooldown;
-    }
     private void Update()
     {
         UpdateState();
@@ -45,18 +30,14 @@ public class EnemyChargeTowardsPlayer : MonoBehaviour
         switch (currentState)
         {
             case ChargeState.Walking:
-                var distanceToPlayer = pathfinder.GetDistanceToPlayer();
-                var hasNoCooldown = Time.time - cooldownStarttime >= chargeCooldown;
-                var isCloseEnough = distanceToPlayer <= chargeDistanceToPlayer;
-                if (hasNoCooldown && isCloseEnough)
+                if (Time.time - cooldownStarttime >= chargeCooldown && pathfinder.GetDistanceToPlayer() <= chargeDistanceToPlayer)
                 {
                     currentState = ChargeState.Preparing;
                     prepareStartTime = Time.time;
                 }
                 break;
             case ChargeState.Preparing:
-                float passedPrepareTime = Time.time - prepareStartTime;
-                if (passedPrepareTime >= prepare_time)
+                if (Time.time - prepareStartTime >= prepare_time)
                 {
                     currentState = ChargeState.Charging;
                     startPosition = transform.position;
@@ -64,17 +45,15 @@ public class EnemyChargeTowardsPlayer : MonoBehaviour
                 }
                 break;
             case ChargeState.Charging:
-                Vector2 currentPosition = transform.position;               
-                float chargeDistance = chargeDistanceToPlayer + chargeDistanceToPlayer * charge_overshoot;
-                if (Vector2.Distance(currentPosition, startPosition) >= chargeDistance)
+                float dist = chargeDistanceToPlayer * (1 + charge_overshoot);
+                if (Vector2.Distance(transform.position, startPosition) >= dist)
                 {
                     restStartTime = Time.time;
                     currentState = ChargeState.Resting;
                 }
                 break;
             case ChargeState.Resting:
-                float passedRestTime = Time.time - restStartTime;
-                if (passedRestTime >= rest_time)
+                if (Time.time - restStartTime >= rest_time)
                 {
                     currentState = ChargeState.Walking;
                     cooldownStarttime = Time.time;
@@ -88,27 +67,19 @@ public class EnemyChargeTowardsPlayer : MonoBehaviour
         switch (currentState)
         {
             case ChargeState.Walking:
-                WalkTowardsEnemy();
+                knockback.canReceiveKnockback = true;
+                knockback.useLerpResistance = true;
+                Vector2 walkDir = pathfinder.CalculateEnemyMovementVector();
+                knockback.ApplyMovement((Vector3)walkDir * enemyStats.enemyMoveSpeed);
                 break;
             case ChargeState.Preparing:
+            case ChargeState.Resting:
+                knockback.canReceiveKnockback = false; // Immun während Animationen
                 break;
             case ChargeState.Charging:
-                ChargeTowardsPlayer();
-                break;
-            case ChargeState.Resting:
+                knockback.canReceiveKnockback = false; // Während Charge nicht unterbrechbar
+                transform.position += (Vector3)moveDir * enemyStats.enemyMoveSpeed * chargeSpeedMultiplier * Time.deltaTime;
                 break;
         }
-    }
-
-    private void WalkTowardsEnemy()
-    {
-        moveDir = pathfinder.CalculateEnemyMovementVector();
-        transform.position += (Vector3)moveDir * enemyStats.enemyMoveSpeed * Time.deltaTime;
-    }
-
-
-    private void ChargeTowardsPlayer()
-    {      
-        transform.position += (Vector3)moveDir * enemyStats.enemyMoveSpeed * chargeSpeedMultiplier * Time.deltaTime;
     }
 }

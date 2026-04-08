@@ -8,104 +8,67 @@ public class EnemyJumpTowardsPlayer : MonoBehaviour
     [SerializeField] private float jumpHeight = 3f;
     [SerializeField] private float jumpCooldown = 2f;
     [SerializeField] private Pathfinder pathfinder;
-    [SerializeField] private EnemyStats enemyStats;
+    [SerializeField] private EnemyKnockback knockback;
     [SerializeField] private Collider2D enemyCollider;
 
     private float restStartTime;
-
-    private Vector2 startPosition;
-    private Vector2 endPosition;
-
+    public enum JumpState { Resting, Preparing, Jumping }
     public JumpState currentState = JumpState.Resting;
-
-    public enum JumpState
-    {
-        Resting,
-        Preparing,
-        Jumping
-    }
 
     private void Start()
     {
-        enemyCollider = GetComponent<Collider2D>();
         restStartTime = Time.time - jumpCooldown;
     }
 
     private void Update()
     {
-        UpdateState();
-    }
-
-    private void UpdateState()
-    {
-        switch (currentState)
+        if (currentState == JumpState.Resting)
         {
-            case JumpState.Resting:
-                float passedRestTime = Time.time - restStartTime;
-                if (passedRestTime >= jumpCooldown)
-                {
-                    currentState = JumpState.Preparing;
-                }
-                break;
-            case JumpState.Preparing:
-                endPosition = CalculateTargetPosition();
-                startPosition = transform.position;
-                currentState = JumpState.Jumping;
-                enemyCollider.enabled = false;
-                StartCoroutine(JumpArc(startPosition, endPosition, jumpDuration, jumpHeight));
-                break;
-            case JumpState.Jumping:
-                break;
+            knockback.canReceiveKnockback = true;
+            knockback.useLerpResistance = false; // Steht nur da, kein "Aufraffen"
+            knockback.ApplyMovement(Vector3.zero);
+
+            if (Time.time - restStartTime >= jumpCooldown)
+                currentState = JumpState.Preparing;
         }
-    }
-
-    public Vector2 CalculateTargetPosition()
-    {
-        Vector2 playerPosition = pathfinder.GetPlayerPosition();
-        Vector2 currentPosition = transform.position;
-        Vector2 directionToPlayer = playerPosition - currentPosition;
-        float distanceToPlayer = directionToPlayer.magnitude;
-
-        if (distanceToPlayer <= maxJumpDistance)
+        else if (currentState == JumpState.Preparing)
         {
-            return playerPosition;
-        }
-        else
-        {
-            return currentPosition + directionToPlayer.normalized * maxJumpDistance;
+            Vector2 start = transform.position;
+            Vector2 end = CalculateTargetPosition();
+            StartCoroutine(JumpArc(start, end, jumpDuration, jumpHeight));
         }
     }
 
     private IEnumerator JumpArc(Vector2 start, Vector2 end, float duration, float height)
     {
+        currentState = JumpState.Jumping;
+        knockback.canReceiveKnockback = false; // Im Flug kein Knockback
+        enemyCollider.enabled = false;
         pathfinder.enabled = false;
-        float timeElapsed = 0f;
 
+        float timeElapsed = 0f;
         while (timeElapsed < duration)
         {
             float t = timeElapsed / duration;
-
-            // Horizontale Bewegung (Linear)
-            Vector2 horizontalMovement = Vector2.Lerp(start, end, t);
-
-            // Vertikale Bewegung (Halbkreisbogen mit Sinus)
+            Vector2 horizontal = Vector2.Lerp(start, end, t);
             float arc = height * Mathf.Sin(t * Mathf.PI);
-
-            // Setze die neue Position
-            transform.position = new Vector3(horizontalMovement.x, horizontalMovement.y + arc, transform.position.z);
-
+            transform.position = new Vector3(horizontal.x, horizontal.y + arc, transform.position.z);
             timeElapsed += Time.deltaTime;
             yield return null;
         }
 
-        // Stelle sicher, dass die Landeposition exakt erreicht wird
         transform.position = new Vector3(end.x, end.y, transform.position.z);
-
         pathfinder.enabled = true;
+        enemyCollider.enabled = true;
+        restStartTime = Time.time;
+        currentState = JumpState.Resting;
+    }
 
-        // Sprung beendet:
-        enemyCollider.enabled = true; // Collider wieder aktivieren
-        restStartTime = Time.time; // Ruhephase starten
-        currentState = JumpState.Resting; // In den Ruhezustand wechseln
+    public Vector2 CalculateTargetPosition()
+    {
+        Vector2 playerPos = pathfinder.GetPlayerPosition();
+        Vector2 currentPos = transform.position;
+        Vector2 dir = playerPos - currentPos;
+        return dir.magnitude <= maxJumpDistance ? playerPos : currentPos + dir.normalized * maxJumpDistance;
     }
 }

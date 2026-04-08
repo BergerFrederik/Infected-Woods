@@ -4,7 +4,7 @@ public class EnemyProjectile : MonoBehaviour
 {
     private Vector2 direction;
     private float speed;
-    private EnemyStats enemyStats;
+    public EnemyStats enemyStats;
 
     public void SetEnemyStats(EnemyStats projectileEnemyStats)
     {

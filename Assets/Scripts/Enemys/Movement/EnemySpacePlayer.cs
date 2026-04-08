@@ -4,107 +4,59 @@ public class EnemySpacePlayer : MonoBehaviour
 {
     [SerializeField] private Pathfinder pathfinder;
     [SerializeField] private EnemyStats enemyStats;
+    [SerializeField] private EnemyKnockback knockback;
     [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private float spacingDistanceToPlayer = 0f;
-    [SerializeField] private float followDistanceToPlayer = 0f;
-    [SerializeField] private float attackCooldown = 0f;
-    [SerializeField] private float projectileSpeed = 0f;
-    [SerializeField] private float prepareTime = 0f;
+    [SerializeField] private float spacingDistanceToPlayer, followDistanceToPlayer, attackCooldown, projectileSpeed, prepareTime;
 
-    private float cooldownStarttime;
-    private float prepareStarttime;
-    private bool hasProjectile;
-
-    private Vector2 playerPos;
-
-    private enum AttackState
-    {
-        Space,
-        Prepare,
-        Attacking,     
-    }
-
+    private float cooldownStarttime, prepareStarttime;
+    private enum AttackState { Space, Prepare, Attacking }
     private AttackState currentState = AttackState.Space;
-
-    private void Awake()
-    {
-        cooldownStarttime = Time.time - attackCooldown;
-        if (projectilePrefab != null)
-        {
-            hasProjectile = true;
-        }
-    }
 
     private void Update()
     {
-        UpdateState();
-        HandleState();
-    }
+        float dist = pathfinder.GetDistanceToPlayer();
+        Vector2 pathDir = pathfinder.CalculateEnemyMovementVector();
+        Vector3 finalMove = Vector3.zero;
 
-    private void UpdateState()
-    {
-        switch (currentState)
+        if (currentState == AttackState.Space)
         {
-            case AttackState.Space:
-                if (Time.time - cooldownStarttime >= attackCooldown)
-                {
-                    prepareStarttime = Time.time;
-                    currentState = AttackState.Prepare;
-                }
-                break;
-            case AttackState.Prepare:
-                if (Time.time - prepareStarttime >= prepareTime)
-                {
-                    currentState = AttackState.Attacking;
-                }
-                break;
-            case AttackState.Attacking:
-                break;
-        }
-    }
-    
-    private void HandleState()
-    {
-        switch (currentState)
-        {
-            case AttackState.Space:
-                Space();
-                break;
-            case AttackState.Prepare:
-                break;
-            case AttackState.Attacking:
-                if (hasProjectile)
-                {
-                    AttackPlayer();
-                }
-                currentState = AttackState.Space;
-                break;
-        }
-    }
+            if (dist < spacingDistanceToPlayer) {
+                finalMove = -(Vector3)pathDir * enemyStats.enemyMoveSpeed;
+                knockback.useLerpResistance = false; // Flucht = wegfliegen lassen
+            }
+            else if (dist > followDistanceToPlayer) {
+                finalMove = (Vector3)pathDir * enemyStats.enemyMoveSpeed;
+                knockback.useLerpResistance = true; // Jagd = Widerstand
+            }
 
-    private void Space()
-    {
-        float distanceToPlayer = pathfinder.GetDistanceToPlayer();
-        Vector2 moveDir = pathfinder.CalculateEnemyMovementVector();
-        if (distanceToPlayer < spacingDistanceToPlayer)
-        {
-            transform.position -= (Vector3)moveDir * enemyStats.enemyMoveSpeed * Time.deltaTime;
+            if (Time.time - cooldownStarttime >= attackCooldown)
+            {
+                prepareStarttime = Time.time;
+                currentState = AttackState.Prepare;
+            }
         }
-        else if (distanceToPlayer > followDistanceToPlayer)
+        
+        if (currentState == AttackState.Prepare && Time.time - prepareStarttime >= prepareTime)
+            currentState = AttackState.Attacking;
+
+        if (currentState == AttackState.Attacking)
         {
-            transform.position += (Vector3)moveDir * enemyStats.enemyMoveSpeed * Time.deltaTime;
+            AttackPlayer();
+            currentState = AttackState.Space;
         }
+
+        knockback.ApplyMovement(finalMove);
     }
 
     private void AttackPlayer()
     {
-        playerPos = pathfinder.GetPlayerPosition();
-        Vector2 shootDirection = (playerPos - (Vector2)transform.position).normalized;
-        float angle = Mathf.Atan2(shootDirection.y, shootDirection.x) * Mathf.Rad2Deg;
-        GameObject projectileInstance = Instantiate(projectilePrefab, transform.position, Quaternion.Euler(0, 0, angle - 90f));
-        EnemyProjectile enemyProjectile = projectileInstance.GetComponent<EnemyProjectile>();     
-        enemyProjectile.SetEnemyStats(enemyStats);
-        enemyProjectile.Initialize(shootDirection, projectileSpeed);
+        Vector2 shootDir = (pathfinder.GetPlayerPosition() - (Vector2)transform.position).normalized;
+        float angle = Mathf.Atan2(shootDir.y, shootDir.x) * Mathf.Rad2Deg;
+        GameObject proj = Instantiate(projectilePrefab, transform.position, Quaternion.Euler(0, 0, angle - 90f));
+        EnemyProjectile enemyProjectile = proj.GetComponent<EnemyProjectile>();
+        
+        enemyProjectile.SetEnemyStats(enemyStats);    
+        enemyProjectile.Initialize(shootDir, projectileSpeed);
         cooldownStarttime = Time.time;
     }
 }

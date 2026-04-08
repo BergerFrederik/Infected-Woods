@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 5664231920968889031}
   - component: {fileID: 1189426844486115819}
   - component: {fileID: -8503212265006512582}
+  - component: {fileID: -8798324503772591439}
   m_Layer: 0
   m_Name: LimpingFrogger
   m_TagString: Enemy
@@ -329,9 +330,47 @@ MonoBehaviour:
   jumpHeight: 3
   jumpCooldown: 1.5
   pathfinder: {fileID: -4200341328449219895}
-  enemyStats: {fileID: 3245767678808239730}
+  knockback: {fileID: -8798324503772591439}
   enemyCollider: {fileID: 5157397086891573592}
   currentState: 0
+--- !u!114 &-8798324503772591439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522017478837502192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb0fcddf4f50874d929c332fa658cc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyKnockback
+  enemyStats: {fileID: 3245767678808239730}
+  knockbackDuration: 0.2
+  knockbackCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7881526158095066900
 GameObject:
   m_ObjectHideFlags: 0
