@@ -172,6 +172,7 @@ MonoBehaviour:
   characterBaseMovespeed: 4
   characterLuck: 0
   characterLightAbsorption: 0
+  characterStartWeaponSlots: 6
   ability_cooldown: 10
   ability_duration: 5
   ability_manaCost: 25

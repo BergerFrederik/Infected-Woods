@@ -444,6 +444,7 @@ MonoBehaviour:
   characterBaseMovespeed: 4
   characterLuck: 0
   characterLightAbsorption: 0
+  characterStartWeaponSlots: 10
   ability_cooldown: 5
   ability_duration: 0
   ability_manaCost: 10
@@ -452,7 +453,6 @@ MonoBehaviour:
   - + 10 Lifesteal
   - + 5 Armor
   - Coole Passive noch
-  actualMaxCooldown: 0
   remainingCooldown: 0
   abilityReady: 1
   cooldownStarted: 0

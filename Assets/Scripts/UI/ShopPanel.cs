@@ -36,7 +36,7 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI[] weaponButtonText;
     [SerializeField] private TextMeshProUGUI[] weaponDescriptionText;
     [SerializeField] private List<GameObject> weaponPrefabs;
-    [SerializeField] private GameObject[] playerWeaponAnkers;
+    [SerializeField] private GameObject playerWeaponManager;
     [SerializeField] private Button weaponRerollButton;
     [SerializeField] private Image[] inventoryImages;
     [SerializeField] private GameObject[] weaponObjects;
@@ -48,8 +48,10 @@ public class ShopPanel : MonoBehaviour
     
     private GameObject[] arrayOfChosenRandomItems;
     private GameObject[] arrayOfChosenRandomWeapons;
+    private List<GameObject> playerWeaponAnkers = new List<GameObject>();
 
     public static event Action OnShopCycleEnd;
+    public event Action OnWeaponBought;
     private void OnEnable()
     {
         startNextWaveButton.onClick.AddListener(StartNextWave);
@@ -74,7 +76,8 @@ public class ShopPanel : MonoBehaviour
 
     private void SetSpritesToInventory()
     {
-        for (int i = 0; i < playerWeaponAnkers.Length; i++)
+        GetWeaponAnkers();
+        for (int i = 0; i < playerWeaponAnkers.Count; i++)
         {
             if (playerWeaponAnkers[i].transform.childCount != 0)
             {
@@ -203,6 +206,7 @@ public class ShopPanel : MonoBehaviour
 
     private void BuyWeapon(int index, WeaponStats weaponStats)
     {
+        GetWeaponAnkers();
         float weaponPrice = weaponStats.weaponPrice;
         float playerLightAmount = playerStats.playerLightAmount;
         if (playerLightAmount - weaponPrice >= 0)
@@ -219,12 +223,14 @@ public class ShopPanel : MonoBehaviour
                 weaponObjects[index].SetActive(false);
             }   
         }
+        OnWeaponBought?.Invoke();
     }
 
     private int GetNextEmptyWeaponSlotIndex()
     {
+        GetWeaponAnkers();
         int index = - 1;
-        for (int i = 0; i < playerWeaponAnkers.Length; i++)
+        for (int i = 0; i < playerWeaponAnkers.Count; i++)
         {
             if (playerWeaponAnkers[i].transform.childCount == 0)
             {
@@ -239,6 +245,15 @@ public class ShopPanel : MonoBehaviour
     {
         playerStats.playerLightAmount -= purchasePrice;
         SetMoneyToUI();
+    }
+
+    private void GetWeaponAnkers()
+    {
+        playerWeaponAnkers.Clear();
+        for (int i = 0; i < playerWeaponManager.transform.childCount; i++)
+        {
+            playerWeaponAnkers.Add(playerWeaponManager.transform.GetChild(i).gameObject);
+        }
     }
 
     private void SetMoneyToUI()

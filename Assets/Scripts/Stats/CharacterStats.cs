@@ -26,6 +26,7 @@ public class CharacterStats : MonoBehaviour
     public float characterBaseMovespeed = 0f;
     public float characterLuck = 0f;
     public float characterLightAbsorption = 0f;
+    public float characterStartWeaponSlots = 0f;
 
     [Header("Ability")]
     public float ability_cooldown = 5f;
@@ -86,6 +87,7 @@ public class CharacterStats : MonoBehaviour
         playerStats.playerMovespeed = characterBaseMovespeed;
         playerStats.playerLuck = characterLuck;
         playerStats.playerLightPickupRange = characterLightAbsorption;
+        playerStats.PlayerWeaponSlots = characterStartWeaponSlots;
 
         playerStats.playerCurrentHP = characterMaxHP;
         playerStats.playerCurrentMP = characterMaxMP;

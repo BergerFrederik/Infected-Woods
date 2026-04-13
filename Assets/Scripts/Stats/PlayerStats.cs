@@ -10,6 +10,7 @@ public class PlayerStats : MonoBehaviour
     public event Action<float> OnPlayerHealed;
     public event Action<float> OnMaxHPChanged;
     public event Action<float> OnLightPickupRangeChanged;
+    public event Action<float> OnNumWeaponSlotsChanged;
 
     [Header("Primary Stats")]
     [SerializeField] private float _playerMaxHP;
@@ -63,6 +64,16 @@ public class PlayerStats : MonoBehaviour
     public float playerAbilityCooldown = 0f;
     public float playerHealPower = 0f;
     public float playerShieldPower = 0f;
+    [SerializeField] private float _playerWeaponSlots;
+    public float PlayerWeaponSlots
+    {
+        get => _playerWeaponSlots;
+        set
+        {
+            _playerWeaponSlots = value;
+            OnNumWeaponSlotsChanged?.Invoke(value);
+        } 
+    }
 
 
 
@@ -91,7 +102,7 @@ public class PlayerStats : MonoBehaviour
         set
         {
             _playerCurrentMP = value;
-            OnCurrentMPChanged.Invoke(value);
+            OnCurrentMPChanged?.Invoke(value);
         }
     }
     public float playerLightAmount = 0f;
