@@ -13,6 +13,7 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private Button toggleButton;
     [SerializeField] private StatPanel statPanel;
+    [SerializeField] private Transform playerTransform;
     
     
     [Header("Items")]
@@ -165,7 +166,8 @@ public class ShopPanel : MonoBehaviour
 
     private void SetSpritesToWeaponShop()
     {
-        int num_weapons_in_shop = 4;
+        const int num_weapons_in_shop = 4;
+        RandomRollEvent randomRollEvent = playerTransform.GetComponentInChildren<RandomRollEvent>();
         arrayOfChosenRandomWeapons = new GameObject[num_weapons_in_shop];
         for (int i = 0; i < weaponImages.Length; i++)
         {
