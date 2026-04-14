@@ -41,10 +41,34 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private Button weaponRerollButton;
     [SerializeField] private Image[] inventoryImages;
     [SerializeField] private GameObject[] weaponObjects;
+    [SerializeField] private TextMeshProUGUI[] weaponOddsTexts;
+    [SerializeField] private TextMeshProUGUI weaponShopLvLText;
+    [SerializeField] private Button weaponShopLvLUpButton;
+    [SerializeField] private float shroomChanceIncrease = 3f;
+    [SerializeField] private float budChanceIncrease = 1f;
+    [SerializeField] private float blossomChanceIncrease = 0.5f;
+    [SerializeField] private float shroomIncreaseAt;
+    [SerializeField] private float budIncreaseAt;
+    [SerializeField] private float blossomIncreaseAt;
+    [SerializeField] private float shroomIncreaseCap;
+    [SerializeField] private float budIncreaseCap;
+    [SerializeField] private float weaponShopMaxLvL;
+    [SerializeField] private float weaponShopLvlUpCostIncrease;
+    [SerializeField] private float weaponShopBaseLvLUpCost;
+    
+    private float _baseChanceForRoot = 100f;
+    private const int rarity_code_blossom = 4;
+    private const int rarity_code_bud = 3;
+    private const int rarity_code_shroom = 2;
+    private const int rarity_code_root = 1;
+    Dictionary<int, List<GameObject>> weaponsByRarity = new Dictionary<int, List<GameObject>>();
+    private int _weaponShopLvl;
+    private float _currentWeaponShopLvlUpCost;
 
     [Header("Inventory")] 
     [SerializeField] private GameObject characterObject;
     [SerializeField] private Image characterInventoryImage;
+    [SerializeField] private GameObject[] weaponShopBenchSlots;
     
     
     private GameObject[] arrayOfChosenRandomItems;
@@ -53,12 +77,14 @@ public class ShopPanel : MonoBehaviour
 
     public static event Action OnShopCycleEnd;
     public event Action OnWeaponBought;
+    
     private void OnEnable()
     {
         startNextWaveButton.onClick.AddListener(StartNextWave);
         itemRerollButton.onClick.AddListener(RerollItems);
         weaponRerollButton.onClick.AddListener(RerollWeapons);
         toggleButton.onClick.AddListener(ToggleStatsheet);
+        weaponShopLvLUpButton.onClick.AddListener(IncreaseWeaponShopLvL);
         
         SetSpritesToInventory();
         SetSpritesToItemshop();
@@ -72,24 +98,36 @@ public class ShopPanel : MonoBehaviour
         itemRerollButton.onClick.RemoveListener(RerollItems);
         weaponRerollButton.onClick.RemoveListener(RerollWeapons);
         toggleButton.onClick.RemoveListener(ToggleStatsheet);
+        weaponShopLvLUpButton.onClick.RemoveListener(IncreaseWeaponShopLvL);
         ResetItemText();
     }
 
     private void SetSpritesToInventory()
     {
         GetWeaponAnkers();
-        for (int i = 0; i < playerWeaponAnkers.Count; i++)
+        
+        for (int i = 0; i < inventoryImages.Length; i++)
         {
-            if (playerWeaponAnkers[i].transform.childCount != 0)
+            if (i < playerWeaponAnkers.Count && playerWeaponAnkers[i].transform.childCount != 0)
             {
                 Sprite sprite = playerWeaponAnkers[i].GetComponentInChildren<SpriteRenderer>().sprite;
                 inventoryImages[i].sprite = sprite;
+                inventoryImages[i].color = Color.white;
+            }
+            else
+            {
+                inventoryImages[i].sprite = null;
+                inventoryImages[i].color = Color.white;
             }
         }
-        GameObject chosenCharacterObject = characterObject.transform.GetChild(0).gameObject;
-        GameObject characterVisuals = chosenCharacterObject.transform.Find("CharacterVisuals").gameObject;
-        Sprite characterSprite = characterVisuals.GetComponentInChildren<SpriteRenderer>().sprite;
-        characterInventoryImage.sprite = characterSprite;
+        
+        if (characterObject.transform.childCount > 0)
+        {
+            GameObject chosenCharacterObject = characterObject.transform.GetChild(0).gameObject;
+            Transform visuals = chosenCharacterObject.transform.Find("CharacterVisuals");
+            if (visuals != null)
+                characterInventoryImage.sprite = visuals.GetComponentInChildren<SpriteRenderer>().sprite;
+        }
     }
 
     private void SetSpritesToItemshop()
@@ -166,8 +204,11 @@ public class ShopPanel : MonoBehaviour
 
     private void SetSpritesToWeaponShop()
     {
+        SetWeaponDict();
+        SetRarityText();
+        
         const int num_weapons_in_shop = 4;
-        RandomRollEvent randomRollEvent = playerTransform.GetComponentInChildren<RandomRollEvent>();
+        
         arrayOfChosenRandomWeapons = new GameObject[num_weapons_in_shop];
         for (int i = 0; i < weaponImages.Length; i++)
         {
@@ -177,10 +218,26 @@ public class ShopPanel : MonoBehaviour
                 weaponObjects[i].SetActive(true);
             }
             
+            // get rarity
+            int rarity = CalculateRarity();
+            
             // get random Weapon
-            int randomIndex = Random.Range(0, weaponPrefabs.Count);
-            GameObject randomWeapon = weaponPrefabs[randomIndex];
-            arrayOfChosenRandomWeapons[i] = randomWeapon;
+            if (weaponsByRarity.ContainsKey(rarity) && weaponsByRarity[rarity].Count > 0)
+            {
+                List<GameObject> matchingWeapons = weaponsByRarity[rarity];
+                
+                int randomIndex = Random.Range(0, matchingWeapons.Count);
+                GameObject chosenWeapon = matchingWeapons[randomIndex];
+                
+                arrayOfChosenRandomWeapons[i] = chosenWeapon;
+            }
+            else
+            {
+                Debug.LogError($"Keine Waffen für Rarity {rarity} gefunden!");
+            }
+            
+            GameObject randomWeapon = arrayOfChosenRandomWeapons[i];
+            
             WeaponStats weaponStats = randomWeapon.GetComponent<WeaponStats>();
 
             // get Sprite from Weapon
@@ -197,7 +254,7 @@ public class ShopPanel : MonoBehaviour
 
             
             // set cost to button
-            weaponButtonText[i].text = weaponStats.weaponPrice.ToString();
+            weaponButtonText[i].text = $"Buy - {weaponStats.weaponPrice}";
 
             // Add Listeners to Button
             weaponButtons[i].onClick.RemoveAllListeners();
@@ -206,26 +263,122 @@ public class ShopPanel : MonoBehaviour
         }        
     }
 
+    private void SetWeaponDict()
+    {
+        weaponsByRarity.Clear();
+        foreach (var prefab in weaponPrefabs)
+        {
+            int tier = (int)prefab.GetComponent<WeaponStats>().weaponTier;
+            if (!weaponsByRarity.ContainsKey(tier))
+            {
+                weaponsByRarity[tier] = new List<GameObject>();
+            }
+            weaponsByRarity[tier].Add(prefab);
+        }
+    }
+
+    private void SetRarityText()
+    {
+        var odds = GetCurrentOdds(_weaponShopLvl);
+
+        weaponOddsTexts[0].text = $"{odds.root}%";
+        weaponOddsTexts[1].text = $"{odds.shroom}%";
+        weaponOddsTexts[2].text = $"{odds.bud}%";
+        weaponOddsTexts[3].text = $"{odds.blossom}%";
+
+        if (_weaponShopLvl == 0)
+        {
+            _currentWeaponShopLvlUpCost = weaponShopBaseLvLUpCost;
+        }
+        
+        weaponShopLvLUpButton.GetComponentInChildren<TextMeshProUGUI>().text = $"LVL Up - {_currentWeaponShopLvlUpCost}";
+        weaponShopLvLText.text = _weaponShopLvl.ToString();
+    }
+
+    private int CalculateRarity()
+    {
+        var odds = GetCurrentOdds(playerStats.playerLevel);
+        RandomRollEvent randomRollEvent = playerTransform.GetComponentInChildren<RandomRollEvent>();
+    
+        float roll = randomRollEvent.GetRandomFloatRoll(0f, 100f);
+
+        
+        if (roll <= odds.root) 
+            return rarity_code_root;
+    
+        if (roll <= odds.root + odds.shroom) 
+            return rarity_code_shroom;
+    
+        if (roll <= odds.root + odds.shroom + odds.bud) 
+            return rarity_code_bud;
+
+        return rarity_code_blossom;
+    }
+
+    private (float root, float shroom, float bud, float blossom) GetCurrentOdds(float lvl)
+    {
+        float rawBlossom = ComputeChances(lvl, blossomChanceIncrease, blossomIncreaseAt, Mathf.Infinity, 0f);
+        float rawBud     = ComputeChances(lvl, budChanceIncrease, budIncreaseAt, budIncreaseCap, 0f);
+        float rawShroom  = ComputeChances(lvl, shroomChanceIncrease, shroomIncreaseAt, shroomIncreaseCap, 0f);
+    
+        float blossom = rawBlossom;
+        float bud     = Mathf.Max(0, rawBud - blossom);
+        float shroom  = Mathf.Max(0, rawShroom - bud - blossom);
+        float root    = Mathf.Max(0, _baseChanceForRoot - shroom - bud - blossom);
+
+        return (root, shroom, bud, blossom);
+    }
+    
+    private float ComputeChances(float playerLvl, float increase, float minLvl, float maxLvl, float baseChance)
+    {
+        if (playerLvl < minLvl)
+        {
+            return baseChance;
+        }
+        
+        float cappedLvl = Mathf.Min(playerLvl, maxLvl);
+        float levelDiff = cappedLvl - (minLvl - 1);
+        
+        return increase * levelDiff + baseChance;
+    }
+
     private void BuyWeapon(int index, WeaponStats weaponStats)
     {
-        GetWeaponAnkers();
         float weaponPrice = weaponStats.weaponPrice;
         float playerLightAmount = playerStats.playerLightAmount;
+        
         if (playerLightAmount - weaponPrice >= 0)
         {
+            GetWeaponAnkers();
             weaponButtons[index].onClick.RemoveAllListeners();
             int weaponAnkerIndex = GetNextEmptyWeaponSlotIndex();
+            int benchIndex = GetNextEmptyBenchSlotIndex();
+
+            Transform targetParent = null;
+            
             if (weaponAnkerIndex != -1)
             {
-                GameObject chosenWeapon = arrayOfChosenRandomWeapons[index];
-                GameObject boughtWeapon = Instantiate(chosenWeapon);
-                boughtWeapon.transform.SetParent(playerWeaponAnkers[weaponAnkerIndex].transform, false);
-                inventoryImages[weaponAnkerIndex].sprite = chosenWeapon.GetComponentInChildren<SpriteRenderer>().sprite;
-                HandlePurchase(weaponPrice);
-                weaponObjects[index].SetActive(false);
-            }   
+                targetParent = playerWeaponAnkers[weaponAnkerIndex].transform;
+            }  
+            else if (benchIndex != -1)
+            {
+                targetParent = weaponShopBenchSlots[benchIndex].transform;
+            }
+            else
+            {
+                Debug.Log("Inventar und Bench voll");
+                return;
+            }
+            
+            GameObject chosenWeapon = arrayOfChosenRandomWeapons[index];
+            GameObject boughtWeapon = Instantiate(chosenWeapon, targetParent, false);
+            
+            HandlePurchase(weaponPrice);
+            weaponObjects[index].SetActive(false);
+            
+            RefreshAllUI();
+            OnWeaponBought?.Invoke();
         }
-        OnWeaponBought?.Invoke();
     }
 
     private int GetNextEmptyWeaponSlotIndex()
@@ -241,6 +394,18 @@ public class ShopPanel : MonoBehaviour
             }
         }
         return index;
+    }
+    
+    private int GetNextEmptyBenchSlotIndex()
+    {
+        for (int i = 0; i < weaponShopBenchSlots.Length; i++)
+        {
+            if (weaponShopBenchSlots[i].transform.childCount == 0)
+            {
+                return i;
+            }
+        }
+        return -1; 
     }
 
     private void HandlePurchase(float purchasePrice)
@@ -281,6 +446,37 @@ public class ShopPanel : MonoBehaviour
         }
     }
 
+    private void IncreaseWeaponShopLvL()
+    {
+        if (_weaponShopLvl == (int)weaponShopMaxLvL)
+        {
+            Debug.Log("Max LVL");
+            return;
+        }
+        
+        if (playerStats.playerLightAmount < _currentWeaponShopLvlUpCost)
+        {
+            Debug.Log("Insufficient funds");
+            return;
+        }
+
+        HandlePurchase(_currentWeaponShopLvlUpCost);
+        _weaponShopLvl++;
+        
+        weaponShopLvLText.text = _weaponShopLvl.ToString();
+        
+        if (_weaponShopLvl < (int)weaponShopMaxLvL)
+        {
+            _currentWeaponShopLvlUpCost = Mathf.RoundToInt(_currentWeaponShopLvlUpCost + _currentWeaponShopLvlUpCost * weaponShopLvlUpCostIncrease);
+            weaponShopLvLUpButton.GetComponentInChildren<TextMeshProUGUI>().text = $"LVL Up - {_currentWeaponShopLvlUpCost}";
+            SetRarityText();
+        }
+        else
+        {
+            weaponShopLvLUpButton.GetComponentInChildren<TextMeshProUGUI>().text = "Max LVL";
+        }
+    }
+
     private void RerollWeapons()
     {
         SetSpritesToWeaponShop();
@@ -291,9 +487,73 @@ public class ShopPanel : MonoBehaviour
         statPanel.gameObject.SetActive(true);
     }
 
-    public void StartNextWave()
+    private void StartNextWave()
     {
         OnShopCycleEnd?.Invoke();
         this.gameObject.SetActive(false);
+    }
+    
+    // In ShopPanel.cs hinzufügen:
+
+    public void MoveWeapon(bool fromBench, int fromIndex, bool toBench, int toIndex)
+    {
+        GameObject weaponToMove = null;
+        Transform sourceParent = null;
+        Transform targetParent = null;
+
+        // 1. Quelle bestimmen
+        if (fromBench) {
+            sourceParent = weaponShopBenchSlots[fromIndex].transform;
+        } else {
+            GetWeaponAnkers();
+            sourceParent = playerWeaponAnkers[fromIndex].transform;
+        }
+
+        if (sourceParent.childCount > 0)
+            weaponToMove = sourceParent.GetChild(0).gameObject;
+
+        if (weaponToMove == null) return;
+
+        // 2. Ziel bestimmen
+        if (toBench) {
+            targetParent = weaponShopBenchSlots[toIndex].transform;
+        } else {
+            GetWeaponAnkers();
+            targetParent = playerWeaponAnkers[toIndex].transform;
+        }
+
+        // 3. Tausch-Logik (Einfach: Nur wenn leer)
+        if (targetParent.childCount > 0) return; 
+
+        // Verschieben
+        weaponToMove.transform.SetParent(targetParent, false);
+
+        // Alles aktualisieren
+        RefreshAllUI();
+        OnWeaponBought?.Invoke();
+    }
+    
+    public void RefreshAllUI()
+    {
+        SetSpritesToInventory();
+        UpdateBenchUI();
+    }
+
+    private void UpdateBenchUI()
+    {
+        for (int i = 0; i < weaponShopBenchSlots.Length; i++)
+        {
+            Image slotImage = weaponShopBenchSlots[i].GetComponent<Image>();
+            if (weaponShopBenchSlots[i].transform.childCount > 0)
+            {
+                slotImage.sprite = weaponShopBenchSlots[i].GetComponentInChildren<SpriteRenderer>().sprite;
+                slotImage.color = Color.white;
+            }
+            else
+            {
+                slotImage.sprite = null;
+                slotImage.color = Color.white;
+            }
+        }
     }
 }

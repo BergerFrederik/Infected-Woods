@@ -603,7 +603,7 @@ PlayerSettings:
     PS5: 
     QNX: 
     ReservedCFE: 
-    Standalone: 
+    Standalone: SENTIS_ANALYTICS_ENABLED;APP_UI_EDITOR_ONLY
     VisionOS: 
     WebGL: 
     Windows Store Apps: 
@@ -708,6 +708,7 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
+  enableDirectStorage: 0
   cloudProjectId: f09a6858-14c6-4f96-88fd-eb8d79cd1dfd
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
