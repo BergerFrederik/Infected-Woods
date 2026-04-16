@@ -144,6 +144,7 @@ MonoBehaviour:
   weaponRangedDamageScale: 0
   weaponMysticDamageScale: 0
   weaponTier: 0
+  weaponLevel: 0
   weaponWeaponType: 0
   weaponAttackType: 
   weaponClass: 0
@@ -157,6 +158,7 @@ MonoBehaviour:
   currentTotalDamage: 0
   weaponSpecialAbility: 
   weaponLore: 
+  weaponShopSprite: {fileID: 0}
 --- !u!58 &19671711820335501
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -444,7 +446,7 @@ MonoBehaviour:
   characterBaseMovespeed: 4
   characterLuck: 0
   characterLightAbsorption: 0
-  characterStartWeaponSlots: 10
+  characterStartWeaponSlots: 6
   ability_cooldown: 5
   ability_duration: 0
   ability_manaCost: 10

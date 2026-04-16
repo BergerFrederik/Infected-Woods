@@ -10,7 +10,8 @@ public class WeaponStats : MonoBehaviour
     public float weaponRangedDamageScale = 0f;
     public float weaponMysticDamageScale = 0f;
     public float weaponTier = 0f;
-
+    public float weaponLevel;
+    
     public enum weaponTypeOptions
     {
         Melee,

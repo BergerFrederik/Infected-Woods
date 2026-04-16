@@ -23,15 +23,18 @@ public class UISlotHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         canvas = GetComponentInParent<Canvas>();
         shopPanel = Object.FindAnyObjectByType<ShopPanel>();
     }
+    
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (GetComponent<Image>().sprite == null || GetComponent<Image>().color.a == 0)
+        Transform prefabSlot = transform.Find("WeaponPrefab");
+    
+        if (prefabSlot == null || prefabSlot.childCount == 0)
         {
             eventData.pointerDrag = null;
             return;
         }
-
+        
         startPosition = rectTransform.localPosition;
         canvasGroup.alpha = 0.6f;
         canvasGroup.blocksRaycasts = false; 
@@ -49,7 +52,6 @@ public class UISlotHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         canvasGroup.blocksRaycasts = true;
         rectTransform.localPosition = startPosition; 
         
-        // WICHTIG: Hier muss der Name der Methode aus dem ShopPanel stehen
         if (shopPanel != null) shopPanel.RefreshAllUI();
     }
 

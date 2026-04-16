@@ -69,6 +69,10 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private GameObject characterObject;
     [SerializeField] private Image characterInventoryImage;
     [SerializeField] private GameObject[] weaponShopBenchSlots;
+    [SerializeField] private Color[] weaponLvLColors;
+    [SerializeField] private Sprite[] weaponBoarderSprites;
+    [SerializeField] private Transform[] inventoryWeaponSlots;
+    
     
     
     private GameObject[] arrayOfChosenRandomItems;
@@ -86,7 +90,7 @@ public class ShopPanel : MonoBehaviour
         toggleButton.onClick.AddListener(ToggleStatsheet);
         weaponShopLvLUpButton.onClick.AddListener(IncreaseWeaponShopLvL);
         
-        SetSpritesToInventory();
+        SetSpritesToInventoryOnActivate();
         SetSpritesToItemshop();
         SetSpritesToWeaponShop();
         SetMoneyToUI();
@@ -102,21 +106,31 @@ public class ShopPanel : MonoBehaviour
         ResetItemText();
     }
 
-    private void SetSpritesToInventory()
+    private void SetSpritesToInventoryOnActivate()
     {
         GetWeaponAnkers();
         
-        for (int i = 0; i < inventoryImages.Length; i++)
+        for (int i = 0; i < playerWeaponAnkers.Count; i++)
         {
             if (i < playerWeaponAnkers.Count && playerWeaponAnkers[i].transform.childCount != 0)
             {
-                Sprite sprite = playerWeaponAnkers[i].GetComponentInChildren<SpriteRenderer>().sprite;
-                inventoryImages[i].sprite = sprite;
-                inventoryImages[i].color = Color.white;
+                Transform weaponObj = playerWeaponAnkers[i].transform.GetChild(0);
+                WeaponStats currentWeaponStats = weaponObj.GetComponent<WeaponStats>();
+                float weaponLevel = currentWeaponStats.weaponLevel;
+                float weaponTier = currentWeaponStats.weaponTier;
+
+                Transform backgroundImage = inventoryWeaponSlots[i].Find("BackgroundImage");
+                Transform boarderImage = inventoryWeaponSlots[i].Find("BoarderImage");
+                Transform weaponImage = inventoryWeaponSlots[i].Find("WeaponImage");
+
+                backgroundImage.GetComponent<Image>().color = weaponLvLColors[(int)weaponLevel];
+                boarderImage.GetComponent<Image>().sprite = weaponBoarderSprites[(int)weaponTier - 1];
+                weaponImage.GetComponent<Image>().sprite = weaponObj.GetComponentInChildren<SpriteRenderer>().sprite;
+
+                weaponObj.SetParent(inventoryWeaponSlots[i].Find("WeaponPrefab"));
             }
             else
             {
-                inventoryImages[i].sprite = null;
                 inventoryImages[i].color = Color.white;
             }
         }
@@ -127,6 +141,35 @@ public class ShopPanel : MonoBehaviour
             Transform visuals = chosenCharacterObject.transform.Find("CharacterVisuals");
             if (visuals != null)
                 characterInventoryImage.sprite = visuals.GetComponentInChildren<SpriteRenderer>().sprite;
+        }
+    }
+
+    private void SetSpritesToInventory()
+    {
+        for (int i = 0; i < inventoryWeaponSlots.Length; i++)
+        {
+            Transform backgroundImage = inventoryWeaponSlots[i].Find("BackgroundImage");
+            Transform boarderImage = inventoryWeaponSlots[i].Find("BoarderImage");
+            Transform weaponImage = inventoryWeaponSlots[i].Find("WeaponImage");
+            Transform weaponPrefabSlot = inventoryWeaponSlots[i].Find("WeaponPrefab");
+            
+            if (weaponPrefabSlot.childCount != 0)
+            {
+                Transform weaponObj = weaponPrefabSlot.GetChild(0);
+                WeaponStats currentWeaponStats = weaponObj.GetComponent<WeaponStats>();
+                float weaponLevel = currentWeaponStats.weaponLevel;
+                float weaponTier = currentWeaponStats.weaponTier;
+                
+                backgroundImage.GetComponent<Image>().color = weaponLvLColors[(int)weaponLevel];
+                boarderImage.GetComponent<Image>().sprite = weaponBoarderSprites[(int)weaponTier - 1];
+                weaponImage.GetComponent<Image>().sprite = weaponObj.GetComponentInChildren<SpriteRenderer>().sprite;
+            }
+            else
+            {
+                backgroundImage.GetComponent<Image>().color = Color.white;
+                boarderImage.GetComponent<Image>().sprite = null;
+                weaponImage.GetComponent<Image>().sprite = null;
+            }
         }
     }
 
@@ -351,18 +394,18 @@ public class ShopPanel : MonoBehaviour
         {
             GetWeaponAnkers();
             weaponButtons[index].onClick.RemoveAllListeners();
-            int weaponAnkerIndex = GetNextEmptyWeaponSlotIndex();
+            int inventoryWeaponSlotIndex = GetNextEmptyWeaponSlotIndex();
             int benchIndex = GetNextEmptyBenchSlotIndex();
 
             Transform targetParent = null;
             
-            if (weaponAnkerIndex != -1)
+            if (inventoryWeaponSlotIndex != -1)
             {
-                targetParent = playerWeaponAnkers[weaponAnkerIndex].transform;
+                targetParent = inventoryWeaponSlots[inventoryWeaponSlotIndex].Find("WeaponPrefab");
             }  
             else if (benchIndex != -1)
             {
-                targetParent = weaponShopBenchSlots[benchIndex].transform;
+                targetParent = weaponShopBenchSlots[benchIndex].transform.Find("WeaponPrefab");
             }
             else
             {
@@ -383,11 +426,10 @@ public class ShopPanel : MonoBehaviour
 
     private int GetNextEmptyWeaponSlotIndex()
     {
-        GetWeaponAnkers();
         int index = - 1;
-        for (int i = 0; i < playerWeaponAnkers.Count; i++)
+        for (int i = 0; i < inventoryWeaponSlots.Length; i++)
         {
-            if (playerWeaponAnkers[i].transform.childCount == 0)
+            if (inventoryWeaponSlots[i].Find("WeaponPrefab").childCount == 0)
             {
                 index = i;
                 break;
@@ -400,7 +442,9 @@ public class ShopPanel : MonoBehaviour
     {
         for (int i = 0; i < weaponShopBenchSlots.Length; i++)
         {
-            if (weaponShopBenchSlots[i].transform.childCount == 0)
+            Transform weaponPrefabSlot = weaponShopBenchSlots[i].transform.Find("WeaponPrefab");
+            
+            if (weaponPrefabSlot != null && weaponPrefabSlot.childCount == 0)
             {
                 return i;
             }
@@ -486,52 +530,77 @@ public class ShopPanel : MonoBehaviour
     {
         statPanel.gameObject.SetActive(true);
     }
-
-    private void StartNextWave()
-    {
-        OnShopCycleEnd?.Invoke();
-        this.gameObject.SetActive(false);
-    }
     
-    // In ShopPanel.cs hinzufügen:
-
     public void MoveWeapon(bool fromBench, int fromIndex, bool toBench, int toIndex)
-    {
-        GameObject weaponToMove = null;
-        Transform sourceParent = null;
-        Transform targetParent = null;
+{
+    GameObject weaponToMove = null;
+    Transform sourceParent = null;
+    Transform targetParent = null;
 
-        // 1. Quelle bestimmen
-        if (fromBench) {
-            sourceParent = weaponShopBenchSlots[fromIndex].transform;
-        } else {
-            GetWeaponAnkers();
-            sourceParent = playerWeaponAnkers[fromIndex].transform;
-        }
-
-        if (sourceParent.childCount > 0)
-            weaponToMove = sourceParent.GetChild(0).gameObject;
-
-        if (weaponToMove == null) return;
-
-        // 2. Ziel bestimmen
-        if (toBench) {
-            targetParent = weaponShopBenchSlots[toIndex].transform;
-        } else {
-            GetWeaponAnkers();
-            targetParent = playerWeaponAnkers[toIndex].transform;
-        }
-
-        // 3. Tausch-Logik (Einfach: Nur wenn leer)
-        if (targetParent.childCount > 0) return; 
-
-        // Verschieben
-        weaponToMove.transform.SetParent(targetParent, false);
-
-        // Alles aktualisieren
-        RefreshAllUI();
-        OnWeaponBought?.Invoke();
+    // 1. Quelle bestimmen
+    if (fromBench) {
+        sourceParent = weaponShopBenchSlots[fromIndex].transform.Find("WeaponPrefab");
+    } else {
+        sourceParent = inventoryWeaponSlots[fromIndex].Find("WeaponPrefab");
     }
+
+    if (sourceParent == null || sourceParent.childCount == 0) return;
+    weaponToMove = sourceParent.GetChild(0).gameObject;
+
+    // 2. Ziel bestimmen
+    if (toBench) {
+        targetParent = weaponShopBenchSlots[toIndex].transform.Find("WeaponPrefab");
+    } else {
+        targetParent = inventoryWeaponSlots[toIndex].Find("WeaponPrefab");
+    }
+
+    if (targetParent == null) return;
+
+    // 3. Belegungs-Check (Merge oder Swap)
+    if (targetParent.childCount > 0)
+    {
+        GameObject targetWeapon = targetParent.GetChild(0).gameObject;
+        WeaponStats statsToMove = weaponToMove.GetComponent<WeaponStats>();
+        WeaponStats statsTarget = targetWeapon.GetComponent<WeaponStats>();
+
+        // MERGE LOGIK
+        if (statsToMove.weaponName == statsTarget.weaponName && statsToMove.weaponLevel == statsTarget.weaponLevel)
+        {
+            int maxLevel = weaponLvLColors.Length - 1; 
+
+            if (statsTarget.weaponLevel < maxLevel)
+            {
+                statsTarget.weaponLevel++;
+                
+                weaponToMove.transform.SetParent(null);
+                weaponToMove.SetActive(false);
+                Destroy(weaponToMove);
+                
+                RefreshAllUI();
+                OnWeaponBought?.Invoke();
+                return;
+            }
+        }
+        
+        // SWAP LOGIK (Wenn kein Merge möglich war oder Max Level erreicht ist)
+        // Wir schieben die Ziel-Waffe temporär in den alten Slot der gezogenen Waffe
+        targetWeapon.transform.SetParent(sourceParent, false);
+        targetWeapon.transform.localPosition = Vector3.zero;
+        
+        // Dann schieben wir die gezogene Waffe in den Ziel-Slot
+        weaponToMove.transform.SetParent(targetParent, false);
+        weaponToMove.transform.localPosition = Vector3.zero;
+    }
+    else
+    {
+        // Standard Verschieben (Ziel war leer)
+        weaponToMove.transform.SetParent(targetParent, false);
+        weaponToMove.transform.localPosition = Vector3.zero;
+    }
+
+    RefreshAllUI();
+    OnWeaponBought?.Invoke();
+}
     
     public void RefreshAllUI()
     {
@@ -543,16 +612,57 @@ public class ShopPanel : MonoBehaviour
     {
         for (int i = 0; i < weaponShopBenchSlots.Length; i++)
         {
-            Image slotImage = weaponShopBenchSlots[i].GetComponent<Image>();
-            if (weaponShopBenchSlots[i].transform.childCount > 0)
+            Image backgroundImage = weaponShopBenchSlots[i].transform.Find("BackgroundImage").GetComponent<Image>();
+            Image boarderImage = weaponShopBenchSlots[i].transform.Find("BoarderImage").GetComponent<Image>();
+            Image weaponImage = weaponShopBenchSlots[i].transform.Find("WeaponImage").GetComponent<Image>();
+            
+            Transform weaponPrefabSlot = weaponShopBenchSlots[i].transform.Find("WeaponPrefab");
+            
+            if (weaponPrefabSlot.childCount > 0)
             {
-                slotImage.sprite = weaponShopBenchSlots[i].GetComponentInChildren<SpriteRenderer>().sprite;
-                slotImage.color = Color.white;
+                Transform weaponPrefab = weaponPrefabSlot.GetChild(0);
+                WeaponStats currentWeaponStats = weaponPrefab.GetComponent<WeaponStats>();
+                
+                int weaponLevel = (int)currentWeaponStats.weaponLevel;
+                int weaponTier = (int)currentWeaponStats.weaponTier;
+                
+                backgroundImage.color = weaponLvLColors[weaponLevel];
+                boarderImage.sprite = weaponBoarderSprites[weaponTier - 1]; // tier starts at 1
+                weaponImage.sprite = weaponPrefab.GetComponentInChildren<SpriteRenderer>().sprite;
             }
             else
             {
-                slotImage.sprite = null;
-                slotImage.color = Color.white;
+                backgroundImage.color = Color.white;
+                backgroundImage.sprite = null;
+                weaponImage.sprite = null;
+                boarderImage.sprite = null;
+            }
+        }
+    }
+    
+    private void StartNextWave()
+    {
+        SetWeaponsToPlayerWeaponManager();
+        OnShopCycleEnd?.Invoke();
+        this.gameObject.SetActive(false);
+    }
+
+    private void SetWeaponsToPlayerWeaponManager()
+    {
+        GetWeaponAnkers();
+        
+        for (int i = 0; i < inventoryWeaponSlots.Length; i++)
+        {
+            Transform weaponPrefabSlot = inventoryWeaponSlots[i].Find("WeaponPrefab");
+
+            if (weaponPrefabSlot != null && weaponPrefabSlot.childCount > 0 && i < playerWeaponAnkers.Count)
+            {
+                Transform weaponObj = weaponPrefabSlot.GetChild(0);
+                weaponObj.SetParent(playerWeaponAnkers[i].transform, false);
+                
+                weaponObj.localPosition = Vector3.zero;
+                weaponObj.localRotation = Quaternion.identity;
+                weaponObj.localScale = Vector3.one;
             }
         }
     }
