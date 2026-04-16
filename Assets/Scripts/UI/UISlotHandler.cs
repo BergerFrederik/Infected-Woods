@@ -12,7 +12,9 @@ public class UISlotHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     private Vector3 startPosition;
+    private Transform originalParent;
     private ShopPanel shopPanel;
+    private int originalIndex;
 
     private void Awake()
     {
@@ -23,26 +25,34 @@ public class UISlotHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         canvas = GetComponentInParent<Canvas>();
         shopPanel = Object.FindAnyObjectByType<ShopPanel>();
     }
-    
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         Transform prefabSlot = transform.Find("WeaponPrefab");
-    
         if (prefabSlot == null || prefabSlot.childCount == 0)
         {
             eventData.pointerDrag = null;
             return;
         }
-        
-        startPosition = rectTransform.localPosition;
+
+        // 1. Ursprung merken
+        originalParent = transform.parent;
+        originalIndex = transform.GetSiblingIndex();
+        startPosition = rectTransform.position; // Weltposition merken
+
+        // 2. In den DragLayer schieben, damit es über allem ist
+        if (shopPanel != null && shopPanel.dragLayer != null)
+        {
+            transform.SetParent(shopPanel.dragLayer);
+        }
+
         canvasGroup.alpha = 0.6f;
         canvasGroup.blocksRaycasts = false; 
-        transform.SetAsLastSibling(); 
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        // Da es ein RectTransform ist, funktioniert diese einfache Logik wieder:
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
@@ -50,7 +60,13 @@ public class UISlotHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
-        rectTransform.localPosition = startPosition; 
+
+        // 3. Zurück in den ursprünglichen Parent-Container (Inventar oder Bench)
+        transform.SetParent(originalParent);
+        transform.SetSiblingIndex(originalIndex);
+        
+        // 4. Position zurücksetzen (wird durch RefreshAllUI ohnehin glattgezogen)
+        rectTransform.position = startPosition; 
         
         if (shopPanel != null) shopPanel.RefreshAllUI();
     }

@@ -32684,6 +32684,7 @@ MonoBehaviour:
   - {fileID: 1414559978}
   - {fileID: 1162214994}
   - {fileID: 256037096}
+  dragLayer: {fileID: 2081560352}
 --- !u!1 &1647576011
 GameObject:
   m_ObjectHideFlags: 0

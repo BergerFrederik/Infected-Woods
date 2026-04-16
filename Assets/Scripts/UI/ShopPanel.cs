@@ -72,7 +72,7 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private Color[] weaponLvLColors;
     [SerializeField] private Sprite[] weaponBoarderSprites;
     [SerializeField] private Transform[] inventoryWeaponSlots;
-    
+    public Transform dragLayer;
     
     
     private GameObject[] arrayOfChosenRandomItems;
