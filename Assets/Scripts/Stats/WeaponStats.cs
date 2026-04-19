@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class WeaponStats : MonoBehaviour
 {
+    [SerializeField] private WeaponData weaponData;
+    
     public string weaponName;
     public string weaponSubtitle;
     public float weaponProjectileSpeed = 0f;
@@ -57,5 +59,22 @@ public class WeaponStats : MonoBehaviour
         this.currentTotalDamage = other.currentTotalDamage;
         this.weaponSpecialAbility = other.weaponSpecialAbility;
         this.weaponLore = other.weaponLore;
+    }
+
+    public void ApplyStats()
+    {
+        var stats = weaponData.levels[(int)weaponLevel];
+        
+        this.weaponProjectileSpeed = stats.weaponProjectileSpeed;
+        this.weaponBaseDamage = stats.weaponBaseDamage;
+        this.weaponMeeleDamageScale = stats.weaponMeeleDamageScale;
+        this.weaponRangedDamageScale = stats.weaponRangedDamageScale;
+        this.weaponMysticDamageScale = stats.weaponMysticDamageScale;
+        this.weaponAttackSpeedCooldown = stats.weaponAttackSpeedCooldown;
+        this.weaponCritChance = stats.weaponCritChance;
+        this.weaponCritDamage = stats.weaponCritDamage;
+        this.weaponRange = stats.weaponRange;
+        this.weaponKnockback = stats.weaponKnockback;
+        this.weaponLifesteal = stats.weaponLifesteal;
     }
 }

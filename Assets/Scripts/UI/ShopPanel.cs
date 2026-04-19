@@ -571,6 +571,7 @@ public class ShopPanel : MonoBehaviour
             if (statsTarget.weaponLevel < maxLevel)
             {
                 statsTarget.weaponLevel++;
+                statsTarget.ApplyStats();
                 
                 weaponToMove.transform.SetParent(null);
                 weaponToMove.SetActive(false);

@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65e0a8668a462384fa76bf3b75b96e77, type: 3}
+  m_Name: Spirit_Bow_Data
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  weaponName: Spirit Bow
+  weaponSubtitle: Forged by the ancient spirits of the lost woods
+  weaponPrice: 16
+  weaponTier: 1
+  weaponSpecialAbility: 5% Chance to gain 20% Attackspeed for 5 seconds on hit
+  weaponLore: A group of Spirits fled to the top of remainig trees. In order to defend
+    themself, they crafted this bow out of vines, twigs and leaves
+  weaponWeaponType: 1
+  weaponAttackType: 0
+  weaponClass: 0
+  levels:
+  - weaponProjectileSpeed: 20
+    weaponBaseDamage: 10
+    weaponMeeleDamageScale: 0
+    weaponRangedDamageScale: 60
+    weaponMysticDamageScale: 0
+    weaponAttackSpeedCooldown: 1.13
+    weaponCritChance: 30
+    weaponCritDamage: 1.5
+    weaponRange: 4
+    weaponKnockback: 0
+    weaponLifesteal: 0
+  - weaponProjectileSpeed: 25
+    weaponBaseDamage: 15
+    weaponMeeleDamageScale: 0
+    weaponRangedDamageScale: 60
+    weaponMysticDamageScale: 0
+    weaponAttackSpeedCooldown: 1.1
+    weaponCritChance: 30
+    weaponCritDamage: 1.5
+    weaponRange: 4
+    weaponKnockback: 0
+    weaponLifesteal: 0
+  - weaponProjectileSpeed: 30
+    weaponBaseDamage: 25
+    weaponMeeleDamageScale: 0
+    weaponRangedDamageScale: 60
+    weaponMysticDamageScale: 0
+    weaponAttackSpeedCooldown: 1
+    weaponCritChance: 30
+    weaponCritDamage: 1.5
+    weaponRange: 4
+    weaponKnockback: 0
+    weaponLifesteal: 0
+  - weaponProjectileSpeed: 30
+    weaponBaseDamage: 50
+    weaponMeeleDamageScale: 0
+    weaponRangedDamageScale: 60
+    weaponMysticDamageScale: 0
+    weaponAttackSpeedCooldown: 0.8
+    weaponCritChance: 30
+    weaponCritDamage: 1.5
+    weaponRange: 4
+    weaponKnockback: 0
+    weaponLifesteal: 0

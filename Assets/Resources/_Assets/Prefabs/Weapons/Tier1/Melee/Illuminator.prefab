@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df8db80a6c1b1db4aadcc965bcd7bd8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponData: {fileID: 11400000, guid: ec087ab40a4d34d4188f65494f3e97ef, type: 2}
   weaponName: Illuminator
   weaponSubtitle: Very cool sword
   weaponProjectileSpeed: 0
@@ -57,6 +58,7 @@ MonoBehaviour:
   weaponRangedDamageScale: 0
   weaponMysticDamageScale: 0
   weaponTier: 1
+  weaponLevel: 0
   weaponWeaponType: 0
   weaponAttackType: 0
   weaponClass: 0

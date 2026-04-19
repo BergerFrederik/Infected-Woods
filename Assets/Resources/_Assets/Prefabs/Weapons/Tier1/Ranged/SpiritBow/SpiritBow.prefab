@@ -138,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df8db80a6c1b1db4aadcc965bcd7bd8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponData: {fileID: 11400000, guid: 61d3d455dce710141acf6848490e5687, type: 2}
   weaponName: Spirit Bow
   weaponSubtitle: Forged by the ancient spirits of the lost woods
   weaponProjectileSpeed: 20
@@ -161,7 +162,6 @@ MonoBehaviour:
   weaponSpecialAbility: 5% Chance to gain 20% Attackspeed for 5 seconds on hit
   weaponLore: A group of Spirits fled to the top of remainig trees. In order to defend
     themself, they crafted this bow out of vines, twigs and leaves
-  weaponShopSprite: {fileID: -5028376074188591101, guid: bca5a0ed9503f154c99c6d6b5c1cc263, type: 3}
 --- !u!114 &6919582871292908103
 MonoBehaviour:
   m_ObjectHideFlags: 0

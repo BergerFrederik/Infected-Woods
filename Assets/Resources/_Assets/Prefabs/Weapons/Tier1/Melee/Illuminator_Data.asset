@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65e0a8668a462384fa76bf3b75b96e77, type: 3}
+  m_Name: Illuminator_Data
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  weaponName: Illuminator
+  weaponSubtitle: Very cool sword
+  weaponPrice: 15
+  weaponTier: 1
+  weaponSpecialAbility: Kp was der koennen soll, stellt euch vor sie hat einen hammer
+    Effekt
+  weaponLore: Wurde safe von so nem komischen Lichtfutzen geschmieded oder so
+  weaponWeaponType: 0
+  weaponAttackType: 0
+  weaponClass: 0
+  levels:
+  - weaponProjectileSpeed: 0
+    weaponBaseDamage: 6
+    weaponMeeleDamageScale: 80
+    weaponRangedDamageScale: 0
+    weaponMysticDamageScale: 0
+    weaponAttackSpeedCooldown: 1.01
+    weaponCritChance: 20
+    weaponCritDamage: 2.5
+    weaponRange: 2
+    weaponKnockback: 2
+    weaponLifesteal: 0
+  - weaponProjectileSpeed: 0
+    weaponBaseDamage: 6
+    weaponMeeleDamageScale: 80
+    weaponRangedDamageScale: 0
+    weaponMysticDamageScale: 0
+    weaponAttackSpeedCooldown: 1.01
+    weaponCritChance: 20
+    weaponCritDamage: 2.5
+    weaponRange: 2
+    weaponKnockback: 2
+    weaponLifesteal: 0
+  - weaponProjectileSpeed: 0
+    weaponBaseDamage: 6
+    weaponMeeleDamageScale: 80
+    weaponRangedDamageScale: 0
+    weaponMysticDamageScale: 0
+    weaponAttackSpeedCooldown: 1.01
+    weaponCritChance: 20
+    weaponCritDamage: 2.5
+    weaponRange: 2
+    weaponKnockback: 2
+    weaponLifesteal: 0
+  - weaponProjectileSpeed: 0
+    weaponBaseDamage: 6
+    weaponMeeleDamageScale: 80
+    weaponRangedDamageScale: 0
+    weaponMysticDamageScale: 0
+    weaponAttackSpeedCooldown: 1.01
+    weaponCritChance: 20
+    weaponCritDamage: 2.5
+    weaponRange: 2
+    weaponKnockback: 2
+    weaponLifesteal: 0
