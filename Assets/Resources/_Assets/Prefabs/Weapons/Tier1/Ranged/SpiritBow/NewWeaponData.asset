@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65e0a8668a462384fa76bf3b75b96e77, type: 3}
+  m_Name: NewWeaponData
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  weaponName: 
+  weaponSubtitle: 
+  weaponPrice: 0
+  weaponTier: 0
+  levels:
+  - weaponName: 
+    weaponSubtitle: 
+    weaponProjectileSpeed: 0
+    weaponBaseDamage: 0
+    weaponMeeleDamageScale: 0
+    weaponRangedDamageScale: 0
+    weaponMysticDamageScale: 0
+    weaponTier: 0
+    weaponLevel: 0
+    weaponWeaponType: 0
+    weaponAttackType: 
+    weaponClass: 0
+    weaponAttackSpeedCooldown: 0
+    weaponCritChance: 0
+    weaponCritDamage: 0
+    weaponRange: 0
+    weaponKnockback: 0
+    weaponLifesteal: 0
+    weaponPrice: 0
+    currentTotalDamage: 0
+    weaponSpecialAbility: 
+    weaponLore: 
