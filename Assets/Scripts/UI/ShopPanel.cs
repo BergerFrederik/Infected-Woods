@@ -17,19 +17,6 @@ public class ShopPanel : MonoBehaviour
     
     
     [Header("Items")]
-    [SerializeField] private Button[] itemButtons;
-    [SerializeField] private Image[] itemImages;
-    [SerializeField] private List<GameObject> itemPrefabs;
-    [SerializeField] private GameObject playerItems;
-    [SerializeField] private Button itemRerollButton;
-    [SerializeField] private GameObject itemVisualizerPrefab;
-    [SerializeField] private Transform itemScrollViewContent;
-    [SerializeField] private TextMeshProUGUI[] itemTitles;
-    [SerializeField] private TextMeshProUGUI[] itemButtonText;
-    [SerializeField] private TextMeshProUGUI[] itemDescriptionText;
-    [SerializeField] private GameObject[] itemObjects;
-    [SerializeField] private TextMeshProUGUI[] itemOddsTexts;
-    [SerializeField] private Transform transactionSectionContainer;
     [SerializeField] private Image transactionSectionImage;
     [SerializeField] private Transform playerItemsContainer;
     [SerializeField] private Transform itemInventoryContainer;
@@ -85,7 +72,6 @@ public class ShopPanel : MonoBehaviour
     public Transform dragLayer;
     
     
-    private GameObject[] arrayOfChosenRandomItems;
     private GameObject[] arrayOfChosenRandomWeapons;
     private List<GameObject> playerWeaponAnkers = new List<GameObject>();
 
@@ -112,7 +98,6 @@ public class ShopPanel : MonoBehaviour
         weaponRerollButton.onClick.RemoveListener(RerollWeapons);
         toggleButton.onClick.RemoveListener(ToggleStatsheet);
         weaponShopLvLUpButton.onClick.RemoveListener(IncreaseWeaponShopLvL);
-        ResetItemText();
 
         _itemToTransact = null;
         transactionSectionImage.sprite = null;
@@ -523,7 +508,7 @@ public class ShopPanel : MonoBehaviour
 
     private void HandlePurchase(float purchasePrice)
     {
-        playerStats.playerLightAmount -= purchasePrice;
+        playerStats.playerLightAmount -= Mathf.RoundToInt(purchasePrice);
         SetMoneyToUI();
     }
 
@@ -539,18 +524,6 @@ public class ShopPanel : MonoBehaviour
     private void SetMoneyToUI()
     {
         moneyAmountText.text = playerStats.playerLightAmount.ToString(); 
-    }
-
-    private void ResetItemText()
-    {
-        for (int i = 0; i < itemDescriptionText.Length; i++)
-        {
-            if (itemDescriptionText[i] == null)
-            {
-                break;
-            }
-            itemDescriptionText[i].text = "";
-        }
     }
 
     private void IncreaseWeaponShopLvL()
