@@ -171,12 +171,12 @@ public class GameManager : MonoBehaviour
     private void SetCharacterItems()
     {
         GameObject preselectedCharacterPrefab = _characterSelection.PreselectedCharacterPrefab;
-        GameObject ChosenCharacter = Instantiate(preselectedCharacterPrefab, PlayerCharacter.transform);
-        ChosenCharacter.transform.localScale = Vector3.one;
+        GameObject chosenCharacter = Instantiate(preselectedCharacterPrefab, PlayerCharacter.transform);
+        chosenCharacter.transform.localScale = Vector3.one;
 
         GameObject startWeaponPrefab = _characterSelection.PreselectedCharacterWeapon;
-        GameObject StartWeapon = Instantiate(startWeaponPrefab, PlayerFirstWeaponAnker.transform);
-        //StartWeapon.transform.localScale = 10f;
+        GameObject startWeapon = Instantiate(startWeaponPrefab, PlayerFirstWeaponAnker.transform);
+        startWeapon.GetComponent<WeaponStats>().ApplyStats();
         
         OnCharacterSet?.Invoke();
     }

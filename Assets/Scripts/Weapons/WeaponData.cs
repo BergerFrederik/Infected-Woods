@@ -3,24 +3,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewWeaponData", menuName = "ScriptableObjects/WeaponData")]
 public class WeaponData : ScriptableObject
 {
-    [Header("Allgemeine Infos")]
-    public string weaponName;
-    public string weaponSubtitle;
-    public float weaponPrice;
-    public int weaponTier; 
-    public string weaponSpecialAbility;
-    public string weaponLore;
-    public enum weaponTypeOptions
-    {
-        Melee,
-        Ranged,
-        Ability
-    }
-    public weaponTypeOptions weaponWeaponType;
-    public string weaponAttackType;
-    public float weaponClass = 0f;
-
-    [Header("Level-Spezifische Stats")]
     public LevelStats[] levels; 
 
     [System.Serializable]

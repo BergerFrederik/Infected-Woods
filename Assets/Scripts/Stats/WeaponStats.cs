@@ -4,35 +4,40 @@ public class WeaponStats : MonoBehaviour
 {
     [SerializeField] private WeaponData weaponData;
     
-    public string weaponName;
-    public string weaponSubtitle;
-    public float weaponProjectileSpeed = 0f;
-    public float weaponBaseDamage = 0f;
-    public float weaponMeeleDamageScale = 0f;
-    public float weaponRangedDamageScale = 0f;
-    public float weaponMysticDamageScale = 0f;
-    public float weaponTier = 0f;
-    public float weaponLevel;
-    
     public enum weaponTypeOptions
     {
         Melee,
         Ranged,
         Ability
     }
+    
+    [HideInInspector] public float weaponLevel;
+    [HideInInspector] public float currentTotalDamage = 0f;
+    
+    [Header("Information")]
+    public string weaponName;
+    public string weaponSubtitle;
+    public float weaponTier = 0f;
     public weaponTypeOptions weaponWeaponType;
     public string weaponAttackType;
     public float weaponClass = 0f;
+    public float weaponPrice = 0f;
+    public string weaponSpecialAbility;
+    public string weaponLore;
+    
+    [Header("Stats")]
+    public float weaponProjectileSpeed = 0f;
+    public float weaponBaseDamage = 0f;
+    public float weaponMeleeDamageScale = 0f;
+    public float weaponRangedDamageScale = 0f;
+    public float weaponMysticDamageScale = 0f;
     public float weaponAttackSpeedCooldown = 0f; // in seconds
     public float weaponCritChance = 0f;
     public float weaponCritDamage = 0f;
     public float weaponRange = 0f;
     public float weaponKnockback = 0f;
     public float weaponLifesteal = 0f;
-    public float weaponPrice = 0f;
-    public float currentTotalDamage = 0f;
-    public string weaponSpecialAbility;
-    public string weaponLore;
+    
     
     public void CopyFrom(WeaponStats other)
     {
@@ -42,7 +47,7 @@ public class WeaponStats : MonoBehaviour
         this.weaponSubtitle = other.weaponSubtitle;
         this.weaponProjectileSpeed = other.weaponProjectileSpeed;
         this.weaponBaseDamage = other.weaponBaseDamage;
-        this.weaponMeeleDamageScale = other.weaponMeeleDamageScale;
+        this.weaponMeleeDamageScale = other.weaponMeleeDamageScale;
         this.weaponRangedDamageScale = other.weaponRangedDamageScale;
         this.weaponMysticDamageScale = other.weaponMysticDamageScale;
         this.weaponTier = other.weaponTier;
@@ -67,7 +72,7 @@ public class WeaponStats : MonoBehaviour
         
         this.weaponProjectileSpeed = stats.weaponProjectileSpeed;
         this.weaponBaseDamage = stats.weaponBaseDamage;
-        this.weaponMeeleDamageScale = stats.weaponMeeleDamageScale;
+        this.weaponMeleeDamageScale = stats.weaponMeeleDamageScale;
         this.weaponRangedDamageScale = stats.weaponRangedDamageScale;
         this.weaponMysticDamageScale = stats.weaponMysticDamageScale;
         this.weaponAttackSpeedCooldown = stats.weaponAttackSpeedCooldown;

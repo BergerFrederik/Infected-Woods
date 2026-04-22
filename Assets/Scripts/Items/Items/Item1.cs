@@ -9,17 +9,5 @@ public class Item1 : MonoBehaviour
     private PlayerStats playerStats;
     
     
-    private void Start()
-    {
-        Player = this.transform.root.gameObject;
-        playerStats = Player.GetComponent<PlayerStats>();
-
-        ApplyItem();
-    }
-
-    private void ApplyItem()
-    {
-        playerStats.playerAttackSpeed += attackSpeedGain;
-        playerStats.playerMovespeed -= movementSpeedLoss;
-    }
+    
 }

@@ -28,6 +28,14 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI[] itemButtonText;
     [SerializeField] private TextMeshProUGUI[] itemDescriptionText;
     [SerializeField] private GameObject[] itemObjects;
+    [SerializeField] private TextMeshProUGUI[] itemOddsTexts;
+    [SerializeField] private Transform transactionSectionContainer;
+    [SerializeField] private Image transactionSectionImage;
+    [SerializeField] private Transform playerItemsContainer;
+    [SerializeField] private Transform itemInventoryContainer;
+    [SerializeField] private Transform transactionItemContainer;
+    [SerializeField] private Button transactionButton;
+    [SerializeField] private Transform itemShelfContainer;
     
     [Header("Weapons")]
     [SerializeField] private Button[] weaponButtons;
@@ -85,21 +93,21 @@ public class ShopPanel : MonoBehaviour
     private void OnEnable()
     {
         startNextWaveButton.onClick.AddListener(StartNextWave);
-        itemRerollButton.onClick.AddListener(RerollItems);
+        transactionButton.onClick.AddListener(ItemTransaction);
         weaponRerollButton.onClick.AddListener(RerollWeapons);
         toggleButton.onClick.AddListener(ToggleStatsheet);
         weaponShopLvLUpButton.onClick.AddListener(IncreaseWeaponShopLvL);
         
         SetSpritesToInventoryOnActivate();
-        SetSpritesToItemshop();
+        SetItemsToOwnedItems();
         SetSpritesToWeaponShop();
         SetMoneyToUI();
     }
 
     private void OnDisable()
     {
-        startNextWaveButton.onClick?.RemoveListener(StartNextWave);
-        itemRerollButton.onClick.RemoveListener(RerollItems);
+        startNextWaveButton.onClick.RemoveListener(StartNextWave);
+        transactionButton.onClick.RemoveListener(ItemTransaction);
         weaponRerollButton.onClick.RemoveListener(RerollWeapons);
         toggleButton.onClick.RemoveListener(ToggleStatsheet);
         weaponShopLvLUpButton.onClick.RemoveListener(IncreaseWeaponShopLvL);
@@ -142,6 +150,7 @@ public class ShopPanel : MonoBehaviour
             if (visuals != null)
                 characterInventoryImage.sprite = visuals.GetComponentInChildren<SpriteRenderer>().sprite;
         }
+        RefreshAllUI();
     }
 
     private void SetSpritesToInventory()
@@ -173,65 +182,107 @@ public class ShopPanel : MonoBehaviour
         }
     }
 
-    private void SetSpritesToItemshop()
+    private void SetItemsToOwnedItems()
     {
-        int num_items_in_shop = 4;
-        arrayOfChosenRandomItems = new GameObject[num_items_in_shop];
-        for (int i = 0; i < itemButtons.Length; i++)
+        for (int i = 0; i < playerItemsContainer.childCount; i++)
         {
-            // set active if not active
-            if (!itemObjects[i].activeSelf)
-            {
-                itemObjects[i].SetActive(true);
-            }
-            // get random item
-            int randomIndex = Random.Range(0, itemPrefabs.Count);
-            GameObject randomItem = itemPrefabs[randomIndex];
-            arrayOfChosenRandomItems[i] = randomItem;
-            ItemInformation itemInformation = randomItem.GetComponent<ItemInformation>();
-
-            // get Sprite from item
-            Sprite sprite = randomItem.GetComponent<SpriteRenderer>().sprite;
-
-            // set sprite to button
-            itemImages[i].sprite = sprite;
-            
-            // set Text to Title
-            itemTitles[i].text = itemInformation.itemID;
-
-            // set Text to description
-            foreach (string itemDescription in itemInformation.itemText)
-            {
-                itemDescriptionText[i].text += itemDescription + System.Environment.NewLine;
-            }
-
-            // set Text to Buttons
-            itemButtonText[i].text = itemInformation.itemPrice.ToString();
-            
-            // Add Listeners to Button
-            itemButtons[i].onClick.RemoveAllListeners();
-            int index = i;
-            itemButtons[i].onClick.AddListener(() => BuyItem(index, itemInformation));
+            Transform currentItem = playerItemsContainer.GetChild(i);
+            currentItem.SetParent(itemInventoryContainer.GetChild(i));
+            itemInventoryContainer.GetChild(i).GetComponent<Image>().sprite = currentItem.GetComponentInChildren<ItemInformation>().itemIcon;
         }
     }
-
-    private void BuyItem(int index, ItemInformation itemInformation)
+    
+    public void SelectItemForTransaction(GameObject selectedItem, bool isInShop)
     {
-        float itemPrice = itemInformation.itemPrice;
+        foreach (Transform child in transactionItemContainer)
+        {
+            Destroy(child.gameObject);
+        }
+        
+        GameObject displayedItem = Instantiate(selectedItem, transactionItemContainer);
+        
+        if (displayedItem.TryGetComponent<ItemSlot>(out var slotScript))
+        {
+            Destroy(slotScript);
+        }
+        
+        transactionSectionImage.sprite = displayedItem.GetComponent<ItemInformation>().itemIcon;
+        
+        String buttonText = isInShop ? "Buy" : "Sell";
+        transactionButton.GetComponentInChildren<TextMeshProUGUI>().text = buttonText;
+    }
+
+    private void ItemTransaction()
+    {
+        String buttonText = transactionButton.GetComponentInChildren<TextMeshProUGUI>().text;
+        if (buttonText == "Buy") BuyItem(); else SellItem();
+    }
+
+    private void BuyItem()
+    {
+        if (transactionItemContainer.childCount == 0)
+        {
+            Debug.LogWarning("No item found");
+            return;
+        }
+        
+        if (itemInventoryContainer.GetChild(itemInventoryContainer.childCount - 1).childCount > 0)
+        {
+            Debug.LogWarning("Max item capacity reached");
+            return;
+        }
+        
+        Transform transactionItem = transactionItemContainer.GetChild(0);
+        
+        float itemPrice = transactionItem.GetComponent<ItemInformation>().itemPrice;
         float playerLightAmount = playerStats.playerLightAmount;
+        
         if (playerLightAmount - itemPrice >= 0)
         {
-            itemButtons[index].onClick.RemoveAllListeners();
-            GameObject chosenItem = arrayOfChosenRandomItems[index];
-            GameObject boughtItem = Instantiate(chosenItem);
-            boughtItem.transform.SetParent(playerItems.transform, false);
-
-            Sprite itemSprite = chosenItem.GetComponent<SpriteRenderer>().sprite;
-            AddItemToVisualizer(itemSprite);
+            for (int i = 0; i < itemInventoryContainer.childCount; i++)
+            {
+                if (itemInventoryContainer.GetChild(i).childCount == 0)
+                {
+                    Transform itemInventorySlot = itemInventoryContainer.GetChild(i);
+                    transactionItem.SetParent(itemInventorySlot);
+                    itemInventorySlot.GetComponent<Image>().sprite = transactionItem.GetComponent<ItemInformation>().itemIcon;
+                    break;
+                }
+            }
+            
             HandlePurchase(itemPrice);
-            itemObjects[index].SetActive(false);
+            transactionSectionImage.sprite = null;
+
+            for (int i = 0; i < itemShelfContainer.childCount; i++)
+            {
+                Transform currentShelf = itemShelfContainer.GetChild(i);
+                
+                for (int y = 0; y < currentShelf.childCount; y++)
+                {
+                    Transform currentItemSlot = currentShelf.GetChild(y);
+                    
+                    if (transactionItem.GetComponent<ItemInformation>().itemID == currentItemSlot.name)
+                    {
+                        Destroy(currentItemSlot.GetChild(0).gameObject);
+                        currentItemSlot.GetComponent<Image>().sprite = null;
+                    }
+                }
+            }
+            
+            
+        }
+        else
+        {
+            Debug.LogWarning("Not enough funds");
         }
     }
+
+    private void SellItem()
+    {
+        
+    }
+    
+    
 
     private void AddItemToVisualizer(Sprite itemSprite)
     {
@@ -415,6 +466,7 @@ public class ShopPanel : MonoBehaviour
             
             GameObject chosenWeapon = arrayOfChosenRandomWeapons[index];
             GameObject boughtWeapon = Instantiate(chosenWeapon, targetParent, false);
+            boughtWeapon.GetComponent<WeaponStats>().ApplyStats();
             
             HandlePurchase(weaponPrice);
             weaponObjects[index].SetActive(false);
@@ -475,7 +527,7 @@ public class ShopPanel : MonoBehaviour
     private void RerollItems()
     {
         ResetItemText();
-        SetSpritesToItemshop();
+        SetItemsToOwnedItems();
     }
 
     private void ResetItemText()

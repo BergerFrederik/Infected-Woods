@@ -139,29 +139,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: 61d3d455dce710141acf6848490e5687, type: 2}
-  weaponName: Spirit Bow
-  weaponSubtitle: Forged by the ancient spirits of the lost woods
-  weaponProjectileSpeed: 20
-  weaponBaseDamage: 10
-  weaponMeeleDamageScale: 0
-  weaponRangedDamageScale: 60
-  weaponMysticDamageScale: 0
-  weaponTier: 1
   weaponLevel: 0
+  currentTotalDamage: 0
+  weaponName: Spirit Bow
+  weaponSubtitle: Very cool bow
+  weaponTier: 1
   weaponWeaponType: 1
   weaponAttackType: 0
   weaponClass: 0
-  weaponAttackSpeedCooldown: 1.13
-  weaponCritChance: 30
-  weaponCritDamage: 1.5
-  weaponRange: 4
-  weaponKnockback: 8
-  weaponLifesteal: 0
   weaponPrice: 16
-  currentTotalDamage: 0
-  weaponSpecialAbility: 5% Chance to gain 20% Attackspeed for 5 seconds on hit
-  weaponLore: A group of Spirits fled to the top of remainig trees. In order to defend
-    themself, they crafted this bow out of vines, twigs and leaves
+  weaponSpecialAbility: chance auf moneeeeeh
+  weaponLore: Ast und Sehne...Myyyystisch
+  weaponProjectileSpeed: 0
+  weaponBaseDamage: 0
+  weaponMeleeDamageScale: 0
+  weaponRangedDamageScale: 0
+  weaponMysticDamageScale: 0
+  weaponAttackSpeedCooldown: 0
+  weaponCritChance: 0
+  weaponCritDamage: 0
+  weaponRange: 0
+  weaponKnockback: 0
+  weaponLifesteal: 0
 --- !u!114 &6919582871292908103
 MonoBehaviour:
   m_ObjectHideFlags: 0

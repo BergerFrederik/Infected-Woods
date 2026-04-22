@@ -50,29 +50,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: ec087ab40a4d34d4188f65494f3e97ef, type: 2}
+  weaponLevel: 0
+  currentTotalDamage: 0
   weaponName: Illuminator
   weaponSubtitle: Very cool sword
-  weaponProjectileSpeed: 0
-  weaponBaseDamage: 6
-  weaponMeeleDamageScale: 80
-  weaponRangedDamageScale: 0
-  weaponMysticDamageScale: 0
   weaponTier: 1
-  weaponLevel: 0
   weaponWeaponType: 0
   weaponAttackType: 0
   weaponClass: 0
-  weaponAttackSpeedCooldown: 1.01
-  weaponCritChance: 20
-  weaponCritDamage: 2.5
-  weaponRange: 2
-  weaponKnockback: 2
-  weaponLifesteal: 0
   weaponPrice: 15
-  currentTotalDamage: 0
   weaponSpecialAbility: Kp was der koennen soll, stellt euch vor sie hat einen hammer
     Effekt
   weaponLore: Wurde safe von so nem komischen Lichtfutzen geschmieded oder so
+  weaponProjectileSpeed: 0
+  weaponBaseDamage: 0
+  weaponMeleeDamageScale: 0
+  weaponRangedDamageScale: 0
+  weaponMysticDamageScale: 0
+  weaponAttackSpeedCooldown: 0
+  weaponCritChance: 0
+  weaponCritDamage: 0
+  weaponRange: 0
+  weaponKnockback: 0
+  weaponLifesteal: 0
 --- !u!114 &1869917964682256196
 MonoBehaviour:
   m_ObjectHideFlags: 0
