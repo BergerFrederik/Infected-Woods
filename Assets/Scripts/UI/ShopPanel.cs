@@ -36,6 +36,8 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private Transform transactionItemContainer;
     [SerializeField] private Button transactionButton;
     [SerializeField] private Transform itemShelfContainer;
+    [SerializeField] private float itemSellPercentage = 70f;
+    private Transform _itemToTransact;
     
     [Header("Weapons")]
     [SerializeField] private Button[] weaponButtons;
@@ -99,7 +101,6 @@ public class ShopPanel : MonoBehaviour
         weaponShopLvLUpButton.onClick.AddListener(IncreaseWeaponShopLvL);
         
         SetSpritesToInventoryOnActivate();
-        SetItemsToOwnedItems();
         SetSpritesToWeaponShop();
         SetMoneyToUI();
     }
@@ -112,6 +113,9 @@ public class ShopPanel : MonoBehaviour
         toggleButton.onClick.RemoveListener(ToggleStatsheet);
         weaponShopLvLUpButton.onClick.RemoveListener(IncreaseWeaponShopLvL);
         ResetItemText();
+
+        _itemToTransact = null;
+        transactionSectionImage.sprite = null;
     }
 
     private void SetSpritesToInventoryOnActivate()
@@ -181,16 +185,6 @@ public class ShopPanel : MonoBehaviour
             }
         }
     }
-
-    private void SetItemsToOwnedItems()
-    {
-        for (int i = 0; i < playerItemsContainer.childCount; i++)
-        {
-            Transform currentItem = playerItemsContainer.GetChild(i);
-            currentItem.SetParent(itemInventoryContainer.GetChild(i));
-            itemInventoryContainer.GetChild(i).GetComponent<Image>().sprite = currentItem.GetComponentInChildren<ItemInformation>().itemIcon;
-        }
-    }
     
     public void SelectItemForTransaction(GameObject selectedItem, bool isInShop)
     {
@@ -210,6 +204,7 @@ public class ShopPanel : MonoBehaviour
         
         String buttonText = isInShop ? "Buy" : "Sell";
         transactionButton.GetComponentInChildren<TextMeshProUGUI>().text = buttonText;
+        _itemToTransact = selectedItem.transform;
     }
 
     private void ItemTransaction()
@@ -245,31 +240,19 @@ public class ShopPanel : MonoBehaviour
                 {
                     Transform itemInventorySlot = itemInventoryContainer.GetChild(i);
                     transactionItem.SetParent(itemInventorySlot);
+                    transactionItem.name = transactionItem.GetComponent<ItemInformation>().itemID;
                     itemInventorySlot.GetComponent<Image>().sprite = transactionItem.GetComponent<ItemInformation>().itemIcon;
+
+                    GameObject transactionItemForPlayer = Instantiate(transactionItem.gameObject, playerItemsContainer);
+                    transactionItemForPlayer.name = transactionItem.GetComponent<ItemInformation>().itemID;
                     break;
                 }
             }
             
+            
             HandlePurchase(itemPrice);
+            HandleItemToTransact();
             transactionSectionImage.sprite = null;
-
-            for (int i = 0; i < itemShelfContainer.childCount; i++)
-            {
-                Transform currentShelf = itemShelfContainer.GetChild(i);
-                
-                for (int y = 0; y < currentShelf.childCount; y++)
-                {
-                    Transform currentItemSlot = currentShelf.GetChild(y);
-                    
-                    if (transactionItem.GetComponent<ItemInformation>().itemID == currentItemSlot.name)
-                    {
-                        Destroy(currentItemSlot.GetChild(0).gameObject);
-                        currentItemSlot.GetComponent<Image>().sprite = null;
-                    }
-                }
-            }
-            
-            
         }
         else
         {
@@ -279,20 +262,54 @@ public class ShopPanel : MonoBehaviour
 
     private void SellItem()
     {
-        
-    }
-    
-    
-
-    private void AddItemToVisualizer(Sprite itemSprite)
-    {
-        GameObject itemVisual = Instantiate(itemVisualizerPrefab);
-        itemVisual.transform.SetParent(itemScrollViewContent, false);
-        Image visualImage = itemVisual.GetComponent<Image>();
-        if (visualImage != null)
+        if (transactionItemContainer.childCount == 0)
         {
-            visualImage.sprite = itemSprite;
+            Debug.LogWarning("No item found");
+            return;
         }
+        
+        Transform transactionItem = transactionItemContainer.GetChild(0);
+        
+        for (int i = 0; i < itemShelfContainer.childCount; i++)
+        {
+            Transform currentShelf = itemShelfContainer.GetChild(i);
+                
+            for (int y = 0; y < currentShelf.childCount; y++)
+            {
+                Transform currentItemSlot = currentShelf.GetChild(y);
+                    
+                if (transactionItem.GetComponent<ItemInformation>().itemID == currentItemSlot.name)
+                {
+                    transactionItem.SetParent(currentItemSlot);
+                    ItemInformation itemInformation = transactionItem.GetComponent<ItemInformation>();
+                    currentItemSlot.GetComponent<Image>().sprite = itemInformation.itemIcon;
+                    transactionItem.name = itemInformation.itemID;
+                }
+            }
+        }
+
+        float itemRefundValue = transactionItem.GetComponent<ItemInformation>().itemPrice * (itemSellPercentage / 100f);
+        HandlePurchase(-itemRefundValue);
+        
+        for (int i = 0; i < playerItemsContainer.childCount; i++)
+        {
+            Transform currentPlayerItem = playerItemsContainer.GetChild(i);
+            if (currentPlayerItem.name == _itemToTransact.GetComponent<ItemInformation>().itemID)
+            {
+                Destroy(currentPlayerItem.gameObject);
+            }
+        }
+        
+        transactionSectionImage.GetComponent<Image>().sprite = null;
+        HandleItemToTransact();
+    }
+
+    private void HandleItemToTransact()
+    {
+        Transform transactionItemInventoryContainer = _itemToTransact.parent;
+        Destroy(_itemToTransact.gameObject);
+        transactionItemInventoryContainer.GetComponent<Image>().sprite = null;
+        _itemToTransact = null;
     }
 
 
@@ -522,12 +539,6 @@ public class ShopPanel : MonoBehaviour
     private void SetMoneyToUI()
     {
         moneyAmountText.text = playerStats.playerLightAmount.ToString(); 
-    }
-
-    private void RerollItems()
-    {
-        ResetItemText();
-        SetItemsToOwnedItems();
     }
 
     private void ResetItemText()
