@@ -23,8 +23,19 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private Transform transactionItemContainer;
     [SerializeField] private Button transactionButton;
     [SerializeField] private Transform itemShelfContainer;
+    [SerializeField] private Button leftSwitchButton;
+    [SerializeField] private Button rightSwitchButton;
+    [SerializeField] private GameObject[] shelves;
+    [SerializeField] private TextMeshProUGUI shelfTextfield;
+    [SerializeField] private String[] shelfNameTexts;
+    [SerializeField] private BlossomShelf blossomShelf;
+    [SerializeField] private Button handleBlossomItemButton;
+    [SerializeField] private Transform blossomItemContainer;
+    [SerializeField] private float blossomItemCost;
     [SerializeField] private float itemSellPercentage = 70f;
     private Transform _itemToTransact;
+    private int _currentShelfIndex;
+    private string _purchaseBlossomItemText;
     
     [Header("Weapons")]
     [SerializeField] private Button[] weaponButtons;
@@ -77,6 +88,12 @@ public class ShopPanel : MonoBehaviour
 
     public static event Action OnShopCycleEnd;
     public event Action OnWeaponBought;
+
+    private void Start()
+    {
+        _purchaseBlossomItemText = $"Buy - {blossomItemCost}";
+        handleBlossomItemButton.GetComponentInChildren<TextMeshProUGUI>().text = _purchaseBlossomItemText;
+    }
     
     private void OnEnable()
     {
@@ -85,6 +102,9 @@ public class ShopPanel : MonoBehaviour
         weaponRerollButton.onClick.AddListener(RerollWeapons);
         toggleButton.onClick.AddListener(ToggleStatsheet);
         weaponShopLvLUpButton.onClick.AddListener(IncreaseWeaponShopLvL);
+        leftSwitchButton.onClick.AddListener (() => SwitchShelf(leftSwitchButton));
+        rightSwitchButton.onClick.AddListener(() => SwitchShelf(rightSwitchButton));
+        handleBlossomItemButton.onClick.AddListener(HandleBlossomItemTransaction);
         
         SetSpritesToInventoryOnActivate();
         SetSpritesToWeaponShop();
@@ -98,6 +118,9 @@ public class ShopPanel : MonoBehaviour
         weaponRerollButton.onClick.RemoveListener(RerollWeapons);
         toggleButton.onClick.RemoveListener(ToggleStatsheet);
         weaponShopLvLUpButton.onClick.RemoveListener(IncreaseWeaponShopLvL);
+        leftSwitchButton.onClick.RemoveAllListeners();
+        rightSwitchButton.onClick.RemoveAllListeners();
+        handleBlossomItemButton.onClick.RemoveListener(HandleBlossomItemTransaction);
 
         _itemToTransact = null;
         transactionSectionImage.sprite = null;
@@ -219,22 +242,7 @@ public class ShopPanel : MonoBehaviour
         
         if (playerLightAmount - itemPrice >= 0)
         {
-            for (int i = 0; i < itemInventoryContainer.childCount; i++)
-            {
-                if (itemInventoryContainer.GetChild(i).childCount == 0)
-                {
-                    Transform itemInventorySlot = itemInventoryContainer.GetChild(i);
-                    transactionItem.SetParent(itemInventorySlot);
-                    transactionItem.name = transactionItem.GetComponent<ItemInformation>().itemID;
-                    itemInventorySlot.GetComponent<Image>().sprite = transactionItem.GetComponent<ItemInformation>().itemIcon;
-
-                    GameObject transactionItemForPlayer = Instantiate(transactionItem.gameObject, playerItemsContainer);
-                    transactionItemForPlayer.name = transactionItem.GetComponent<ItemInformation>().itemID;
-                    break;
-                }
-            }
-            
-            
+            PutItemIntoInventory(transactionItem);
             HandlePurchase(itemPrice);
             HandleItemToTransact();
             transactionSectionImage.sprite = null;
@@ -242,6 +250,24 @@ public class ShopPanel : MonoBehaviour
         else
         {
             Debug.LogWarning("Not enough funds");
+        }
+    }
+
+    private void PutItemIntoInventory(Transform transactionItem)
+    {
+        for (int i = 0; i < itemInventoryContainer.childCount; i++)
+        {
+            if (itemInventoryContainer.GetChild(i).childCount == 0)
+            {
+                Transform itemInventorySlot = itemInventoryContainer.GetChild(i);
+                transactionItem.SetParent(itemInventorySlot);
+                transactionItem.name = transactionItem.GetComponent<ItemInformation>().itemID;
+                itemInventorySlot.GetComponent<Image>().sprite = transactionItem.GetComponent<ItemInformation>().itemIcon;
+
+                GameObject transactionItemForPlayer = Instantiate(transactionItem.gameObject, playerItemsContainer);
+                transactionItemForPlayer.name = transactionItem.GetComponent<ItemInformation>().itemID;
+                break;
+            }
         }
     }
 
@@ -295,7 +321,111 @@ public class ShopPanel : MonoBehaviour
         Destroy(_itemToTransact.gameObject);
         transactionItemInventoryContainer.GetComponent<Image>().sprite = null;
         _itemToTransact = null;
+        transactionButton.GetComponentInChildren<TextMeshProUGUI>().text = "Buy/Sell";
     }
+
+    private void SwitchShelf(Button pressedButton)
+    {
+        ResetTransactionSection();
+        
+        shelves[_currentShelfIndex].SetActive(false);
+        
+        if (pressedButton == leftSwitchButton)
+        {
+            _currentShelfIndex--;
+        }
+        else
+        {
+            _currentShelfIndex++;
+        }
+        
+        _currentShelfIndex = Mathf.Clamp(_currentShelfIndex, 0, shelves.Length - 1);
+        
+        shelves[_currentShelfIndex].SetActive(true);
+        shelfTextfield.text = shelfNameTexts[_currentShelfIndex];
+        
+        leftSwitchButton.interactable = (_currentShelfIndex > 0);
+        rightSwitchButton.interactable = (_currentShelfIndex < shelves.Length - 1);
+    }
+
+    private void ResetTransactionSection()
+    {
+        foreach (Transform child in transactionItemContainer)
+        {
+            Destroy(child.gameObject);
+        }
+        
+        _itemToTransact = null;
+        transactionSectionImage.sprite = null;
+        
+        transactionButton.GetComponentInChildren<TextMeshProUGUI>().text = "Buy/Sell";
+    }
+
+    private void HandleBlossomItemTransaction()
+    {
+        bool isRandomItemPresent = blossomItemContainer.childCount > 0;
+        bool hasPlayerEnoughFunds = playerStats.playerLightAmount >= blossomItemCost;
+        bool hasPlayerEmptyItemSlot = itemInventoryContainer.GetChild(itemInventoryContainer.childCount - 1).childCount == 0;
+        
+        if (!isRandomItemPresent && hasPlayerEnoughFunds && hasPlayerEmptyItemSlot)
+        {
+            BuyBlossomItem();
+        }
+        else if (isRandomItemPresent)
+        {
+            ChooseBlossomItem();
+        }
+    }
+    
+    private void BuyBlossomItem()
+    {
+        blossomShelf.GetRandomItem();
+        Transform randomItem = blossomItemContainer.GetChild(0);
+        ItemInformation itemInformation = randomItem.GetComponent<ItemInformation>();
+        itemInformation.itemPrice = blossomItemCost;
+        HandlePurchase(blossomItemCost);
+
+        handleBlossomItemButton.GetComponentInChildren<TextMeshProUGUI>().text = "Choose";
+    }
+
+    private void ChooseBlossomItem()
+    {
+        Transform randomItem = blossomItemContainer.GetChild(0);
+        PutItemIntoInventory(randomItem);
+        blossomShelf.ResetBlossomShelf();
+        
+        handleBlossomItemButton.GetComponentInChildren<TextMeshProUGUI>().text = $"Buy - {blossomItemCost}";
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 
     private void SetSpritesToWeaponShop()
@@ -375,6 +505,10 @@ public class ShopPanel : MonoBehaviour
 
     private void SetRarityText()
     {
+        if (_weaponShopLvl >= weaponShopMaxLvL)
+        {
+            return;
+        }
         var odds = GetCurrentOdds(_weaponShopLvl);
 
         weaponOddsTexts[0].text = $"{odds.root}%";
@@ -393,7 +527,7 @@ public class ShopPanel : MonoBehaviour
 
     private int CalculateRarity()
     {
-        var odds = GetCurrentOdds(playerStats.playerLevel);
+        var odds = GetCurrentOdds(_weaponShopLvl);
         RandomRollEvent randomRollEvent = playerTransform.GetComponentInChildren<RandomRollEvent>();
     
         float roll = randomRollEvent.GetRandomFloatRoll(0f, 100f);
@@ -568,76 +702,76 @@ public class ShopPanel : MonoBehaviour
     }
     
     public void MoveWeapon(bool fromBench, int fromIndex, bool toBench, int toIndex)
-{
-    GameObject weaponToMove = null;
-    Transform sourceParent = null;
-    Transform targetParent = null;
-
-    // 1. Quelle bestimmen
-    if (fromBench) {
-        sourceParent = weaponShopBenchSlots[fromIndex].transform.Find("WeaponPrefab");
-    } else {
-        sourceParent = inventoryWeaponSlots[fromIndex].Find("WeaponPrefab");
-    }
-
-    if (sourceParent == null || sourceParent.childCount == 0) return;
-    weaponToMove = sourceParent.GetChild(0).gameObject;
-
-    // 2. Ziel bestimmen
-    if (toBench) {
-        targetParent = weaponShopBenchSlots[toIndex].transform.Find("WeaponPrefab");
-    } else {
-        targetParent = inventoryWeaponSlots[toIndex].Find("WeaponPrefab");
-    }
-
-    if (targetParent == null) return;
-
-    // 3. Belegungs-Check (Merge oder Swap)
-    if (targetParent.childCount > 0)
     {
-        GameObject targetWeapon = targetParent.GetChild(0).gameObject;
-        WeaponStats statsToMove = weaponToMove.GetComponent<WeaponStats>();
-        WeaponStats statsTarget = targetWeapon.GetComponent<WeaponStats>();
+        GameObject weaponToMove = null;
+        Transform sourceParent = null;
+        Transform targetParent = null;
 
-        // MERGE LOGIK
-        if (statsToMove.weaponName == statsTarget.weaponName && statsToMove.weaponLevel == statsTarget.weaponLevel)
-        {
-            int maxLevel = weaponLvLColors.Length - 1; 
-
-            if (statsTarget.weaponLevel < maxLevel)
-            {
-                statsTarget.weaponLevel++;
-                statsTarget.ApplyStats();
-                
-                weaponToMove.transform.SetParent(null);
-                weaponToMove.SetActive(false);
-                Destroy(weaponToMove);
-                
-                RefreshAllUI();
-                OnWeaponBought?.Invoke();
-                return;
-            }
+        // 1. Quelle bestimmen
+        if (fromBench) {
+            sourceParent = weaponShopBenchSlots[fromIndex].transform.Find("WeaponPrefab");
+        } else {
+            sourceParent = inventoryWeaponSlots[fromIndex].Find("WeaponPrefab");
         }
-        
-        // SWAP LOGIK (Wenn kein Merge möglich war oder Max Level erreicht ist)
-        // Wir schieben die Ziel-Waffe temporär in den alten Slot der gezogenen Waffe
-        targetWeapon.transform.SetParent(sourceParent, false);
-        targetWeapon.transform.localPosition = Vector3.zero;
-        
-        // Dann schieben wir die gezogene Waffe in den Ziel-Slot
-        weaponToMove.transform.SetParent(targetParent, false);
-        weaponToMove.transform.localPosition = Vector3.zero;
-    }
-    else
-    {
-        // Standard Verschieben (Ziel war leer)
-        weaponToMove.transform.SetParent(targetParent, false);
-        weaponToMove.transform.localPosition = Vector3.zero;
-    }
 
-    RefreshAllUI();
-    OnWeaponBought?.Invoke();
-}
+        if (sourceParent == null || sourceParent.childCount == 0) return;
+        weaponToMove = sourceParent.GetChild(0).gameObject;
+
+        // 2. Ziel bestimmen
+        if (toBench) {
+            targetParent = weaponShopBenchSlots[toIndex].transform.Find("WeaponPrefab");
+        } else {
+            targetParent = inventoryWeaponSlots[toIndex].Find("WeaponPrefab");
+        }
+
+        if (targetParent == null) return;
+
+        // 3. Belegungs-Check (Merge oder Swap)
+        if (targetParent.childCount > 0)
+        {
+            GameObject targetWeapon = targetParent.GetChild(0).gameObject;
+            WeaponStats statsToMove = weaponToMove.GetComponent<WeaponStats>();
+            WeaponStats statsTarget = targetWeapon.GetComponent<WeaponStats>();
+
+            // MERGE LOGIK
+            if (statsToMove.weaponName == statsTarget.weaponName && statsToMove.weaponLevel == statsTarget.weaponLevel)
+            {
+                int maxLevel = weaponLvLColors.Length - 1; 
+
+                if (statsTarget.weaponLevel < maxLevel)
+                {
+                    statsTarget.weaponLevel++;
+                    statsTarget.ApplyStats();
+                    
+                    weaponToMove.transform.SetParent(null);
+                    weaponToMove.SetActive(false);
+                    Destroy(weaponToMove);
+                    
+                    RefreshAllUI();
+                    OnWeaponBought?.Invoke();
+                    return;
+                }
+            }
+            
+            // SWAP LOGIK (Wenn kein Merge möglich war oder Max Level erreicht ist)
+            // Wir schieben die Ziel-Waffe temporär in den alten Slot der gezogenen Waffe
+            targetWeapon.transform.SetParent(sourceParent, false);
+            targetWeapon.transform.localPosition = Vector3.zero;
+            
+            // Dann schieben wir die gezogene Waffe in den Ziel-Slot
+            weaponToMove.transform.SetParent(targetParent, false);
+            weaponToMove.transform.localPosition = Vector3.zero;
+        }
+        else
+        {
+            // Standard Verschieben (Ziel war leer)
+            weaponToMove.transform.SetParent(targetParent, false);
+            weaponToMove.transform.localPosition = Vector3.zero;
+        }
+
+        RefreshAllUI();
+        OnWeaponBought?.Invoke();
+    }
     
     public void RefreshAllUI()
     {
@@ -679,9 +813,26 @@ public class ShopPanel : MonoBehaviour
     
     private void StartNextWave()
     {
+        ResetShelvesOnNextWave();
         SetWeaponsToPlayerWeaponManager();
         OnShopCycleEnd?.Invoke();
         this.gameObject.SetActive(false);
+    }
+
+    private void ResetShelvesOnNextWave()
+    {
+        if (blossomItemContainer.childCount > 0)
+        {
+            ChooseBlossomItem();
+        }
+
+        while (_currentShelfIndex != 0)
+        {
+            SwitchShelf(leftSwitchButton);
+        }
+        
+        
+        blossomShelf.ResetBlossomShelf();
     }
 
     private void SetWeaponsToPlayerWeaponManager()
