@@ -98,7 +98,7 @@ public class CharacterSelection : MonoBehaviour
         characterInformation.CharacterActiveDescription = characterStats.abilityDescription;
         characterInformation.WeaponName = characterWeapon.name;
         characterInformation.WeaponLore = weaponStats.weaponLore;
-        characterInformation.WeaponSpecialAbility= weaponStats.weaponSpecialAbility;
+        characterInformation.WeaponSpecialAbility= weaponStats.passiveDescription;
     }
     
     private void DisplayCharacterInformation(GameObject characterButtonObject)

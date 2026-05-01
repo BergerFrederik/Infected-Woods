@@ -22,7 +22,7 @@ public class DamageCalculation : MonoBehaviour
         PlayerStats playerStats)
     {
         float playerPercentDamage = playerStats.playerDamage;
-        float playerMeeleDamage = playerStats.playerMeeleDamage;
+        float playerMeeleDamage = playerStats.playerMeleeDamage;
         float playerRangedDamage = playerStats.playerRangedDamage;
         float playerMysticDamage = playerStats.playerMysticDamage;
 

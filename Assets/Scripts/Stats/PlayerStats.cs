@@ -35,7 +35,7 @@ public class PlayerStats : MonoBehaviour
     public float playerMPRegeneration = 0f;
     public float playerLifeSteal = 0f;
     public float playerDamage = 0f;
-    public float playerMeeleDamage = 0f;
+    public float playerMeleeDamage = 0f;
     public float playerRangedDamage = 0f;
     public float playerMysticDamage = 0f;
     public float playerAttackSpeed = 0f;

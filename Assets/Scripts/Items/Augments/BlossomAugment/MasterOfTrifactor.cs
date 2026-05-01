@@ -47,14 +47,14 @@ public class MasterOfTrifactor : MonoBehaviour
         }
         else if (weaponStats.weaponWeaponType == WeaponStats.weaponTypeOptions.Ranged)
         {
-            playerStats.playerMeeleDamage += meeleDamageIncreaseOnHit;
+            playerStats.playerMeleeDamage += meeleDamageIncreaseOnHit;
             playerStats.playerMysticDamage += mysticDamageIncreaseOnHit;
             meeleDamageGainedOnRound += meeleDamageIncreaseOnHit;
             mysticDamageGainedOnRound += mysticDamageIncreaseOnHit;
         }
         else // Mystic
         {
-            playerStats.playerMeeleDamage += meeleDamageIncreaseOnHit;
+            playerStats.playerMeleeDamage += meeleDamageIncreaseOnHit;
             playerStats.playerRangedDamage += rangedDamageIncreaseOnHit;
             rangedDamageGainedOnRound += rangedDamageIncreaseOnHit;
             meeleDamageGainedOnRound += meeleDamageIncreaseOnHit;
@@ -63,7 +63,7 @@ public class MasterOfTrifactor : MonoBehaviour
 
     private void ResetGainedStatsOnRoundEnd()
     {
-        playerStats.playerMeeleDamage -= meeleDamageGainedOnRound;
+        playerStats.playerMeleeDamage -= meeleDamageGainedOnRound;
         playerStats.playerRangedDamage -= rangedDamageGainedOnRound;
         playerStats.playerMysticDamage -= mysticDamageGainedOnRound;
         meeleDamageGainedOnRound = 0f;

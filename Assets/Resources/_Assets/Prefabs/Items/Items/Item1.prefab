@@ -45,14 +45,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70147bac9d3a63f428a5df1415018798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
-  itemTier: 0
-  itemID: Item1
-  itemText:
-  - '- +10% Attackspeed'
-  - '- -5% Movementspeed'
-  itemLimit: 0
-  itemPrice: 13
+  itemName: Item1
   itemIcon: {fileID: 6413591311797324798, guid: d49378d55c34b3c4b9a6a6080f4cf238, type: 3}
+  itemPrice: 13
+  itemID: Item1
+  stats:
+  - statType: 0
+    value: 15
+  - statType: 9
+    value: 50
+  passiveDescription: Richtig cooles item
 --- !u!114 &1361145453290841410
 MonoBehaviour:
   m_ObjectHideFlags: 0

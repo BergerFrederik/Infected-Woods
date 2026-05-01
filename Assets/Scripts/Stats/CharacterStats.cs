@@ -75,7 +75,7 @@ public class CharacterStats : MonoBehaviour
         playerStats.playerArmor = characterArmor;
         playerStats.playerLifeSteal = characterLifeSteal;
         playerStats.playerDamage = characterDamage;
-        playerStats.playerMeeleDamage = characterMeeleDamage;
+        playerStats.playerMeleeDamage = characterMeeleDamage;
         playerStats.playerRangedDamage = characterRangedDamage;
         playerStats.playerMysticDamage = characterMysticDamage;
         playerStats.playerAttackSpeed = characterAttackSpeed;

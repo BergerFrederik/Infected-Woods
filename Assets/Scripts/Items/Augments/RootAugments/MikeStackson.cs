@@ -50,7 +50,7 @@ public class MikeStackson : MonoBehaviour
         {
             if (_randomRollEvent.GetRandomFloatRoll(0f, 100f) > 1 - chanceToGainStacks) //Muss 1- sein, damit luck einen Einfluss hat. Luck erhöht den Roll
             {
-                playerStats.playerMeeleDamage += meeleDamageGainedPerStack;
+                playerStats.playerMeleeDamage += meeleDamageGainedPerStack;
                 mikeStacksonStacks++;
             }
         }

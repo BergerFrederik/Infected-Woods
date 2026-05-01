@@ -22,7 +22,11 @@ public class WeaponStats : MonoBehaviour
     public string weaponAttackType;
     public float weaponClass = 0f;
     public float weaponPrice = 0f;
-    public string weaponSpecialAbility;
+    
+    [TextArea(3, 5)]
+    public string passiveDescription;
+    
+    [TextArea(3, 5)]
     public string weaponLore;
     
     [Header("Stats")]
@@ -62,7 +66,7 @@ public class WeaponStats : MonoBehaviour
         this.weaponLifesteal = other.weaponLifesteal;
         this.weaponPrice = other.weaponPrice;
         this.currentTotalDamage = other.currentTotalDamage;
-        this.weaponSpecialAbility = other.weaponSpecialAbility;
+        this.passiveDescription = other.passiveDescription;
         this.weaponLore = other.weaponLore;
     }
 
@@ -81,5 +85,32 @@ public class WeaponStats : MonoBehaviour
         this.weaponRange = stats.weaponRange;
         this.weaponKnockback = stats.weaponKnockback;
         this.weaponLifesteal = stats.weaponLifesteal;
+    }
+    
+    public string GetStatsAsText()
+    {
+        string formattedStats = "";
+    
+        if (weaponBaseDamage > 0) 
+            formattedStats += $"Base Damage: {weaponBaseDamage}\n";
+
+        if (weaponWeaponType == weaponTypeOptions.Melee)
+            formattedStats += $"Melee Scaling: {weaponMeleeDamageScale * 100}%\n";
+        else if (weaponWeaponType == weaponTypeOptions.Ranged)
+            formattedStats += $"Ranged Scaling: {weaponRangedDamageScale * 100}%\n";
+
+        if (weaponAttackSpeedCooldown > 0)
+            formattedStats += $"Attack Speed: {weaponAttackSpeedCooldown}s\n";
+
+        if (weaponCritChance > 0)
+            formattedStats += $"Crit Chance: {weaponCritChance}%\n";
+
+        if (weaponRange > 0)
+            formattedStats += $"Range: {weaponRange}\n";
+
+        if (weaponLifesteal > 0)
+            formattedStats += $"Lifesteal: {weaponLifesteal}%\n";
+
+        return formattedStats;
     }
 }

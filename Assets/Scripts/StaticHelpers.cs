@@ -31,7 +31,7 @@ public class StaticHelpers : MonoBehaviour
         values += $"{playerStats.playerMPRegeneration}\n";
         values += $"{playerStats.playerLifeSteal}\n";
         values += $"{playerStats.playerDamage}\n";
-        values += $"{playerStats.playerMeeleDamage}\n";
+        values += $"{playerStats.playerMeleeDamage}\n";
         values += $"{playerStats.playerRangedDamage}\n";
         values += $"{playerStats.playerMysticDamage}\n";
         values += $"{playerStats.playerAttackSpeed}\n";
