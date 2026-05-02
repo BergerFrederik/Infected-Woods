@@ -122,9 +122,10 @@ public class TooltipManager : MonoBehaviour
     {
         isLocked = true;
         
-        Vector2 nextWindowPos = GetAnchorForNextWindow();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(tooltipRect);
         interactionRect.pivot = new Vector2(tooltipRect.pivot.x, 1);
-        interactionRect.position = nextWindowPos;
+        
+        interactionRect.position = GetTopAnchorForInteraction();
         
         interactionCanvasGroup.alpha = 1;
         interactionCanvasGroup.interactable = true;
@@ -133,31 +134,35 @@ public class TooltipManager : MonoBehaviour
         sellButtonText.text = $"Sell - {shopPanel.GetWeaponRefund(selectedWeapon)}";
     }
     
-    
-    public Vector2 GetAnchorForNextWindow()
+    private Vector2 GetTopAnchorForInteraction()
     {
-        float tooltipWidth = tooltipRect.rect.width;
-        Vector2 currentPos = tooltipRect.position;
+        Vector3[] corners = new Vector3[4];
+        tooltipRect.GetWorldCorners(corners);
         
+        float topY = corners[1].y;
+        float tooltipWidth = tooltipRect.rect.width * tooltipRect.lossyScale.x;
+    
+        float posX;
         if (tooltipRect.pivot.x == 0)
         {
-            return new Vector2(currentPos.x + tooltipWidth + interactionPadding, currentPos.y);
+            posX = corners[1].x + tooltipWidth + (interactionPadding * tooltipRect.lossyScale.x);
         }
-        else 
+        else
         {
-            return new Vector2(currentPos.x - tooltipWidth - interactionPadding, currentPos.y);
+            posX = corners[1].x - (interactionPadding * tooltipRect.lossyScale.x);
         }
+
+        return new Vector2(posX, topY);
     }
+    
 
     public void Show()
     {
         canvasGroup.alpha = 1;
-        //canvasGroup.blocksRaycasts = true;
     }
 
     public void Hide()
     {
         canvasGroup.alpha = 0;
-        //canvasGroup.blocksRaycasts = false;
     }
 }

@@ -10,7 +10,6 @@ public class PlayerDealsDamage : MonoBehaviour
     
     public event Action OnPlayerHitsEnemy;
     public event Action<WeaponStats> OnPlayerHitsEnemyWithWeapon;
-    public event Action<Transform, float, bool> OnInstantiatePopUpDamageUI;
     private void OnEnable()
     {
         // kann ich eigentlich public aufrufen

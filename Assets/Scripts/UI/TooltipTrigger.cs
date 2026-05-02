@@ -7,7 +7,7 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (TooltipManager.Instance.isLocked) 
+        if (TooltipManager.Instance.isLocked || transform.Find("WeaponPrefab") == null) 
         {
             return;
         }

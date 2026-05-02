@@ -677,9 +677,7 @@ public class ShopPanel : MonoBehaviour
 
         
         if (TryCombineInList(inventoryWeaponSlots, swStats, maxLevel)) return;
-        if (TryCombineInList(weaponShopBenchSlots, swStats, maxLevel)) return;
-
-        Debug.Log("Kein passender Partner zum Kombinieren gefunden.");
+        TryCombineInList(weaponShopBenchSlots, swStats, maxLevel);
     }
 
 
@@ -716,13 +714,32 @@ public class ShopPanel : MonoBehaviour
 
     private void MoveWeapon()
     {
+        bool isBenchSlot = selectedWeapon.transform.GetComponentInParent<UISlotHandler>().isBenchSlot;
+        Transform[] targetSlots = isBenchSlot ? inventoryWeaponSlots : weaponShopBenchSlots;
         
+        MoveWeaponToFreeSpot(targetSlots);
+        CloseInteractionWindow();
+    }
+
+    private void MoveWeaponToFreeSpot(Transform[] targetSlots)
+    {
+        foreach (Transform slot in targetSlots)
+        {
+            Transform weaponPrefabContainer = slot.Find("WeaponPrefab");
+            bool isSlotOccupied = weaponPrefabContainer.childCount > 0;
+            if (isSlotOccupied) continue;
+            
+            selectedWeapon.transform.SetParent(weaponPrefabContainer);
+            RefreshAllUI();
+            return;
+        }
     }
     
     private void CloseInteractionWindow()
     {
         TooltipManager.Instance.UnlockTooltip();
         TooltipManager.Instance.HideInteractionWindow();
+        selectedWeapon = null;
     }
 
     private void HandlePurchase(float purchasePrice)
