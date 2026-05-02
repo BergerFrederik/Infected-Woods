@@ -1,19 +1,39 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    private GameObject _selectedWeapon;
+    
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (TooltipManager.Instance.isLocked) 
+        {
+            return;
+        }
+        
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            TooltipManager.Instance.HandleInteractionWindow(_selectedWeapon);
+        }
+    }
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (TooltipManager.Instance.isLocked) return;
+        
         if (transform.Find("WeaponPrefab")?.childCount > 0 || transform.childCount > 0)
         {
             TooltipManager.Instance.Show();
+            TooltipManager.Instance.UnlockTooltip();
             
             WeaponStats wStats = GetComponentInChildren<WeaponStats>();
             ItemInformation iInfo = GetComponentInChildren<ItemInformation>();
 
+            
+
             if (wStats != null)
             {
+                _selectedWeapon = wStats.gameObject;
                 TooltipManager.Instance.SetTooltipData(
                     wStats.weaponName, 
                     wStats.GetStatsAsText(), 
@@ -35,6 +55,9 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        TooltipManager.Instance.Hide();
+        if (!TooltipManager.Instance.isLocked)
+        {
+            TooltipManager.Instance.Hide();    
+        }
     }
 }

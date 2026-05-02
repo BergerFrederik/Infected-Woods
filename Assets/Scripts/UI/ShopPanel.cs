@@ -52,6 +52,9 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI[] weaponOddsTexts;
     [SerializeField] private TextMeshProUGUI weaponShopLvLText;
     [SerializeField] private Button weaponShopLvLUpButton;
+    [SerializeField] private Button sellButton;
+    [SerializeField] private Button combineButton;
+    [SerializeField] private Button moveButton;
     [SerializeField] private float shroomChanceIncrease = 3f;
     [SerializeField] private float budChanceIncrease = 1f;
     [SerializeField] private float blossomChanceIncrease = 0.5f;
@@ -63,6 +66,9 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private float weaponShopMaxLvL;
     [SerializeField] private float weaponShopLvlUpCostIncrease;
     [SerializeField] private float weaponShopBaseLvLUpCost;
+    [SerializeField] private float weaponSellFactor = 50;
+    public GameObject selectedWeapon;
+    
     
     private float _baseChanceForRoot = 100f;
     private const int rarity_code_blossom = 4;
@@ -76,7 +82,7 @@ public class ShopPanel : MonoBehaviour
     [Header("Inventory")] 
     [SerializeField] private GameObject characterObject;
     [SerializeField] private Image characterInventoryImage;
-    [SerializeField] private GameObject[] weaponShopBenchSlots;
+    [SerializeField] private Transform[] weaponShopBenchSlots;
     [SerializeField] private Color[] weaponLvLColors;
     [SerializeField] private Sprite[] weaponBoarderSprites;
     [SerializeField] private Transform[] inventoryWeaponSlots;
@@ -105,6 +111,9 @@ public class ShopPanel : MonoBehaviour
         leftSwitchButton.onClick.AddListener (() => SwitchShelf(leftSwitchButton));
         rightSwitchButton.onClick.AddListener(() => SwitchShelf(rightSwitchButton));
         handleBlossomItemButton.onClick.AddListener(HandleBlossomItemTransaction);
+        sellButton.onClick.AddListener(SellWeapon);
+        combineButton.onClick.AddListener(CombineWeapon);
+        moveButton.onClick.AddListener(MoveWeapon);
         
         SetSpritesToInventoryOnActivate();
         SetSpritesToWeaponShop();
@@ -121,6 +130,9 @@ public class ShopPanel : MonoBehaviour
         leftSwitchButton.onClick.RemoveAllListeners();
         rightSwitchButton.onClick.RemoveAllListeners();
         handleBlossomItemButton.onClick.RemoveListener(HandleBlossomItemTransaction);
+        sellButton.onClick.RemoveListener(SellWeapon);
+        combineButton.onClick.RemoveListener(CombineWeapon);
+        moveButton.onClick.RemoveListener(MoveWeapon);
 
         _itemToTransact = null;
         transactionSectionImage.sprite = null;
@@ -640,6 +652,79 @@ public class ShopPanel : MonoBehaviour
         return -1; 
     }
 
+    private void SellWeapon()
+    {
+        float refund = GetWeaponRefund(selectedWeapon);
+        playerStats.playerLightAmount += refund;
+        
+        selectedWeapon.transform.SetParent(null);
+
+        Destroy(selectedWeapon);
+        RefreshAllUI();
+    }
+
+    public float GetWeaponRefund(GameObject weapon)
+    {
+        WeaponStats selectedWeaponStats = weapon.GetComponent<WeaponStats>();
+        float refund = selectedWeaponStats.weaponPrice * (weaponSellFactor / 100);
+        return refund;
+    }
+
+    private void CombineWeapon()
+    {
+        int maxLevel = weaponLvLColors.Length - 1;
+        WeaponStats swStats = selectedWeapon.GetComponent<WeaponStats>();
+
+        
+        if (TryCombineInList(inventoryWeaponSlots, swStats, maxLevel)) return;
+        if (TryCombineInList(weaponShopBenchSlots, swStats, maxLevel)) return;
+
+        Debug.Log("Kein passender Partner zum Kombinieren gefunden.");
+    }
+
+
+    private bool TryCombineInList(Transform[] slots, WeaponStats swStats, int maxLevel)
+    {
+        foreach (Transform slot in slots)
+        {
+            WeaponStats targetStats = slot.GetComponentInChildren<WeaponStats>();
+            
+            if (targetStats == null || 
+                targetStats.gameObject == selectedWeapon || 
+                targetStats.weaponName != swStats.weaponName || 
+                targetStats.weaponLevel != swStats.weaponLevel || 
+                targetStats.weaponLevel >= maxLevel) 
+            {
+                continue;
+            }
+            
+            targetStats.weaponLevel++;
+            targetStats.ApplyStats();
+            
+            selectedWeapon.transform.SetParent(null);
+            selectedWeapon.SetActive(false);
+            Destroy(selectedWeapon);
+            
+            CloseInteractionWindow();
+            RefreshAllUI();
+
+            return true;
+        }
+        return false;
+    }
+    
+
+    private void MoveWeapon()
+    {
+        
+    }
+    
+    private void CloseInteractionWindow()
+    {
+        TooltipManager.Instance.UnlockTooltip();
+        TooltipManager.Instance.HideInteractionWindow();
+    }
+
     private void HandlePurchase(float purchasePrice)
     {
         playerStats.playerLightAmount -= Mathf.RoundToInt(purchasePrice);
@@ -748,7 +833,6 @@ public class ShopPanel : MonoBehaviour
                     Destroy(weaponToMove);
                     
                     RefreshAllUI();
-                    OnWeaponBought?.Invoke();
                     return;
                 }
             }
@@ -775,6 +859,7 @@ public class ShopPanel : MonoBehaviour
     
     public void RefreshAllUI()
     {
+        SetMoneyToUI();
         SetSpritesToInventory();
         UpdateBenchUI();
     }
@@ -783,11 +868,11 @@ public class ShopPanel : MonoBehaviour
     {
         for (int i = 0; i < weaponShopBenchSlots.Length; i++)
         {
-            Image backgroundImage = weaponShopBenchSlots[i].transform.Find("BackgroundImage").GetComponent<Image>();
-            Image boarderImage = weaponShopBenchSlots[i].transform.Find("BoarderImage").GetComponent<Image>();
-            Image weaponImage = weaponShopBenchSlots[i].transform.Find("WeaponImage").GetComponent<Image>();
+            Image backgroundImage = weaponShopBenchSlots[i].Find("BackgroundImage").GetComponent<Image>();
+            Image boarderImage = weaponShopBenchSlots[i].Find("BoarderImage").GetComponent<Image>();
+            Image weaponImage = weaponShopBenchSlots[i].Find("WeaponImage").GetComponent<Image>();
             
-            Transform weaponPrefabSlot = weaponShopBenchSlots[i].transform.Find("WeaponPrefab");
+            Transform weaponPrefabSlot = weaponShopBenchSlots[i].Find("WeaponPrefab");
             
             if (weaponPrefabSlot.childCount > 0)
             {
