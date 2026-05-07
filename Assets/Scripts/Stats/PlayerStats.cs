@@ -105,6 +105,9 @@ public class PlayerStats : MonoBehaviour
             OnCurrentMPChanged?.Invoke(value);
         }
     }
+
+    private float _playerLightAmount;
+    
     public float playerLightAmount = 0f;
     public float playerOverallXP = 0f;
     public float playerCurrentXP = 0f;     

@@ -8,11 +8,13 @@ public class PlayerWeaponSlots : MonoBehaviour
     [SerializeField] private ShopPanel shopPanel;
     
     [SerializeField] private float playerRadius = 2f;
+    [SerializeField] private float singularWeaponOffset = -.5f;
     
     private void OnEnable()
     {
         playerStats.OnNumWeaponSlotsChanged += SetWeaponSlots;
         gameManager.OnCharacterSet += SortOccupiedSlots;
+        GameManager.OnRoundStart += SortOccupiedSlots;
         shopPanel.OnWeaponBought += SortOccupiedSlots;
     }
 
@@ -61,7 +63,7 @@ public class PlayerWeaponSlots : MonoBehaviour
 
         if (numOccupiedSlots == 1)
         {
-            occupiedSlots[0].transform.localPosition = new Vector3(0f, 0f, 0f);
+            occupiedSlots[0].transform.localPosition = new Vector3(0f, singularWeaponOffset, 0f);
             return;
         }
         

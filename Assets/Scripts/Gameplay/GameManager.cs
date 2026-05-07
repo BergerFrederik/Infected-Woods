@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
     public event Action OnCharacterSet;
 
     public static event Action OnRoundOver;
+    public static event Action OnRoundStart;
     public static event Action<float> OnTimerChanged;
 
     public static event Action<float> OnNewWaveRequested;
@@ -203,7 +204,9 @@ public class GameManager : MonoBehaviour
         HandlePlayerWhileShop(true);
         Time.timeScale = 1f;
         isWaveActive = true;
-        isAugmentShopOpen = true; 
+        isAugmentShopOpen = true;
+
+        OnRoundStart?.Invoke();
     }
 
     private void SetAbilitySprite()
