@@ -9,7 +9,7 @@ public class LightDrop : MonoBehaviour
     {
         if (other.TryGetComponent(out PlayerStats playerStats))
         {
-            playerStats.playerLightAmount += lightDropValue;
+            playerStats.PlayerLightAmount += lightDropValue;
             Destroy(this.gameObject);
         }
     }

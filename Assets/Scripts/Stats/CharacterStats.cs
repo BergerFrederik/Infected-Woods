@@ -81,7 +81,7 @@ public class CharacterStats : MonoBehaviour
         playerStats.playerAttackSpeed = characterAttackSpeed;
         playerStats.playerKnockback = characterKnockback;
         playerStats.playerCooldown = characterCooldown;
-        playerStats.playerCritChance = characterCritChance;
+        playerStats.PlayerCritChance = characterCritChance;
         playerStats.playerAttackRange = characterAttackRange;
         playerStats.playerDodge = characterDodge;
         playerStats.playerMovespeed = characterBaseMovespeed;

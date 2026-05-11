@@ -36,6 +36,9 @@ public class ShopPanel : MonoBehaviour
     private Transform _itemToTransact;
     private int _currentShelfIndex;
     private string _purchaseBlossomItemText;
+
+    public event Action OnItemPurchased;
+    public event Action OnItemSold;
     
     [Header("Weapons")]
     [SerializeField] private Button[] weaponButtons;
@@ -66,7 +69,8 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private float weaponShopMaxLvL;
     [SerializeField] private float weaponShopLvlUpCostIncrease;
     [SerializeField] private float weaponShopBaseLvLUpCost;
-    [SerializeField] private float weaponSellFactor = 50;
+    [SerializeField] private float weaponSellFactor = 50f;
+    [SerializeField] private float bonusRefundPercentagePerLevel = 10f;
     public GameObject selectedWeapon;
     
     
@@ -94,6 +98,7 @@ public class ShopPanel : MonoBehaviour
 
     public static event Action OnShopCycleEnd;
     public event Action OnWeaponBought;
+    
 
     private void Start()
     {
@@ -250,7 +255,7 @@ public class ShopPanel : MonoBehaviour
         Transform transactionItem = transactionItemContainer.GetChild(0);
         
         float itemPrice = transactionItem.GetComponent<ItemInformation>().itemPrice;
-        float playerLightAmount = playerStats.playerLightAmount;
+        float playerLightAmount = playerStats.PlayerLightAmount;
         
         if (playerLightAmount - itemPrice >= 0)
         {
@@ -258,6 +263,7 @@ public class ShopPanel : MonoBehaviour
             HandlePurchase(itemPrice);
             HandleItemToTransact();
             transactionSectionImage.sprite = null;
+            OnItemPurchased?.Invoke();
         }
         else
         {
@@ -309,6 +315,8 @@ public class ShopPanel : MonoBehaviour
                     transactionItem.name = itemInformation.itemID;
                 }
             }
+            
+            OnItemSold?.Invoke();
         }
 
         float itemRefundValue = transactionItem.GetComponent<ItemInformation>().itemPrice * (itemSellPercentage / 100f);
@@ -326,6 +334,7 @@ public class ShopPanel : MonoBehaviour
         transactionSectionImage.GetComponent<Image>().sprite = null;
         HandleItemToTransact();
     }
+    
 
     private void HandleItemToTransact()
     {
@@ -376,7 +385,7 @@ public class ShopPanel : MonoBehaviour
     private void HandleBlossomItemTransaction()
     {
         bool isRandomItemPresent = blossomItemContainer.childCount > 0;
-        bool hasPlayerEnoughFunds = playerStats.playerLightAmount >= blossomItemCost;
+        bool hasPlayerEnoughFunds = playerStats.PlayerLightAmount >= blossomItemCost;
         bool hasPlayerEmptyItemSlot = itemInventoryContainer.GetChild(itemInventoryContainer.childCount - 1).childCount == 0;
         
         if (!isRandomItemPresent && hasPlayerEnoughFunds && hasPlayerEmptyItemSlot)
@@ -587,7 +596,7 @@ public class ShopPanel : MonoBehaviour
     private void BuyWeapon(int index, WeaponStats weaponStats)
     {
         float weaponPrice = weaponStats.weaponPrice;
-        float playerLightAmount = playerStats.playerLightAmount;
+        float playerLightAmount = playerStats.PlayerLightAmount;
         
         if (playerLightAmount - weaponPrice >= 0)
         {
@@ -655,7 +664,7 @@ public class ShopPanel : MonoBehaviour
     private void SellWeapon()
     {
         float refund = GetWeaponRefund(selectedWeapon);
-        playerStats.playerLightAmount += refund;
+        playerStats.PlayerLightAmount += refund;
         
         selectedWeapon.transform.SetParent(null);
 
@@ -666,8 +675,16 @@ public class ShopPanel : MonoBehaviour
     public float GetWeaponRefund(GameObject weapon)
     {
         WeaponStats selectedWeaponStats = weapon.GetComponent<WeaponStats>();
-        float refund = selectedWeaponStats.weaponPrice * (weaponSellFactor / 100);
-        return refund;
+        float weaponPrice = selectedWeaponStats.weaponPrice;
+        float weaponLevel = selectedWeaponStats.weaponLevel;
+
+        for (int i = 0; i < weaponLevel; i++) // i < weaponLevel to not double at lvl 0
+        {
+            weaponPrice *= 2f;
+        }
+        
+        float refund = weaponPrice * (weaponSellFactor / 100) + ((bonusRefundPercentagePerLevel / 100) * weaponPrice * weaponLevel);
+        return Mathf.CeilToInt(refund);
     }
 
     private void CombineWeapon()
@@ -744,7 +761,7 @@ public class ShopPanel : MonoBehaviour
 
     private void HandlePurchase(float purchasePrice)
     {
-        playerStats.playerLightAmount -= Mathf.RoundToInt(purchasePrice);
+        playerStats.PlayerLightAmount -= Mathf.RoundToInt(purchasePrice);
         SetMoneyToUI();
     }
 
@@ -759,7 +776,7 @@ public class ShopPanel : MonoBehaviour
 
     private void SetMoneyToUI()
     {
-        moneyAmountText.text = playerStats.playerLightAmount.ToString(); 
+        moneyAmountText.text = playerStats.PlayerLightAmount.ToString(); 
     }
 
     private void IncreaseWeaponShopLvL()
@@ -770,7 +787,7 @@ public class ShopPanel : MonoBehaviour
             return;
         }
         
-        if (playerStats.playerLightAmount < _currentWeaponShopLvlUpCost)
+        if (playerStats.PlayerLightAmount < _currentWeaponShopLvlUpCost)
         {
             Debug.Log("Insufficient funds");
             return;

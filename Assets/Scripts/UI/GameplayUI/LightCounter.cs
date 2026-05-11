@@ -8,6 +8,6 @@ public class LightCounter : MonoBehaviour
 
     private void Update()
     {
-        LightCounterText.text = playerStats.playerLightAmount.ToString();
+        LightCounterText.text = playerStats.PlayerLightAmount.ToString();
     }
 }

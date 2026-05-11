@@ -3779,11 +3779,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 152817157}
   m_CullTransparentMesh: 1
---- !u!4 &159299648 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
-  m_PrefabInstance: {fileID: 1200375536}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &159825715
 GameObject:
   m_ObjectHideFlags: 0
@@ -14580,6 +14575,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 657382095}
   m_CullTransparentMesh: 1
+--- !u!1001 &658352496
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1744635574}
+    m_Modifications:
+    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -535.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -358.69125
+      objectReference: {fileID: 0}
+    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4580672808124899462, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
+      propertyPath: m_Name
+      value: KukunochisWrath
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
 --- !u!1 &660450293
 GameObject:
   m_ObjectHideFlags: 0
@@ -14831,7 +14883,8 @@ MonoBehaviour:
   playerRangedDamage: 0
   playerMysticDamage: 0
   playerAttackSpeed: 0
-  playerCritChance: 0
+  _playerCritChance: 0
+  _playerCritDamage: 0
   playerAttackRange: 0
   playerArmor: 0
   playerDodge: 0
@@ -14840,7 +14893,7 @@ MonoBehaviour:
   playerCooldown: 0
   playerLevel: 0
   playerKnockback: 0
-  _plyerLightPickupRange: 0
+  _plyerLightPickupRange: 4
   playerDashCooldownReduction: 0
   playerAbilityCooldown: 0
   playerHealPower: 0
@@ -14849,7 +14902,7 @@ MonoBehaviour:
   playerLastLifesteal: 0
   _playerCurrentHP: 0
   _playerCurrentMP: 0
-  playerLightAmount: 99999
+  _playerLightAmount: 999999
   playerOverallXP: 0
   playerCurrentXP: 0
   playerLevelMultiplier: 1.25
@@ -15502,8 +15555,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 159299648}
+  m_Children: []
   m_Father: {fileID: 675311868}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -28020,63 +28072,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &1200375536
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 681486422}
-    m_Modifications:
-    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -182.75061
-      objectReference: {fileID: 0}
-    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -347.8171
-      objectReference: {fileID: 0}
-    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4580672808124899462, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
-      propertyPath: m_Name
-      value: Item1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
 --- !u!1 &1211031683
 GameObject:
   m_ObjectHideFlags: 0
@@ -30364,6 +30359,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1373103524}
   m_CullTransparentMesh: 1
+--- !u!4 &1379948746 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3274855233477239822, guid: f6e7b743b3df7314face2d779c1c6c5c, type: 3}
+  m_PrefabInstance: {fileID: 658352496}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1388880979
 GameObject:
   m_ObjectHideFlags: 0
@@ -35878,6 +35878,7 @@ MonoBehaviour:
   weaponShopLvlUpCostIncrease: 0.1
   weaponShopBaseLvLUpCost: 200
   weaponSellFactor: 50
+  bonusRefundPercentagePerLevel: 5
   selectedWeapon: {fileID: 0}
   characterObject: {fileID: 294301014}
   characterInventoryImage: {fileID: 1820675965}
@@ -37901,7 +37902,7 @@ GameObject:
   - component: {fileID: 1744635575}
   - component: {fileID: 1744635578}
   m_Layer: 5
-  m_Name: Item13
+  m_Name: KukunochisWrath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37918,7 +37919,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1379948746}
   m_Father: {fileID: 350861015}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

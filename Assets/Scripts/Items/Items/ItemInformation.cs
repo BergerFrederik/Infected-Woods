@@ -16,29 +16,33 @@ public class ItemInformation : MonoBehaviour
     [Header("Passive Ability")]
     [TextArea(3, 5)]
     public string passiveDescription;
-    // Hier könnte später ein Verweis auf ein Passive-Skript hin (z.B. ScriptableObject)
-    // public PassiveAbility passiveLogic; 
+    
 
-    public string GetFormattedTooltipText()
+    private void OnEnable()
     {
-        string fullDescription = "";
-        
-        foreach (var stat in stats)
+        if (IsPlayerRoot())
         {
-            fullDescription += $"{SplitCamelCase(stat.statType.ToString())}: +{stat.value}\n";
+            ApplyStats(1f);
         }
-        
-        if (!string.IsNullOrEmpty(passiveDescription))
-        {
-            fullDescription += $"\nPassive: {passiveDescription}";
-        }
-
-        return fullDescription;
     }
 
-    private string SplitCamelCase(string input)
+    private void OnDisable()
     {
-        return System.Text.RegularExpressions.Regex.Replace(input, "([A-Z])", " $1").Trim();
+        if (IsPlayerRoot())
+        {
+            ApplyStats(-1f);
+        }
+    }
+
+    public bool IsPlayerRoot()
+    {
+        bool isPlayerRoot = false;
+        if (this.transform.root == null) isPlayerRoot = false;
+        
+        string rootName = this.transform.root.name;
+        if (rootName == "Player") isPlayerRoot = true;
+
+        return isPlayerRoot;
     }
     
     public string GetStatsAsText()
@@ -55,6 +59,109 @@ public class ItemInformation : MonoBehaviour
         }
 
         return formattedStats;
+    }
+
+    public void ApplyStats(float multiplier)
+    {
+        if (stats == null || stats.Count == 0) return;
+
+        PlayerStats player = FindAnyObjectByType<PlayerStats>();
+        if (player == null) return;
+
+        foreach (var stat in stats)
+        {
+            float amount = stat.value * multiplier;
+
+            switch (stat.statType)
+            {
+                // Primary Stats (Properties mit Events)
+                case StatType.MaxHP:
+                    player.playerMaxHP += amount;
+                    break;
+                case StatType.MaxMP:
+                    player.playerMaxMP += amount;
+                    break;
+                case StatType.CritChance:
+                    player.PlayerCritChance += amount;
+                    // Falls du ein Event für CritChance hast (im Code Action<float>):
+                    // player.OnCritChanceChanged?.Invoke(player.playerCritChance);
+                    break;
+                case StatType.CritDamage:
+                    player.PlayerCritDamage += amount;
+                    break;
+
+                // Kampf Stats (Einfache Floats)
+                case StatType.HPRegeneration:
+                    player.playerHPRegeneration += amount;
+                    break;
+                case StatType.MPRegeneration:
+                    player.playerMPRegeneration += amount;
+                    break;
+                case StatType.LifeSteal:
+                    player.playerLifeSteal += amount;
+                    break;
+                case StatType.Damage:
+                    player.playerDamage += amount;
+                    break;
+                case StatType.MeleeDamage:
+                    player.playerMeleeDamage += amount;
+                    break;
+                case StatType.RangedDamage:
+                    player.playerRangedDamage += amount;
+                    break;
+                case StatType.MysticDamage:
+                    player.playerMysticDamage += amount;
+                    break;
+                case StatType.AttackSpeed:
+                    player.playerAttackSpeed += amount;
+                    break;
+                case StatType.AttackRange:
+                    player.playerAttackRange += amount;
+                    break;
+                case StatType.Armor:
+                    player.playerArmor += amount;
+                    break;
+                case StatType.Dodge:
+                    player.playerDodge += amount;
+                    break;
+                case StatType.Movespeed:
+                    player.playerMovespeed += amount; // Das löst CommunicateMovementspeedChanged aus
+                    break;
+                case StatType.Luck:
+                    player.playerLuck += amount;
+                    break;
+                case StatType.Cooldown:
+                    player.playerCooldown += amount;
+                    break;
+
+                // Secondary Stats
+                case StatType.Knockback:
+                    player.playerKnockback += amount;
+                    break;
+                case StatType.LightPickupRange:
+                    player.playerLightPickupRange += amount;
+                    break;
+                case StatType.DashCooldownReduction:
+                    player.playerDashCooldownReduction += amount;
+                    break;
+                case StatType.AbilityCooldown:
+                    player.playerAbilityCooldown += amount;
+                    break;
+                case StatType.HealPower:
+                    player.playerHealPower += amount;
+                    break;
+                case StatType.ShieldPower:
+                    player.playerShieldPower += amount;
+                    break;
+                case StatType.WeaponSlots:
+                    player.PlayerWeaponSlots += amount;
+                    break;
+
+                default:
+                    Debug.LogWarning($"Stat {stat.statType} ist noch nicht im switch implementiert!");
+                    break;
+            }
+        }
     }
     
 }

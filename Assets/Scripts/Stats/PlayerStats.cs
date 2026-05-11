@@ -11,6 +11,7 @@ public class PlayerStats : MonoBehaviour
     public event Action<float> OnMaxHPChanged;
     public event Action<float> OnLightPickupRangeChanged;
     public event Action<float> OnNumWeaponSlotsChanged;
+    public event Action<float> OnCritChanceChanged;
 
     [Header("Primary Stats")]
     [SerializeField] private float _playerMaxHP;
@@ -39,7 +40,25 @@ public class PlayerStats : MonoBehaviour
     public float playerRangedDamage = 0f;
     public float playerMysticDamage = 0f;
     public float playerAttackSpeed = 0f;
-    public float playerCritChance = 0f;
+
+    [SerializeField] private float _playerCritChance;
+    public float PlayerCritChance
+    {
+        get { return _playerCritChance; }
+        set
+        {
+            _playerCritChance = value;
+            OnCritChanceChanged?.Invoke(value);
+        }
+    }
+    
+    [SerializeField] private float _playerCritDamage;
+    public float PlayerCritDamage
+    {
+        get { return _playerCritDamage; }
+        set { _playerCritDamage = value;}
+    }
+    
     public float playerAttackRange = 0f;
     public float playerArmor = 0f;
     public float playerDodge = 0f;
@@ -106,9 +125,16 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    private float _playerLightAmount;
+    [SerializeField] private float _playerLightAmount;
     
-    public float playerLightAmount = 0f;
+    public float PlayerLightAmount
+    {
+        get { return _playerLightAmount; }
+        set
+        {
+            _playerLightAmount = Mathf.CeilToInt(value);
+        }
+    }
     public float playerOverallXP = 0f;
     public float playerCurrentXP = 0f;     
     public float playerLevelMultiplier = 0f;

@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3274855233477239822}
   - component: {fileID: 6021458999131785386}
-  - component: {fileID: 1361145453290841410}
+  - component: {fileID: -5387172690415829539}
   m_Layer: 0
-  m_Name: Item1
+  m_Name: KukunochisWrath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,17 +45,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70147bac9d3a63f428a5df1415018798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
-  itemName: Item1
+  itemName: Kukunochis Wrath
   itemIcon: {fileID: 6413591311797324798, guid: d49378d55c34b3c4b9a6a6080f4cf238, type: 3}
-  itemPrice: 13
-  itemID: Item1
+  itemPrice: 500
+  itemID: KukunochisWrath
   stats:
-  - statType: 0
+  - statType: 10
+    value: 20
+  - statType: 6
     value: 15
-  - statType: 9
-    value: 50
-  passiveDescription: Richtig cooles item
---- !u!114 &1361145453290841410
+  - statType: 11
+    value: 35
+  passiveDescription: Crit Damage from Kukunochis Wrath doubles, once 200% crit chance
+    was reached
+--- !u!114 &-5387172690415829539
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,8 +67,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4580672808124899462}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05ca56a08c5ff2f40ad94a17592657ea, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e63a3e59ca284eb588a4a7fb19ebc85, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Item1
-  attackSpeedGain: 10
-  movementSpeedLoss: 5
+  m_EditorClassIdentifier: Assembly-CSharp::KukunochisWrath
+  itemInformation: {fileID: 6021458999131785386}
+  itemStat:
+    statType: 0
+    value: 0
+  critChanceThreshold: 200

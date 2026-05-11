@@ -101,7 +101,7 @@ public class SpiritArcher : MonoBehaviour
         float randomNum = _randomRollEvent.GetRandomFloatRoll(0f, 100f);
         if (randomNum > 1 - _chanceToGainLight) //Muss 1- sein, damit luck einen Einfluss hat. Luck erhöht den Roll
         {
-            playerStats.playerLightAmount += 1f;
+            playerStats.PlayerLightAmount += 1f;
         }
     }
 }

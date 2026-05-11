@@ -198,7 +198,7 @@ public class LevelPanel : MonoBehaviour
 
     private void SetUIToMoneyAmount()
     {
-        moneyAmountText.text = playerStats.playerLightAmount.ToString();
+        moneyAmountText.text = playerStats.PlayerLightAmount.ToString();
     }
 
     private void SetUIToButtons()
@@ -226,7 +226,7 @@ public class LevelPanel : MonoBehaviour
         rerollCostTextLeft.text = $"Reroll - {rerollCost}";
         rerollCostTextRight.text = $"Reroll - {rerollCost}";
         
-        if (playerStats.playerLightAmount < rerollCost)
+        if (playerStats.PlayerLightAmount < rerollCost)
         {
             rerollCostTextLeft.color = Color.red;
             rerollCostTextRight.color = Color.red;
@@ -235,9 +235,9 @@ public class LevelPanel : MonoBehaviour
 
     private void RerollStats()
     {
-        if (playerStats.playerLightAmount >= rerollMechanic.GetRerollPrice())
+        if (playerStats.PlayerLightAmount >= rerollMechanic.GetRerollPrice())
         {
-            playerStats.playerLightAmount -= rerollMechanic.GetRerollPrice();
+            playerStats.PlayerLightAmount -= rerollMechanic.GetRerollPrice();
             rerollMechanic.NumRerolls++;
             SetLogic();
             SetUI();
@@ -289,7 +289,7 @@ public class LevelPanel : MonoBehaviour
                 playerStats.playerAttackSpeed += value;
                 break;
             case "Crit":
-                playerStats.playerCritChance += value;
+                playerStats.PlayerCritChance += value;
                 break;
             case "Range":
                 playerStats.playerAttackRange += value;

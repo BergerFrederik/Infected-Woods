@@ -12,6 +12,6 @@ public class ItsCritical : MonoBehaviour
     {
         Player = this.transform.root;
         playerStats =  Player.GetComponent<PlayerStats>();
-        playerStats.playerCritChance += critChanceGained;
+        playerStats.PlayerCritChance += critChanceGained;
     }
 }

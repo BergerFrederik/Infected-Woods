@@ -36,7 +36,7 @@ public class SetStats : MonoBehaviour
                 playerStats.playerAttackSpeed = input;
                 break;
             case "Crit Chance":
-                playerStats.playerCritChance = input;
+                playerStats.PlayerCritChance = input;
                 break;
             case "MS":
                 playerStats.playerMovespeed = input;

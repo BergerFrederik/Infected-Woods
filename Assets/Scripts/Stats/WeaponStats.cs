@@ -11,7 +11,7 @@ public class WeaponStats : MonoBehaviour
         Ability
     }
     
-    [HideInInspector] public float weaponLevel;
+    [HideInInspector] public float weaponLevel; //starts at 0
     [HideInInspector] public float currentTotalDamage = 0f;
     
     [Header("Information")]

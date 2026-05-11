@@ -12,6 +12,7 @@ public enum StatType
     MysticDamage,
     AttackSpeed,
     CritChance,
+    CritDamage,
     AttackRange,
     Armor,
     Dodge,
