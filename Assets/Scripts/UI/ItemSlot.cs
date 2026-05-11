@@ -5,6 +5,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 {
     public bool isInShop;
     private ShopPanel shopPanel;
+    
 
     private void Awake()
     {
@@ -13,14 +14,17 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (shopPanel != null)
+        if (shopPanel == null || transform.childCount == 0) return;
+
+        GameObject itemInSlot = transform.GetChild(0).gameObject;
+
+        if (eventData.clickCount == 1)
         {
-            if (this.transform.childCount == 0)
-            {
-                Debug.LogWarning("No Item in Slot");
-                return;
-            }
-            shopPanel.SelectItemForTransaction(this.transform.GetChild(0).gameObject, isInShop);
+            shopPanel.SelectItemForTransaction(itemInSlot, isInShop);
+        }
+        else if (eventData.clickCount == 2)
+        {
+            shopPanel.InstantTransaction(itemInSlot, isInShop);
         }
     }
 }

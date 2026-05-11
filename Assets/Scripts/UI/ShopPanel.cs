@@ -288,6 +288,44 @@ public class ShopPanel : MonoBehaviour
             }
         }
     }
+    
+    public void InstantTransaction(GameObject itemObj, bool isBuy)
+    {
+        _itemToTransact = itemObj.transform;
+
+        if (isBuy)
+        {
+            InstantBuy(itemObj.GetComponent<ItemInformation>());
+        }
+        else
+        {
+            SellItem();
+        }
+    }
+
+    private void InstantBuy(ItemInformation itemInfo)
+    {
+        if (itemInventoryContainer.GetChild(itemInventoryContainer.childCount - 1).childCount > 0)
+        {
+            Debug.LogWarning("Max item capacity reached");
+            return;
+        }
+        
+        float playerLightAmount = playerStats.PlayerLightAmount;
+        if (playerLightAmount >= itemInfo.itemPrice)
+        {
+            PutItemIntoInventory(_itemToTransact);
+            HandlePurchase(itemInfo.itemPrice);
+            ResetTransactionSection(); 
+        
+            OnItemPurchased?.Invoke();
+        }
+        else
+        {
+            Debug.LogWarning("Not enough funds");
+        }
+    }
+    
 
     private void SellItem()
     {
