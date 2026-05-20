@@ -1,14 +1,24 @@
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class ItemInformation : MonoBehaviour
 {
+    public enum ItemTier
+    {
+        Root,
+        Bud,
+        Blossom,
+        Special
+    }
+    
     [Header("Display Data")]
     public string itemName;
     public Sprite itemIcon;
     public float itemPrice;
     public string itemID;
+    public ItemTier tier;
 
     [Header("Stats Configuration")]
     public List<ItemStat> stats = new List<ItemStat>();
@@ -16,6 +26,8 @@ public class ItemInformation : MonoBehaviour
     [Header("Passive Ability")]
     [TextArea(3, 5)]
     public string passiveDescription;
+
+    
     
 
     private void OnEnable()

@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3274855233477239822}
   - component: {fileID: 6021458999131785386}
-  - component: {fileID: -5387172690415829539}
+  - component: {fileID: -1012722243829212049}
   m_Layer: 0
-  m_Name: KukunochisWrath
+  m_Name: StatShard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,21 +45,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70147bac9d3a63f428a5df1415018798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
-  itemName: Kukunochis Wrath
-  itemIcon: {fileID: 6413591311797324798, guid: d49378d55c34b3c4b9a6a6080f4cf238, type: 3}
+  itemName: Stat Shard
+  itemIcon: {fileID: 9046240683773468636, guid: f618c7e649f5f4446827f1a3f3fc2e24, type: 3}
   itemPrice: 500
-  itemID: KukunochisWrath
-  tier: 1
-  stats:
-  - statType: 10
-    value: 20
-  - statType: 6
-    value: 15
-  - statType: 11
-    value: 35
-  passiveDescription: Crit Damage from Kukunochis Wrath doubles, once 200% crit chance
-    was reached
---- !u!114 &-5387172690415829539
+  itemID: StatShard
+  tier: 3
+  stats: []
+  passiveDescription: Gain a random stat on purchase
+--- !u!114 &-1012722243829212049
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -68,8 +61,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4580672808124899462}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e63a3e59ca284eb588a4a7fb19ebc85, type: 3}
+  m_Script: {fileID: 11500000, guid: bd4bbce51a2ec45bbb3bcd247d53106e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KukunochisWrath
+  m_EditorClassIdentifier: Assembly-CSharp::StatShard
   itemInformation: {fileID: 6021458999131785386}
-  critChanceThreshold: 200

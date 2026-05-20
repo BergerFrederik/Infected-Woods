@@ -17,12 +17,12 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         if (shopPanel == null || transform.childCount == 0) return;
 
         GameObject itemInSlot = transform.GetChild(0).gameObject;
-
-        if (eventData.clickCount == 1)
+        
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
             shopPanel.SelectItemForTransaction(itemInSlot, isInShop);
         }
-        else if (eventData.clickCount == 2)
+        else if (eventData.button == PointerEventData.InputButton.Right)
         {
             shopPanel.InstantTransaction(itemInSlot, isInShop);
         }

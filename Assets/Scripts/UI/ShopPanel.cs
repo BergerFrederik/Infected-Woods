@@ -14,6 +14,7 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private Button toggleButton;
     [SerializeField] private StatPanel statPanel;
     [SerializeField] private Transform playerTransform;
+    [SerializeField] private Transform statPanelTransform;
     
     
     [Header("Items")]
@@ -36,6 +37,7 @@ public class ShopPanel : MonoBehaviour
     private Transform _itemToTransact;
     private int _currentShelfIndex;
     private string _purchaseBlossomItemText;
+    private bool _isCurrentTransactionBuy;
 
     public event Action OnItemPurchased;
     public event Action OnItemSold;
@@ -229,13 +231,14 @@ public class ShopPanel : MonoBehaviour
         
         String buttonText = isInShop ? "Buy" : "Sell";
         transactionButton.GetComponentInChildren<TextMeshProUGUI>().text = buttonText;
+        _isCurrentTransactionBuy = isInShop;
         _itemToTransact = selectedItem.transform;
     }
 
     private void ItemTransaction()
     {
         String buttonText = transactionButton.GetComponentInChildren<TextMeshProUGUI>().text;
-        if (buttonText == "Buy") BuyItem(); else SellItem();
+        if (_isCurrentTransactionBuy) BuyItem(); else SellItem();
     }
 
     private void BuyItem()
@@ -254,14 +257,24 @@ public class ShopPanel : MonoBehaviour
         
         Transform transactionItem = transactionItemContainer.GetChild(0);
         
-        float itemPrice = transactionItem.GetComponent<ItemInformation>().itemPrice;
+        ItemInformation itemInformation = transactionItem.GetComponent<ItemInformation>();
+        float itemPrice = itemInformation.itemPrice;
         float playerLightAmount = playerStats.PlayerLightAmount;
         
         if (playerLightAmount - itemPrice >= 0)
         {
-            PutItemIntoInventory(transactionItem);
+            bool isSpecialItem = itemInformation.tier == ItemInformation.ItemTier.Special;
+            if (isSpecialItem)
+            {
+                PutItemToPlayerInventory(transactionItem);
+                ResetTransactionSection();
+            }
+            else
+            {
+                PutItemIntoInventory(transactionItem);
+                HandleItemToTransact();
+            }
             HandlePurchase(itemPrice);
-            HandleItemToTransact();
             transactionSectionImage.sprite = null;
             OnItemPurchased?.Invoke();
         }
@@ -273,6 +286,7 @@ public class ShopPanel : MonoBehaviour
 
     private void PutItemIntoInventory(Transform transactionItem)
     {
+        if (transactionItem.GetComponent<ItemInformation>().itemID == "StatShard") return;
         for (int i = 0; i < itemInventoryContainer.childCount; i++)
         {
             if (itemInventoryContainer.GetChild(i).childCount == 0)
@@ -281,12 +295,17 @@ public class ShopPanel : MonoBehaviour
                 transactionItem.SetParent(itemInventorySlot);
                 transactionItem.name = transactionItem.GetComponent<ItemInformation>().itemID;
                 itemInventorySlot.GetComponent<Image>().sprite = transactionItem.GetComponent<ItemInformation>().itemIcon;
-
-                GameObject transactionItemForPlayer = Instantiate(transactionItem.gameObject, playerItemsContainer);
-                transactionItemForPlayer.name = transactionItem.GetComponent<ItemInformation>().itemID;
+                
+                PutItemToPlayerInventory(transactionItem);
                 break;
             }
         }
+    }
+
+    private void PutItemToPlayerInventory(Transform transactionItem)
+    {
+        GameObject transactionItemForPlayer = Instantiate(transactionItem.gameObject, playerItemsContainer);
+        transactionItemForPlayer.name = transactionItem.GetComponent<ItemInformation>().itemID;
     }
     
     public void InstantTransaction(GameObject itemObj, bool isBuy)
@@ -314,10 +333,17 @@ public class ShopPanel : MonoBehaviour
         float playerLightAmount = playerStats.PlayerLightAmount;
         if (playerLightAmount >= itemInfo.itemPrice)
         {
-            PutItemIntoInventory(_itemToTransact);
+            bool isSpecialItem = itemInfo.tier == ItemInformation.ItemTier.Special;
+            if (isSpecialItem)
+            {
+                PutItemToPlayerInventory(_itemToTransact);
+            }
+            else
+            {
+                PutItemIntoInventory(_itemToTransact);
+            }
+            
             HandlePurchase(itemInfo.itemPrice);
-            ResetTransactionSection(); 
-        
             OnItemPurchased?.Invoke();
         }
         else
@@ -329,14 +355,30 @@ public class ShopPanel : MonoBehaviour
 
     private void SellItem()
     {
-        if (transactionItemContainer.childCount == 0)
+        Transform itemToSell = _itemToTransact;
+        if (itemToSell == null && transactionItemContainer.childCount > 0)
+        {
+            itemToSell = transactionItemContainer.GetChild(0);
+        }
+        
+        if (itemToSell == null)
         {
             Debug.LogWarning("No item found");
             return;
         }
         
-        Transform transactionItem = transactionItemContainer.GetChild(0);
+        ItemInformation itemInfo = itemToSell.GetComponent<ItemInformation>();
+        string targetID = itemInfo.itemID;
         
+        if (itemToSell.parent != null && itemToSell.parent.GetComponent<Image>() != null)
+        {
+            itemToSell.parent.GetComponent<Image>().sprite = null;
+        }
+        
+        float itemRefundValue = itemInfo.itemPrice * (itemSellPercentage / 100f);
+        HandlePurchase(-itemRefundValue);
+
+        bool foundSlot = false;
         for (int i = 0; i < itemShelfContainer.childCount; i++)
         {
             Transform currentShelf = itemShelfContainer.GetChild(i);
@@ -345,40 +387,39 @@ public class ShopPanel : MonoBehaviour
             {
                 Transform currentItemSlot = currentShelf.GetChild(y);
                     
-                if (transactionItem.GetComponent<ItemInformation>().itemID == currentItemSlot.name)
+                if (currentItemSlot.name == targetID)
                 {
-                    transactionItem.SetParent(currentItemSlot);
-                    ItemInformation itemInformation = transactionItem.GetComponent<ItemInformation>();
-                    currentItemSlot.GetComponent<Image>().sprite = itemInformation.itemIcon;
-                    transactionItem.name = itemInformation.itemID;
+                    currentItemSlot.GetComponent<Image>().sprite = itemInfo.itemIcon;
+                    itemToSell.SetParent(currentItemSlot);
+                    
+                    foundSlot = true;
+                    break;
                 }
             }
-            
-            OnItemSold?.Invoke();
-        }
 
-        float itemRefundValue = transactionItem.GetComponent<ItemInformation>().itemPrice * (itemSellPercentage / 100f);
-        HandlePurchase(-itemRefundValue);
+            if (foundSlot) break;
+        }
         
         for (int i = 0; i < playerItemsContainer.childCount; i++)
         {
             Transform currentPlayerItem = playerItemsContainer.GetChild(i);
-            if (currentPlayerItem.name == _itemToTransact.GetComponent<ItemInformation>().itemID)
+            if (currentPlayerItem.name == targetID)
             {
                 Destroy(currentPlayerItem.gameObject);
+                break;
             }
         }
         
-        transactionSectionImage.GetComponent<Image>().sprite = null;
-        HandleItemToTransact();
+        OnItemSold?.Invoke();
+        ResetTransactionSection();
     }
     
 
     private void HandleItemToTransact()
     {
-        Transform transactionItemInventoryContainer = _itemToTransact.parent;
+        Transform transactionItemShelfContainer = _itemToTransact.parent;
         Destroy(_itemToTransact.gameObject);
-        transactionItemInventoryContainer.GetComponent<Image>().sprite = null;
+        transactionItemShelfContainer.GetComponent<Image>().sprite = null;
         _itemToTransact = null;
         transactionButton.GetComponentInChildren<TextMeshProUGUI>().text = "Buy/Sell";
     }

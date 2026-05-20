@@ -260,7 +260,7 @@ public class LevelPanel : MonoBehaviour
         this.gameObject.SetActive(false);
         gameManager.CycleShops();
     }
-    private void ApplyStatsToPlayer(float value, string statName)
+    public void ApplyStatsToPlayer(float value, string statName)
     {
         switch (statName)
         {
