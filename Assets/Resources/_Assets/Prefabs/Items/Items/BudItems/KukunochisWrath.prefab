@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
   itemName: Kukunochis Wrath
-  itemIcon: {fileID: 6413591311797324798, guid: d49378d55c34b3c4b9a6a6080f4cf238, type: 3}
+  itemIcon: {fileID: 403587183811649165, guid: db1b682dd74633d43bfd5402f492a28a, type: 3}
   itemPrice: 500
   itemID: KukunochisWrath
   tier: 1
