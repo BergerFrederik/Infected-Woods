@@ -3096,7 +3096,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &106585556
@@ -6040,6 +6040,7 @@ GameObject:
   - component: {fileID: 256037097}
   - component: {fileID: 256037099}
   - component: {fileID: 256037100}
+  - component: {fileID: 256037101}
   m_Layer: 5
   m_Name: Weapon6
   m_TagString: Untagged
@@ -6134,6 +6135,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4388fe911c02f8043bdccb5019f95741, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+--- !u!114 &256037101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256037095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f53ad7e4e8cd47eda7fff10f5acdf31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Floater
+  maxFloatSpeed: 0.9
+  minFloatSpeed: 0.2
+  dampingStrength: 70
+  floatHeight: 20
+  offsetRangeY: 1
+  dampingStartPercentage: 30
+  isSurpessed: 0
 --- !u!1 &257752092
 GameObject:
   m_ObjectHideFlags: 0
@@ -10803,7 +10823,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -175, y: 150}
+  m_AnchoredPosition: {x: -130, y: 200}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &469005659
@@ -16207,7 +16227,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -175, y: 300}
+  m_AnchoredPosition: {x: -130, y: 369}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &681486423
@@ -17267,7 +17287,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -175, y: 0}
+  m_AnchoredPosition: {x: -130, y: 50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &727764403
@@ -21694,7 +21714,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 175, y: 300}
+  m_AnchoredPosition: {x: 130, y: 369}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &912468004
@@ -22091,7 +22111,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -9.5, y: 285}
+  m_AnchoredPosition: {x: 0, y: 285}
   m_SizeDelta: {x: 575, y: 230}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &920255842
@@ -23182,7 +23202,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -175, y: -150}
+  m_AnchoredPosition: {x: -130, y: -130.6}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &975867571
@@ -23336,6 +23356,7 @@ GameObject:
   - component: {fileID: 994439116}
   - component: {fileID: 994439118}
   - component: {fileID: 994439119}
+  - component: {fileID: 994439120}
   m_Layer: 5
   m_Name: Weapon1
   m_TagString: Untagged
@@ -23430,6 +23451,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4388fe911c02f8043bdccb5019f95741, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+--- !u!114 &994439120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994439114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f53ad7e4e8cd47eda7fff10f5acdf31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Floater
+  maxFloatSpeed: 0.8
+  minFloatSpeed: 0.2
+  dampingStrength: 70
+  floatHeight: 20
+  offsetRangeY: 1
+  dampingStartPercentage: 30
+  isSurpessed: 0
 --- !u!1 &1003645887
 GameObject:
   m_ObjectHideFlags: 0
@@ -25900,7 +25940,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 175, y: -150}
+  m_AnchoredPosition: {x: 130, y: -130.6}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1079433900
@@ -28449,6 +28489,7 @@ GameObject:
   - component: {fileID: 1162214995}
   - component: {fileID: 1162214997}
   - component: {fileID: 1162214998}
+  - component: {fileID: 1162214999}
   m_Layer: 5
   m_Name: Weapon5
   m_TagString: Untagged
@@ -28543,6 +28584,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4388fe911c02f8043bdccb5019f95741, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+--- !u!114 &1162214999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162214993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f53ad7e4e8cd47eda7fff10f5acdf31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Floater
+  maxFloatSpeed: 0.8
+  minFloatSpeed: 0.2
+  dampingStrength: 70
+  floatHeight: 20
+  offsetRangeY: 1
+  dampingStartPercentage: 30
+  isSurpessed: 0
 --- !u!1 &1162969450
 GameObject:
   m_ObjectHideFlags: 0
@@ -28579,7 +28639,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 175, y: 150}
+  m_AnchoredPosition: {x: 130, y: 200}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1162969452
@@ -29362,6 +29422,7 @@ GameObject:
   - component: {fileID: 1212416219}
   - component: {fileID: 1212416221}
   - component: {fileID: 1212416222}
+  - component: {fileID: 1212416223}
   m_Layer: 5
   m_Name: Weapon3
   m_TagString: Untagged
@@ -29456,6 +29517,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4388fe911c02f8043bdccb5019f95741, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+--- !u!114 &1212416223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1212416217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f53ad7e4e8cd47eda7fff10f5acdf31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Floater
+  maxFloatSpeed: 0.9
+  minFloatSpeed: 0.2
+  dampingStrength: 70
+  floatHeight: 20
+  offsetRangeY: 1
+  dampingStartPercentage: 30
+  isSurpessed: 0
 --- !u!1 &1214215009
 GameObject:
   m_ObjectHideFlags: 0
@@ -30729,7 +30809,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 150}
+  m_AnchoredPosition: {x: 0, y: 200}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1327698775
@@ -31522,6 +31602,7 @@ GameObject:
   - component: {fileID: 1368925408}
   - component: {fileID: 1368925410}
   - component: {fileID: 1368925411}
+  - component: {fileID: 1368925412}
   m_Layer: 5
   m_Name: Weapon2
   m_TagString: Untagged
@@ -31616,6 +31697,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4388fe911c02f8043bdccb5019f95741, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+--- !u!114 &1368925412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1368925406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f53ad7e4e8cd47eda7fff10f5acdf31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Floater
+  maxFloatSpeed: 0.7
+  minFloatSpeed: 0.2
+  dampingStrength: 70
+  floatHeight: 20
+  offsetRangeY: 1
+  dampingStartPercentage: 30
+  isSurpessed: 0
 --- !u!1 &1369096408
 GameObject:
   m_ObjectHideFlags: 0
@@ -32543,6 +32643,7 @@ GameObject:
   - component: {fileID: 1414559979}
   - component: {fileID: 1414559981}
   - component: {fileID: 1414559982}
+  - component: {fileID: 1414559983}
   m_Layer: 5
   m_Name: Weapon4
   m_TagString: Untagged
@@ -32637,6 +32738,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4388fe911c02f8043bdccb5019f95741, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+--- !u!114 &1414559983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414559977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f53ad7e4e8cd47eda7fff10f5acdf31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Floater
+  maxFloatSpeed: 0.7
+  minFloatSpeed: 0.2
+  dampingStrength: 70
+  floatHeight: 20
+  offsetRangeY: 1
+  dampingStartPercentage: 30
+  isSurpessed: 0
 --- !u!1 &1417931833
 GameObject:
   m_ObjectHideFlags: 0
@@ -36299,7 +36419,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -150}
+  m_AnchoredPosition: {x: 0, y: -130.6}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1584295745
@@ -40935,6 +41055,7 @@ GameObject:
   - component: {fileID: 1820675964}
   - component: {fileID: 1820675966}
   - component: {fileID: 1820675965}
+  - component: {fileID: 1820675967}
   m_Layer: 5
   m_Name: CharacterSprite
   m_TagString: Untagged
@@ -40999,6 +41120,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1820675963}
   m_CullTransparentMesh: 1
+--- !u!114 &1820675967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1820675963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f53ad7e4e8cd47eda7fff10f5acdf31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Floater
+  maxFloatSpeed: 1
+  minFloatSpeed: 0.2
+  dampingStrength: 70
+  floatHeight: 5
+  offsetRangeY: 0
+  dampingStartPercentage: 0
+  isSurpessed: 0
 --- !u!1 &1836199287
 GameObject:
   m_ObjectHideFlags: 0
@@ -42520,7 +42660,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 175, y: 0}
+  m_AnchoredPosition: {x: 130, y: 50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1890536169
@@ -46160,7 +46300,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 300}
+  m_AnchoredPosition: {x: 0, y: 369}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2138092887

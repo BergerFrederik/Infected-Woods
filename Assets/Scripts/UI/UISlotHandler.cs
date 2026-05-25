@@ -1,3 +1,4 @@
+using Unity.AppUI.MVVM;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -15,6 +16,7 @@ public class UISlotHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private Transform originalParent;
     private ShopPanel shopPanel;
     private int originalIndex;
+    private Floater _floater;
 
     private void Awake()
     {
@@ -24,10 +26,12 @@ public class UISlotHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         
         canvas = GetComponentInParent<Canvas>();
         shopPanel = Object.FindAnyObjectByType<ShopPanel>();
+        _floater = GetComponent<Floater>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        HandleMoveConflict(true);
         Transform prefabSlot = transform.Find("WeaponPrefab");
         if (prefabSlot == null || prefabSlot.childCount == 0)
         {
@@ -69,6 +73,7 @@ public class UISlotHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         rectTransform.position = startPosition; 
         
         if (shopPanel != null) shopPanel.RefreshAllUI();
+        HandleMoveConflict(false);
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -81,5 +86,10 @@ public class UISlotHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 shopPanel.MoveWeapon(draggedSource.isBenchSlot, draggedSource.slotIndex, this.isBenchSlot, this.slotIndex);
             }
         }
+    }
+
+    private void HandleMoveConflict(bool isPriority)
+    {
+        if (_floater != null) _floater.isSurpessed = isPriority;
     }
 }
