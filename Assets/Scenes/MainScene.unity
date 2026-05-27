@@ -15044,7 +15044,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &655231438
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15061,12 +15061,12 @@ RectTransform:
   - {fileID: 2049048585}
   - {fileID: 1359617017}
   - {fileID: 368345466}
-  m_Father: {fileID: 1266988870}
+  m_Father: {fileID: 1645751889}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1820, y: 980}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &655231439
 MonoBehaviour:
@@ -15118,9 +15118,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37490a43fbbb04483aa3e966a1a0f1dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatShardPanel
-  statBanners: []
-  statNameTexts: []
-  statValueTexts: []
+  statBanners:
+  - {fileID: 565376445}
+  - {fileID: 2049048584}
+  - {fileID: 1359617016}
+  statIcons:
+  - {fileID: 1266323100}
+  - {fileID: 2079723863}
+  - {fileID: 1623499218}
+  statNameTexts:
+  - {fileID: 5069697}
+  - {fileID: 1048178029}
+  - {fileID: 828828140}
+  statValueTexts:
+  - {fileID: 1898898054}
+  - {fileID: 945187380}
+  - {fileID: 1317332519}
+  playerStats: {fileID: 663990828}
+  upgradeableStats: []
+  upgradeableStatsValues: []
 --- !u!1 &657382095
 GameObject:
   m_ObjectHideFlags: 0
@@ -30161,7 +30177,6 @@ RectTransform:
   - {fileID: 857504039}
   - {fileID: 1007563364}
   - {fileID: 1645751889}
-  - {fileID: 655231438}
   - {fileID: 286974077}
   - {fileID: 571574825}
   m_Father: {fileID: 257752096}
@@ -37719,6 +37734,7 @@ RectTransform:
   - {fileID: 216276856}
   - {fileID: 1636821938}
   - {fileID: 662712945}
+  - {fileID: 655231438}
   m_Father: {fileID: 1266988870}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -41132,12 +41148,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f53ad7e4e8cd47eda7fff10f5acdf31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Floater
-  maxFloatSpeed: 1
+  maxFloatSpeed: 0.8
   minFloatSpeed: 0.2
   dampingStrength: 70
   floatHeight: 5
   offsetRangeY: 0
-  dampingStartPercentage: 0
+  dampingStartPercentage: 30
   isSurpessed: 0
 --- !u!1 &1836199287
 GameObject:

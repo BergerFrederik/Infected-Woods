@@ -144,7 +144,7 @@ public class PlayerStats : MonoBehaviour
     public float playerBasePickupRange = 0f;
     public float playerBaseMovespeed = 0f;
     public float playerBaseXP = 0f;
-
+    
 
     public float GetCurrentPlayerMovespeed()
     {
@@ -166,6 +166,64 @@ public class PlayerStats : MonoBehaviour
         {
             OnMovespeedChanged?.Invoke();
             oldTotalCurrentMoveSpeed = playerMovespeed;
+        }
+    }
+    
+    public void ApplyStatsToPlayer(float value, string statName)
+    {
+        switch (statName)
+        {
+            case "Max HP":
+                this.playerMaxHP += value;
+                break;
+            case "HP Regeneration":
+                this.playerHPRegeneration += value;
+                break;
+            case "Lifesteal":
+                this.playerLifeSteal += value;
+                break;
+            case "Damage":
+                this.playerDamage += value;
+                break;
+            case "Meele Damage":
+                this.playerMeleeDamage += value;
+                break;
+            case "Ranged Damage":
+                this.playerRangedDamage += value;
+                break;
+            case "Mystic Damage":
+                this.playerMysticDamage += value;
+                break;
+            case "Attackspeed":
+                this.playerAttackSpeed += value;
+                break;
+            case "Crit":
+                this.PlayerCritChance += value;
+                break;
+            case "Range":
+                this.playerAttackRange += value;
+                break;
+            case "Armor":
+                this.playerArmor += value;
+                break;
+            case "Dodge":
+                this.playerDodge += value;
+                break;
+            case "Movespeed":
+                this.playerMovespeed += value;
+                break;
+            case "Luck":
+                this.playerLuck += value;
+                break;
+            case "Cooldown":
+                this.playerCooldown += value;
+                break;
+            case "Max MP":
+                this.playerMaxMP += value;
+                break;
+            case "MP Regeneration":
+                this.playerMPRegeneration += value;
+                break;
         }
     }
 }
