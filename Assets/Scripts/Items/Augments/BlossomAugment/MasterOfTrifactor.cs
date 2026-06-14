@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class MasterOfTrifactor : MonoBehaviour
 {
-    // When hitting an enemy with a Meele Attack gain Ranged and Mystic Damage
-    // When hitting an enemy with a Ranged Attack gain Meele and Mystic Damage
-    // When hitting an enemy with a Mystic Attack gain Meele and Ranged Damage
+    // When hitting an enemy with a Melee Attack gain Ranged and Mystic Damage
+    // When hitting an enemy with a Ranged Attack gain Melee and Mystic Damage
+    // When hitting an enemy with a Mystic Attack gain Melee and Ranged Damage
     // Stacks infinetely 
     // Removed on Round end
 
-    [SerializeField] private float meeleDamageIncreaseOnHit;
+    [SerializeField] private float meleeDamageIncreaseOnHit;
     [SerializeField] private float rangedDamageIncreaseOnHit;
     [SerializeField] private float mysticDamageIncreaseOnHit;
 
@@ -17,7 +17,7 @@ public class MasterOfTrifactor : MonoBehaviour
     private PlayerDealsDamage playerDealsDamage;
 
     private float rangedDamageGainedOnRound;
-    private float meeleDamageGainedOnRound;
+    private float meleeDamageGainedOnRound;
     private float mysticDamageGainedOnRound;
 
     private void Start()
@@ -47,26 +47,26 @@ public class MasterOfTrifactor : MonoBehaviour
         }
         else if (weaponStats.weaponWeaponType == WeaponStats.weaponTypeOptions.Ranged)
         {
-            playerStats.playerMeleeDamage += meeleDamageIncreaseOnHit;
+            playerStats.playerMeleeDamage += meleeDamageIncreaseOnHit;
             playerStats.playerMysticDamage += mysticDamageIncreaseOnHit;
-            meeleDamageGainedOnRound += meeleDamageIncreaseOnHit;
+            meleeDamageGainedOnRound += meleeDamageIncreaseOnHit;
             mysticDamageGainedOnRound += mysticDamageIncreaseOnHit;
         }
         else // Mystic
         {
-            playerStats.playerMeleeDamage += meeleDamageIncreaseOnHit;
+            playerStats.playerMeleeDamage += meleeDamageIncreaseOnHit;
             playerStats.playerRangedDamage += rangedDamageIncreaseOnHit;
             rangedDamageGainedOnRound += rangedDamageIncreaseOnHit;
-            meeleDamageGainedOnRound += meeleDamageIncreaseOnHit;
+            meleeDamageGainedOnRound += meleeDamageIncreaseOnHit;
         }
     }
 
     private void ResetGainedStatsOnRoundEnd()
     {
-        playerStats.playerMeleeDamage -= meeleDamageGainedOnRound;
+        playerStats.playerMeleeDamage -= meleeDamageGainedOnRound;
         playerStats.playerRangedDamage -= rangedDamageGainedOnRound;
         playerStats.playerMysticDamage -= mysticDamageGainedOnRound;
-        meeleDamageGainedOnRound = 0f;
+        meleeDamageGainedOnRound = 0f;
         rangedDamageGainedOnRound = 0f;
         mysticDamageGainedOnRound = 0f;
     }

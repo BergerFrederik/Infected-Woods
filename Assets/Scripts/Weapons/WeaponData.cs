@@ -10,7 +10,7 @@ public class WeaponData : ScriptableObject
     {
         public float weaponProjectileSpeed = 0f;
         public float weaponBaseDamage = 0f;
-        public float weaponMeeleDamageScale = 0f;
+        public float weaponMeleeDamageScale = 0f;
         public float weaponRangedDamageScale = 0f;
         public float weaponMysticDamageScale = 0f;
         public float weaponAttackSpeedCooldown = 0f; // in seconds

@@ -140,7 +140,7 @@ MonoBehaviour:
   weaponSubtitle: 
   weaponProjectileSpeed: 0
   weaponBaseDamage: 0
-  weaponMeeleDamageScale: 0
+  weaponMeleeDamageScale: 0
   weaponRangedDamageScale: 0
   weaponMysticDamageScale: 0
   weaponTier: 0
@@ -434,7 +434,7 @@ MonoBehaviour:
   characterArmor: 5
   characterLifeSteal: 10
   characterDamage: 0
-  characterMeeleDamage: 0
+  characterMeleeDamage: 0
   characterRangedDamage: 0
   characterMysticDamage: 0
   characterAttackSpeed: 0

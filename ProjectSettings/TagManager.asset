@@ -17,7 +17,7 @@ TagManager:
   - Floor
   - Boarder
   - Canvas
-  - MeeleWeapon
+  - MeleeWeapon
   - Deletable
   layers:
   - Default

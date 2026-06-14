@@ -14,7 +14,7 @@ public class StaticHelpers : MonoBehaviour
         stats += $"Mana Reg:\n";
         stats += $"LS:\n";
         stats += $"Damage:\n";
-        stats += $"Meele Dmg:\n";
+        stats += $"Melee Dmg:\n";
         stats += $"Ranged Dmg:\n";
         stats += $"Mystic Dmg:\n";
         stats += $"AS:\n";

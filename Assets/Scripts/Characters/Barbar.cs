@@ -197,7 +197,7 @@ public class Barbar : MonoBehaviour
     private void SetAbilityWeaponStats(List<GameObject> playerWeapons)
     {
         float combinedBaseDamage = 0f;
-        float combinedMeeleScaling = 0f;
+        float combinedMeleeScaling = 0f;
         float combinedRangedScaling = 0f;
         float combinedMysticScaling = 0f;
         float averageAttackSpeed = 0f;
@@ -208,7 +208,7 @@ public class Barbar : MonoBehaviour
         {
             WeaponStats weaponStats = weapon.GetComponent<WeaponStats>();
             combinedBaseDamage += weaponStats.weaponBaseDamage;
-            combinedMeeleScaling += weaponStats.weaponMeleeDamageScale;
+            combinedMeleeScaling += weaponStats.weaponMeleeDamageScale;
             combinedRangedScaling += weaponStats.weaponRangedDamageScale;
             combinedMysticScaling += weaponStats.weaponMysticDamageScale;
             averageAttackSpeed += weaponStats.weaponAttackSpeedCooldown;
@@ -221,7 +221,7 @@ public class Barbar : MonoBehaviour
         float finalAttackSpeed = averageAttackSpeedPerWeapon / (1 + attackSpeedBoost);
         abilityWeaponStats.weaponBaseDamage = combinedBaseDamage;
         abilityWeaponStats.weaponAttackSpeedCooldown = finalAttackSpeed;
-        abilityWeaponStats.weaponMeleeDamageScale = combinedMeeleScaling;
+        abilityWeaponStats.weaponMeleeDamageScale = combinedMeleeScaling;
         abilityWeaponStats.weaponRangedDamageScale = combinedRangedScaling;
         abilityWeaponStats.weaponMysticDamageScale = combinedMysticScaling;
         abilityWeaponStats.weaponCritChance = combinedCritChance;

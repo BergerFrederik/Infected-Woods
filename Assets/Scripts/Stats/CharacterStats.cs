@@ -14,7 +14,7 @@ public class CharacterStats : MonoBehaviour
     public float characterArmor = 0f;
     public float characterLifeSteal = 0f;
     public float characterDamage = 0f;
-    public float characterMeeleDamage = 0f;
+    public float characterMeleeDamage = 0f;
     public float characterRangedDamage = 0f;
     public float characterMysticDamage = 0f;
     public float characterAttackSpeed = 0f;
@@ -75,7 +75,7 @@ public class CharacterStats : MonoBehaviour
         playerStats.playerArmor = characterArmor;
         playerStats.playerLifeSteal = characterLifeSteal;
         playerStats.playerDamage = characterDamage;
-        playerStats.playerMeleeDamage = characterMeeleDamage;
+        playerStats.playerMeleeDamage = characterMeleeDamage;
         playerStats.playerRangedDamage = characterRangedDamage;
         playerStats.playerMysticDamage = characterMysticDamage;
         playerStats.playerAttackSpeed = characterAttackSpeed;

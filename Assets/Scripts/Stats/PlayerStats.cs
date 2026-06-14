@@ -185,7 +185,7 @@ public class PlayerStats : MonoBehaviour
             case "Damage":
                 this.playerDamage += value;
                 break;
-            case "Meele Damage":
+            case "Melee Damage":
                 this.playerMeleeDamage += value;
                 break;
             case "Ranged Damage":

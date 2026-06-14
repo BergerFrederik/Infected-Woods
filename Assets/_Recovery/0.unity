@@ -803,7 +803,7 @@ MonoBehaviour:
   characterArmor: 0
   characterLifeSteal: 0
   characterDamage: 0
-  characterMeeleDamage: 0
+  characterMeleeDamage: 0
   characterRangedDamage: 0
   characterMysticDamage: 0
   characterAttackSpeed: 200
@@ -6816,7 +6816,7 @@ MonoBehaviour:
   playerHPRegeneration: 0
   playerLifeSteal: 0
   playerDamage: 0
-  playerMeeleDamage: 0
+  playerMeleeDamage: 0
   playerRangedDamage: 0
   playerMysticDamage: 0
   playerAttackSpeed: 0
@@ -10139,7 +10139,7 @@ MonoBehaviour:
   - Regeneration
   - Lifesteal
   - Damage
-  - Meele Damage
+  - Melee Damage
   - Ranged Damage
   - Mystic Damage
   - Attackspeed

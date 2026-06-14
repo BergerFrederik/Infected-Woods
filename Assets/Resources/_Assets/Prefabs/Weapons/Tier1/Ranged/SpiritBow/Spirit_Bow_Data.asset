@@ -25,7 +25,7 @@ MonoBehaviour:
   levels:
   - weaponProjectileSpeed: 20
     weaponBaseDamage: 10
-    weaponMeeleDamageScale: 0
+    weaponMeleeDamageScale: 0
     weaponRangedDamageScale: 60
     weaponMysticDamageScale: 0
     weaponAttackSpeedCooldown: 1.13
@@ -36,7 +36,7 @@ MonoBehaviour:
     weaponLifesteal: 0
   - weaponProjectileSpeed: 25
     weaponBaseDamage: 15
-    weaponMeeleDamageScale: 0
+    weaponMeleeDamageScale: 0
     weaponRangedDamageScale: 60
     weaponMysticDamageScale: 0
     weaponAttackSpeedCooldown: 1.1
@@ -47,7 +47,7 @@ MonoBehaviour:
     weaponLifesteal: 0
   - weaponProjectileSpeed: 30
     weaponBaseDamage: 25
-    weaponMeeleDamageScale: 0
+    weaponMeleeDamageScale: 0
     weaponRangedDamageScale: 60
     weaponMysticDamageScale: 0
     weaponAttackSpeedCooldown: 1
@@ -58,7 +58,7 @@ MonoBehaviour:
     weaponLifesteal: 0
   - weaponProjectileSpeed: 30
     weaponBaseDamage: 50
-    weaponMeeleDamageScale: 0
+    weaponMeleeDamageScale: 0
     weaponRangedDamageScale: 60
     weaponMysticDamageScale: 0
     weaponAttackSpeedCooldown: 0.8

@@ -22,20 +22,18 @@ public class StatShardPanel : MonoBehaviour
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private RandomRollEvent randomRollEvent;
 
-    [SerializeField] private Sprite[] statShardBoarders;
-    [SerializeField] private Button[] statShardButtons;
-    [SerializeField] private Button RerollButton;
+    
     [SerializeField] private string[] upgradeableStats;
     [SerializeField] private float[] statUpgradeValues;
     [SerializeField] private GameManager gameManager;
     
-    [Header("StatUpgrades")]
-    [SerializeField] private TextMeshProUGUI levelsGainedText;
+    [Header("UI")]
     [SerializeField] private TextMeshProUGUI[] statUpgradeTitles;
     [SerializeField] private TextMeshProUGUI[] statUpgradeContents;
+    [SerializeField] private Sprite[] statShardBackgroundSprites;
+    [SerializeField] private Button[] statShardButtons;
+    [SerializeField] private Image[] statShardBackgroundImages;
     
-    [Header("MoneyAmount")]
-    [SerializeField] private TextMeshProUGUI moneyAmountText;
 
     [Header("Odds")]
     [SerializeField] private float budChanceIncrease = 1f;
@@ -44,36 +42,27 @@ public class StatShardPanel : MonoBehaviour
     [SerializeField] private float blossomIncreaseAt;
     [SerializeField] private float budIncreaseCap;
     private float _baseChanceForRoot = 100f;
+
+    private enum Rarities
+    {
+        Root,
+        Bud,
+        Blossom
+    }
     
-    private const int rarity_code_blossom = 3;
-    private const int rarity_code_bud = 2;
-    private const int rarity_code_root = 1;
     private Dictionary<string, float> _rootStatGainMap;
     private Dictionary<string, float> _budStatGainMap;
 
     private int _randomRarity;
     private string[] _randomStats;
     
-    [Header("Stats")]
-    [SerializeField] private TextMeshProUGUI primaryStatsText;
-    [SerializeField] private TextMeshProUGUI primaryStatsValues;
-    [SerializeField] private TextMeshProUGUI secondaryStatsText;
-    [SerializeField] private TextMeshProUGUI secondaryStatsValues;
-    
-    [Header("Reroll")]
-    [SerializeField] private RerollMechanic rerollMechanic;
-    [SerializeField] private TextMeshProUGUI rerollCostTextLeft;
-    [SerializeField] private TextMeshProUGUI rerollCostTextRight;
 
     private int _numRolls;
     private string[] _chosenRandomStats;
 
     private void OnEnable()
     {
-        RerollButton.onClick.AddListener(RerollStats);
         StartFunction();
-        SetTextToPrimayStats(primaryStatsText);
-        SetTextToSecondaryStats(secondaryStatsText);
         SetLogic();
         SetUI();
     }
@@ -93,7 +82,7 @@ public class StatShardPanel : MonoBehaviour
             
             _budStatGainMap.TryAdd(statName, statValue);
         }
-        _numRolls = statShardBoarders.Length;
+        _numRolls = statShardBackgroundSprites.Length;
         
     }
 
@@ -104,20 +93,9 @@ public class StatShardPanel : MonoBehaviour
 
     private void SetUI()
     {
-        SetUIToMoneyAmount();
         SetUIToButtons();
-        SetTextToLevelsGainedUI();
-        SetRerollCostText();
     }
-    public void SetTextToPrimayStats(TextMeshProUGUI primaryStatsText)
-    {
-        StaticHelpers.SetPrimaryStatsToTextUI(primaryStatsText, primaryStatsValues, playerStats);
-    }
-
-    private void SetTextToSecondaryStats(TextMeshProUGUI secondaryStatsText)
-    {
-        StaticHelpers.SetSecondaryStatsToTextUI(secondaryStatsText, secondaryStatsValues, playerStats);
-    }
+    
 
     private void DetermineRarities()
     {
@@ -140,17 +118,17 @@ public class StatShardPanel : MonoBehaviour
         Debug.Log($"roll: {roll}");
         if (roll <= currentRoot)
         {
-            _randomRarity = rarity_code_root;
+            _randomRarity = (int)Rarities.Root;
             GetRootStats();
         }
         else if (roll <= thresholdBud)
         {
-            _randomRarity = rarity_code_bud;
+            _randomRarity = (int)Rarities.Bud;
             GetBudStats();
         }
         else
         {
-            _randomRarity = rarity_code_blossom;
+            _randomRarity = (int)Rarities.Blossom;
             GetBlossomStats();
         }
     }
@@ -189,21 +167,16 @@ public class StatShardPanel : MonoBehaviour
     }
     
 
-    private void SetUIToMoneyAmount()
-    {
-        moneyAmountText.text = playerStats.PlayerLightAmount.ToString();
-    }
-
     private void SetUIToButtons()
     {
         for (int i = 0; i <= statShardButtons.Length - 1; i++)
         {
-            Sprite nextSprite = statShardBoarders[_randomRarity[i] - 1];
+            Sprite nextSprite = statShardBackgroundSprites[_randomRarity];
             string nextStatUpgradeTitle = _randomStats[i];
             
             statShardButtons[i].GetComponent<Image>().sprite = nextSprite;
             statUpgradeTitles[i].text = nextStatUpgradeTitle;
-            float statUpgradeValue = _rootStatGainMap[nextStatUpgradeTitle] * _randomRarity[i];
+            float statUpgradeValue = _rootStatGainMap[nextStatUpgradeTitle] * _randomRarity;
             statUpgradeContents[i].text = statUpgradeValue.ToString();
             
             statShardButtons[i].onClick.RemoveAllListeners();
@@ -211,43 +184,12 @@ public class StatShardPanel : MonoBehaviour
             statShardButtons[i].onClick.AddListener(() => SelectLevelUp(index));           
         }
     }
-
-    private void SetRerollCostText()
-    {
-        int rerollCost = rerollMechanic.GetRerollPrice();
-        
-        rerollCostTextLeft.text = $"Reroll - {rerollCost}";
-        rerollCostTextRight.text = $"Reroll - {rerollCost}";
-        
-        if (playerStats.PlayerLightAmount < rerollCost)
-        {
-            rerollCostTextLeft.color = Color.red;
-            rerollCostTextRight.color = Color.red;
-        }
-    }
-
-    private void RerollStats()
-    {
-        if (playerStats.PlayerLightAmount >= rerollMechanic.GetRerollPrice())
-        {
-            playerStats.PlayerLightAmount -= rerollMechanic.GetRerollPrice();
-            rerollMechanic.NumRerolls++;
-            SetLogic();
-            SetUI();
-        }
-    }
-
-    private void SetTextToLevelsGainedUI()
-    {
-        // +1 because it should show 1 when you select the last level up
-        float levelsGained = playerStats.playerLevelsGained + 1;
-        string text = "[" + levelsGained.ToString() + "]";
-        levelsGainedText.text = text;
-    }
+    
+    
     public void SelectLevelUp(int buttonIndex)
     {
         float chosenStat = _rootStatGainMap[_randomStats[buttonIndex]];
-        float multiplier = _randomRarity[buttonIndex];
+        float multiplier = _randomRarity;
         float statToApply = chosenStat * multiplier;
         ApplyStatsToPlayer(statToApply, _randomStats[buttonIndex]);
         this.gameObject.SetActive(false);

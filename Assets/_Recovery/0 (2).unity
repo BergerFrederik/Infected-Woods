@@ -9885,7 +9885,7 @@ MonoBehaviour:
   playerMPRegeneration: 10
   playerLifeSteal: 0
   playerDamage: 0
-  playerMeeleDamage: 0
+  playerMeleeDamage: 0
   playerRangedDamage: 0
   playerMysticDamage: 0
   playerAttackSpeed: 0
@@ -14953,7 +14953,7 @@ MonoBehaviour:
   - HP Regeneration
   - Lifesteal
   - Damage
-  - Meele Damage
+  - Melee Damage
   - Ranged Damage
   - Mystic Damage
   - Attackspeed

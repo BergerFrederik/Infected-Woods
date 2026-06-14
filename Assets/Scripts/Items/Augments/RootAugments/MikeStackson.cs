@@ -5,11 +5,11 @@ using Random = UnityEngine.Random;
 
 public class MikeStackson : MonoBehaviour
 {
-    // Gain Stacks on Kill with meele weapons
+    // Gain Stacks on Kill with melee weapons
     // must not have taken damage for a certain amount of seconds
-    // Each Stack gives a certain amount of meeleDamage
+    // Each Stack gives a certain amount of meleeDamage
 
-    [SerializeField] private float meeleDamageGainedPerStack;
+    [SerializeField] private float meleeDamageGainedPerStack;
     [SerializeField] private float secondsWithoutDamageTakenRequired;
     [SerializeField] private float chanceToGainStacks;
 
@@ -50,7 +50,7 @@ public class MikeStackson : MonoBehaviour
         {
             if (_randomRollEvent.GetRandomFloatRoll(0f, 100f) > 1 - chanceToGainStacks) //Muss 1- sein, damit luck einen Einfluss hat. Luck erhöht den Roll
             {
-                playerStats.playerMeleeDamage += meeleDamageGainedPerStack;
+                playerStats.playerMeleeDamage += meleeDamageGainedPerStack;
                 mikeStacksonStacks++;
             }
         }

@@ -160,7 +160,7 @@ MonoBehaviour:
   characterArmor: 0
   characterLifeSteal: 0
   characterDamage: 0
-  characterMeeleDamage: 0
+  characterMeleeDamage: 0
   characterRangedDamage: 0
   characterMysticDamage: 0
   characterAttackSpeed: 100

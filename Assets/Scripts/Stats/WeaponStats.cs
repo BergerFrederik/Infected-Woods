@@ -76,7 +76,7 @@ public class WeaponStats : MonoBehaviour
         
         this.weaponProjectileSpeed = stats.weaponProjectileSpeed;
         this.weaponBaseDamage = stats.weaponBaseDamage;
-        this.weaponMeleeDamageScale = stats.weaponMeeleDamageScale;
+        this.weaponMeleeDamageScale = stats.weaponMeleeDamageScale;
         this.weaponRangedDamageScale = stats.weaponRangedDamageScale;
         this.weaponMysticDamageScale = stats.weaponMysticDamageScale;
         this.weaponAttackSpeedCooldown = stats.weaponAttackSpeedCooldown;

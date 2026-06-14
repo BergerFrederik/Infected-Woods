@@ -13,13 +13,13 @@ public class PlayerDealsDamage : MonoBehaviour
     private void OnEnable()
     {
         // kann ich eigentlich public aufrufen
-        MeeleWeaponHitsEnemy.OnMeeleWeaponHitsEnemy += ApplyDamageToEnemy;
+        MeleeWeaponHitsEnemy.OnMeleeWeaponHitsEnemy += ApplyDamageToEnemy;
         ProjectileHitsEnemy.OnProjectileHitsEnemy += ApplyDamageToEnemy;
     }
 
     private void OnDisable()
     {
-        MeeleWeaponHitsEnemy.OnMeeleWeaponHitsEnemy -= ApplyDamageToEnemy;
+        MeleeWeaponHitsEnemy.OnMeleeWeaponHitsEnemy -= ApplyDamageToEnemy;
         ProjectileHitsEnemy.OnProjectileHitsEnemy -= ApplyDamageToEnemy;
     }
 

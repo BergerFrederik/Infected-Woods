@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 
-public class MeeleAttack : MonoBehaviour
+public class MeleeAttack : MonoBehaviour
 {
     [Header("Weapon Settings")]
     [SerializeField] private WeaponStats weaponStats;

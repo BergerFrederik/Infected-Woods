@@ -123,7 +123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AugmentInformation
   augmentRarity: 2
   augmentID: MasterOfTrifactor
-  augmentText: Gain infinitely stacking meele, mystic and ranged damage, depending
+  augmentText: Gain infinitely stacking melee, mystic and ranged damage, depending
     on weapon type. Stacks infinitely. Resets each round
   augmentTitle: Master of Trifactor
 --- !u!114 &259421216496375985
@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 260d95e6ea689724a9d936e0f375c9ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MasterOfTrifactor
-  meeleDamageIncreaseOnHit: 1
+  meleeDamageIncreaseOnHit: 1
   rangedDamageIncreaseOnHit: 1
   mysticDamageIncreaseOnHit: 1
 --- !u!1 &3068768306890870449

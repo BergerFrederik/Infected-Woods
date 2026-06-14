@@ -231,7 +231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   augmentRarity: 0
   augmentID: MikeStackson
-  augmentText: Chance to gain Meele Damage if you kill an Enemy with a meele weapon
+  augmentText: Chance to gain Melee Damage if you kill an Enemy with a melee weapon
     after not taking damage for 3 seconds
   augmentTitle: Mike Stackson
 --- !u!114 &-3912359472788496639
@@ -246,7 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 317ed74592a3ef54b8effff329e36553, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MikeStackson
-  meeleDamageGainedPerStack: 0.2
+  meleeDamageGainedPerStack: 0.2
   secondsWithoutDamageTakenRequired: 3
   chanceToGainStacks: 25
   mikeStacksonStacks: 0

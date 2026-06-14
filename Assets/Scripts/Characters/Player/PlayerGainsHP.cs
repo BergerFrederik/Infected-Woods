@@ -16,14 +16,14 @@ public class PlayerGainsHP : MonoBehaviour
     private void OnEnable()
     {
         playerStats.OnPlayerHealed += InstantiatePopUp;
-        MeeleWeaponHitsEnemy.OnMeeleWeaponHitsEnemy += TryApplyLifesteal;
+        MeleeWeaponHitsEnemy.OnMeleeWeaponHitsEnemy += TryApplyLifesteal;
         ProjectileHitsEnemy.OnProjectileHitsEnemy += TryApplyLifesteal;
     }
 
     private void OnDisable()
     {
         playerStats.OnPlayerHealed -= InstantiatePopUp;
-        MeeleWeaponHitsEnemy.OnMeeleWeaponHitsEnemy -= TryApplyLifesteal;
+        MeleeWeaponHitsEnemy.OnMeleeWeaponHitsEnemy -= TryApplyLifesteal;
         ProjectileHitsEnemy.OnProjectileHitsEnemy -= TryApplyLifesteal;
     }
 

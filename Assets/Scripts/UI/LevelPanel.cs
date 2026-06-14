@@ -276,7 +276,7 @@ public class LevelPanel : MonoBehaviour
             case "Damage":
                 playerStats.playerDamage += value;
                 break;
-            case "Meele Damage":
+            case "Melee Damage":
                 playerStats.playerMeleeDamage += value;
                 break;
             case "Ranged Damage":
