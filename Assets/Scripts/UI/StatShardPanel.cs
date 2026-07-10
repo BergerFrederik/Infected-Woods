@@ -1,39 +1,30 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class StatShardPanel : MonoBehaviour
 {
-    [Header("Root Stats")]
-    [SerializeField] private string[] rootStats;
-    [SerializeField] private float[] rootMinValues;
-    [SerializeField] private float[] rootMaxValues;
-    
-    [Header("Bud Stats")]
-    [SerializeField] private string[] budStats;
-    [SerializeField] private float[] budValues;
-    
+    [SerializeField] private StatConfigurator statConfigurator;
+    [SerializeField] private float budStatMultiplier = 1.5f;
+    [SerializeField] private GameObject infoStatShardPrefab;
+    [SerializeField] private Transform playerStatShardContainer;
+
     [Header("Blossom Stats")]
     [SerializeField] private GameObject[] blossomShards;
-    
-    
-    [SerializeField] private GameObject shopPanel;
+    private List<GameObject> _rndChosenBlossomShards;
+
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private RandomRollEvent randomRollEvent;
 
-    
-    [SerializeField] private string[] upgradeableStats;
-    [SerializeField] private float[] statUpgradeValues;
-    [SerializeField] private GameManager gameManager;
-    
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI[] statUpgradeTitles;
     [SerializeField] private TextMeshProUGUI[] statUpgradeContents;
-    [SerializeField] private Sprite[] statShardBackgroundSprites;
+    [SerializeField] private Image[] statShardIcons; // TODO: für spätere Implementierung
     [SerializeField] private Button[] statShardButtons;
     [SerializeField] private Image[] statShardBackgroundImages;
-    
 
     [Header("Odds")]
     [SerializeField] private float budChanceIncrease = 1f;
@@ -41,7 +32,7 @@ public class StatShardPanel : MonoBehaviour
     [SerializeField] private float budIncreaseAt;
     [SerializeField] private float blossomIncreaseAt;
     [SerializeField] private float budIncreaseCap;
-    private float _baseChanceForRoot = 100f;
+    private const float BaseChanceForRoot = 100f;
 
     private enum Rarities
     {
@@ -49,86 +40,63 @@ public class StatShardPanel : MonoBehaviour
         Bud,
         Blossom
     }
-    
-    private Dictionary<string, float> _rootStatGainMap;
-    private Dictionary<string, float> _budStatGainMap;
 
-    private int _randomRarity;
-    private string[] _randomStats;
-    
-
-    private int _numRolls;
-    private string[] _chosenRandomStats;
+    private Rarities _randomRarity;
+    private Dictionary<string, float> _randomStatMap;
 
     private void OnEnable()
     {
         StartFunction();
-        SetLogic();
-        SetUI();
+        DetermineRarities();
+        SetUIToButtons();
     }
 
     private void OnDisable()
     {
-        
+        foreach (Button button in statShardButtons)
+        {
+            button.onClick.RemoveAllListeners();
+        }
     }
 
     private void StartFunction()
     {
-        _budStatGainMap = new Dictionary<string, float>();
-        for (int i = 0; i < budStats.Length; i++)
-        {
-            string statName = budStats[i];
-            float statValue = budValues[i];
-            
-            _budStatGainMap.TryAdd(statName, statValue);
-        }
-        _numRolls = statShardBackgroundSprites.Length;
-        
+        _randomStatMap = new Dictionary<string, float>();
+        _rndChosenBlossomShards = new List<GameObject>();
     }
-
-    private void SetLogic()
-    {
-        DetermineRarities();
-    }
-
-    private void SetUI()
-    {
-        SetUIToButtons();
-    }
-    
 
     private void DetermineRarities()
     {
         float lvl = playerStats.playerLevel;
-        
+
         float rawBlossom = ComputeChances(lvl, blossomChanceIncrease, blossomIncreaseAt, Mathf.Infinity, 0f);
         float rawBud     = ComputeChances(lvl, budChanceIncrease, budIncreaseAt, budIncreaseCap, 0f);
-        
-        float currentBlossom = rawBlossom;
-        float currentBud     = Mathf.Max(0, rawBud - currentBlossom);
-        float currentRoot = Mathf.Max(0, _baseChanceForRoot - currentBud - currentBlossom);
-        
+
+        float currentBud  = Mathf.Max(0, rawBud - rawBlossom);
+        float currentRoot = Mathf.Max(0, BaseChanceForRoot - currentBud - rawBlossom);
+
         Debug.Log($"root: {currentRoot}");
         Debug.Log($"bud: {currentBud}");
-        Debug.Log($"bl: {currentBlossom}");
-        
+        Debug.Log($"bl: {rawBlossom}");
+
         float thresholdBud = currentRoot + currentBud;
-        
+
         float roll = randomRollEvent.GetRandomFloatRoll(0f, 100f);
         Debug.Log($"roll: {roll}");
+
         if (roll <= currentRoot)
         {
-            _randomRarity = (int)Rarities.Root;
+            _randomRarity = Rarities.Root;
             GetRootStats();
         }
         else if (roll <= thresholdBud)
         {
-            _randomRarity = (int)Rarities.Bud;
+            _randomRarity = Rarities.Bud;
             GetBudStats();
         }
         else
         {
-            _randomRarity = (int)Rarities.Blossom;
+            _randomRarity = Rarities.Blossom;
             GetBlossomStats();
         }
     }
@@ -139,69 +107,111 @@ public class StatShardPanel : MonoBehaviour
         {
             return baseChance;
         }
-        
+
         float cappedLvl = Mathf.Min(playerLvl, maxLvl);
         float levelDiff = cappedLvl - (minLvl - 1);
-        
+
         return increase * levelDiff + baseChance;
     }
 
     private void GetRootStats()
     {
-        
+        var availableStats = new List<StatConfigurator.Stat>(statConfigurator.allStats);
+
+        for (int i = 0; i < 3; i++)
+        {
+            int randomIndex = Random.Range(0, availableStats.Count);
+            _randomStatMap.Add(availableStats[randomIndex].GetStatName(), Mathf.Round(availableStats[randomIndex].GetRandomValue() * 10f) / 10f);
+            availableStats.RemoveAt(randomIndex);
+        }
     }
 
     private void GetBudStats()
     {
-        Dictionary<string, float> statMapTemp = _budStatGainMap;
-        for (int i = 0; i < _numRolls; i++)
+        var availableStats = new List<StatConfigurator.Stat>(statConfigurator.allStats);
+
+        for (int i = 0; i < 3; i++)
         {
-            
+            int randomIndex = Random.Range(0, availableStats.Count);
+            _randomStatMap.Add(availableStats[randomIndex].GetStatName(), availableStats[randomIndex].GetMaxValue());
+            availableStats.RemoveAt(randomIndex);
         }
-        
+
+        List<string> statNames = new List<string>(_randomStatMap.Keys);
+
+        foreach (string name in statNames)
+        {
+            float multiplied = _randomStatMap[name] * budStatMultiplier;
+            _randomStatMap[name] = Mathf.CeilToInt(multiplied / 5f) * 5;
+        }
     }
 
     private void GetBlossomStats()
     {
-        
+        List<GameObject> blossoms = new List<GameObject>(blossomShards);
+
+        for (int i = 0; i < statShardButtons.Length; i++)
+        {
+            int rndIndex = Random.Range(0, blossoms.Count);
+            _rndChosenBlossomShards.Add(blossoms[rndIndex]);
+            blossoms.RemoveAt(rndIndex);
+        }
     }
-    
 
     private void SetUIToButtons()
     {
-        for (int i = 0; i <= statShardButtons.Length - 1; i++)
+        bool isBlossom = _randomRarity == Rarities.Blossom;
+
+        for (int i = 0; i < statShardButtons.Length; i++)
         {
-            Sprite nextSprite = statShardBackgroundSprites[_randomRarity];
-            string nextStatUpgradeTitle = _randomStats[i];
-            
-            statShardButtons[i].GetComponent<Image>().sprite = nextSprite;
-            statUpgradeTitles[i].text = nextStatUpgradeTitle;
-            float statUpgradeValue = _rootStatGainMap[nextStatUpgradeTitle] * _randomRarity;
-            statUpgradeContents[i].text = statUpgradeValue.ToString();
-            
-            statShardButtons[i].onClick.RemoveAllListeners();
-            int index = i;
-            statShardButtons[i].onClick.AddListener(() => SelectLevelUp(index));           
+            if (isBlossom)
+                SetBlossomUI(i);
+            else
+                SetNonBlossomUI(i);
         }
     }
-    
-    
-    public void SelectLevelUp(int buttonIndex)
+
+    private void SetBlossomUI(int i)
     {
-        float chosenStat = _rootStatGainMap[_randomStats[buttonIndex]];
-        float multiplier = _randomRarity;
-        float statToApply = chosenStat * multiplier;
-        ApplyStatsToPlayer(statToApply, _randomStats[buttonIndex]);
-        this.gameObject.SetActive(false);
-        gameManager.CycleShops();
-    }
-    
-    
-    private void ApplyStatsToPlayer(float value, string statName)
-    {
-        playerStats.ApplyStatsToPlayer(value, statName);
+        BlossomStatShard info = _rndChosenBlossomShards[i].GetComponent<BlossomStatShard>();
+        SetButtonUI(i, info.StatName, info.ShardDescription);
     }
 
+    private void SetNonBlossomUI(int i)
+    {
+        string title = _randomStatMap.Keys.ElementAt(i);
+        string content = _randomStatMap[title].ToString();
+        SetButtonUI(i, title, content);
+    }
 
+    private void SetButtonUI(int i, string title, string content)
+    {
+        statUpgradeTitles[i].text = title;
+        statUpgradeContents[i].text = content;
+        statShardBackgroundImages[i].sprite = statShardBackgroundImages[(int)_randomRarity].sprite;
 
+        statShardButtons[i].onClick.RemoveAllListeners();
+        int index = i;
+        statShardButtons[i].onClick.AddListener(() => SelectStatShard(index));
+    }
+
+    public void SelectStatShard(int buttonIndex)
+    {
+        if (_randomRarity != Rarities.Blossom)
+        {
+            string statMapKey = _randomStatMap.Keys.ElementAt(buttonIndex);
+            playerStats.ApplyStatsToPlayer(_randomStatMap[statMapKey], statMapKey);
+
+            GameObject statShard = Instantiate(infoStatShardPrefab, playerStatShardContainer);
+            InfoStatShard info = statShard.GetComponent<InfoStatShard>();
+            info.StatName = statMapKey;
+            info.StatValue = _randomStatMap[statMapKey];
+        }
+        else
+        {
+            Instantiate(blossomShards[buttonIndex], playerStatShardContainer);
+        }
+
+        gameObject.SetActive(false);
+    }
 }

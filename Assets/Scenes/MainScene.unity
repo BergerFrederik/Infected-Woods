@@ -6536,7 +6536,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 286974076}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6544,7 +6544,7 @@ RectTransform:
   - {fileID: 1107625804}
   - {fileID: 1628150667}
   - {fileID: 657382096}
-  m_Father: {fileID: 1266988870}
+  m_Father: {fileID: 1645751889}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -15038,13 +15038,14 @@ GameObject:
   - component: {fileID: 655231440}
   - component: {fileID: 655231439}
   - component: {fileID: 655231441}
+  - component: {fileID: 655231442}
   m_Layer: 5
   m_Name: StatShardPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &655231438
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15118,25 +15119,105 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37490a43fbbb04483aa3e966a1a0f1dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatShardPanel
-  statBanners:
-  - {fileID: 565376445}
-  - {fileID: 2049048584}
-  - {fileID: 1359617016}
-  statIcons:
-  - {fileID: 1266323100}
-  - {fileID: 2079723863}
-  - {fileID: 1623499218}
-  statNameTexts:
+  statConfigurator: {fileID: 655231442}
+  budStatMultiplier: 1.5
+  infoStatShardPrefab: {fileID: 4074471369415008662, guid: ba11d4314f1c24d9ea56c2492f5d1e20, type: 3}
+  playerStatShardContainer: {fileID: 1421968540}
+  blossomShards:
+  - {fileID: 5784704306304179098, guid: 207525b831f7a472db489aa38e46d87b, type: 3}
+  - {fileID: 5784704306304179098, guid: 207525b831f7a472db489aa38e46d87b, type: 3}
+  - {fileID: 5784704306304179098, guid: 207525b831f7a472db489aa38e46d87b, type: 3}
+  playerStats: {fileID: 663990828}
+  randomRollEvent: {fileID: 1439238839}
+  statUpgradeTitles:
   - {fileID: 5069697}
   - {fileID: 1048178029}
   - {fileID: 828828140}
-  statValueTexts:
+  statUpgradeContents:
   - {fileID: 1898898054}
   - {fileID: 945187380}
   - {fileID: 1317332519}
-  playerStats: {fileID: 663990828}
-  upgradeableStats: []
-  upgradeableStatsValues: []
+  statShardIcons:
+  - {fileID: 1266323100}
+  - {fileID: 2079723863}
+  - {fileID: 1623499218}
+  statShardButtons:
+  - {fileID: 565376447}
+  - {fileID: 2049048586}
+  - {fileID: 1359617018}
+  statShardBackgroundImages:
+  - {fileID: 565376448}
+  - {fileID: 2049048587}
+  - {fileID: 1359617019}
+  budChanceIncrease: 1
+  blossomChanceIncrease: 0.5
+  budIncreaseAt: 0
+  blossomIncreaseAt: 0
+  budIncreaseCap: 0
+--- !u!114 &655231442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 655231437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f191808233c148e7a2ba898b43136a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatConfigurator
+  allStats:
+  - statType: 0
+    minValue: 1
+    maxValue: 3
+  - statType: 1
+    minValue: 1
+    maxValue: 3
+  - statType: 2
+    minValue: 1
+    maxValue: 3
+  - statType: 3
+    minValue: 1
+    maxValue: 3
+  - statType: 4
+    minValue: 1
+    maxValue: 3
+  - statType: 5
+    minValue: 1
+    maxValue: 3
+  - statType: 6
+    minValue: 1
+    maxValue: 3
+  - statType: 7
+    minValue: 1
+    maxValue: 3
+  - statType: 8
+    minValue: 1
+    maxValue: 3
+  - statType: 9
+    minValue: 10
+    maxValue: 30
+  - statType: 10
+    minValue: 1
+    maxValue: 3
+  - statType: 11
+    minValue: 1
+    maxValue: 3
+  - statType: 12
+    minValue: 1
+    maxValue: 3
+  - statType: 13
+    minValue: 1
+    maxValue: 3
+  - statType: 14
+    minValue: 1
+    maxValue: 3
+  - statType: 15
+    minValue: 1
+    maxValue: 3
+  - statType: 16
+    minValue: 1
+    maxValue: 3
 --- !u!1 &657382095
 GameObject:
   m_ObjectHideFlags: 0
@@ -15529,6 +15610,7 @@ Transform:
   - {fileID: 1431817159}
   - {fileID: 1058699858}
   - {fileID: 2026469101}
+  - {fileID: 1421968540}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &663990825
@@ -19375,7 +19457,7 @@ GameObject:
   - component: {fileID: 828828141}
   - component: {fileID: 828828140}
   m_Layer: 5
-  m_Name: ThirdAugmentTitle
+  m_Name: ThirdStatTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22330,7 +22412,7 @@ GameObject:
   - component: {fileID: 945187381}
   - component: {fileID: 945187380}
   m_Layer: 5
-  m_Name: SecondAugmentText
+  m_Name: SecondStatText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24882,7 +24964,7 @@ GameObject:
   - component: {fileID: 1048178030}
   - component: {fileID: 1048178029}
   m_Layer: 5
-  m_Name: SecondAugmentTitle
+  m_Name: SecondStatTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30177,7 +30259,6 @@ RectTransform:
   - {fileID: 857504039}
   - {fileID: 1007563364}
   - {fileID: 1645751889}
-  - {fileID: 286974077}
   - {fileID: 571574825}
   m_Father: {fileID: 257752096}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -30559,7 +30640,7 @@ GameObject:
   - component: {fileID: 1317332520}
   - component: {fileID: 1317332519}
   m_Layer: 5
-  m_Name: ThirdAugmentText
+  m_Name: ThirdStatText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32984,6 +33065,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1420802621}
   m_CullTransparentMesh: 1
+--- !u!1 &1421968539
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1421968540}
+  m_Layer: 0
+  m_Name: PlayerStatShards
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1421968540
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421968539}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 663990824}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1424087988
 GameObject:
   m_ObjectHideFlags: 0
@@ -37078,7 +37190,7 @@ GameObject:
   - component: {fileID: 1623499219}
   - component: {fileID: 1623499218}
   m_Layer: 5
-  m_Name: ThirdAugmentIcon
+  m_Name: ThirdStatIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37735,6 +37847,7 @@ RectTransform:
   - {fileID: 1636821938}
   - {fileID: 662712945}
   - {fileID: 655231438}
+  - {fileID: 286974077}
   m_Father: {fileID: 1266988870}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
