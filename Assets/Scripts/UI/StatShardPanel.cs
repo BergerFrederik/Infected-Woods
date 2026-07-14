@@ -25,6 +25,7 @@ public class StatShardPanel : MonoBehaviour
     [SerializeField] private Image[] statShardIcons; // TODO: für spätere Implementierung
     [SerializeField] private Button[] statShardButtons;
     [SerializeField] private Image[] statShardBackgroundImages;
+    [SerializeField] private Sprite[] statShardBackgroundSprites;
 
     [Header("Odds")]
     [SerializeField] private float budChanceIncrease = 1f;
@@ -188,7 +189,7 @@ public class StatShardPanel : MonoBehaviour
     {
         statUpgradeTitles[i].text = title;
         statUpgradeContents[i].text = content;
-        statShardBackgroundImages[i].sprite = statShardBackgroundImages[(int)_randomRarity].sprite;
+        statShardBackgroundImages[i].sprite = statShardBackgroundSprites[(int)_randomRarity];
 
         statShardButtons[i].onClick.RemoveAllListeners();
         int index = i;

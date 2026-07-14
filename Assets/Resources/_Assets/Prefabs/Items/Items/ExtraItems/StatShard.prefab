@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
   itemName: Stat Shard
-  itemIcon: {fileID: 9046240683773468636, guid: f618c7e649f5f4446827f1a3f3fc2e24, type: 3}
+  itemIcon: {fileID: -1007079104164581101, guid: b2828441e09f2a6448efb7c7a44a3fd3, type: 3}
   itemPrice: 500
   itemID: StatShard
   tier: 3
@@ -65,3 +65,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatShard
   itemInformation: {fileID: 6021458999131785386}
+  statShardPanel: {fileID: 0}

@@ -95,9 +95,9 @@ public class WeaponStats : MonoBehaviour
             formattedStats += $"Base Damage: {weaponBaseDamage}\n";
 
         if (weaponWeaponType == weaponTypeOptions.Melee)
-            formattedStats += $"Melee Scaling: {weaponMeleeDamageScale * 100}%\n";
+            formattedStats += $"Melee Scaling: {weaponMeleeDamageScale}%\n";
         else if (weaponWeaponType == weaponTypeOptions.Ranged)
-            formattedStats += $"Ranged Scaling: {weaponRangedDamageScale * 100}%\n";
+            formattedStats += $"Ranged Scaling: {weaponRangedDamageScale}%\n";
 
         if (weaponAttackSpeedCooldown > 0)
             formattedStats += $"Attack Speed: {weaponAttackSpeedCooldown}s\n";
