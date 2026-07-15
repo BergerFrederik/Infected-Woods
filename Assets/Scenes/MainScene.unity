@@ -37577,7 +37577,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0000095367, y: -467}
+  m_AnchoredPosition: {x: 22, y: -467}
   m_SizeDelta: {x: 249.9418, y: 58.136}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1636821939
@@ -37965,7 +37965,11 @@ MonoBehaviour:
   - {fileID: 218000057}
   - {fileID: 779983569}
   - {fileID: 462315731}
-  weaponDescriptionText: []
+  weaponDescriptionText:
+  - {fileID: 671300323}
+  - {fileID: 670611872}
+  - {fileID: 1144708622}
+  - {fileID: 1570070139}
   weaponPrefabs:
   - {fileID: 2679728442328743979, guid: e4fcc17868a68dc44a913d7fa2b92650, type: 3}
   - {fileID: 2679728442328743979, guid: e84d6765d301a104cacc088bd79db7d2, type: 3}

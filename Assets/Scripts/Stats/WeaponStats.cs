@@ -104,6 +104,9 @@ public class WeaponStats : MonoBehaviour
 
         if (weaponCritChance > 0)
             formattedStats += $"Crit Chance: {weaponCritChance}%\n";
+        
+        if (weaponCritDamage > 0)
+            formattedStats += $"Crit Damage: {weaponCritDamage}%\n";
 
         if (weaponRange > 0)
             formattedStats += $"Range: {weaponRange}\n";

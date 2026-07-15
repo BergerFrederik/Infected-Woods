@@ -565,6 +565,7 @@ public class ShopPanel : MonoBehaviour
             GameObject randomWeapon = arrayOfChosenRandomWeapons[i];
             
             WeaponStats weaponStats = randomWeapon.GetComponent<WeaponStats>();
+            weaponStats.ApplyStats();
 
             // get Sprite from Weapon
             Sprite sprite = randomWeapon.GetComponentInChildren<SpriteRenderer>().sprite;
@@ -577,7 +578,7 @@ public class ShopPanel : MonoBehaviour
             weaponSubtitles[i].text = weaponStats.weaponSubtitle;
             
             // set information text
-
+            weaponDescriptionText[i].text = weaponStats.GetStatsAsText(); 
             
             // set cost to button
             weaponButtonText[i].text = $"Buy - {weaponStats.weaponPrice}";
@@ -701,8 +702,7 @@ public class ShopPanel : MonoBehaviour
             }
             
             GameObject chosenWeapon = arrayOfChosenRandomWeapons[index];
-            GameObject boughtWeapon = Instantiate(chosenWeapon, targetParent, false);
-            boughtWeapon.GetComponent<WeaponStats>().ApplyStats();
+            Instantiate(chosenWeapon, targetParent, false);
             
             HandlePurchase(weaponPrice);
             weaponObjects[index].SetActive(false);
