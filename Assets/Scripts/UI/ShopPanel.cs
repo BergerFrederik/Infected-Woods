@@ -170,7 +170,8 @@ public class ShopPanel : MonoBehaviour
             }
             else
             {
-                inventoryImages[i].color = Color.white;
+                Color c = inventoryImages[i].color;
+                inventoryImages[i].color = new Color(c.r, c.g, c.b, 0f);
             }
         }
         
@@ -199,15 +200,28 @@ public class ShopPanel : MonoBehaviour
                 WeaponStats currentWeaponStats = weaponObj.GetComponent<WeaponStats>();
                 float weaponLevel = currentWeaponStats.weaponLevel;
                 float weaponTier = currentWeaponStats.weaponTier;
-                
+            
                 backgroundImage.GetComponent<Image>().color = weaponLvLColors[(int)weaponLevel];
-                boarderImage.GetComponent<Image>().sprite = weaponBoarderSprites[(int)weaponTier - 1];
-                weaponImage.GetComponent<Image>().sprite = weaponObj.GetComponentInChildren<SpriteRenderer>().sprite;
+
+                Image boarder = boarderImage.GetComponent<Image>();
+                boarder.sprite = weaponBoarderSprites[(int)weaponTier - 1];
+                boarder.color = new Color(boarder.color.r, boarder.color.g, boarder.color.b, 1f);
+
+                Image weapon = weaponImage.GetComponent<Image>();
+                weapon.sprite = weaponObj.GetComponentInChildren<SpriteRenderer>().sprite;
+                weapon.color = new Color(weapon.color.r, weapon.color.g, weapon.color.b, 1f);
             }
             else
             {
-                backgroundImage.GetComponent<Image>().color = Color.white;
+                Color cBackground = backgroundImage.GetComponent<Image>().color;
+                backgroundImage.GetComponent<Image>().color = new Color(cBackground.r, cBackground.g, cBackground.b, 0f);
+                
+                Color cBoarder = boarderImage.GetComponent<Image>().color;
+                boarderImage.GetComponent<Image>().color = new Color(cBoarder.r, cBoarder.g, cBoarder.b, 0f);
                 boarderImage.GetComponent<Image>().sprite = null;
+
+                Color cWeapon = weaponImage.GetComponent<Image>().color;
+                weaponImage.GetComponent<Image>().color = new Color(cWeapon.r, cWeapon.g, cWeapon.b, 0f);
                 weaponImage.GetComponent<Image>().sprite = null;
             }
         }

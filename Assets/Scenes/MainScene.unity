@@ -4003,8 +4003,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -67.297, y: -31.000988}
-  m_SizeDelta: {x: 165.4054, y: 755}
+  m_AnchoredPosition: {x: -65, y: -31}
+  m_SizeDelta: {x: 165, y: 755}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &163056676
 MonoBehaviour:
@@ -4543,8 +4543,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 87.55957, y: -31.001}
-  m_SizeDelta: {x: 97.9361, y: 755}
+  m_AnchoredPosition: {x: 90, y: -31.001}
+  m_SizeDelta: {x: 100, y: 755}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &193660746
 CanvasRenderer:
@@ -4601,7 +4601,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 53.2
+  m_fontSize: 54.3
   m_fontSizeBase: 23
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -33700,12 +33700,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.7
+  m_fontSize: 54.3
   m_fontSizeBase: 23
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMin: 1
+  m_fontSizeMax: 33
   m_fontStyle: 0
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 256
@@ -33769,8 +33769,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 92.698, y: -31}
-  m_SizeDelta: {x: 82.3394, y: 755}
+  m_AnchoredPosition: {x: 90, y: -31}
+  m_SizeDelta: {x: 100, y: 755}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1473528543
 GameObject:
@@ -44725,8 +44725,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -59.03589, y: -31}
-  m_SizeDelta: {x: 149.6627, y: 755}
+  m_AnchoredPosition: {x: -65, y: -31}
+  m_SizeDelta: {x: 165, y: 755}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2026640218
 MonoBehaviour:
@@ -44779,8 +44779,8 @@ MonoBehaviour:
   m_fontSizeBase: 23
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMin: 1
+  m_fontSizeMax: 33
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256

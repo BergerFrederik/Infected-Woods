@@ -12,13 +12,14 @@ public class StaticHelpers : MonoBehaviour
         stats += $"HP Reg:\n";
         stats += $"Mana:\n";
         stats += $"Mana Reg:\n";
-        stats += $"LS:\n";
+        stats += $"Lifesteal:\n";
         stats += $"Damage:\n";
         stats += $"Melee Dmg:\n";
         stats += $"Ranged Dmg:\n";
         stats += $"Mystic Dmg:\n";
-        stats += $"AS:\n";
-        stats += $"Crit:\n";
+        stats += $"Attackspeed:\n";
+        stats += $"Crit %:\n";
+        stats += $"Crit Dmg:\n";
         stats += $"Armor:\n";
         stats += $"Dodge:\n";
         stats += $"MS:\n";
@@ -36,6 +37,7 @@ public class StaticHelpers : MonoBehaviour
         values += $"{playerStats.playerMysticDamage}\n";
         values += $"{playerStats.playerAttackSpeed}\n";
         values += $"{playerStats.PlayerCritChance}\n";
+        values += $"{playerStats.PlayerCritDamage}\n";
         values += $"{playerStats.playerArmor}\n";
         values += $"{playerStats.playerDodge}\n";
         values += $"{playerStats.playerMovespeed}\n";
