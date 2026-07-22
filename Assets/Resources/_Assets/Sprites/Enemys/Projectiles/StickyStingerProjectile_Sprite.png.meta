@@ -130,7 +130,7 @@ TextureImporter:
         width: 238
         height: 682
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -143,77 +143,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: StickyStingerProjectile_Sprite_1
-      rect:
-        serializedVersion: 2
-        x: 261
-        y: 215
-        width: 6
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1fcfc2d7e248089c0800000000000000
-      internalID: -3926993539863610127
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: StickyStingerProjectile_Sprite_2
-      rect:
-        serializedVersion: 2
-        x: 107
-        y: 16
-        width: 28
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1210b8e349403e5e0800000000000000
-      internalID: -1881655184559767263
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: StickyStingerProjectile_Sprite_3
-      rect:
-        serializedVersion: 2
-        x: 153
-        y: 42
-        width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f5c91d4b2e506e100800000000000000
-      internalID: 136803309935762527
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 9ff8d9994cd134a5baf9e21e7b7cee86
     internalID: 0
     vertices: []
     indices: 
