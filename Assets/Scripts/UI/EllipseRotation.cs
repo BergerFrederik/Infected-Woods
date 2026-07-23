@@ -13,9 +13,7 @@ public class EllipseRotation : MonoBehaviour
     [SerializeField] private FloatDirection direction = FloatDirection.Clockwise;
 
     [Header("Items")]
-    private List<Transform> _itemsToRotate = new List<Transform>();
-    [SerializeField] private bool useEqualArcLength = true;
-    [SerializeField] private int arcLengthSamples = 360;
+    private readonly List<Transform> _itemsToRotate = new();
 
     public enum FloatDirection
     {
@@ -55,60 +53,18 @@ public class EllipseRotation : MonoBehaviour
             _itemsToRotate.Add(item);
         }
     }
+    
     private void AssignItemAngles()
     {
         int count = _itemsToRotate.Count;
         _itemAngles = new float[count];
 
         if (count == 0) return;
-
-        if (!useEqualArcLength)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                _itemAngles[i] = (360f / count) * i;
-            }
-            return;
-        }
-        
-        int samples = Mathf.Max(arcLengthSamples, count * 4);
-        float[] cumulativeLength = new float[samples + 1];
-        float totalLength = 0f;
-        Vector3 prevPoint = GetEllipsePointLocal(0f);
-
-        for (int i = 1; i <= samples; i++)
-        {
-            float t = (float)i / samples * 360f;
-            Vector3 point = GetEllipsePointLocal(t);
-            totalLength += Vector3.Distance(prevPoint, point);
-            cumulativeLength[i] = totalLength;
-            prevPoint = point;
-        }
         
         for (int i = 0; i < count; i++)
         {
-            float targetLength = totalLength * ((float)i / count);
-            _itemAngles[i] = FindAngleForArcLength(targetLength, cumulativeLength, samples);
+            _itemAngles[i] = (360f / count) * i;
         }
-    }
-
-    private float FindAngleForArcLength(float targetLength, float[] cumulativeLength, int samples)
-    {
-        for (int i = 1; i <= samples; i++)
-        {
-            if (cumulativeLength[i] >= targetLength)
-            {
-                float segStart = cumulativeLength[i - 1];
-                float segEnd = cumulativeLength[i];
-                float t = segEnd > segStart ? (targetLength - segStart) / (segEnd - segStart) : 0f;
-
-                float angleStart = (float)(i - 1) / samples * 360f;
-                float angleEnd = (float)i / samples * 360f;
-
-                return Mathf.Lerp(angleStart, angleEnd, t);
-            }
-        }
-        return 0f;
     }
 
     private Vector3 GetEllipsePointLocal(float angleDeg)
