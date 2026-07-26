@@ -45,14 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70147bac9d3a63f428a5df1415018798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
-  itemTier: 3
-  itemID: BlossomItem
-  itemText:
-  - '- +10% Attackspeed'
-  - '- -5% Movementspeed'
-  itemLimit: 0
-  itemPrice: 13
+  itemName: Blossom Item
   itemIcon: {fileID: 448563759746355636, guid: e3cfac63ae6695748a2799d77c63eada, type: 3}
+  itemPrice: 13
+  itemID: BlossomItem
+  tier: 2
+  stats: []
+  passiveDescription: 
 --- !u!114 &1361145453290841410
 MonoBehaviour:
   m_ObjectHideFlags: 0

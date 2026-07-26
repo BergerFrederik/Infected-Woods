@@ -17560,7 +17560,7 @@ MonoBehaviour:
   getItemButton: {fileID: 1591080240}
   numRerollsText: {fileID: 1876991683}
   itemName: {fileID: 1657963844}
-  playerStats: {fileID: 0}
+  playerStats: {fileID: 663990828}
   rerollAmount: 2
 --- !u!1 &727764401
 GameObject:
@@ -38425,6 +38425,7 @@ MonoBehaviour:
   - {fileID: 256037096}
   rotatingInventory: {fileID: 412139351}
   rotatingItemPrefab: {fileID: 3930509887349217823, guid: 78d6b6560b5884ef095afe2645dadc05, type: 3}
+  uiCharacterObject: {fileID: 742333245}
   dragLayer: {fileID: 2081560352}
 --- !u!1 &1647576011
 GameObject:

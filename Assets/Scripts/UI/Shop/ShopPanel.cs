@@ -96,6 +96,7 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private Transform[] inventoryWeaponSlots;
     [SerializeField] private Transform rotatingInventory;
     [SerializeField] private Transform rotatingItemPrefab;
+    [SerializeField] private Transform uiCharacterObject;
     public Transform dragLayer;
     
     
@@ -328,9 +329,28 @@ public class ShopPanel : MonoBehaviour
     {
         GameObject transactionItemForPlayer = Instantiate(transactionItem.gameObject, playerItemsContainer);
         transactionItemForPlayer.name = transactionItem.GetComponent<ItemInformation>().itemID;
+        
+        bool isSpecialItem = transactionItem.GetComponent<ItemInformation>().tier == ItemInformation.ItemTier.Special;
+        if (isSpecialItem) return;
+        
         Transform rotatingItem = Instantiate(rotatingItemPrefab, rotatingInventory);
         rotatingItem.GetComponent<Image>().sprite = transactionItem.GetComponent<ItemInformation>().itemIcon;
         rotatingInventory.GetComponent<EllipseRotationUI>().Rebuild();
+    }
+
+    private void RemoveItemFromInventory(Transform transactionItem)
+    {
+        Sprite itemIcon = transactionItem.GetComponent<ItemInformation>().itemIcon;
+        foreach (Transform child in uiCharacterObject)
+        {
+            foreach (Transform rotatingItem in child)
+            {
+                if (rotatingItem.GetComponent<Image>().sprite == itemIcon)
+                {
+                    Destroy(rotatingItem.gameObject);
+                }
+            }
+        }
     }
     
     public void InstantTransaction(GameObject itemObj, bool isBuy)
@@ -394,6 +414,7 @@ public class ShopPanel : MonoBehaviour
         
         ItemInformation itemInfo = itemToSell.GetComponent<ItemInformation>();
         string targetID = itemInfo.itemID;
+        bool isBlossom = itemInfo.tier == ItemInformation.ItemTier.Blossom; 
         
         if (itemToSell.parent != null && itemToSell.parent.GetComponent<Image>() != null)
         {
@@ -422,6 +443,14 @@ public class ShopPanel : MonoBehaviour
                     foundSlot = true;
                     break;
                 }
+                
+                if (isBlossom)
+                {
+                    Destroy(itemToSell.gameObject);
+                    foundSlot = true;
+                    break;
+                }
+                
             }
 
             if (foundSlot) break;
@@ -438,6 +467,7 @@ public class ShopPanel : MonoBehaviour
         }
         
         OnItemSold?.Invoke();
+        RemoveItemFromInventory(itemToSell);
         ResetTransactionSection();
     }
     
