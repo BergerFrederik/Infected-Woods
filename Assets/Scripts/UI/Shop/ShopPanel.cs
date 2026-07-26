@@ -330,7 +330,7 @@ public class ShopPanel : MonoBehaviour
         transactionItemForPlayer.name = transactionItem.GetComponent<ItemInformation>().itemID;
         Transform rotatingItem = Instantiate(rotatingItemPrefab, rotatingInventory);
         rotatingItem.GetComponent<Image>().sprite = transactionItem.GetComponent<ItemInformation>().itemIcon;
-        rotatingInventory.GetComponent<EllipseRotation>().Rebuild();
+        rotatingInventory.GetComponent<EllipseRotationUI>().Rebuild();
     }
     
     public void InstantTransaction(GameObject itemObj, bool isBuy)
