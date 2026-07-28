@@ -246,7 +246,8 @@ public class ShopPanel : MonoBehaviour
         {
             Destroy(slotScript);
         }
-        
+
+        transactionSectionImage.enabled = true;
         transactionSectionImage.sprite = displayedItem.GetComponent<ItemInformation>().itemIcon;
         
         String buttonText = isInShop ? "Buy" : "Sell";
@@ -294,15 +295,14 @@ public class ShopPanel : MonoBehaviour
                 HandleItemToTransact();
             }
             HandlePurchase(itemPrice);
-            transactionSectionImage.sprite = null;
+            HandleUIOnPurchase(itemInformation.tier);
+            
             OnItemPurchased?.Invoke();
         }
         else
         {
             Debug.LogWarning("Not enough funds");
         }
-
-        _itemToTransactOriginalContainer.GetComponent<Image>().sprite = itemSoldSprite;
     }
 
     private void PutItemIntoInventory(Transform transactionItem)
@@ -336,6 +336,17 @@ public class ShopPanel : MonoBehaviour
         Transform rotatingItem = Instantiate(rotatingItemPrefab, rotatingInventory);
         rotatingItem.GetComponent<Image>().sprite = transactionItem.GetComponent<ItemInformation>().itemIcon;
         rotatingInventory.GetComponent<EllipseRotationUI>().Rebuild();
+    }
+
+    private void HandleUIOnPurchase(ItemInformation.ItemTier itemTier)
+    {
+        bool isSpecialItem = itemTier == ItemInformation.ItemTier.Special;
+        bool isBlossomItem = itemTier == ItemInformation.ItemTier.Blossom;
+        
+        transactionSectionImage.sprite = null;
+        
+        if (isSpecialItem || isBlossomItem) return;
+        _itemToTransactOriginalContainer.GetComponent<Image>().sprite = itemSoldSprite;
     }
 
     private void RemoveItemFromInventory(Transform transactionItem)
@@ -389,6 +400,7 @@ public class ShopPanel : MonoBehaviour
             }
             
             HandlePurchase(itemInfo.itemPrice);
+            HandleUIOnPurchase(itemInfo.tier);
             OnItemPurchased?.Invoke();
         }
         else
@@ -514,6 +526,7 @@ public class ShopPanel : MonoBehaviour
         
         _itemToTransact = null;
         transactionSectionImage.sprite = null;
+        transactionSectionImage.enabled = false;
         
         transactionButton.GetComponentInChildren<TextMeshProUGUI>().text = "Buy/Sell";
     }
