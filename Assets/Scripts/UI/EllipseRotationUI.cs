@@ -46,12 +46,11 @@ public class EllipseRotationUI : MonoBehaviour
         AssignItemsToList();
         ResetPositions();
         AssignItemAngles();
-        StartCoroutine(Rotate());
+        if (gameObject.activeSelf) StartCoroutine(Rotate());
     }
 
     private void ResetPositions()
     {
-        
         foreach (Transform item in _itemsToRotate)
         {
             item.SetParent(transform);
@@ -112,16 +111,22 @@ public class EllipseRotationUI : MonoBehaviour
 
             for (int i = 0; i < _itemsToRotate.Count; i++)
             {
+                Transform currentItem = _itemsToRotate[i];
+                
+                if (currentItem == null) continue;
+                if (i >= _itemAngles.Length) break;
+                
+                
                 float itemAngle = (_itemAngles[i] + _globalAngle) % 360f;
                 Vector3 localEllipseOffset = GetEllipsePointLocal(itemAngle);
                 Transform targetContainer = localEllipseOffset.y > 0f ? inBackContainer : inFrontContainer;
                 
-                if (_itemsToRotate[i].parent != targetContainer)
+                if (currentItem.parent != targetContainer)
                 {
-                    _itemsToRotate[i].SetParent(targetContainer, true);
+                    currentItem.SetParent(targetContainer, true);
                 }
                 
-                _itemsToRotate[i].position = _centerPosition + localEllipseOffset;
+                currentItem.position = _centerPosition + localEllipseOffset;
             }
 
             yield return null;

@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public class StatShard : MonoBehaviour
+public class ToggleItemPanelOn : MonoBehaviour
 {
     [SerializeField] private ItemInformation itemInformation;
-    [SerializeField] private GameObject statShardPanel;
+    [SerializeField] private GameObject targetPanel;
     
     private void OnEnable()
     {
         if (itemInformation.IsPlayerRoot())
         {
-            statShardPanel.SetActive(true);
+            targetPanel.SetActive(true);
             Destroy(this.gameObject);
         }
     }

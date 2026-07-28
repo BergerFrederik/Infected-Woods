@@ -51,7 +51,7 @@ MonoBehaviour:
   itemID: BlossomItem
   tier: 2
   stats: []
-  passiveDescription: 
+  passiveDescription: Qwaaaazzyyyy Item
 --- !u!114 &1361145453290841410
 MonoBehaviour:
   m_ObjectHideFlags: 0

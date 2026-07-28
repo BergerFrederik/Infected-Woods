@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -15,6 +16,10 @@ public class OnOffToggleOnMouse : MonoBehaviour, IPointerEnterHandler, IPointerE
     [SerializeField] private bool isOnExit;
     [SerializeField] private bool turnSelfOffOnEnter;
     [SerializeField] private bool turnSelfOffOnExit;
+    [SerializeField] private float durationToRegisterMouse;
+
+    private Coroutine _enterCoroutine;
+    private Coroutine _exitCoroutine;
 
     private void Start()
     {
@@ -23,19 +28,69 @@ public class OnOffToggleOnMouse : MonoBehaviour, IPointerEnterHandler, IPointerE
             targetObject = gameObject;
         }
     }
-    
+
+    private void OnDisable()
+    { 
+        StopAllCoroutines();
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (!isOnEnter) return;
-        
-        if (toggleType == ToggleType.On)
+    { 
+        if (_exitCoroutine != null)
         {
-            targetObject.SetActive(true);
+            StopCoroutine(_exitCoroutine);
+            _exitCoroutine = null;
+        }
+
+        if (!isOnEnter) return;
+
+        if (durationToRegisterMouse > 0f)
+        {
+            _enterCoroutine = StartCoroutine(ExecuteEnterWithDelay());
         }
         else
         {
-            targetObject.SetActive(false);
+            ExecuteEnter();
         }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (_enterCoroutine != null)
+        {
+            StopCoroutine(_enterCoroutine);
+            _enterCoroutine = null;
+        }
+
+        if (!isOnExit) return;
+
+        if (durationToRegisterMouse > 0f)
+        {
+            _exitCoroutine = StartCoroutine(ExecuteExitWithDelay());
+        }
+        else
+        {
+            ExecuteExit();
+        }
+    }
+
+    private IEnumerator ExecuteEnterWithDelay()
+    {
+        yield return new WaitForSeconds(durationToRegisterMouse);
+        ExecuteEnter();
+        _enterCoroutine = null;
+    }
+
+    private IEnumerator ExecuteExitWithDelay()
+    {
+        yield return new WaitForSeconds(durationToRegisterMouse);
+        ExecuteExit();
+        _exitCoroutine = null;
+    }
+
+    private void ExecuteEnter()
+    {
+        ApplyToggle();
 
         if (turnSelfOffOnEnter)
         {
@@ -43,22 +98,19 @@ public class OnOffToggleOnMouse : MonoBehaviour, IPointerEnterHandler, IPointerE
         }
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    private void ExecuteExit()
     {
-        if (!isOnExit) return;
-        
-        if (toggleType == ToggleType.On)
-        {
-            targetObject.SetActive(true);
-        }
-        else
-        {
-            targetObject.SetActive(false);
-        }
+        ApplyToggle();
 
         if (turnSelfOffOnExit)
         {
             gameObject.SetActive(false);
         }
+    }
+
+    private void ApplyToggle()
+    {
+        if (targetObject == null) return;
+        targetObject.SetActive(toggleType == ToggleType.On);
     }
 }

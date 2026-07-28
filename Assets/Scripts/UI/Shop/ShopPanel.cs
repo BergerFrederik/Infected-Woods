@@ -344,6 +344,7 @@ public class ShopPanel : MonoBehaviour
         bool isBlossomItem = itemTier == ItemInformation.ItemTier.Blossom;
         
         transactionSectionImage.sprite = null;
+        transactionSectionImage.enabled = false;
         
         if (isSpecialItem || isBlossomItem) return;
         _itemToTransactOriginalContainer.GetComponent<Image>().sprite = itemSoldSprite;
@@ -389,6 +390,10 @@ public class ShopPanel : MonoBehaviour
         float playerLightAmount = playerStats.PlayerLightAmount;
         if (playerLightAmount >= itemInfo.itemPrice)
         {
+            if (_itemToTransactOriginalContainer != null && _itemToTransactOriginalContainer.GetComponent<Image>() != null)
+            {
+                _itemToTransactOriginalContainer.GetComponent<Image>().sprite = itemSoldSprite;
+            }
             bool isSpecialItem = itemInfo.tier == ItemInformation.ItemTier.Special;
             if (isSpecialItem)
             {
@@ -400,7 +405,8 @@ public class ShopPanel : MonoBehaviour
             }
             
             HandlePurchase(itemInfo.itemPrice);
-            HandleUIOnPurchase(itemInfo.tier);
+            transactionSectionImage.sprite = null;
+            transactionSectionImage.enabled = false;
             OnItemPurchased?.Invoke();
         }
         else
@@ -409,7 +415,6 @@ public class ShopPanel : MonoBehaviour
         }
     }
     
-
     private void SellItem()
     {
         Transform itemToSell = _itemToTransact;
@@ -438,34 +443,36 @@ public class ShopPanel : MonoBehaviour
         float itemRefundValue = itemInfo.itemPrice * (itemSellPercentage / 100f);
         HandlePurchase(-itemRefundValue);
 
-        bool foundSlot = false;
-        for (int i = 0; i < itemShelfContainer.childCount; i++)
+        if (!isBlossom)
         {
-            Transform currentShelf = itemShelfContainer.GetChild(i);
-                
-            for (int y = 0; y < currentShelf.childCount; y++)
+            bool foundSlot = false;
+            for (int i = 0; i < itemShelfContainer.childCount; i++)
             {
-                Transform currentItemSlot = currentShelf.GetChild(y);
-                    
-                if (currentItemSlot.name == targetID)
-                {
-                    currentItemSlot.GetComponent<Image>().sprite = itemInfo.itemIcon;
-                    itemToSell.SetParent(currentItemSlot);
-                    
-                    foundSlot = true;
-                    break;
-                }
-                
-                if (isBlossom)
-                {
-                    Destroy(itemToSell.gameObject);
-                    foundSlot = true;
-                    break;
-                }
-                
-            }
+                Transform currentShelf = itemShelfContainer.GetChild(i);
 
-            if (foundSlot) break;
+                for (int y = 0; y < currentShelf.childCount; y++)
+                {
+                    Transform currentItemSlot = currentShelf.GetChild(y);
+
+                    if (currentItemSlot.name == targetID)
+                    {
+                        currentItemSlot.GetComponent<Image>().sprite = itemInfo.itemIcon;
+                        itemToSell.SetParent(currentItemSlot);
+
+                        foundSlot = true;
+                        break;
+                    }
+                }
+
+                if (foundSlot)
+                {
+                    break;
+                }
+            }
+        }
+        else
+        {
+            Destroy(itemToSell.gameObject);
         }
         
         for (int i = 0; i < playerItemsContainer.childCount; i++)
@@ -481,6 +488,7 @@ public class ShopPanel : MonoBehaviour
         OnItemSold?.Invoke();
         RemoveItemFromInventory(itemToSell);
         ResetTransactionSection();
+        rotatingInventory.GetComponent<EllipseRotationUI>().Rebuild();
     }
     
 
@@ -832,7 +840,7 @@ public class ShopPanel : MonoBehaviour
             weaponPrice *= 2f;
         }
         
-        float refund = weaponPrice * (weaponSellFactor / 100) + ((bonusRefundPercentagePerLevel / 100) * weaponPrice * weaponLevel);
+        float refund = weaponPrice * (weaponSellFactor / 100f) + ((bonusRefundPercentagePerLevel / 100f) * weaponPrice * weaponLevel);
         return Mathf.CeilToInt(refund);
     }
 
