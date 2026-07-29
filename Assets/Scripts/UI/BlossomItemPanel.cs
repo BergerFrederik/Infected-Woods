@@ -6,6 +6,9 @@ using Random = UnityEngine.Random;
 
 public class BlossomItemPanel : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private ShopPanel shopPanel;
+    
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI[] blossomItemTitles;
     [SerializeField] private TextMeshProUGUI[] blossomItemContents;
@@ -14,9 +17,16 @@ public class BlossomItemPanel : MonoBehaviour
 
     [Header("Items")] 
     [SerializeField] private List<GameObject> blossomItems;
-    
+
+    private List<GameObject> _currentAvailableBlossomItems = new();
     private List<GameObject> _randomChosenItems = new();
 
+    private void Awake()
+    {
+        _currentAvailableBlossomItems = new List<GameObject>(blossomItems);
+        shopPanel.OnBlossomItemSold += HandleBlossomItemSold;
+    }
+    
     private void OnEnable()
     {
         GetRandomItem();
@@ -25,16 +35,27 @@ public class BlossomItemPanel : MonoBehaviour
 
     private void OnDisable()
     {
+        _randomChosenItems.Clear();
         foreach (Button button in blossomItemButtons)
         {
             button.onClick.RemoveAllListeners();
         }
     }
 
+    private void OnDestroy()
+    {
+        shopPanel.OnBlossomItemSold -= HandleBlossomItemSold;
+    }
+
     private void GetRandomItem()
     {
+        if (blossomItems.Count < 0)
+        {
+            Debug.LogError("No Blossom Item Found");
+            return;
+        };
         int numItemsToShow = blossomItemButtons.Length; // Should be 3
-        List<GameObject> currentItemsToChoseFrom = blossomItems;
+        List<GameObject> currentItemsToChoseFrom = new List<GameObject>(_currentAvailableBlossomItems);
         
         for (int i = 0; i < numItemsToShow; i++)
         {
@@ -56,8 +77,9 @@ public class BlossomItemPanel : MonoBehaviour
             blossomItemTitles[i].text = itemInformation.itemName;
             blossomItemContents[i].text = itemInformation.passiveDescription;
             blossomItemIcons[i].sprite = itemInformation.itemIcon;
-            
-            blossomItemButtons[i].onClick.AddListener(() => SelectItem(i));
+
+            int index = i;
+            blossomItemButtons[i].onClick.AddListener(() => SelectItem(index));
 
             i++;
         }
@@ -65,6 +87,24 @@ public class BlossomItemPanel : MonoBehaviour
 
     private void SelectItem(int index)
     {
+        _currentAvailableBlossomItems.Remove(_randomChosenItems[index]);
+        GameObject selectedItem = Instantiate(_randomChosenItems[index], gameObject.transform);
+        shopPanel.PutItemIntoInventory(selectedItem.transform);
         gameObject.SetActive(false);
+    }
+
+    private void HandleBlossomItemSold(GameObject soldItem)
+    {
+        ItemInformation itemInformation = soldItem.GetComponent<ItemInformation>();
+        
+        foreach (GameObject blossomItem in blossomItems)
+        {
+            ItemInformation blossomItemInformation = blossomItem.GetComponent<ItemInformation>();
+            if (itemInformation.itemID == blossomItemInformation.itemID)
+            {
+                _currentAvailableBlossomItems.Add(blossomItem);
+                break;
+            }
+        }
     }
 }

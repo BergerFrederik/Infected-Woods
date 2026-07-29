@@ -30,7 +30,6 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private GameObject[] shelves;
     [SerializeField] private TextMeshProUGUI shelfTextfield;
     [SerializeField] private String[] shelfNameTexts;
-    [SerializeField] private BlossomShelf blossomShelf;
     [SerializeField] private Button handleBlossomItemButton;
     [SerializeField] private Transform blossomItemContainer;
     [SerializeField] private float blossomItemCost;
@@ -43,6 +42,7 @@ public class ShopPanel : MonoBehaviour
 
     public event Action OnItemPurchased;
     public event Action OnItemSold;
+    public event Action<GameObject> OnBlossomItemSold;
     
     [Header("Weapons")]
     [SerializeField] private Button[] weaponButtons;
@@ -106,13 +106,6 @@ public class ShopPanel : MonoBehaviour
     public static event Action OnShopCycleEnd;
     public event Action OnWeaponBought;
     
-
-    private void Start()
-    {
-        _purchaseBlossomItemText = $"Buy - {blossomItemCost}";
-        handleBlossomItemButton.GetComponentInChildren<TextMeshProUGUI>().text = _purchaseBlossomItemText;
-    }
-    
     private void OnEnable()
     {
         startNextWaveButton.onClick.AddListener(StartNextWave);
@@ -122,7 +115,6 @@ public class ShopPanel : MonoBehaviour
         weaponShopLvLUpButton.onClick.AddListener(IncreaseWeaponShopLvL);
         leftSwitchButton.onClick.AddListener (() => SwitchShelf(leftSwitchButton));
         rightSwitchButton.onClick.AddListener(() => SwitchShelf(rightSwitchButton));
-        handleBlossomItemButton.onClick.AddListener(HandleBlossomItemTransaction);
         sellButton.onClick.AddListener(SellWeapon);
         combineButton.onClick.AddListener(CombineWeapon);
         moveButton.onClick.AddListener(MoveWeapon);
@@ -141,7 +133,6 @@ public class ShopPanel : MonoBehaviour
         weaponShopLvLUpButton.onClick.RemoveListener(IncreaseWeaponShopLvL);
         leftSwitchButton.onClick.RemoveAllListeners();
         rightSwitchButton.onClick.RemoveAllListeners();
-        handleBlossomItemButton.onClick.RemoveListener(HandleBlossomItemTransaction);
         sellButton.onClick.RemoveListener(SellWeapon);
         combineButton.onClick.RemoveListener(CombineWeapon);
         moveButton.onClick.RemoveListener(MoveWeapon);
@@ -284,7 +275,8 @@ public class ShopPanel : MonoBehaviour
         if (playerLightAmount - itemPrice >= 0)
         {
             bool isSpecialItem = itemInformation.tier == ItemInformation.ItemTier.Special;
-            if (isSpecialItem)
+            bool isBlossomItem = itemInformation.tier == ItemInformation.ItemTier.Blossom;
+            if (isSpecialItem || isBlossomItem)
             {
                 InstantiateItemForInventory(transactionItem);
                 ResetTransactionSection();
@@ -305,9 +297,9 @@ public class ShopPanel : MonoBehaviour
         }
     }
 
-    private void PutItemIntoInventory(Transform transactionItem)
+    public void PutItemIntoInventory(Transform transactionItem)
     {
-        if (transactionItem.GetComponent<ItemInformation>().itemID == "StatShard") return;
+        if (transactionItem.GetComponent<ItemInformation>().tier == ItemInformation.ItemTier.Special) return;
         for (int i = 0; i < itemInventoryContainer.childCount; i++)
         {
             if (itemInventoryContainer.GetChild(i).childCount == 0)
@@ -330,7 +322,8 @@ public class ShopPanel : MonoBehaviour
         GameObject transactionItemForPlayer = Instantiate(transactionItem.gameObject, playerItemsContainer);
         transactionItemForPlayer.name = transactionItem.GetComponent<ItemInformation>().itemID;
         
-        bool isSpecialItem = transactionItem.GetComponent<ItemInformation>().tier == ItemInformation.ItemTier.Special;
+        ItemInformation.ItemTier itemTier = transactionItem.GetComponent<ItemInformation>().tier;
+        bool isSpecialItem = itemTier == ItemInformation.ItemTier.Special;
         if (isSpecialItem) return;
         
         Transform rotatingItem = Instantiate(rotatingItemPrefab, rotatingInventory);
@@ -432,6 +425,7 @@ public class ShopPanel : MonoBehaviour
         ItemInformation itemInfo = itemToSell.GetComponent<ItemInformation>();
         string targetID = itemInfo.itemID;
         bool isBlossom = itemInfo.tier == ItemInformation.ItemTier.Blossom; 
+        bool isSpecialItem = itemInfo.tier == ItemInformation.ItemTier.Special;
         
         if (itemToSell.parent != null && itemToSell.parent.GetComponent<Image>() != null)
         {
@@ -443,7 +437,7 @@ public class ShopPanel : MonoBehaviour
         float itemRefundValue = itemInfo.itemPrice * (itemSellPercentage / 100f);
         HandlePurchase(-itemRefundValue);
 
-        if (!isBlossom)
+        if (!isBlossom && !isSpecialItem)
         {
             bool foundSlot = false;
             for (int i = 0; i < itemShelfContainer.childCount; i++)
@@ -472,6 +466,7 @@ public class ShopPanel : MonoBehaviour
         }
         else
         {
+            OnBlossomItemSold?.Invoke(itemToSell.gameObject);
             Destroy(itemToSell.gameObject);
         }
         
@@ -537,42 +532,6 @@ public class ShopPanel : MonoBehaviour
         transactionSectionImage.enabled = false;
         
         transactionButton.GetComponentInChildren<TextMeshProUGUI>().text = "Buy/Sell";
-    }
-
-    private void HandleBlossomItemTransaction()
-    {
-        bool isRandomItemPresent = blossomItemContainer.childCount > 0;
-        bool hasPlayerEnoughFunds = playerStats.PlayerLightAmount >= blossomItemCost;
-        bool hasPlayerEmptyItemSlot = itemInventoryContainer.GetChild(itemInventoryContainer.childCount - 1).childCount == 0;
-        
-        if (!isRandomItemPresent && hasPlayerEnoughFunds && hasPlayerEmptyItemSlot)
-        {
-            BuyBlossomItem();
-        }
-        else if (isRandomItemPresent)
-        {
-            ChooseBlossomItem();
-        }
-    }
-    
-    private void BuyBlossomItem()
-    {
-        blossomShelf.GetRandomItem();
-        Transform randomItem = blossomItemContainer.GetChild(0);
-        ItemInformation itemInformation = randomItem.GetComponent<ItemInformation>();
-        itemInformation.itemPrice = blossomItemCost;
-        HandlePurchase(blossomItemCost);
-
-        handleBlossomItemButton.GetComponentInChildren<TextMeshProUGUI>().text = "Choose";
-    }
-
-    private void ChooseBlossomItem()
-    {
-        Transform randomItem = blossomItemContainer.GetChild(0);
-        PutItemIntoInventory(randomItem);
-        blossomShelf.ResetBlossomShelf();
-        
-        handleBlossomItemButton.GetComponentInChildren<TextMeshProUGUI>().text = $"Buy - {blossomItemCost}";
     }
     
     
@@ -1097,18 +1056,10 @@ public class ShopPanel : MonoBehaviour
 
     private void ResetShelvesOnNextWave()
     {
-        if (blossomItemContainer.childCount > 0)
-        {
-            ChooseBlossomItem();
-        }
-
         while (_currentShelfIndex != 0)
         {
             SwitchShelf(leftSwitchButton);
         }
-        
-        
-        blossomShelf.ResetBlossomShelf();
     }
 
     private void SetWeaponsToPlayerWeaponManager()
