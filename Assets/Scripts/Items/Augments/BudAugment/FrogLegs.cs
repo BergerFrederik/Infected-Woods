@@ -34,6 +34,7 @@ public class FrogLegs : MonoBehaviour
 
     private void ResetDashCooldownOnRoundEnd()
     {
-        dashAbility.dash_base_cooldown -= cooldownReducedBySeconds;
+        dashAbility.dash_base_cooldown += cooldownReducedBySeconds;
+        cooldownReducedBySeconds = 0f;
     }
 }

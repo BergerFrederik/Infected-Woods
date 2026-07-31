@@ -97,7 +97,7 @@ public class CharacterStats : MonoBehaviour
     {
         gameInput.OnAbilityStarted -= StartAbility;
         gameInput.OnAbilityCanceled -= EndAbility;
-        GameManager.OnRoundOver += ResetCooldown;
+        GameManager.OnRoundOver -= ResetCooldown;
     }
 
     private void Update()

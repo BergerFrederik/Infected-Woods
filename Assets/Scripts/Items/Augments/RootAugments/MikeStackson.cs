@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 
 public class MikeStackson : MonoBehaviour
@@ -48,7 +47,10 @@ public class MikeStackson : MonoBehaviour
 
         if (Time.time - lastTimestampOfDamageTaken >= secondsWithoutDamageTakenRequired)
         {
-            if (_randomRollEvent.GetRandomFloatRoll(0f, 100f) > 1 - chanceToGainStacks) //Muss 1- sein, damit luck einen Einfluss hat. Luck erhöht den Roll
+            if (_randomRollEvent.GetRandomFloatRoll(0f, 100f) > 100f - chanceToGainStacks) 
+                //Muss 100- sein, damit luck einen Einfluss hat.
+                //Luck erhöht den Roll.
+                //Bei 30% muss also höher als 70 gerollt werden
             {
                 playerStats.playerMeleeDamage += meleeDamageGainedPerStack;
                 mikeStacksonStacks++;
