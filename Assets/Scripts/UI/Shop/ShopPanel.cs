@@ -82,11 +82,7 @@ public partial class ShopPanel : MonoBehaviour
 
 
     private float _baseChanceForRoot = 100f;
-    private const int rarity_code_blossom = 4;
-    private const int rarity_code_bud = 3;
-    private const int rarity_code_shroom = 2;
-    private const int rarity_code_root = 1;
-    Dictionary<int, List<GameObject>> weaponsByRarity = new Dictionary<int, List<GameObject>>();
+    Dictionary<WeaponTier, List<GameObject>> weaponsByRarity = new Dictionary<WeaponTier, List<GameObject>>();
     private int _weaponShopLvl;
     private float _currentWeaponShopLvlUpCost;
 

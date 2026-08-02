@@ -23,13 +23,13 @@ public partial class ShopPanel
             }
 
             // get rarity
-            int rarity = CalculateRarity();
+            WeaponTier rarity = CalculateRarity();
 
             // get random Weapon (fall back to Root if this rarity has no weapons yet)
             if (!weaponsByRarity.ContainsKey(rarity) || weaponsByRarity[rarity].Count == 0)
             {
                 Debug.LogError($"Keine Waffen für Rarity {rarity} gefunden! Fallback auf Root.");
-                rarity = rarity_code_root;
+                rarity = WeaponTier.Root;
             }
 
             if (weaponsByRarity.ContainsKey(rarity) && weaponsByRarity[rarity].Count > 0)
@@ -80,7 +80,7 @@ public partial class ShopPanel
         weaponsByRarity.Clear();
         foreach (var prefab in weaponPrefabs)
         {
-            int tier = (int)prefab.GetComponent<WeaponStats>().weaponTier;
+            WeaponTier tier = prefab.GetComponent<WeaponStats>().weaponTier;
             if (!weaponsByRarity.ContainsKey(tier))
             {
                 weaponsByRarity[tier] = new List<GameObject>();
@@ -111,7 +111,7 @@ public partial class ShopPanel
         weaponShopLvLText.text = _weaponShopLvl.ToString();
     }
 
-    private int CalculateRarity()
+    private WeaponTier CalculateRarity()
     {
         var odds = GetCurrentOdds(_weaponShopLvl);
         RandomRollEvent randomRollEvent = playerTransform.GetComponentInChildren<RandomRollEvent>();
@@ -120,15 +120,15 @@ public partial class ShopPanel
 
 
         if (roll <= odds.root)
-            return rarity_code_root;
+            return WeaponTier.Root;
 
         if (roll <= odds.root + odds.shroom)
-            return rarity_code_shroom;
+            return WeaponTier.Shroom;
 
         if (roll <= odds.root + odds.shroom + odds.bud)
-            return rarity_code_bud;
+            return WeaponTier.Bud;
 
-        return rarity_code_blossom;
+        return WeaponTier.Blossom;
     }
 
     private (float root, float shroom, float bud, float blossom) GetCurrentOdds(float lvl)

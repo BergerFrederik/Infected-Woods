@@ -17,7 +17,7 @@ public class WeaponStats : MonoBehaviour
     [Header("Information")]
     public string weaponName;
     public string weaponSubtitle;
-    public float weaponTier = 0f;
+    public WeaponTier weaponTier = WeaponTier.Root;
     public weaponTypeOptions weaponWeaponType;
     public string weaponAttackType;
     public float weaponClass = 0f;
