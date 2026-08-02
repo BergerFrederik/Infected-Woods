@@ -150,7 +150,7 @@ public partial class ShopPanel
 
             if (targetStats == null ||
                 targetStats.gameObject == selectedWeapon ||
-                targetStats.weaponName != swStats.weaponName ||
+                targetStats.weaponID != swStats.weaponID ||
                 targetStats.weaponLevel != swStats.weaponLevel ||
                 targetStats.weaponLevel >= maxLevel)
             {
@@ -244,7 +244,7 @@ public partial class ShopPanel
             WeaponStats statsTarget = targetWeapon.GetComponent<WeaponStats>();
 
             // MERGE LOGIK
-            if (statsToMove.weaponName == statsTarget.weaponName && statsToMove.weaponLevel == statsTarget.weaponLevel)
+            if (statsToMove.weaponID == statsTarget.weaponID && statsToMove.weaponLevel == statsTarget.weaponLevel)
             {
                 int maxLevel = weaponLvLColors.Length - 1;
 

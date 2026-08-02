@@ -53,6 +53,7 @@ MonoBehaviour:
   weaponLevel: 0
   currentTotalDamage: 0
   weaponName: Illuminator
+  weaponID: Illuminator
   weaponSubtitle: Very cool sword
   weaponTier: 1
   weaponWeaponType: 0

@@ -16,6 +16,7 @@ public class WeaponStats : MonoBehaviour
     
     [Header("Information")]
     public string weaponName;
+    public string weaponID;
     public string weaponSubtitle;
     public WeaponTier weaponTier = WeaponTier.Root;
     public weaponTypeOptions weaponWeaponType;
@@ -48,6 +49,7 @@ public class WeaponStats : MonoBehaviour
         if (other == null) return;
 
         this.weaponName = other.weaponName;
+        this.weaponID = other.weaponID;
         this.weaponSubtitle = other.weaponSubtitle;
         this.weaponProjectileSpeed = other.weaponProjectileSpeed;
         this.weaponBaseDamage = other.weaponBaseDamage;

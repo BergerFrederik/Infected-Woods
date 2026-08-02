@@ -142,6 +142,7 @@ MonoBehaviour:
   weaponLevel: 0
   currentTotalDamage: 0
   weaponName: Spirit Bow
+  weaponID: SpiritBow
   weaponSubtitle: Very cool bow
   weaponTier: 1
   weaponWeaponType: 1
