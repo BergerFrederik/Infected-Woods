@@ -28,8 +28,8 @@ public class DamageCalculation : MonoBehaviour
         float playerMysticDamage = playerStats.playerMysticDamage;
 
         float increaseByMeleeScaling = playerMeleeDamage * (weaponStats.weaponMeleeDamageScale / 100f);
-        float increaseByRangedScaling = playerRangedDamage * (weaponStats.weaponMysticDamageScale / 100f);
-        float increaseByMysticScaling = playerMysticDamage * (weaponStats.weaponRangedDamageScale / 100f);
+        float increaseByRangedScaling = playerRangedDamage * (weaponStats.weaponRangedDamageScale / 100f);
+        float increaseByMysticScaling = playerMysticDamage * (weaponStats.weaponMysticDamageScale / 100f);
 
         float newWeaponBaseDamage = weaponStats.weaponBaseDamage + increaseByMeleeScaling + increaseByMysticScaling + increaseByRangedScaling;
 
