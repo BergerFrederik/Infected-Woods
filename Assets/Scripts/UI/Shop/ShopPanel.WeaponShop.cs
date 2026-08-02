@@ -25,7 +25,13 @@ public partial class ShopPanel
             // get rarity
             int rarity = CalculateRarity();
 
-            // get random Weapon
+            // get random Weapon (fall back to Root if this rarity has no weapons yet)
+            if (!weaponsByRarity.ContainsKey(rarity) || weaponsByRarity[rarity].Count == 0)
+            {
+                Debug.LogError($"Keine Waffen für Rarity {rarity} gefunden! Fallback auf Root.");
+                rarity = rarity_code_root;
+            }
+
             if (weaponsByRarity.ContainsKey(rarity) && weaponsByRarity[rarity].Count > 0)
             {
                 List<GameObject> matchingWeapons = weaponsByRarity[rarity];
@@ -37,7 +43,8 @@ public partial class ShopPanel
             }
             else
             {
-                Debug.LogError($"Keine Waffen für Rarity {rarity} gefunden!");
+                Debug.LogError("Keine Waffen im Root-Fallback gefunden! Slot wird übersprungen.");
+                continue;
             }
 
             GameObject randomWeapon = arrayOfChosenRandomWeapons[i];
