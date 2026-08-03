@@ -39236,13 +39236,6 @@ MonoBehaviour:
   - {fileID: 2679728442328743979, guid: e84d6765d301a104cacc088bd79db7d2, type: 3}
   playerWeaponManager: {fileID: 159825715}
   weaponRerollButton: {fileID: 1184003834}
-  inventoryImages:
-  - {fileID: 994439116}
-  - {fileID: 1368925408}
-  - {fileID: 1212416219}
-  - {fileID: 1414559979}
-  - {fileID: 1162214995}
-  - {fileID: 256037097}
   weaponObjects:
   - {fileID: 590510137}
   - {fileID: 1836199287}
