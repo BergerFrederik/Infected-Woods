@@ -26,6 +26,7 @@ public class EnemyStats : MonoBehaviour
     public float enemyXPGainOnKill = 0f; //done
 
     public bool isKnockedBack;
+    private bool isDead;
 
 
     private void Start()
@@ -64,11 +65,14 @@ public class EnemyStats : MonoBehaviour
     
     public void TakeDamage(float damage)
     {
+        if (isDead) return;
+
         OnEnemyTakesDamageAmount?.Invoke(damage);
         enemyCurrentHP -= damage;
         OnEnemyTakesDamage?.Invoke();
         if (enemyCurrentHP <= 0f)
         {
+            isDead = true;
             OnEnemyDeath?.Invoke();
             string lastWeaponHit = enemyIsHitByPlayer.lastWeaponHit;
             OnEnemyDeathByWeapon?.Invoke(lastWeaponHit);
