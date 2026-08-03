@@ -71,11 +71,12 @@ public class DashAbility : MonoBehaviour
                 player.transform.position += rollDir * rollSpeed * Time.deltaTime;
                 yield return null;
             }
-            remainingCooldown = ComputeCooldown();
-            cooldownStartTime = Time.time;
-            OnDashEnded?.Invoke(remainingCooldown);
         }
-        currentState = DashingState.dashReady;           
+
+        remainingCooldown = ComputeCooldown();
+        cooldownStartTime = Time.time;
+        OnDashEnded?.Invoke(remainingCooldown);
+        currentState = DashingState.dashReady;
     }
    
     private float ComputeCooldown()
