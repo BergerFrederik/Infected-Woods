@@ -110,9 +110,12 @@ public partial class ShopPanel
         float refund = GetWeaponRefund(selectedWeapon);
         playerStats.PlayerLightAmount += refund;
 
-        selectedWeapon.transform.SetParent(null);
+        GameObject weaponToSell = selectedWeapon;
+        CloseInteractionWindow();
 
-        Destroy(selectedWeapon);
+        weaponToSell.transform.SetParent(null);
+
+        Destroy(weaponToSell);
         RefreshAllUI();
     }
 
