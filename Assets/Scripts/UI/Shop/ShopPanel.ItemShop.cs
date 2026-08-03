@@ -43,7 +43,7 @@ public partial class ShopPanel
             return;
         }
 
-        if (itemInventoryContainer.GetChild(itemInventoryContainer.childCount - 1).childCount > 0)
+        if (IsItemInventoryFull())
         {
             Debug.LogWarning("Max item capacity reached");
             return;
@@ -78,6 +78,18 @@ public partial class ShopPanel
         {
             Debug.LogWarning("Not enough funds");
         }
+    }
+
+    private bool IsItemInventoryFull()
+    {
+        for (int i = 0; i < itemInventoryContainer.childCount; i++)
+        {
+            if (itemInventoryContainer.GetChild(i).childCount == 0)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void PutItemIntoInventory(Transform transactionItem)
@@ -157,7 +169,7 @@ public partial class ShopPanel
 
     private void InstantBuy(ItemInformation itemInfo)
     {
-        if (itemInventoryContainer.GetChild(itemInventoryContainer.childCount - 1).childCount > 0)
+        if (IsItemInventoryFull())
         {
             Debug.LogWarning("Max item capacity reached");
             return;
