@@ -17,7 +17,7 @@ public class SpiritBow : MonoBehaviour
         _playerObject = GameObject.FindGameObjectWithTag("Player");
         _playerStats = _playerObject.GetComponent<PlayerStats>();
         _randomRollEvent = _playerObject.GetComponentInChildren<RandomRollEvent>();
-       ranged.OnWeaponProjectileHitsEnemy += IncreaseAttackSpeed;
+        ranged.OnWeaponProjectileHitsEnemy += IncreaseAttackSpeed;
     }
 
     private void OnDestroy()
