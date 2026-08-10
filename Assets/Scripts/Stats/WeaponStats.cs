@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 
 public class WeaponStats : MonoBehaviour
 {
+    public event Action<float> OnWeaponLevelChanged;
+    
     [SerializeField] private WeaponData weaponData;
     
     public enum weaponTypeOptions
@@ -10,8 +13,20 @@ public class WeaponStats : MonoBehaviour
         Ranged,
         Ability
     }
+
+    private float _weaponLevel;
+
+    [HideInInspector]
+    public float WeaponLevel
+    {
+        get => _weaponLevel;
+        set
+        {
+            _weaponLevel = value;
+            OnWeaponLevelChanged?.Invoke(value);
+        }
+    }//starts at 0
     
-    [HideInInspector] public float weaponLevel; //starts at 0
     [HideInInspector] public float currentTotalDamage = 0f;
     
     [Header("Information")]
@@ -43,7 +58,6 @@ public class WeaponStats : MonoBehaviour
     public float weaponKnockback = 0f;
     public float weaponLifesteal = 0f;
     
-    
     public void CopyFrom(WeaponStats other)
     {
         if (other == null) return;
@@ -74,7 +88,7 @@ public class WeaponStats : MonoBehaviour
 
     public void ApplyStats()
     {
-        var stats = weaponData.levels[(int)weaponLevel];
+        var stats = weaponData.levels[(int)WeaponLevel];
         
         this.weaponProjectileSpeed = stats.weaponProjectileSpeed;
         this.weaponBaseDamage = stats.weaponBaseDamage;

@@ -4,9 +4,13 @@ using UnityEngine;
 public class SpiritBow : MonoBehaviour
 {
     [SerializeField] private float chanceToGainAttackspeed;
+    [SerializeField] private float chanceIncrease;
     [SerializeField] private float attackspeedBoost;
+    [SerializeField] private float attackspeedIncrease;
     [SerializeField] private float attackspeedBoostTime;
+    [SerializeField] private float timeIncrease;
     [SerializeField] private Ranged ranged;
+    [SerializeField] private WeaponStats weaponStats;
     
     private GameObject _playerObject;
     private PlayerStats _playerStats;
@@ -18,11 +22,13 @@ public class SpiritBow : MonoBehaviour
         _playerStats = _playerObject.GetComponent<PlayerStats>();
         _randomRollEvent = _playerObject.GetComponentInChildren<RandomRollEvent>();
         ranged.OnWeaponProjectileHitsEnemy += IncreaseAttackSpeed;
+        weaponStats.OnWeaponLevelChanged += UpdateStats;
     }
 
     private void OnDestroy()
     {
         ranged.OnWeaponProjectileHitsEnemy -= IncreaseAttackSpeed;
+        weaponStats.OnWeaponLevelChanged -= UpdateStats;
     }
 
     private void IncreaseAttackSpeed()
@@ -40,4 +46,13 @@ public class SpiritBow : MonoBehaviour
         yield return new WaitForSeconds(attackspeedBoostTime);
         _playerStats.playerAttackSpeed -= attackspeedBoost;
     }
+
+    private void UpdateStats(float weaponLevel)
+    {
+        chanceToGainAttackspeed = RoundUpToHalf(chanceToGainAttackspeed * chanceIncrease);
+        attackspeedBoost = RoundUpToHalf(attackspeedBoost * attackspeedIncrease);
+        attackspeedBoostTime = RoundUpToHalf(attackspeedBoostTime * timeIncrease);
+    }
+
+    private static float RoundUpToHalf(float value) => Mathf.Ceil(value * 2f) / 2f;
 }

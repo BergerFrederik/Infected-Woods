@@ -88,7 +88,8 @@ public class MeleeAttack : MonoBehaviour
             PointWeaponAtEnemy(closestEnemy);
             
             float attackCooldown = weaponStats.weaponAttackSpeedCooldown / (1f + playerStats.playerAttackSpeed / 100f);
-            
+            attackCooldown = Mathf.Max(attackCooldown, 0.05f);
+
             if (Time.time - lastAttackTime >= attackCooldown)
             {
                 CheckForAttack(closestEnemy);

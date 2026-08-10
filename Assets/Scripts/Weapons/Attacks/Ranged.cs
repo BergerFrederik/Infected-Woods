@@ -57,6 +57,7 @@ public class Ranged : MonoBehaviour
         float playerAttackSpeedBonus = playerStats.playerAttackSpeed / 100;
         float weaponAttackSpeedCooldown = weaponStats.weaponAttackSpeedCooldown;
         attackCooldown = weaponAttackSpeedCooldown / (1f + playerAttackSpeedBonus);
+        attackCooldown = Mathf.Max(attackCooldown, 0.05f);
     }
     private void SearchForEnemyAndAttack()
     {

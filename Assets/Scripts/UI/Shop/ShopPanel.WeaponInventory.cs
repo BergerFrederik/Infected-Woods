@@ -100,7 +100,7 @@ public partial class ShopPanel
     // stays with each caller.
     private void ApplyWeaponSprite(Image background, Image border, Image weaponImage, WeaponStats stats)
     {
-        background.color = weaponLvLColors[(int)stats.weaponLevel];
+        background.color = weaponLvLColors[(int)stats.WeaponLevel];
         border.sprite = weaponBoarderSprites[(int)stats.weaponTier - 1];
         weaponImage.sprite = stats.GetComponentInChildren<SpriteRenderer>().sprite;
     }
@@ -123,7 +123,7 @@ public partial class ShopPanel
     {
         WeaponStats selectedWeaponStats = weapon.GetComponent<WeaponStats>();
         float weaponPrice = selectedWeaponStats.weaponPrice;
-        float weaponLevel = selectedWeaponStats.weaponLevel;
+        float weaponLevel = selectedWeaponStats.WeaponLevel;
 
         for (int i = 0; i < weaponLevel; i++) // i < weaponLevel to not double at lvl 0
         {
@@ -154,8 +154,8 @@ public partial class ShopPanel
             if (targetStats == null ||
                 targetStats.gameObject == selectedWeapon ||
                 targetStats.weaponID != swStats.weaponID ||
-                targetStats.weaponLevel != swStats.weaponLevel ||
-                targetStats.weaponLevel >= maxLevel)
+                targetStats.WeaponLevel != swStats.WeaponLevel ||
+                targetStats.WeaponLevel >= maxLevel)
             {
                 continue;
             }
@@ -174,7 +174,7 @@ public partial class ShopPanel
     // button on a selected weapon) and MoveWeapon (drag-drop merge).
     private void MergeWeapons(GameObject weaponToRemove, WeaponStats targetStats)
     {
-        targetStats.weaponLevel++;
+        targetStats.WeaponLevel++;
         targetStats.ApplyStats();
 
         weaponToRemove.transform.SetParent(null);
@@ -247,11 +247,11 @@ public partial class ShopPanel
             WeaponStats statsTarget = targetWeapon.GetComponent<WeaponStats>();
 
             // MERGE LOGIK
-            if (statsToMove.weaponID == statsTarget.weaponID && statsToMove.weaponLevel == statsTarget.weaponLevel)
+            if (statsToMove.weaponID == statsTarget.weaponID && statsToMove.WeaponLevel == statsTarget.WeaponLevel)
             {
                 int maxLevel = weaponLvLColors.Length - 1;
 
-                if (statsTarget.weaponLevel < maxLevel)
+                if (statsTarget.WeaponLevel < maxLevel)
                 {
                     MergeWeapons(weaponToMove, statsTarget);
 

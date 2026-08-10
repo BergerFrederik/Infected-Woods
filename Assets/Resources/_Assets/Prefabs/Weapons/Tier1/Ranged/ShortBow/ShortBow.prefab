@@ -102,9 +102,8 @@ GameObject:
   - component: {fileID: 3044386558665927546}
   - component: {fileID: 2923472048008297227}
   - component: {fileID: 6919582871292908103}
-  - component: {fileID: 6763817416200018253}
   m_Layer: 6
-  m_Name: SpiritBow
+  m_Name: ShortBow
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -138,29 +137,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df8db80a6c1b1db4aadcc965bcd7bd8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 11400000, guid: 61d3d455dce710141acf6848490e5687, type: 2}
+  weaponData: {fileID: 11400000, guid: 4eb044818ec8c4d02b217e54885e9886, type: 2}
   currentTotalDamage: 0
-  weaponName: Spirit Bow
-  weaponID: SpiritBow
+  weaponName: Short Bow
+  weaponID: ShortBow
   weaponSubtitle: Very cool bow
   weaponTier: 1
   weaponWeaponType: 1
   weaponAttackType: 0
   weaponClass: 0
-  weaponPrice: 16
-  passiveDescription: Hitting an enemy has a chance to grant attackspeed
+  weaponPrice: 14
+  passiveDescription: 
   weaponLore: Ast und Sehne...Myyyystisch
-  weaponProjectileSpeed: 20
+  weaponProjectileSpeed: 18
   weaponBaseDamage: 10
   weaponMeleeDamageScale: 0
-  weaponRangedDamageScale: 60
+  weaponRangedDamageScale: 40
   weaponMysticDamageScale: 0
-  weaponAttackSpeedCooldown: 1.13
+  weaponAttackSpeedCooldown: 1.05
   weaponCritChance: 30
   weaponCritDamage: 1.5
-  weaponRange: 4
-  weaponKnockback: 0
-  weaponLifesteal: 0
+  weaponRange: 3
+  weaponKnockback: 10
+  weaponLifesteal: 5
 --- !u!114 &6919582871292908103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,26 +176,6 @@ MonoBehaviour:
   projectileRotationOffset: 135
   weaponStats: {fileID: 2923472048008297227}
   WeaponProjectile: {fileID: 3248573983623086727, guid: e93c16f0ad8523d4faaa82740371f767, type: 3}
---- !u!114 &6763817416200018253
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2679728442328743979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ffc5de4f76349947a8b76112ede8351, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpiritBow
-  chanceToGainAttackspeed: 5
-  chanceIncrease: 1.5
-  attackspeedBoost: 10
-  attackspeedIncrease: 1.5
-  attackspeedBoostTime: 5
-  timeIncrease: 1.5
-  ranged: {fileID: 6919582871292908103}
-  weaponStats: {fileID: 2923472048008297227}
 --- !u!1 &5340006489510552725
 GameObject:
   m_ObjectHideFlags: 0
