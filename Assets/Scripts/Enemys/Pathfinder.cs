@@ -5,10 +5,7 @@ using UnityEngine;
 
 public class Pathfinder : MonoBehaviour
 {
-    [SerializeField] private float searchRadius = 0f;
-    [SerializeField] private float transition_speed = 0.01f;
-    [SerializeField] private float minCurrentWeight = 0.6f;
-    [SerializeField] private float maxCurrentWeight = 0f;
+    [SerializeField] private EnemyMovementConfig movementConfig;
     [SerializeField] private Transform enemyTransform;
     [SerializeField] private float enemyRadius = 0f;
     [SerializeField] private Transform visualFlipAnchor;
@@ -16,23 +13,17 @@ public class Pathfinder : MonoBehaviour
     private GameObject player;
     private GameObject gameManager;
     private PlayerStats playerStats;
-    private EnemyStats enemyStats;
     private GameManager gameManagerScript;
 
-
-
-    private float currentWeight = 1.0f;
-    
-    
-    Vector2 moveDirRegardingEnemys;
-    
+    private Vector2 cachedMoveDirection;
+    private int cachedFrame = -1;
+    private float lastFlipTime = -Mathf.Infinity;
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         gameManager = GameObject.FindGameObjectWithTag("Manager");
         playerStats = player.GetComponent<PlayerStats>();
-        enemyStats = transform.GetComponent<EnemyStats>();
         gameManagerScript = gameManager.GetComponent<GameManager>();
     }
 
@@ -45,77 +36,84 @@ public class Pathfinder : MonoBehaviour
 
     public Vector2 CalculateEnemyMovementVector()
     {
+        // Mehrere Skripte fragen pro Frame nach der Richtung (Sprite-Flip, Movement-States) -
+        // pro Frame nur einmal tatsächlich berechnen.
+        if (cachedFrame == Time.frameCount)
+        {
+            return cachedMoveDirection;
+        }
+        cachedFrame = Time.frameCount;
+        cachedMoveDirection = ComputeMoveDirection();
+        return cachedMoveDirection;
+    }
+
+    private Vector2 ComputeMoveDirection()
+    {
         if (player == null)
         {
             return Vector2.zero;
         }
-        
-        Vector2 playerPosition = player.transform.position;
-        Vector2 enemyPosition = transform.position;
-        Vector2 moveDirTowardsPlayer = playerPosition - enemyPosition;
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, searchRadius);
-        float closestDistance = Mathf.Infinity;
-        float newDistance;
-        Transform closestEnemy = null;
+        Vector2 enemyPosition = transform.position;
+        Vector2 playerPosition = player.transform.position;
+        Vector2 toPlayer = playerPosition - enemyPosition;
+        float distanceToPlayer = toPlayer.magnitude;
+        // Bei sehr kleinem Abstand ist die normalisierte Richtung numerisch instabil
+        // (kleinstes Zittern in der Position kippt die Richtung um) - Seek-Anteil dann kappen.
+        Vector2 seekDir = distanceToPlayer > movementConfig.minSeekDistance ? toPlayer / distanceToPlayer : Vector2.zero;
+
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(enemyPosition, movementConfig.searchRadius, movementConfig.enemyLayerMask);
+        Vector2 separation = Vector2.zero;
+        int neighborCount = 0;
+
         foreach (Collider2D collider in colliders)
         {
-            if (collider.CompareTag("Enemy") && collider.gameObject != this.gameObject)
+            if (collider.gameObject == this.gameObject || !collider.CompareTag("Enemy"))
             {
-                newDistance = Vector2.Distance(collider.transform.position, transform.position);
-                if (closestDistance > newDistance && newDistance < searchRadius)
-                {
-                    closestEnemy = collider.transform;
-                    closestDistance = newDistance;
-                }
+                continue;
             }
+
+            Vector2 offset = enemyPosition - (Vector2)collider.transform.position;
+            float distance = offset.magnitude;
+            if (distance <= 0f)
+            {
+                continue;
+            }
+
+            // Näher dran = stärkerer Schub weg von diesem Nachbarn
+            float weight = 1f - Mathf.Clamp01(distance / movementConfig.searchRadius);
+            separation += (offset / distance) * weight;
+            neighborCount++;
         }
-        if (closestEnemy != null)
+
+        if (neighborCount == 0)
         {
-            Vector2 dirToClosestEnemy = closestEnemy.transform.position - transform.position;
-
-            // Vektor von Gegner zu Gegner invertieren
-            Vector2 invertedDirToClosestEnemy = dirToClosestEnemy * -1;
-
-            // Beide Vektoren �ber lerp verbinden
-
-            float liveWeight = Mathf.Abs(closestDistance / searchRadius);
-
-            if (currentWeight < liveWeight)
-            {
-                currentWeight = Mathf.Max(currentWeight - transition_speed * Time.deltaTime, liveWeight);
-            }
-            else if (currentWeight > liveWeight)
-            {
-                currentWeight = Mathf.Min(currentWeight + transition_speed * Time.deltaTime, liveWeight);
-            }
-            currentWeight = Mathf.Min(currentWeight, minCurrentWeight);
-            currentWeight = Mathf.Max(currentWeight, maxCurrentWeight);
-
-            moveDirRegardingEnemys = Vector2.Lerp(invertedDirToClosestEnemy.normalized * (1.0f - liveWeight) * enemyStats.enemyMoveSpeed, moveDirTowardsPlayer.normalized, currentWeight);
+            return seekDir;
         }
-        else
-        {
-            moveDirRegardingEnemys = moveDirTowardsPlayer;
-        }
-        
-        
-        
-        return moveDirRegardingEnemys.normalized;
+
+        separation /= neighborCount;
+        float avoidanceWeight = Mathf.Clamp(separation.magnitude, movementConfig.minAvoidanceWeight, movementConfig.maxAvoidanceWeight);
+
+        return Vector2.Lerp(seekDir, separation.normalized, avoidanceWeight).normalized;
     }
 
     
     private void SetSpriteDirection(Vector2 moveDir, Vector3 currentScale)
     {
-        if (moveDir.x > 0 && currentScale.x > 0)
+        // Kurzes Cooldown gegen Flip-Flackern, wenn die Bewegungsrichtung durch
+        // nahe Nachbarn/Spieler kurzzeitig instabil wird.
+        if (Time.time - lastFlipTime < movementConfig.minFlipInterval)
+        {
+            return;
+        }
+
+        bool shouldFlip = (moveDir.x > 0 && currentScale.x > 0) || (moveDir.x < 0 && currentScale.x < 0);
+        if (shouldFlip)
         {
             currentScale.x *= -1;
+            visualFlipAnchor.localScale = currentScale;
+            lastFlipTime = Time.time;
         }
-        else if (moveDir.x < 0 && currentScale.x < 0)
-        {
-            currentScale.x *= -1;
-        }
-        visualFlipAnchor.localScale = currentScale;
     }
 
     private void LateUpdate()
