@@ -51,15 +51,15 @@ public class PlayerGainsHP : MonoBehaviour
     {
         bool doesLifestealProbabilityApply = false;
         float cummulatedLifestealProbability = playerStats.playerLifeSteal + weaponStats.weaponLifesteal;
-        if (UnityEngine.Random.Range(0f, 100f) <= cummulatedLifestealProbability)
+        if (Random.Range(1, 101) <= cummulatedLifestealProbability)
         {
             doesLifestealProbabilityApply = true;
         }
 
-        bool playerIsFullHP = false;
+        bool playerIsNotFullHP = false;
         if (playerStats.playerCurrentHP < playerStats.playerMaxHP)
         {
-            playerIsFullHP = true;
+            playerIsNotFullHP = true;
         }
 
         bool playerCanLifesteal = false;
@@ -68,7 +68,7 @@ public class PlayerGainsHP : MonoBehaviour
             playerCanLifesteal = true;
         }
 
-        if (doesLifestealProbabilityApply && playerIsFullHP && playerCanLifesteal)
+        if (doesLifestealProbabilityApply && playerIsNotFullHP && playerCanLifesteal)
         {
             playerStats.playerLastLifesteal = Time.time;
             playerStats.playerCurrentHP++;

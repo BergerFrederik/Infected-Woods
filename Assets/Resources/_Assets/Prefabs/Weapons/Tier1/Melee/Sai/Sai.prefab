@@ -54,7 +54,7 @@ MonoBehaviour:
   weaponName: Sai
   weaponID: Sai
   weaponSubtitle: Very cool Dagger
-  weaponTier: 1
+  weaponTier: 2
   weaponWeaponType: 0
   weaponAttackType: 0
   weaponClass: 0
