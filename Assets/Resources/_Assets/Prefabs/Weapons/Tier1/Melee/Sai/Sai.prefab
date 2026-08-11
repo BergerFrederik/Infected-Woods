@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3107034620220399251}
   - component: {fileID: 5620509450126988290}
   - component: {fileID: 610181231554656219}
+  - component: {fileID: -5595677780424568432}
   m_Layer: 6
   m_Name: Sai
   m_TagString: MeleeWeapon
@@ -199,6 +200,26 @@ PolygonCollider2D:
       - {x: 0.12922105, y: -0.15403712}
       - {x: 0.14885023, y: -0.10603137}
   m_UseDelaunayMesh: 0
+--- !u!114 &-5595677780424568432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2679728442328743979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9d1c27cc51f84eaab3835d15fa4e69e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sai
+  meleeWeaponHitsEnemy: {fileID: 3107034620220399251}
+  bleedEffectPrefab: {fileID: 1816070959676738717, guid: 97e28d31e8c324a8a9504838ae867963, type: 3}
+  weaponStats: {fileID: 2923472048008297227}
+  chanceToApplyBleedPerLevel:
+  - 25
+  - 30
+  - 35
+  - 40
 --- !u!1 &5340006489510552725
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,12 +1,26 @@
+using System;
 using UnityEngine;
 
 public class Sai : MonoBehaviour
 {
-    [SerializeField] private PlayerStats playerStats;
-    [SerializeField] private RandomRollEvent randomRollEvent;
+    [Header("References")]
     [SerializeField] private MeleeWeaponHitsEnemy meleeWeaponHitsEnemy;
+    [SerializeField] private GameObject bleedEffectPrefab;
+    [SerializeField] private WeaponStats weaponStats;
 
-    [SerializeField] private float chanceToApplyBleed;
+    [Header("Values")]
+    [SerializeField] private float[] chanceToApplyBleedPerLevel;
+    
+    private RandomRollEvent _randomRollEvent;
+    
+
+    private void OnTransformParentChanged()
+    {
+        if (transform.root.name == "Player")
+        {
+            _randomRollEvent = transform.root.GetComponentInChildren<RandomRollEvent>();
+        }
+    }
 
     private void OnEnable()
     {
@@ -18,13 +32,17 @@ public class Sai : MonoBehaviour
         meleeWeaponHitsEnemy.OnMeleeWeaponHitsEnemy -= ApplyBleed;
     }
 
-    private void ApplyBleed()
+    private void ApplyBleed(EnemyStats enemyStats, bool didCrit)
     {
-        int randomRoll = randomRollEvent.GetRandomIntRoll(0, 100);
-        //check if it was a crit
-        if (randomRoll >= chanceToApplyBleed)
+        if (!didCrit) return;
+        
+        Transform enemyTransform = enemyStats.transform;
+        if (enemyTransform.GetComponentInChildren<DamageOverTime>() != null) return;
+
+        int randomRoll = _randomRollEvent.GetRandomIntRoll(0, 100);
+        if (randomRoll >= 100 - (int)chanceToApplyBleedPerLevel[(int)weaponStats.WeaponLevel])
         {
-            //applyBleed
+            Instantiate(bleedEffectPrefab, enemyTransform);
         }
     }
 }

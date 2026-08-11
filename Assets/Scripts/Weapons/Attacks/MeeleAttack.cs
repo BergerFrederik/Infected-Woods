@@ -46,8 +46,6 @@ public class MeleeAttack : MonoBehaviour
 
     private void Start()
     {
-        playerStats = transform.root.GetComponentInChildren<PlayerStats>();
-
         GameManager.OnRoundOver += ResetWeaponPosition;
         
         if (triggerCollider is BoxCollider2D box)
@@ -78,6 +76,12 @@ public class MeleeAttack : MonoBehaviour
 
     private void Update()
     {
+        if (playerStats == null)
+        {
+            playerStats = transform.root.GetComponentInChildren<PlayerStats>();
+            if (playerStats == null) return;
+        }
+
         if (currentState == WeaponState.Idle)
         {
             Transform closestEnemy = FindClosestEnemy();

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MeleeWeaponHitsEnemy : MonoBehaviour
 {
-    public event Action OnMeleeWeaponHitsEnemy;
+    public event Action<EnemyStats, bool> OnMeleeWeaponHitsEnemy;
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.CompareTag("Enemy"))
@@ -15,10 +15,10 @@ public class MeleeWeaponHitsEnemy : MonoBehaviour
                 PlayerDealsDamage playerDealsDamage = transform.root.GetComponentInChildren<PlayerDealsDamage>();
                 PlayerGainsHP playerGainsHP = transform.root.GetComponentInChildren<PlayerGainsHP>();
 
-                playerDealsDamage?.ApplyDamageToEnemy(enemyStats, weaponStats);
+                bool didCrit = playerDealsDamage?.ApplyDamageToEnemy(enemyStats, weaponStats) ?? false;
                 playerGainsHP?.TryApplyLifesteal(enemyStats, weaponStats);
-                
-                OnMeleeWeaponHitsEnemy?.Invoke();
+
+                OnMeleeWeaponHitsEnemy?.Invoke(enemyStats, didCrit);
             }
         }
     }

@@ -24,15 +24,15 @@ public class Ranged : MonoBehaviour
         Shoot
     }
 
-    private void Start()
-    {
-        PlayerTransform = transform.root;
-        playerStats = PlayerTransform.GetComponentInChildren<PlayerStats>();
-    }
-
-
     private void Update()
     {
+        if (playerStats == null)
+        {
+            PlayerTransform = transform.root;
+            playerStats = PlayerTransform.GetComponentInChildren<PlayerStats>();
+            if (playerStats == null) return;
+        }
+
         UpdateCooldown();
         if (currentWeaponState == WeaponState.Idle)
         {
