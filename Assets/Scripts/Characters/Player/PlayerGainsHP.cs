@@ -16,15 +16,11 @@ public class PlayerGainsHP : MonoBehaviour
     private void OnEnable()
     {
         playerStats.OnPlayerHealed += InstantiatePopUp;
-        MeleeWeaponHitsEnemy.OnMeleeWeaponHitsEnemy += TryApplyLifesteal;
-        ProjectileHitsEnemy.OnProjectileHitsEnemy += TryApplyLifesteal;
     }
 
     private void OnDisable()
     {
         playerStats.OnPlayerHealed -= InstantiatePopUp;
-        MeleeWeaponHitsEnemy.OnMeleeWeaponHitsEnemy -= TryApplyLifesteal;
-        ProjectileHitsEnemy.OnProjectileHitsEnemy -= TryApplyLifesteal;
     }
 
     void Update()
@@ -51,7 +47,7 @@ public class PlayerGainsHP : MonoBehaviour
         }
     }
 
-    private void TryApplyLifesteal(EnemyStats enemyStats, WeaponStats weaponStats)
+    public void TryApplyLifesteal(EnemyStats enemyStats, WeaponStats weaponStats)
     {
         bool doesLifestealProbabilityApply = false;
         float cummulatedLifestealProbability = playerStats.playerLifeSteal + weaponStats.weaponLifesteal;

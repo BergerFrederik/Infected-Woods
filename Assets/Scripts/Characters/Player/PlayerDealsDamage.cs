@@ -10,18 +10,6 @@ public class PlayerDealsDamage : MonoBehaviour
     
     public event Action OnPlayerHitsEnemy;
     public event Action<WeaponStats> OnPlayerHitsEnemyWithWeapon;
-    private void OnEnable()
-    {
-        // kann ich eigentlich public aufrufen
-        MeleeWeaponHitsEnemy.OnMeleeWeaponHitsEnemy += ApplyDamageToEnemy;
-        ProjectileHitsEnemy.OnProjectileHitsEnemy += ApplyDamageToEnemy;
-    }
-
-    private void OnDisable()
-    {
-        MeleeWeaponHitsEnemy.OnMeleeWeaponHitsEnemy -= ApplyDamageToEnemy;
-        ProjectileHitsEnemy.OnProjectileHitsEnemy -= ApplyDamageToEnemy;
-    }
 
     public void ApplyDamageToEnemy(EnemyStats enemyStats, WeaponStats weaponStats)
     {

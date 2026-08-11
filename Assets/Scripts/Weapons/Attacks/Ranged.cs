@@ -26,8 +26,8 @@ public class Ranged : MonoBehaviour
 
     private void Start()
     {
-        PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        playerStats = PlayerTransform.GetComponent<PlayerStats>();
+        PlayerTransform = transform.root;
+        playerStats = PlayerTransform.GetComponentInChildren<PlayerStats>();
     }
 
 
@@ -68,7 +68,7 @@ public class Ranged : MonoBehaviour
             Collider2D enemyCollider = closestEnemy.GetComponent<Collider2D>();
             Vector2 closestPointOnEdge = enemyCollider.ClosestPoint(transform.position);
             float distanceToEdge = Vector2.Distance(transform.position, closestPointOnEdge);
-            float attackRange = weaponStats.weaponRange + weaponStats.weaponRange * (PlayerTransform.GetComponent<PlayerStats>().playerAttackRange / 100f);
+            float attackRange = weaponStats.weaponRange + weaponStats.weaponRange * (playerStats.playerAttackRange / 100f);
             if (distanceToEdge <= attackRange)
             {           
                 directionToEnemy = (closestEnemy.position - transform.position);
@@ -87,6 +87,7 @@ public class Ranged : MonoBehaviour
         Projectile projectileScript = newProjectile.GetComponent<Projectile>();
         ProjectileHitsEnemy projectileHitsEnemy = newProjectile.GetComponent<ProjectileHitsEnemy>();
         projectileHitsEnemy.OnWeaponProjectileHitsEnemyTrigger += FireEventHitEnemy;
+        projectileHitsEnemy.SetOwner(PlayerTransform);
         cooldownStarttime = Time.time;
 
         projectileScript.sourceWeaponStats = this.weaponStats;

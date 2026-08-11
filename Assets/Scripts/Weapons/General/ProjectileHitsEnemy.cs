@@ -7,8 +7,14 @@ public class ProjectileHitsEnemy : MonoBehaviour
     [SerializeField] private WeaponStats weaponStats;
 
     public event Action OnWeaponProjectileHitsEnemyTrigger;
-    
-    public static event Action<EnemyStats, WeaponStats> OnProjectileHitsEnemy;
+
+    private Transform ownerRoot;
+
+    public void SetOwner(Transform ownerRoot)
+    {
+        this.ownerRoot = ownerRoot;
+    }
+
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.CompareTag("Enemy"))
@@ -16,7 +22,16 @@ public class ProjectileHitsEnemy : MonoBehaviour
             if (collider.TryGetComponent<EnemyStats>(out EnemyStats enemyStats))
             {
                 OnWeaponProjectileHitsEnemyTrigger?.Invoke();
-                OnProjectileHitsEnemy?.Invoke(enemyStats, weaponStats);
+
+                if (ownerRoot != null)
+                {
+                    PlayerDealsDamage playerDealsDamage = ownerRoot.GetComponentInChildren<PlayerDealsDamage>();
+                    PlayerGainsHP playerGainsHP = ownerRoot.GetComponentInChildren<PlayerGainsHP>();
+
+                    playerDealsDamage?.ApplyDamageToEnemy(enemyStats, weaponStats);
+                    playerGainsHP?.TryApplyLifesteal(enemyStats, weaponStats);
+                }
+
                 Destroy(this.gameObject);
             }
         }

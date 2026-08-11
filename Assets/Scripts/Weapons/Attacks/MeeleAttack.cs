@@ -46,12 +46,8 @@ public class MeleeAttack : MonoBehaviour
 
     private void Start()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            playerStats = player.GetComponent<PlayerStats>();
-        }
-        
+        playerStats = transform.root.GetComponentInChildren<PlayerStats>();
+
         GameManager.OnRoundOver += ResetWeaponPosition;
         
         if (triggerCollider is BoxCollider2D box)
