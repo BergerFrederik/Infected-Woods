@@ -14,6 +14,14 @@ public class WeaponStats : MonoBehaviour
         Ability
     }
 
+    public enum WeaponAttackTypes
+    {
+        Stab,
+        Ranged,
+        Boomerang,
+        Dot
+    }
+
     private float _weaponLevel;
 
     [HideInInspector]
@@ -35,7 +43,7 @@ public class WeaponStats : MonoBehaviour
     public string weaponSubtitle;
     public WeaponTier weaponTier = WeaponTier.Root;
     public weaponTypeOptions weaponWeaponType;
-    public string weaponAttackType;
+    public WeaponAttackTypes weaponAttackType;
     public float weaponClass = 0f;
     public float weaponPrice = 0f;
     

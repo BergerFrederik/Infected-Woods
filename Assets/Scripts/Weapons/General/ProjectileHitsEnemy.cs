@@ -28,7 +28,7 @@ public class ProjectileHitsEnemy : MonoBehaviour
                     PlayerDealsDamage playerDealsDamage = ownerRoot.GetComponentInChildren<PlayerDealsDamage>();
                     PlayerGainsHP playerGainsHP = ownerRoot.GetComponentInChildren<PlayerGainsHP>();
 
-                    playerDealsDamage?.ApplyDamageToEnemy(enemyStats, weaponStats);
+                    playerDealsDamage?.ApplyCritableDamageToEnemy(enemyStats, weaponStats);
                     playerGainsHP?.TryApplyLifesteal(enemyStats, weaponStats);
                 }
 

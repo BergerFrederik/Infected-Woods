@@ -1994,7 +1994,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 0}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -29567,7 +29567,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 0}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -39351,6 +39351,7 @@ MonoBehaviour:
   - {fileID: 2679728442328743979, guid: e4fcc17868a68dc44a913d7fa2b92650, type: 3}
   - {fileID: 2679728442328743979, guid: e84d6765d301a104cacc088bd79db7d2, type: 3}
   - {fileID: 2679728442328743979, guid: 3f57c6299079b41dfbf61dd0dbf24248, type: 3}
+  - {fileID: 2679728442328743979, guid: ab497e6763c0d43a4bc6c3f87aec29b8, type: 3}
   playerWeaponManager: {fileID: 159825715}
   weaponRerollButton: {fileID: 1184003834}
   weaponObjects:

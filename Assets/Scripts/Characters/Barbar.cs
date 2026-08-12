@@ -122,7 +122,7 @@ public class Barbar : MonoBehaviour
             {
                 if (enemyCollider.TryGetComponent<EnemyStats>(out EnemyStats enemyStats))
                 {
-                    _playerDealsDamage.ApplyDamageToEnemy(enemyStats, abilityWeaponStats);
+                    _playerDealsDamage.ApplyCritableDamageToEnemy(enemyStats, abilityWeaponStats);
                 }
             }
         }

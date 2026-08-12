@@ -216,10 +216,15 @@ MonoBehaviour:
   bleedEffectPrefab: {fileID: 1816070959676738717, guid: 97e28d31e8c324a8a9504838ae867963, type: 3}
   weaponStats: {fileID: 2923472048008297227}
   chanceToApplyBleedPerLevel:
-  - 25
+  - 100
   - 30
   - 35
   - 40
+  dotTimePerLevel:
+  - 222
+  - 3
+  - 5
+  - 8
 --- !u!1 &5340006489510552725
 GameObject:
   m_ObjectHideFlags: 0

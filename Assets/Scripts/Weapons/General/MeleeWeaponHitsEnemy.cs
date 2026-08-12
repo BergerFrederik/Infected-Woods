@@ -15,7 +15,7 @@ public class MeleeWeaponHitsEnemy : MonoBehaviour
                 PlayerDealsDamage playerDealsDamage = transform.root.GetComponentInChildren<PlayerDealsDamage>();
                 PlayerGainsHP playerGainsHP = transform.root.GetComponentInChildren<PlayerGainsHP>();
 
-                bool didCrit = playerDealsDamage?.ApplyDamageToEnemy(enemyStats, weaponStats) ?? false;
+                bool didCrit = playerDealsDamage?.ApplyCritableDamageToEnemy(enemyStats, weaponStats) ?? false;
                 playerGainsHP?.TryApplyLifesteal(enemyStats, weaponStats);
 
                 OnMeleeWeaponHitsEnemy?.Invoke(enemyStats, didCrit);

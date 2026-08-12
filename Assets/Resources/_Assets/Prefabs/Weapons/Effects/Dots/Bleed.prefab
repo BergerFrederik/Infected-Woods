@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3733125177983146441}
   - component: {fileID: -2400955655438683375}
+  - component: {fileID: 2171140720301462485}
   m_Layer: 0
   m_Name: Bleed
   m_TagString: Untagged
@@ -44,3 +45,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33be6ab22c2dd4534a5bfe746bc2c320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageOverTime
+  dotType: 0
+  dotTime: 0
+  playerDealsDamage: {fileID: 0}
+  enemyStats: {fileID: 0}
+  weaponStats: {fileID: 2171140720301462485}
+--- !u!114 &2171140720301462485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816070959676738717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df8db80a6c1b1db4aadcc965bcd7bd8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
+  weaponData: {fileID: 0}
+  currentTotalDamage: 0
+  weaponName: 
+  weaponID: 
+  weaponSubtitle: 
+  weaponTier: 1
+  weaponWeaponType: 0
+  weaponAttackType: 3
+  weaponClass: 0
+  weaponPrice: 0
+  passiveDescription: 
+  weaponLore: 
+  weaponProjectileSpeed: 0
+  weaponBaseDamage: 10
+  weaponMeleeDamageScale: 100
+  weaponRangedDamageScale: 0
+  weaponMysticDamageScale: 0
+  weaponAttackSpeedCooldown: 0
+  weaponCritChance: 0
+  weaponCritDamage: 0
+  weaponRange: 0
+  weaponKnockback: 0
+  weaponLifesteal: 0
