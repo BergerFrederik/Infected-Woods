@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1816070959676738717}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1759.4554, y: 441.7943, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -50,6 +50,7 @@ MonoBehaviour:
   playerDealsDamage: {fileID: 0}
   enemyStats: {fileID: 0}
   weaponStats: {fileID: 2171140720301462485}
+  bleedEffectPrefab: {fileID: 1923670685406622443, guid: 4891a89674913472b9dbb8314fc2a36f, type: 3}
 --- !u!114 &2171140720301462485
 MonoBehaviour:
   m_ObjectHideFlags: 0

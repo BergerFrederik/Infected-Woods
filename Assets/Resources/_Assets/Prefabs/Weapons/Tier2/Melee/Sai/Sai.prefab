@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df8db80a6c1b1db4aadcc965bcd7bd8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 11400000, guid: ec087ab40a4d34d4188f65494f3e97ef, type: 2}
+  weaponData: {fileID: 11400000, guid: 02a5a40c814e6411fbf8a5b4b3dcfb61, type: 2}
   currentTotalDamage: 0
   weaponName: Sai
   weaponID: Sai

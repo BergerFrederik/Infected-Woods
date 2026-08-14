@@ -15,6 +15,7 @@ public class DamageOverTime : MonoBehaviour
     [HideInInspector] public PlayerDealsDamage playerDealsDamage;
     [HideInInspector] public EnemyStats enemyStats;
     [SerializeField] private WeaponStats weaponStats;
+    [SerializeField] private ParticleSystem bleedEffectPrefab;
 
     private float _remainingDotTime;
 
@@ -43,6 +44,8 @@ public class DamageOverTime : MonoBehaviour
             {
                 tickTimer -= 1f;
                 playerDealsDamage.ApplyNonCritableDamageToEnemy(enemyStats, weaponStats);
+                ParticleSystem bleedEffect = Instantiate(bleedEffectPrefab, transform);
+                bleedEffect.Play();
             }
 
             yield return null;
