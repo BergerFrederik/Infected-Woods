@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 // Core: fields, panel lifecycle, shelf switching, wave transition.
 // Item-shop logic: ShopPanel.ItemShop.cs
@@ -44,11 +43,13 @@ public partial class ShopPanel : MonoBehaviour
     private string _purchaseBlossomItemText;
     private bool _isCurrentTransactionBuy;
 
-    public event Action OnItemPurchased;
-    public event Action OnItemSold;
+    public event Action onItemPurchased;
+    public event Action onItemSold;
     public event Action<GameObject> OnBlossomItemSold;
 
-    [Header("Weapons")]
+    [Header("Weapons")] 
+    [SerializeField] private Image[] weaponShopBoarderImages;
+    [SerializeField] private Sprite[] weaponShopBoarderSprites;
     [SerializeField] private Button[] weaponButtons;
     [SerializeField] private Image[] weaponImages;
     [SerializeField] private TextMeshProUGUI[] weaponTitles;
@@ -62,9 +63,12 @@ public partial class ShopPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI[] weaponOddsTexts;
     [SerializeField] private TextMeshProUGUI weaponShopLvLText;
     [SerializeField] private Button weaponShopLvLUpButton;
+    [SerializeField] private TextMeshProUGUI weaponShopLvlUpCostText;
     [SerializeField] private Button sellButton;
     [SerializeField] private Button combineButton;
     [SerializeField] private Button moveButton;
+    [SerializeField] private RerollMechanic rerollMechanic;
+    [SerializeField] private TextMeshProUGUI rerollCostText;
     [SerializeField] private float shroomChanceIncrease = 3f;
     [SerializeField] private float budChanceIncrease = 1f;
     [SerializeField] private float blossomChanceIncrease = 0.5f;
@@ -82,7 +86,7 @@ public partial class ShopPanel : MonoBehaviour
 
 
     private float _baseChanceForRoot = 100f;
-    Dictionary<WeaponTier, List<GameObject>> weaponsByRarity = new Dictionary<WeaponTier, List<GameObject>>();
+    Dictionary<WeaponTier, List<GameObject>> _weaponsByRarity = new();
     private int _weaponShopLvl;
     private float _currentWeaponShopLvlUpCost;
 
@@ -99,11 +103,11 @@ public partial class ShopPanel : MonoBehaviour
     public Transform dragLayer;
 
 
-    private GameObject[] arrayOfChosenRandomWeapons;
-    private List<GameObject> playerWeaponAnkers = new List<GameObject>();
+    private GameObject[] _arrayOfChosenRandomWeapons;
+    private List<GameObject> _playerWeaponAnkers = new();
 
-    public static event Action OnShopCycleEnd;
-    public event Action OnWeaponBought;
+    public static event Action onShopCycleEnd;
+    public event Action onWeaponBought;
 
     private void OnEnable()
     {
@@ -182,10 +186,10 @@ public partial class ShopPanel : MonoBehaviour
 
     private void GetWeaponAnkers()
     {
-        playerWeaponAnkers.Clear();
+        _playerWeaponAnkers.Clear();
         for (int i = 0; i < playerWeaponManager.transform.childCount; i++)
         {
-            playerWeaponAnkers.Add(playerWeaponManager.transform.GetChild(i).gameObject);
+            _playerWeaponAnkers.Add(playerWeaponManager.transform.GetChild(i).gameObject);
         }
     }
 
@@ -200,7 +204,7 @@ public partial class ShopPanel : MonoBehaviour
     {
         ResetShelvesOnNextWave();
         SetWeaponsToPlayerWeaponManager();
-        OnShopCycleEnd?.Invoke();
+        onShopCycleEnd?.Invoke();
         this.gameObject.SetActive(false);
     }
 
@@ -220,10 +224,10 @@ public partial class ShopPanel : MonoBehaviour
         {
             Transform weaponPrefabSlot = inventoryWeaponSlots[i].Find("WeaponPrefab");
 
-            if (weaponPrefabSlot != null && weaponPrefabSlot.childCount > 0 && i < playerWeaponAnkers.Count)
+            if (weaponPrefabSlot != null && weaponPrefabSlot.childCount > 0 && i < _playerWeaponAnkers.Count)
             {
                 Transform weaponObj = weaponPrefabSlot.GetChild(0);
-                weaponObj.SetParent(playerWeaponAnkers[i].transform, false);
+                weaponObj.SetParent(_playerWeaponAnkers[i].transform, false);
 
                 weaponObj.localPosition = Vector3.zero;
                 weaponObj.localRotation = Quaternion.identity;

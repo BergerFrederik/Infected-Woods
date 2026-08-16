@@ -15,14 +15,14 @@ public class PlayerWeaponSlots : MonoBehaviour
         playerStats.OnNumWeaponSlotsChanged += SetWeaponSlots;
         gameManager.OnCharacterSet += SortOccupiedSlots;
         GameManager.OnRoundStart += SortOccupiedSlots;
-        shopPanel.OnWeaponBought += SortOccupiedSlots;
+        shopPanel.onWeaponBought += SortOccupiedSlots;
     }
 
     private void OnDisable()
     {
         playerStats.OnNumWeaponSlotsChanged -= SetWeaponSlots;
         gameManager.OnCharacterSet -= SortOccupiedSlots;
-        shopPanel.OnWeaponBought -= SortOccupiedSlots;
+        shopPanel.onWeaponBought -= SortOccupiedSlots;
     }
     
     private void SetWeaponSlots(float numSlots)

@@ -49,15 +49,16 @@ public class BlossomItemPanel : MonoBehaviour
 
     private void GetRandomItem()
     {
-        if (blossomItems.Count < 0)
+        if (_currentAvailableBlossomItems.Count == 0)
         {
-            Debug.LogError("No Blossom Item Found");
+            Debug.LogWarning("No Blossom Item Found");
+            gameObject.SetActive(false);
             return;
-        };
+        }
         int numItemsToShow = blossomItemButtons.Length; // Should be 3
         List<GameObject> currentItemsToChoseFrom = new List<GameObject>(_currentAvailableBlossomItems);
-        
-        for (int i = 0; i < numItemsToShow; i++)
+
+        for (int i = 0; i < numItemsToShow && currentItemsToChoseFrom.Count > 0; i++)
         {
             int randomIndex = Random.Range(0, currentItemsToChoseFrom.Count);
             _randomChosenItems.Add(currentItemsToChoseFrom[randomIndex]);

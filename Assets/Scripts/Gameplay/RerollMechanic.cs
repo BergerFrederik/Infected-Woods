@@ -4,6 +4,7 @@ using UnityEngine;
 public class RerollMechanic : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private float rerollIncreaseRate = 0.4f;
     private event Action OnRerolled;
     private int _numRerolls;
     private int _waveNumber;
@@ -48,7 +49,7 @@ public class RerollMechanic : MonoBehaviour
 
     private int GetRerollIncrease(int waveNumber)
     {
-        int priceIncrease = Mathf.Max(1, Mathf.FloorToInt(0.4f * waveNumber));
+        int priceIncrease = Mathf.Max(1, Mathf.FloorToInt(rerollIncreaseRate * waveNumber));
         return priceIncrease;
     }
 }

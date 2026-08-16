@@ -236,7 +236,7 @@ MonoBehaviour:
   difficultyOneFactor: 25
   difficultyTwoFactor: 50
   enemyCurrentHP: 0
-  enemyMaxHP: 111111
+  enemyMaxHP: 1
   enemyHPPerWave: 1
   enemyDamage: 1
   enemyDamagePerWave: 0.6

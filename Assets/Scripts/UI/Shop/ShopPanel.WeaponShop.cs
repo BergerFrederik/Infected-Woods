@@ -13,7 +13,7 @@ public partial class ShopPanel
 
         const int num_weapons_in_shop = 4;
 
-        arrayOfChosenRandomWeapons = new GameObject[num_weapons_in_shop];
+        _arrayOfChosenRandomWeapons = new GameObject[num_weapons_in_shop];
         for (int i = 0; i < weaponImages.Length; i++)
         {
             // set active if not active
@@ -26,20 +26,20 @@ public partial class ShopPanel
             WeaponTier rarity = CalculateRarity();
 
             // get random Weapon (fall back to Root if this rarity has no weapons yet)
-            if (!weaponsByRarity.ContainsKey(rarity) || weaponsByRarity[rarity].Count == 0)
+            if (!_weaponsByRarity.ContainsKey(rarity) || _weaponsByRarity[rarity].Count == 0)
             {
                 Debug.LogError($"Keine Waffen für Rarity {rarity} gefunden! Fallback auf Root.");
                 rarity = WeaponTier.Root;
             }
 
-            if (weaponsByRarity.ContainsKey(rarity) && weaponsByRarity[rarity].Count > 0)
+            if (_weaponsByRarity.ContainsKey(rarity) && _weaponsByRarity[rarity].Count > 0)
             {
-                List<GameObject> matchingWeapons = weaponsByRarity[rarity];
+                List<GameObject> matchingWeapons = _weaponsByRarity[rarity];
 
                 int randomIndex = Random.Range(0, matchingWeapons.Count);
                 GameObject chosenWeapon = matchingWeapons[randomIndex];
 
-                arrayOfChosenRandomWeapons[i] = chosenWeapon;
+                _arrayOfChosenRandomWeapons[i] = chosenWeapon;
             }
             else
             {
@@ -47,10 +47,12 @@ public partial class ShopPanel
                 continue;
             }
 
-            GameObject randomWeapon = arrayOfChosenRandomWeapons[i];
+            GameObject randomWeapon = _arrayOfChosenRandomWeapons[i];
 
             WeaponStats weaponStats = randomWeapon.GetComponent<WeaponStats>();
             weaponStats.ApplyStats();
+            
+            weaponShopBoarderImages[i].sprite = weaponShopBoarderSprites[(int)rarity - 1];
 
             // get Sprite from Weapon
             Sprite sprite = randomWeapon.GetComponentInChildren<SpriteRenderer>().sprite;
@@ -72,20 +74,22 @@ public partial class ShopPanel
             weaponButtons[i].onClick.RemoveAllListeners();
             int index = i;
             weaponButtons[i].onClick.AddListener(() => BuyWeapon(index, weaponStats));
+            
+            rerollCostText.text = "Reroll - " + rerollMechanic.GetRerollPrice();
         }
     }
 
     private void SetWeaponDict()
     {
-        weaponsByRarity.Clear();
+        _weaponsByRarity.Clear();
         foreach (var prefab in weaponPrefabs)
         {
             WeaponTier tier = prefab.GetComponent<WeaponStats>().weaponTier;
-            if (!weaponsByRarity.ContainsKey(tier))
+            if (!_weaponsByRarity.ContainsKey(tier))
             {
-                weaponsByRarity[tier] = new List<GameObject>();
+                _weaponsByRarity[tier] = new List<GameObject>();
             }
-            weaponsByRarity[tier].Add(prefab);
+            _weaponsByRarity[tier].Add(prefab);
         }
     }
 
@@ -107,7 +111,7 @@ public partial class ShopPanel
             _currentWeaponShopLvlUpCost = weaponShopBaseLvLUpCost;
         }
 
-        weaponShopLvLUpButton.GetComponentInChildren<TextMeshProUGUI>().text = $"LVL Up - {_currentWeaponShopLvlUpCost}";
+        weaponShopLvlUpCostText.text = $"LVL Up - {_currentWeaponShopLvlUpCost}";
         weaponShopLvLText.text = _weaponShopLvl.ToString();
     }
 
@@ -186,14 +190,14 @@ public partial class ShopPanel
                 return;
             }
 
-            GameObject chosenWeapon = arrayOfChosenRandomWeapons[index];
+            GameObject chosenWeapon = _arrayOfChosenRandomWeapons[index];
             Instantiate(chosenWeapon, targetParent, false);
 
             HandlePurchase(weaponPrice);
             weaponObjects[index].SetActive(false);
 
             RefreshAllUI();
-            OnWeaponBought?.Invoke();
+            onWeaponBought?.Invoke();
         }
     }
 
@@ -227,7 +231,16 @@ public partial class ShopPanel
 
     private void RerollWeapons()
     {
-        SetSpritesToWeaponShop();
+        float rerollPrice = rerollMechanic.GetRerollPrice();
+        if (playerStats.PlayerLightAmount >= rerollPrice)
+        {
+            playerStats.PlayerLightAmount -= rerollPrice;
+            rerollMechanic.NumRerolls++;
+            float nextRerollCost = rerollMechanic.GetRerollPrice();
+            rerollCostText.text = "Reroll - " + nextRerollCost;
+            SetSpritesToWeaponShop();
+            SetMoneyToUI();
+        }
     }
 
     private void IncreaseWeaponShopLvL()
@@ -252,12 +265,12 @@ public partial class ShopPanel
         if (_weaponShopLvl < (int)weaponShopMaxLvL)
         {
             _currentWeaponShopLvlUpCost = Mathf.RoundToInt(_currentWeaponShopLvlUpCost + _currentWeaponShopLvlUpCost * weaponShopLvlUpCostIncrease);
-            weaponShopLvLUpButton.GetComponentInChildren<TextMeshProUGUI>().text = $"LVL Up - {_currentWeaponShopLvlUpCost}";
+            weaponShopLvlUpCostText.text = $"LVL Up - {_currentWeaponShopLvlUpCost}";
             SetRarityText();
         }
         else
         {
-            weaponShopLvLUpButton.GetComponentInChildren<TextMeshProUGUI>().text = "Max LVL";
+            weaponShopLvlUpCostText.text = "Max LVL";
         }
     }
 }

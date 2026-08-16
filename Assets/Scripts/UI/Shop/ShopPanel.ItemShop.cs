@@ -72,7 +72,7 @@ public partial class ShopPanel
             HandlePurchase(itemPrice);
             HandleUIOnPurchase(itemInformation.tier);
 
-            OnItemPurchased?.Invoke();
+            onItemPurchased?.Invoke();
         }
         else
         {
@@ -195,7 +195,7 @@ public partial class ShopPanel
             HandlePurchase(itemInfo.itemPrice);
             transactionSectionImage.sprite = null;
             transactionSectionImage.enabled = false;
-            OnItemPurchased?.Invoke();
+            onItemPurchased?.Invoke();
         }
         else
         {
@@ -275,7 +275,7 @@ public partial class ShopPanel
             }
         }
 
-        OnItemSold?.Invoke();
+        onItemSold?.Invoke();
         RemoveItemFromInventory(itemToSell);
         ResetTransactionSection();
         rotatingInventory.GetComponent<EllipseRotationUI>().Rebuild();

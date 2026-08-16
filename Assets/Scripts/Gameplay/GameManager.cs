@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        ShopPanel.OnShopCycleEnd += RequestNewWave;
+        ShopPanel.onShopCycleEnd += RequestNewWave;
         EnemySpawner.OnWaveInitialized += NewWaveProcedure;
         difficultySelection.OnDifficultySelected += StartGame;
         gameInput.OnPausePerformed += HandlePauseRequest;
@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
 
     private void OnDisable()
     {
-        ShopPanel.OnShopCycleEnd -= RequestNewWave;
+        ShopPanel.onShopCycleEnd -= RequestNewWave;
         EnemySpawner.OnWaveInitialized -= NewWaveProcedure;
         difficultySelection.OnDifficultySelected -= StartGame;
         gameInput.OnPausePerformed -= HandlePauseRequest;

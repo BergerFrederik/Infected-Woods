@@ -8,11 +8,11 @@ public partial class ShopPanel
     {
         GetWeaponAnkers();
 
-        for (int i = 0; i < playerWeaponAnkers.Count; i++)
+        for (int i = 0; i < _playerWeaponAnkers.Count; i++)
         {
-            if (playerWeaponAnkers[i].transform.childCount != 0)
+            if (_playerWeaponAnkers[i].transform.childCount != 0)
             {
-                Transform weaponObj = playerWeaponAnkers[i].transform.GetChild(0);
+                Transform weaponObj = _playerWeaponAnkers[i].transform.GetChild(0);
                 weaponObj.SetParent(inventoryWeaponSlots[i].Find("WeaponPrefab"));
             }
         }
@@ -277,6 +277,6 @@ public partial class ShopPanel
         }
 
         RefreshAllUI();
-        OnWeaponBought?.Invoke();
+        onWeaponBought?.Invoke();
     }
 }
