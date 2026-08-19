@@ -22,6 +22,7 @@ public class PlayerWeaponSlots : MonoBehaviour
     {
         playerStats.OnNumWeaponSlotsChanged -= SetWeaponSlots;
         gameManager.OnCharacterSet -= SortOccupiedSlots;
+        GameManager.OnRoundStart -= SortOccupiedSlots;
         shopPanel.onWeaponBought -= SortOccupiedSlots;
     }
     
