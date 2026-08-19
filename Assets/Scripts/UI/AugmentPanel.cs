@@ -91,7 +91,7 @@ public class AugmentPanel : MonoBehaviour
         for (int i = 0; i < ChosenAugments.Length; i++)
         {
             AugmentInformation augmentInformation = ChosenAugments[i].gameObject.GetComponent<AugmentInformation>();
-            string augmentText = augmentInformation.augmentText;
+            string augmentText = augmentInformation.GetDisplayText();
             string augmentTitle = augmentInformation.augmentTitle;
 
             Transform AugmentVisuals = ChosenAugments[i].transform.GetChild(0);

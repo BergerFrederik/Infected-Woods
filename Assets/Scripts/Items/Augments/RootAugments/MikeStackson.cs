@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 
-public class MikeStackson : MonoBehaviour
+public class MikeStackson : MonoBehaviour, IAugmentDescribable
 {
     // Gain Stacks on Kill with melee weapons
     // must not have taken damage for a certain amount of seconds
@@ -61,5 +61,16 @@ public class MikeStackson : MonoBehaviour
     private void SetLastTimestampOfDamageTaken()
     {
         lastTimestampOfDamageTaken = Time.time;
+    }
+
+    public float GetPlaceholderValue(int index)
+    {
+        return index switch
+        {
+            0 => chanceToGainStacks,
+            1 => meleeDamageGainedPerStack,
+            2 => secondsWithoutDamageTakenRequired,
+            _ => 0f
+        };
     }
 }
