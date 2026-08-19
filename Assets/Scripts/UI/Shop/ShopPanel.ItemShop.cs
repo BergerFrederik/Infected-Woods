@@ -156,6 +156,7 @@ public partial class ShopPanel
     public void InstantTransaction(GameObject itemObj, bool isBuy)
     {
         _itemToTransact = itemObj.transform;
+        _itemToTransactOriginalContainer = itemObj.transform.parent;
 
         if (isBuy)
         {
@@ -178,12 +179,16 @@ public partial class ShopPanel
         float playerLightAmount = playerStats.PlayerLightAmount;
         if (playerLightAmount >= itemInfo.itemPrice)
         {
-            if (_itemToTransactOriginalContainer != null && _itemToTransactOriginalContainer.GetComponent<Image>() != null)
+            bool isSpecialItem = itemInfo.tier == ItemInformation.ItemTier.Special;
+            bool isBlossomItem = itemInfo.tier == ItemInformation.ItemTier.Blossom;
+
+            if (!isSpecialItem && !isBlossomItem
+                && _itemToTransactOriginalContainer != null && _itemToTransactOriginalContainer.GetComponent<Image>() != null)
             {
                 _itemToTransactOriginalContainer.GetComponent<Image>().sprite = itemSoldSprite;
             }
-            bool isSpecialItem = itemInfo.tier == ItemInformation.ItemTier.Special;
-            if (isSpecialItem)
+
+            if (isSpecialItem || isBlossomItem)
             {
                 InstantiateItemForInventory(_itemToTransact);
             }
