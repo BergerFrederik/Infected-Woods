@@ -13,7 +13,7 @@ public class DamageCalculation : MonoBehaviour
         if (isCrit)
         {
             float critWeaponDamage = weaponDamage * weaponStats.weaponCritDamage;
-            totalDamage = critWeaponDamage + (critWeaponDamage * playerStats.PlayerCritDamage / 100);
+            totalDamage = critWeaponDamage + (critWeaponDamage * playerStats.PlayerCritDamage / 100f);
         }
         return (totalDamage, isCrit);
     }

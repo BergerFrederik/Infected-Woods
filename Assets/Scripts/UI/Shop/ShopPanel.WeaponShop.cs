@@ -79,6 +79,22 @@ public partial class ShopPanel
         }
     }
 
+    // Re-renders only the stat text (e.g. Dps) of the weapons currently on offer, without
+    // rerolling the shelf. Called from RefreshAllUI() so item purchases (which can change
+    // player stats feeding into WeaponStats.GetStatsAsText()) also refresh the weapon shop.
+    private void RefreshWeaponShopStatsText()
+    {
+        if (_arrayOfChosenRandomWeapons == null) return;
+
+        for (int i = 0; i < _arrayOfChosenRandomWeapons.Length && i < weaponDescriptionText.Length; i++)
+        {
+            GameObject weapon = _arrayOfChosenRandomWeapons[i];
+            if (weapon == null) continue;
+
+            weaponDescriptionText[i].text = weapon.GetComponent<WeaponStats>().GetStatsAsText();
+        }
+    }
+
     private void SetWeaponDict()
     {
         _weaponsByRarity.Clear();

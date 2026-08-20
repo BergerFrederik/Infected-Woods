@@ -65,7 +65,8 @@ public class WeaponStats : MonoBehaviour
     public float weaponRange = 0f;
     public float weaponKnockback = 0f;
     public float weaponLifesteal = 0f;
-    
+    private float _dps;
+
     public void CopyFrom(WeaponStats other)
     {
         if (other == null) return;
@@ -138,6 +139,35 @@ public class WeaponStats : MonoBehaviour
         if (weaponLifesteal > 0)
             formattedStats += $"Lifesteal: {weaponLifesteal}%\n";
 
+        formattedStats += $"Dps: {GetCurrentDps():F1}\n";
+
         return formattedStats;
+    }
+
+    private float GetCurrentDps()
+    {
+        PlayerStats playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+        float playerPercentDamage = playerStats.playerDamage;
+        float playerMeleeDamage = playerStats.playerMeleeDamage;
+        float playerRangedDamage = playerStats.playerRangedDamage;
+        float playerMysticDamage = playerStats.playerMysticDamage;
+
+        float increaseByMeleeScaling = playerMeleeDamage * (weaponMeleeDamageScale / 100f);
+        float increaseByRangedScaling = playerRangedDamage * (weaponRangedDamageScale / 100f);
+        float increaseByMysticScaling = playerMysticDamage * (weaponMysticDamageScale / 100f);
+
+        float newWeaponBaseDamage = weaponBaseDamage + increaseByMeleeScaling + increaseByMysticScaling + increaseByRangedScaling;
+
+        float increaseByPlayerDamage = (playerPercentDamage / 100f) * newWeaponBaseDamage;
+
+        float normalDamage = newWeaponBaseDamage + increaseByPlayerDamage;
+
+        float critWeaponDamage = normalDamage * weaponCritDamage;
+        float critDamage = critWeaponDamage + (critWeaponDamage * playerStats.PlayerCritDamage / 100f);
+
+        float critChance = Mathf.Clamp01((playerStats.PlayerCritChance + weaponCritChance) / 100f);
+        float averageDamage = normalDamage * (1f - critChance) + critDamage * critChance;
+
+        return averageDamage / weaponAttackSpeedCooldown;
     }
 }

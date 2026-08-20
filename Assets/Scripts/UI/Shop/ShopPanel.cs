@@ -121,6 +121,8 @@ public partial class ShopPanel : MonoBehaviour
         sellButton.onClick.AddListener(SellWeapon);
         combineButton.onClick.AddListener(CombineWeapon);
         moveButton.onClick.AddListener(MoveSelectedWeapon);
+        onItemPurchased += RefreshAllUI;
+        onItemSold += RefreshAllUI;
 
         SetSpritesToInventoryOnActivate();
         SetSpritesToWeaponShop();
@@ -139,6 +141,8 @@ public partial class ShopPanel : MonoBehaviour
         sellButton.onClick.RemoveListener(SellWeapon);
         combineButton.onClick.RemoveListener(CombineWeapon);
         moveButton.onClick.RemoveListener(MoveSelectedWeapon);
+        onItemPurchased -= RefreshAllUI;
+        onItemSold -= RefreshAllUI;
 
         _itemToTransact = null;
         transactionSectionImage.sprite = null;
@@ -198,6 +202,7 @@ public partial class ShopPanel : MonoBehaviour
         SetMoneyToUI();
         SetSpritesToInventory();
         UpdateBenchUI();
+        RefreshWeaponShopStatsText();
     }
 
     private void StartNextWave()
