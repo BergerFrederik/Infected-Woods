@@ -235,8 +235,8 @@ public class GameManager : MonoBehaviour
         {
             PausePanel.SetActive(false);
             gameInput.playerInput.Player.Enable();
-            Time.timeScale = 1f;
-        }        
+            Time.timeScale = isWaveActive ? 1f : 0f;
+        }
     }
 }
 
