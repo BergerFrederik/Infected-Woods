@@ -48,7 +48,7 @@ public class Barbar : MonoBehaviour
     {
         GameManager.OnRoundOver -= ResetAbilityOnRoundOver;
         characterStats.OnExecuteAbility -= CharacterAbilityExecution;
-        characterStats.OnExecuteAbility -= EndAbility;
+        characterStats.OnStopAbility -= EndAbility;
     }
 
     private void CharacterAbilityExecution()
