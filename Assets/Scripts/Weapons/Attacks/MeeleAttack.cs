@@ -63,10 +63,8 @@ public class MeleeAttack : MonoBehaviour
         }
         else
         {
-            weaponLengthOffset = 1.0f; 
+            weaponLengthOffset = 1.0f;
         }
-
-        weaponLengthOffset = 1.1f; // correction factor to ensure correct calculation
     }
 
     private void OnDestroy()
