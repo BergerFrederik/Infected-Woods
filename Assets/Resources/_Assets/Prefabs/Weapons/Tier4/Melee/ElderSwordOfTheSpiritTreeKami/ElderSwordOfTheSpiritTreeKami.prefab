@@ -193,6 +193,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Boomerang
   weaponStats: {fileID: 2923472048008297227}
   weaponRotationOffset: 0
+  numFlights: 5
+  spinSpeed: 100
   recoilDuration: 0.1
   recoilSpeed: 4
   postAttackWaitDelay: 0.2

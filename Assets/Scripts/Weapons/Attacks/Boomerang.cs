@@ -7,14 +7,22 @@ public class Boomerang : MonoBehaviour
     [Header("Weapon Settings")]
     [SerializeField] private WeaponStats weaponStats;
     [SerializeField] private float weaponRotationOffset = 0f;
-    
+    [SerializeField] private float numFlights = 1f;
+
+    [Header("Visuals")]
+    [SerializeField] private float spinSpeed = 720f; // degrees per second
+
     [Header("Attack Timings")]
     [SerializeField] private float recoilDuration = 0.1f;
     [SerializeField] private float recoilSpeed = 4f;
-    [SerializeField] private float postAttackWaitDelay = 0.15f;
+    [SerializeField] private float postAttackWaitDelay = 0.1f;
 
     [Header("Attack Distances")]
     [SerializeField] private float enemySearchRadius = 20f;
+
+    [Header("Flight Smoothing")]
+    [SerializeField] private float overshootDistance = 0.5f;
+    [SerializeField] private float overshootDuration = 0.15f;
 
 
     private enum WeaponState { Idle, Attacking }
@@ -26,6 +34,7 @@ public class Boomerang : MonoBehaviour
 
     private float lastAttackTime;
     private float weaponLengthOffset;
+    private float _attackRange;
     private Transform weaponSocket;
 
     private void Awake()
@@ -90,27 +99,31 @@ public class Boomerang : MonoBehaviour
 
             if (Time.time - lastAttackTime >= attackCooldown)
             {
-                CheckForAttack(closestEnemy);
+                if (CheckForAttack(closestEnemy))
+                {
+                    StartCoroutine(BoomerangFlyRoutine(closestEnemy));
+                }
             }
         }
     }
     
-    private void CheckForAttack(Transform closestEnemy)
+    private bool CheckForAttack(Transform closestEnemy)
     {
-        if (closestEnemy == null) return;
+        if (closestEnemy == null) return false;
         Collider2D enemyCollider = closestEnemy.GetComponent<Collider2D>();
         Vector2 closestPointOnEdge = enemyCollider.ClosestPoint(transform.position);
         float distanceToEdge = Vector2.Distance(transform.position, closestPointOnEdge);
-        float attackRange = weaponStats.weaponRange + weaponStats.weaponRange * (playerStats.playerAttackRange / 100f);
+        _attackRange = weaponStats.weaponRange + weaponStats.weaponRange * (playerStats.playerAttackRange / 100f);
         
-        if (distanceToEdge <= weaponLengthOffset + attackRange)
+        if (distanceToEdge <= weaponLengthOffset + _attackRange)
         {
-            StartCoroutine(BoomerangFlyRoutine(closestEnemy, attackRange));
+            return true;
         }
+        return false;
     }
     
     
-    private IEnumerator BoomerangFlyRoutine(Transform targetEnemy, float range)
+    private IEnumerator BoomerangFlyRoutine(Transform targetEnemy)
     {
         Vector3 targetPos = targetEnemy.position;
         currentState = WeaponState.Attacking;
@@ -132,42 +145,77 @@ public class Boomerang : MonoBehaviour
         }
 
         // --- PHASE 2: Throw (geradliniger Wurf zum Gegner bis zur maximalen Reichweite) ---
-
-        if (weaponStats.weaponProjectileSpeed <= 0f)
+        for (int i = 1; i <= numFlights; i++)
         {
-            Debug.LogWarning($"{name}: weaponProjectileSpeed is 0 — aborting boomerang throw.");
-            transform.SetParent(weaponSocket, true);
-            transform.localPosition = Vector3.zero;
-            triggerCollider.enabled = false;
-            currentState = WeaponState.Idle;
-            yield break;
-        }
+            if (weaponStats.weaponProjectileSpeed <= 0f)
+            {
+                Debug.LogWarning($"{name}: weaponProjectileSpeed is 0 — aborting boomerang throw.");
+                transform.SetParent(weaponSocket, true);
+                transform.localPosition = Vector3.zero;
+                triggerCollider.enabled = false;
+                currentState = WeaponState.Idle;
+                yield break;
+            }
 
-        triggerCollider.enabled = true;
+            triggerCollider.enabled = true;
 
-        Vector3 worldRecoilPos = transform.position;
+            Vector3 worldRecoilPos = transform.position;
+            targetPos = targetEnemy.position;
 
-        attackDir = (targetPos - worldRecoilPos).normalized;
-        float startAngle = Mathf.Atan2(attackDir.y, attackDir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, startAngle + weaponRotationOffset);
+            attackDir = (targetPos - worldRecoilPos).normalized;
+            float startAngle = Mathf.Atan2(attackDir.y, attackDir.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, startAngle + weaponRotationOffset);
 
-        float distanceTraveled = 0f;
-        while (distanceTraveled < range)
-        {
-            float step = weaponStats.weaponProjectileSpeed * Time.deltaTime;
-            distanceTraveled += step;
-            transform.position += attackDir * step;
-            yield return null;
+            float distanceTraveled = 0f;
+            while (distanceTraveled < _attackRange)
+            {
+                float step = weaponStats.weaponProjectileSpeed * Time.deltaTime;
+                distanceTraveled += step;
+                transform.position += attackDir * step;
+                transform.Rotate(0f, 0f, spinSpeed * Time.deltaTime);
+                yield return null;
+            }
+
+            // Ease out into a short overshoot instead of stopping instantly
+            Vector3 overshootStart = transform.position;
+            float decelElapsed = 0f;
+            while (decelElapsed < overshootDuration)
+            {
+                float t = decelElapsed / overshootDuration;
+                float easedT = 1f - (1f - t) * (1f - t); // ease-out quadratic
+                transform.position = overshootStart + attackDir * overshootDistance * easedT;
+                transform.Rotate(0f, 0f, spinSpeed * Time.deltaTime);
+                decelElapsed += Time.deltaTime;
+                yield return null;
+            }
+            transform.position = overshootStart + attackDir * overshootDistance;
+
+            // --- PHASE 3: Wait for return ---
+            float waitElapsed = 0f;
+            while (waitElapsed < postAttackWaitDelay)
+            {
+                transform.Rotate(0f, 0f, spinSpeed * Time.deltaTime);
+                waitElapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            if (i < numFlights)
+            {
+                Transform nextTarget = FindClosestEnemy();
+                if (!CheckForAttack(nextTarget))
+                {
+                    break;
+                }
+                targetEnemy = nextTarget;
+            }
         }
         
-        // --- PHASE 3: Wait for return ---
-        yield return new WaitForSeconds(postAttackWaitDelay);
-
         // --- PHASE 4: RETURN (geradliniger Rückflug zum Spieler) ---
         while (Vector3.Distance(transform.position, weaponSocket.position) > weaponStats.weaponProjectileSpeed * Time.deltaTime)
         {
             Vector3 dirToPlayer = (weaponSocket.position - transform.position).normalized;
             transform.position += dirToPlayer * weaponStats.weaponProjectileSpeed * Time.deltaTime;
+            transform.Rotate(0f, 0f, spinSpeed * Time.deltaTime);
             yield return null;
         }
 
