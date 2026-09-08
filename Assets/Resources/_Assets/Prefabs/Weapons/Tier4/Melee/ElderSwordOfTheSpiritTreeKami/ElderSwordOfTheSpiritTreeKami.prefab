@@ -10,11 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3044386558665927546}
   - component: {fileID: 2923472048008297227}
-  - component: {fileID: 1869917964682256196}
   - component: {fileID: 3107034620220399251}
   - component: {fileID: 5620509450126988290}
   - component: {fileID: 610181231554656219}
-  - component: {fileID: -5595677780424568432}
+  - component: {fileID: 1167975476766297714}
   m_Layer: 6
   m_Name: ElderSwordOfTheSpiritTreeKami
   m_TagString: MeleeWeapon
@@ -52,12 +51,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: f43b8cd7bd7fd46e5a7d666e4d8924ab, type: 2}
   currentTotalDamage: 0
-  weaponName: Sai
-  weaponID: Sai
-  weaponSubtitle: Very cool Dagger
-  weaponTier: 2
+  weaponName: Elder Sword of the Spirit Tree Kami
+  weaponID: ElderSwordOfTheSpiritTreeKami
+  weaponSubtitle: Very cool Sword
+  weaponTier: 4
   weaponWeaponType: 0
-  weaponAttackType: 0
+  weaponAttackType: 2
   weaponClass: 0
   weaponPrice: 15
   passiveDescription: Chance to apply a bleeding effect on crit
@@ -70,29 +69,9 @@ MonoBehaviour:
   weaponAttackSpeedCooldown: 1.01
   weaponCritChance: 20
   weaponCritDamage: 2.5
-  weaponRange: 2
+  weaponRange: 1000
   weaponKnockback: 2
   weaponLifesteal: 0
---- !u!114 &1869917964682256196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2679728442328743979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c39822c232fdd943ad50479a921dcfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponStats: {fileID: 2923472048008297227}
-  weaponRotationOffset: 270
-  recoilDuration: 0.1
-  recoilSpeed: 4
-  attackSpeedUnit: 40
-  returnSpeedUnit: 35
-  postAttackWaitDelay: 0.15
-  enemySearchRadius: 20
 --- !u!114 &3107034620220399251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,7 +179,7 @@ PolygonCollider2D:
       - {x: 0.12922105, y: -0.15403712}
       - {x: 0.14885023, y: -0.10603137}
   m_UseDelaunayMesh: 0
---- !u!114 &-5595677780424568432
+--- !u!114 &1167975476766297714
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -209,22 +188,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2679728442328743979}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9d1c27cc51f84eaab3835d15fa4e69e, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d85c4f5be05a4abd852f8b76f93a2d4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Sai
-  meleeWeaponHitsEnemy: {fileID: 3107034620220399251}
-  bleedEffectPrefab: {fileID: 1816070959676738717, guid: 97e28d31e8c324a8a9504838ae867963, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::Boomerang
   weaponStats: {fileID: 2923472048008297227}
-  chanceToApplyBleedPerLevel:
-  - 100
-  - 30
-  - 35
-  - 40
-  dotTimePerLevel:
-  - 222
-  - 3
-  - 5
-  - 8
+  weaponRotationOffset: 0
+  recoilDuration: 0.1
+  recoilSpeed: 4
+  postAttackWaitDelay: 0.2
+  enemySearchRadius: 20
 --- !u!1 &5340006489510552725
 GameObject:
   m_ObjectHideFlags: 0

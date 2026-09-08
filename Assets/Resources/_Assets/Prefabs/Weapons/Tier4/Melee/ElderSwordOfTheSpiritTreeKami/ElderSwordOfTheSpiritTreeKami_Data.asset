@@ -12,18 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65e0a8668a462384fa76bf3b75b96e77, type: 3}
   m_Name: ElderSwordOfTheSpiritTreeKami_Data
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  weaponName: Illuminator
-  weaponSubtitle: Very cool sword
-  weaponPrice: 15
-  weaponTier: 1
-  weaponSpecialAbility: Kp was der koennen soll, stellt euch vor sie hat einen hammer
-    Effekt
-  weaponLore: Wurde safe von so nem komischen Lichtfutzen geschmieded oder so
-  weaponWeaponType: 0
-  weaponAttackType: 0
-  weaponClass: 0
   levels:
-  - weaponProjectileSpeed: 0
+  - weaponProjectileSpeed: 20
     weaponBaseDamage: 6
     weaponMeleeDamageScale: 80
     weaponRangedDamageScale: 0
@@ -31,7 +21,7 @@ MonoBehaviour:
     weaponAttackSpeedCooldown: 1.01
     weaponCritChance: 20
     weaponCritDamage: 2.5
-    weaponRange: 2
+    weaponRange: 6
     weaponKnockback: 2
     weaponLifesteal: 0
   - weaponProjectileSpeed: 0
