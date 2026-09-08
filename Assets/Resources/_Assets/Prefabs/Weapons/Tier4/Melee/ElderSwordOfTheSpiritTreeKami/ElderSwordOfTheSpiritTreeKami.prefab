@@ -194,11 +194,12 @@ MonoBehaviour:
   weaponStats: {fileID: 2923472048008297227}
   weaponRotationOffset: 0
   numFlights: 5
-  spinSpeed: 100
+  spinSpeed: 500
   recoilDuration: 0.1
   recoilSpeed: 4
-  postAttackWaitDelay: 0.2
   enemySearchRadius: 20
+  curveDuration: 0.15
+  curveDeceleration: 0.5
 --- !u!1 &5340006489510552725
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,14 +15,13 @@ public class Boomerang : MonoBehaviour
     [Header("Attack Timings")]
     [SerializeField] private float recoilDuration = 0.1f;
     [SerializeField] private float recoilSpeed = 4f;
-    [SerializeField] private float postAttackWaitDelay = 0.1f;
 
     [Header("Attack Distances")]
     [SerializeField] private float enemySearchRadius = 20f;
 
     [Header("Flight Smoothing")]
-    [SerializeField] private float overshootDistance = 0.5f;
-    [SerializeField] private float overshootDuration = 0.15f;
+    [SerializeField] private float curveDuration = 0.15f;
+    [SerializeField] private float curveDeceleration = 0.5f;
 
 
     private enum WeaponState { Idle, Attacking }
@@ -36,6 +35,12 @@ public class Boomerang : MonoBehaviour
     private float weaponLengthOffset;
     private float _attackRange;
     private Transform weaponSocket;
+    private bool isQuitting;
+
+    private void OnApplicationQuit()
+    {
+        isQuitting = true;
+    }
 
     private void Awake()
     {
@@ -147,6 +152,11 @@ public class Boomerang : MonoBehaviour
         // --- PHASE 2: Throw (geradliniger Wurf zum Gegner bis zur maximalen Reichweite) ---
         for (int i = 1; i <= numFlights; i++)
         {
+            if (targetEnemy == null)
+            {
+                break; // target died mid-flight; head straight back to the player
+            }
+
             if (weaponStats.weaponProjectileSpeed <= 0f)
             {
                 Debug.LogWarning($"{name}: weaponProjectileSpeed is 0 — aborting boomerang throw.");
@@ -176,38 +186,43 @@ public class Boomerang : MonoBehaviour
                 yield return null;
             }
 
-            // Ease out into a short overshoot instead of stopping instantly
-            Vector3 overshootStart = transform.position;
-            float decelElapsed = 0f;
-            while (decelElapsed < overshootDuration)
+            // Figure out what comes next: another throw, or home to the player
+            Transform nextTarget = null;
+            bool hasNextThrow = i < numFlights;
+            if (hasNextThrow)
             {
-                float t = decelElapsed / overshootDuration;
+                nextTarget = FindClosestEnemy();
+                hasNextThrow = CheckForAttack(nextTarget);
+            }
+
+            Vector3 nextDir = hasNextThrow
+                ? (nextTarget.position - transform.position).normalized
+                : (weaponSocket.position - transform.position).normalized;
+
+            // Curve smoothly into that direction instead of stopping
+            float curveElapsed = 0f;
+            while (curveElapsed < curveDuration)
+            {
+                float t = curveElapsed / curveDuration;
                 float easedT = 1f - (1f - t) * (1f - t); // ease-out quadratic
-                transform.position = overshootStart + attackDir * overshootDistance * easedT;
-                transform.Rotate(0f, 0f, spinSpeed * Time.deltaTime);
-                decelElapsed += Time.deltaTime;
-                yield return null;
-            }
-            transform.position = overshootStart + attackDir * overshootDistance;
+                Vector3 curveDir = Vector3.Slerp(attackDir, nextDir, easedT).normalized;
 
-            // --- PHASE 3: Wait for return ---
-            float waitElapsed = 0f;
-            while (waitElapsed < postAttackWaitDelay)
-            {
+                float speedMultiplier = 1f - curveDeceleration * Mathf.Sin(t * Mathf.PI);
+                float curveStep = weaponStats.weaponProjectileSpeed * speedMultiplier * Time.deltaTime;
+
+                transform.position += curveDir * curveStep;
                 transform.Rotate(0f, 0f, spinSpeed * Time.deltaTime);
-                waitElapsed += Time.deltaTime;
+                curveElapsed += Time.deltaTime;
                 yield return null;
             }
 
-            if (i < numFlights)
+            if (!hasNextThrow)
             {
-                Transform nextTarget = FindClosestEnemy();
-                if (!CheckForAttack(nextTarget))
-                {
-                    break;
-                }
-                targetEnemy = nextTarget;
+                break;
             }
+
+            targetEnemy = nextTarget;
+            attackDir = nextDir;
         }
         
         // --- PHASE 4: RETURN (geradliniger Rückflug zum Spieler) ---
@@ -261,6 +276,8 @@ public class Boomerang : MonoBehaviour
     private void ResetWeaponPosition()
     {
         StopAllCoroutines();
+        if (isQuitting) return;
+
         if (transform.parent != weaponSocket)
         {
             transform.SetParent(weaponSocket, true);
