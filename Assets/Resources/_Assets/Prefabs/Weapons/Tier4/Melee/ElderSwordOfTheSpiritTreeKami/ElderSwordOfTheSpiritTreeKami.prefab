@@ -59,8 +59,10 @@ MonoBehaviour:
   weaponAttackType: 2
   weaponClass: 0
   weaponPrice: 15
-  passiveDescription: Chance to apply a bleeding effect on crit
-  weaponLore: Wurde safe von so nem komischen Lichtfutzen geschmieded oder so
+  passiveDescription: None yet
+  weaponLore: 'None yet
+
+'
   weaponProjectileSpeed: 0
   weaponBaseDamage: 6
   weaponMeleeDamageScale: 80
@@ -193,8 +195,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Boomerang
   weaponStats: {fileID: 2923472048008297227}
   weaponRotationOffset: 0
-  numFlights: 5
-  spinSpeed: 500
+  numFlights: 15
+  spinSpeed: 600
   recoilDuration: 0.1
   recoilSpeed: 4
   enemySearchRadius: 20

@@ -144,11 +144,11 @@ MonoBehaviour:
   weaponID: SpiritBow
   weaponSubtitle: Very cool bow
   weaponTier: 3
-  weaponWeaponType: 2
+  weaponWeaponType: 1
   weaponAttackType: 1
   weaponClass: 0
   weaponPrice: 16
-  passiveDescription: 'Active: Fire sparcs in a cone in front of you, setting all
+  passiveDescription: 'Active: Fire sparks in a cone in front of you, setting all
     enemys on fire'
   weaponLore: Sooo ein Feuerball. Junge
   weaponProjectileSpeed: 20
@@ -177,7 +177,7 @@ MonoBehaviour:
   weaponRotationOffset: 210
   projectileRotationOffset: 135
   weaponStats: {fileID: 2923472048008297227}
-  WeaponProjectile: {fileID: 3248573983623086727, guid: e93c16f0ad8523d4faaa82740371f767, type: 3}
+  WeaponProjectile: {fileID: 3248573983623086727, guid: 3e7f31a135d504b659288d9080ce4b0a, type: 3}
 --- !u!114 &6763817416200018253
 MonoBehaviour:
   m_ObjectHideFlags: 0
