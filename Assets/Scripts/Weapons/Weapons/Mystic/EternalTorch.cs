@@ -20,10 +20,9 @@ public class EternalTorch : WeaponAbility
         Vector2 direction = mouseWorldPosition - transform.position;
         if (direction == Vector2.zero) direction = Vector2.right;
         direction.Normalize();
-
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        coneParticles.transform.rotation = Quaternion.Euler(0f, 0f, angle + particleRotationOffset);
-        coneParticles.Play();
+        
+        ParticleSystem particleAnimation = Instantiate(coneParticles);
+        particleAnimation.Play();
         FindEnemiesInCone(direction);
 
         foreach (Collider2D enemyCollider in enemiesInCone)

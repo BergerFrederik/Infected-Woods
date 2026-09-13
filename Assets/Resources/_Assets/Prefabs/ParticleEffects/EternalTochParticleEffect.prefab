@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8088709192594815973}
   - component: {fileID: 6524909289090061689}
   m_Layer: 0
-  m_Name: EnemySpawnParticleEffect
+  m_Name: EternalTochParticleEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

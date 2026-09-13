@@ -194,7 +194,7 @@ MonoBehaviour:
   weaponStats: {fileID: 2923472048008297227}
   coneAngle: 60
   coneRange: 5
-  coneParticles: {fileID: 8088709192594815973, guid: a1175cf43b6c5874ba3c7e6d5aad18fb, type: 3}
+  coneParticles: {fileID: 8088709192594815973, guid: ac7e4805649c24114928ec9e66cb2663, type: 3}
   particleRotationOffset: 0
 --- !u!1 &5340006489510552725
 GameObject:
