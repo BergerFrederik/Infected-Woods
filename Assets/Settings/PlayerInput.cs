@@ -118,6 +118,60 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseWeaponAbility1"",
+                    ""type"": ""Button"",
+                    ""id"": ""eef152ee-ab47-4656-95b5-cf13e3e2db21"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseWeaponAbility2"",
+                    ""type"": ""Button"",
+                    ""id"": ""859d495e-6bb2-418e-8362-6b83338ac2a6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseWeaponAbility3"",
+                    ""type"": ""Button"",
+                    ""id"": ""afa1499f-1eaf-4066-a76c-a0f41fb85df3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseWeaponAbility4"",
+                    ""type"": ""Button"",
+                    ""id"": ""53287151-4df6-43de-b615-9146cfbc86b7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseWeaponAbility5"",
+                    ""type"": ""Button"",
+                    ""id"": ""7c5fe91c-3f5a-47a2-a84c-b9a707a18df4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseWeaponAbility6"",
+                    ""type"": ""Button"",
+                    ""id"": ""674dd27e-7689-42e9-9855-2b52091021b6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -230,6 +284,138 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""UseDashAbility"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""853c5257-cfc8-4551-86f8-28ebc6ad71f9"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseWeaponAbility1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3aa4c6ce-95eb-4c3d-93f6-50aa5308b51d"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseWeaponAbility1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""12369262-af02-484d-88d3-5f5a2d20e652"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseWeaponAbility2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d867fc0f-3203-46ed-8c73-dfe9f7e8251d"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseWeaponAbility2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c73ac9c9-018a-4983-bc95-36194801503a"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseWeaponAbility3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ad92c07b-803c-4aa6-9476-2dc75627a8ee"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseWeaponAbility3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""211aaddd-6df0-4ee5-9bd7-14deb145d1e5"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseWeaponAbility4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""053f2dc1-333f-4d41-9d1a-7c3e2e56fa67"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseWeaponAbility4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""02a02f31-52d3-4a1e-a101-dfe42eba67ea"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseWeaponAbility5"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""270854e4-4013-4c8e-8b89-12bbe4194264"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseWeaponAbility5"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e3b952d2-b61e-467b-95b7-94fbb3180ba5"",
+                    ""path"": ""<Keyboard>/6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseWeaponAbility6"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cd9ca8bb-d7e3-4988-bb58-152bdd72066a"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseWeaponAbility6"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -269,6 +455,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_UseAbility = m_Player.FindAction("UseAbility", throwIfNotFound: true);
         m_Player_UseDashAbility = m_Player.FindAction("UseDashAbility", throwIfNotFound: true);
+        m_Player_UseWeaponAbility1 = m_Player.FindAction("UseWeaponAbility1", throwIfNotFound: true);
+        m_Player_UseWeaponAbility2 = m_Player.FindAction("UseWeaponAbility2", throwIfNotFound: true);
+        m_Player_UseWeaponAbility3 = m_Player.FindAction("UseWeaponAbility3", throwIfNotFound: true);
+        m_Player_UseWeaponAbility4 = m_Player.FindAction("UseWeaponAbility4", throwIfNotFound: true);
+        m_Player_UseWeaponAbility5 = m_Player.FindAction("UseWeaponAbility5", throwIfNotFound: true);
+        m_Player_UseWeaponAbility6 = m_Player.FindAction("UseWeaponAbility6", throwIfNotFound: true);
         // MenuControls
         m_MenuControls = asset.FindActionMap("MenuControls", throwIfNotFound: true);
         m_MenuControls_Pause = m_MenuControls.FindAction("Pause", throwIfNotFound: true);
@@ -356,6 +548,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_UseAbility;
     private readonly InputAction m_Player_UseDashAbility;
+    private readonly InputAction m_Player_UseWeaponAbility1;
+    private readonly InputAction m_Player_UseWeaponAbility2;
+    private readonly InputAction m_Player_UseWeaponAbility3;
+    private readonly InputAction m_Player_UseWeaponAbility4;
+    private readonly InputAction m_Player_UseWeaponAbility5;
+    private readonly InputAction m_Player_UseWeaponAbility6;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -379,6 +577,30 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/UseDashAbility".
         /// </summary>
         public InputAction @UseDashAbility => m_Wrapper.m_Player_UseDashAbility;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/UseWeaponAbility1".
+        /// </summary>
+        public InputAction @UseWeaponAbility1 => m_Wrapper.m_Player_UseWeaponAbility1;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/UseWeaponAbility2".
+        /// </summary>
+        public InputAction @UseWeaponAbility2 => m_Wrapper.m_Player_UseWeaponAbility2;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/UseWeaponAbility3".
+        /// </summary>
+        public InputAction @UseWeaponAbility3 => m_Wrapper.m_Player_UseWeaponAbility3;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/UseWeaponAbility4".
+        /// </summary>
+        public InputAction @UseWeaponAbility4 => m_Wrapper.m_Player_UseWeaponAbility4;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/UseWeaponAbility5".
+        /// </summary>
+        public InputAction @UseWeaponAbility5 => m_Wrapper.m_Player_UseWeaponAbility5;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/UseWeaponAbility6".
+        /// </summary>
+        public InputAction @UseWeaponAbility6 => m_Wrapper.m_Player_UseWeaponAbility6;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -414,6 +636,24 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @UseDashAbility.started += instance.OnUseDashAbility;
             @UseDashAbility.performed += instance.OnUseDashAbility;
             @UseDashAbility.canceled += instance.OnUseDashAbility;
+            @UseWeaponAbility1.started += instance.OnUseWeaponAbility1;
+            @UseWeaponAbility1.performed += instance.OnUseWeaponAbility1;
+            @UseWeaponAbility1.canceled += instance.OnUseWeaponAbility1;
+            @UseWeaponAbility2.started += instance.OnUseWeaponAbility2;
+            @UseWeaponAbility2.performed += instance.OnUseWeaponAbility2;
+            @UseWeaponAbility2.canceled += instance.OnUseWeaponAbility2;
+            @UseWeaponAbility3.started += instance.OnUseWeaponAbility3;
+            @UseWeaponAbility3.performed += instance.OnUseWeaponAbility3;
+            @UseWeaponAbility3.canceled += instance.OnUseWeaponAbility3;
+            @UseWeaponAbility4.started += instance.OnUseWeaponAbility4;
+            @UseWeaponAbility4.performed += instance.OnUseWeaponAbility4;
+            @UseWeaponAbility4.canceled += instance.OnUseWeaponAbility4;
+            @UseWeaponAbility5.started += instance.OnUseWeaponAbility5;
+            @UseWeaponAbility5.performed += instance.OnUseWeaponAbility5;
+            @UseWeaponAbility5.canceled += instance.OnUseWeaponAbility5;
+            @UseWeaponAbility6.started += instance.OnUseWeaponAbility6;
+            @UseWeaponAbility6.performed += instance.OnUseWeaponAbility6;
+            @UseWeaponAbility6.canceled += instance.OnUseWeaponAbility6;
         }
 
         /// <summary>
@@ -434,6 +674,24 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @UseDashAbility.started -= instance.OnUseDashAbility;
             @UseDashAbility.performed -= instance.OnUseDashAbility;
             @UseDashAbility.canceled -= instance.OnUseDashAbility;
+            @UseWeaponAbility1.started -= instance.OnUseWeaponAbility1;
+            @UseWeaponAbility1.performed -= instance.OnUseWeaponAbility1;
+            @UseWeaponAbility1.canceled -= instance.OnUseWeaponAbility1;
+            @UseWeaponAbility2.started -= instance.OnUseWeaponAbility2;
+            @UseWeaponAbility2.performed -= instance.OnUseWeaponAbility2;
+            @UseWeaponAbility2.canceled -= instance.OnUseWeaponAbility2;
+            @UseWeaponAbility3.started -= instance.OnUseWeaponAbility3;
+            @UseWeaponAbility3.performed -= instance.OnUseWeaponAbility3;
+            @UseWeaponAbility3.canceled -= instance.OnUseWeaponAbility3;
+            @UseWeaponAbility4.started -= instance.OnUseWeaponAbility4;
+            @UseWeaponAbility4.performed -= instance.OnUseWeaponAbility4;
+            @UseWeaponAbility4.canceled -= instance.OnUseWeaponAbility4;
+            @UseWeaponAbility5.started -= instance.OnUseWeaponAbility5;
+            @UseWeaponAbility5.performed -= instance.OnUseWeaponAbility5;
+            @UseWeaponAbility5.canceled -= instance.OnUseWeaponAbility5;
+            @UseWeaponAbility6.started -= instance.OnUseWeaponAbility6;
+            @UseWeaponAbility6.performed -= instance.OnUseWeaponAbility6;
+            @UseWeaponAbility6.canceled -= instance.OnUseWeaponAbility6;
         }
 
         /// <summary>
@@ -591,6 +849,48 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnUseDashAbility(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "UseWeaponAbility1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUseWeaponAbility1(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "UseWeaponAbility2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUseWeaponAbility2(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "UseWeaponAbility3" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUseWeaponAbility3(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "UseWeaponAbility4" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUseWeaponAbility4(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "UseWeaponAbility5" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUseWeaponAbility5(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "UseWeaponAbility6" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUseWeaponAbility6(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "MenuControls" which allows adding and removing callbacks.

@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 3044386558665927546}
   - component: {fileID: 2923472048008297227}
   - component: {fileID: 6919582871292908103}
-  - component: {fileID: 6763817416200018253}
+  - component: {fileID: 5403641233107391795}
   m_Layer: 6
   m_Name: EternalTorch
   m_TagString: Weapon
@@ -142,7 +142,7 @@ MonoBehaviour:
   currentTotalDamage: 0
   weaponName: Spirit Bow
   weaponID: SpiritBow
-  weaponSubtitle: Very cool bow
+  weaponSubtitle: Missing
   weaponTier: 3
   weaponWeaponType: 1
   weaponAttackType: 1
@@ -178,7 +178,7 @@ MonoBehaviour:
   projectileRotationOffset: 135
   weaponStats: {fileID: 2923472048008297227}
   WeaponProjectile: {fileID: 3248573983623086727, guid: 3e7f31a135d504b659288d9080ce4b0a, type: 3}
---- !u!114 &6763817416200018253
+--- !u!114 &5403641233107391795
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,17 +187,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2679728442328743979}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ffc5de4f76349947a8b76112ede8351, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ff982efc8b1c454aadb8d4045e636f9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpiritBow
-  chanceToGainAttackspeed: 5
-  chanceIncrease: 1.5
-  attackspeedBoost: 10
-  attackspeedIncrease: 1.5
-  attackspeedBoostTime: 5
-  timeIncrease: 1.5
-  ranged: {fileID: 6919582871292908103}
+  m_EditorClassIdentifier: Assembly-CSharp::EternalTorch
+  abilityCooldown: 5
   weaponStats: {fileID: 2923472048008297227}
+  coneAngle: 60
+  coneRange: 5
+  coneParticles: {fileID: 8088709192594815973, guid: a1175cf43b6c5874ba3c7e6d5aad18fb, type: 3}
+  particleRotationOffset: 0
 --- !u!1 &5340006489510552725
 GameObject:
   m_ObjectHideFlags: 0
