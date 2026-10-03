@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StrideOfTheFray
   moveSpeedGainPerStack: 1
-  attackSpeedConversionRate: 0
+  attackSpeedConversionRate: 10
   strideOfTheFrayStacks: 0
 --- !u!114 &-4443561343450210069
 MonoBehaviour:

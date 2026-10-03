@@ -37404,67 +37404,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1570619556}
   m_CullTransparentMesh: 1
---- !u!1001 &1571567482
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3245767678808239730, guid: e0390948ad167ff4496bfcf490f2dc99, type: 3}
-      propertyPath: enemyMaxHP
-      value: 11111111
-      objectReference: {fileID: 0}
-    - target: {fileID: 6686641776044797349, guid: e0390948ad167ff4496bfcf490f2dc99, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -7.8541956
-      objectReference: {fileID: 0}
-    - target: {fileID: 6686641776044797349, guid: e0390948ad167ff4496bfcf490f2dc99, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 8.619433
-      objectReference: {fileID: 0}
-    - target: {fileID: 6686641776044797349, guid: e0390948ad167ff4496bfcf490f2dc99, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6686641776044797349, guid: e0390948ad167ff4496bfcf490f2dc99, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6686641776044797349, guid: e0390948ad167ff4496bfcf490f2dc99, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6686641776044797349, guid: e0390948ad167ff4496bfcf490f2dc99, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6686641776044797349, guid: e0390948ad167ff4496bfcf490f2dc99, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6686641776044797349, guid: e0390948ad167ff4496bfcf490f2dc99, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6686641776044797349, guid: e0390948ad167ff4496bfcf490f2dc99, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6686641776044797349, guid: e0390948ad167ff4496bfcf490f2dc99, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7522017478837502192, guid: e0390948ad167ff4496bfcf490f2dc99, type: 3}
-      propertyPath: m_Name
-      value: DoomShroom
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e0390948ad167ff4496bfcf490f2dc99, type: 3}
 --- !u!1 &1572193198
 GameObject:
   m_ObjectHideFlags: 0
@@ -39504,6 +39443,8 @@ MonoBehaviour:
   - {fileID: 2679728442328743979, guid: e84d6765d301a104cacc088bd79db7d2, type: 3}
   - {fileID: 2679728442328743979, guid: 3f57c6299079b41dfbf61dd0dbf24248, type: 3}
   - {fileID: 2679728442328743979, guid: ab497e6763c0d43a4bc6c3f87aec29b8, type: 3}
+  - {fileID: 2679728442328743979, guid: 010a1903648db4c7885870d56aa673f1, type: 3}
+  - {fileID: 2679728442328743979, guid: bbc9978672ce24e9da23fe41f46d2989, type: 3}
   playerWeaponManager: {fileID: 159825715}
   weaponRerollButton: {fileID: 1184003834}
   weaponObjects:
@@ -48793,4 +48734,3 @@ SceneRoots:
   - {fileID: 1221680501}
   - {fileID: 257752096}
   - {fileID: 1125227182}
-  - {fileID: 1571567482}
