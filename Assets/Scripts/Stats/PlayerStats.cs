@@ -104,6 +104,7 @@ public class PlayerStats : MonoBehaviour
     {
         get { return _playerCurrentHP; }
         set {
+            value = Mathf.Min(value, playerMaxHP);
             if (value > _playerCurrentHP && _playerCurrentHP > 0)
             {
                 OnPlayerHealed?.Invoke(value - _playerCurrentHP);

@@ -100,8 +100,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 850064745561563942}
-  - component: {fileID: 128703577109688595}
   - component: {fileID: 6457424289827497899}
+  - component: {fileID: -8418550746191082843}
+  - component: {fileID: -6163327147459957515}
   m_Layer: 0
   m_Name: Valmidir
   m_TagString: Untagged
@@ -126,21 +127,6 @@ Transform:
   - {fileID: 18532222557772564}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &128703577109688595
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3534616681876155847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a09bb9b246be3e345a70c75bcbd5d48c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterStats: {fileID: 6457424289827497899}
-  boost_by_ability: 100
-  _chanceToGainLight: 10
 --- !u!114 &6457424289827497899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,17 +159,74 @@ MonoBehaviour:
   characterLuck: 0
   characterLightAbsorption: 0
   characterStartWeaponSlots: 6
-  ability_cooldown: 10
-  ability_duration: 5
-  ability_manaCost: 25
-  abilityDescription: Gain 100% Attackspeed. Attacks bounce between enemys.
+  ability_cooldown: 5
+  ability_duration: 0
+  ability_manaCost: 3
+  abilityDescription: None yet
   characterPassiveEffects:
-  - +100% Attackspeed
-  - +50% Range
-  - 10% chance to extract light on hit
+  - None yet
+  - None yet
+  - None yet
   remainingCooldown: 0
   abilityReady: 1
   cooldownStarted: 0
+--- !u!114 &-8418550746191082843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3534616681876155847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d805bfc2fc7440b9ca6e891a69e3e19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Valmidir
+  characterStats: {fileID: 6457424289827497899}
+  weaponStats: {fileID: -6163327147459957515}
+  projectileSpeed: 6
+  maxStacks: 5
+  costPerStack: 50
+  stackDuration: 10
+  projectilePrefab: {fileID: 3248573983623086727, guid: f68ee3d61ddf7473eaff97623fc50851, type: 3}
+  dmgPerStack: 1
+  lifestealPerStack: 50
+  manaPerKill: 0
+--- !u!114 &-6163327147459957515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3534616681876155847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df8db80a6c1b1db4aadcc965bcd7bd8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
+  weaponData: {fileID: 0}
+  currentTotalDamage: 0
+  weaponName: Valmidir Ability
+  weaponID: ValmidirAbility
+  weaponSubtitle: 
+  weaponTier: 1
+  weaponWeaponType: 2
+  weaponAttackType: 0
+  weaponClass: 0
+  weaponPrice: 0
+  passiveDescription: 
+  weaponLore: 
+  weaponProjectileSpeed: 8
+  weaponBaseDamage: 3
+  weaponMeleeDamageScale: 0
+  weaponRangedDamageScale: 0
+  weaponMysticDamageScale: 100
+  weaponAttackSpeedCooldown: 0
+  weaponCritChance: 0
+  weaponCritDamage: 0
+  weaponRange: 5
+  weaponKnockback: 0
+  weaponLifesteal: 50
 --- !u!1 &8323062379535242327
 GameObject:
   m_ObjectHideFlags: 0
