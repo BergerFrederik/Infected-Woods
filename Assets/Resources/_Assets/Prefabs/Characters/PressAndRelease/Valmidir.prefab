@@ -186,11 +186,9 @@ MonoBehaviour:
   weaponStats: {fileID: -6163327147459957515}
   maxStacks: 5
   costPerStack: 50
-  stackDuration: 10
+  stackDuration: 5
   projectilePrefab: {fileID: 3248573983623086727, guid: f68ee3d61ddf7473eaff97623fc50851, type: 3}
-  dmgPerStack: 1
-  lifestealPerStack: 50
-  manaPerKill: 0
+  dmgPerStack: 50
 --- !u!114 &-6163327147459957515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,7 +223,7 @@ MonoBehaviour:
   weaponCritDamage: 0
   weaponRange: 5
   weaponKnockback: 0
-  weaponLifesteal: 50
+  weaponLifesteal: 100
 --- !u!1 &8323062379535242327
 GameObject:
   m_ObjectHideFlags: 0

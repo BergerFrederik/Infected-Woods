@@ -8,6 +8,7 @@ public class Valmidir: MonoBehaviour
     [SerializeField] private WeaponStats weaponStats;
     private PlayerDealsDamage _playerDealsDamage;
     private PlayerStats _playerStats;
+    private RandomRollEvent _randomRollEvent;
     private GameObject _gameManagerObject;
     private bool _abilityRunning;
     private IEnumerator _runningAbilityCoroutine;
@@ -20,11 +21,8 @@ public class Valmidir: MonoBehaviour
     [SerializeField] private float costPerStack = 50; //prozentuale Kostenerhöhung
     [SerializeField] private float stackDuration;
     [SerializeField] private GameObject projectilePrefab;
-
-
+    
     [Header("Passive")] [SerializeField] private float dmgPerStack = 50; //prozentuale Schadenserhöhung
-    [SerializeField] private float lifestealPerStack;
-    [SerializeField] private float manaPerKill;
 
     private float _currentStacks;
     private bool _isActiveStacksRunning;
@@ -38,6 +36,7 @@ public class Valmidir: MonoBehaviour
         _playerStats = this.transform.root.GetComponent<PlayerStats>();
         _playerDealsDamage = this.transform.root.GetComponentInChildren<PlayerDealsDamage>();
         _playerGainsHp = this.transform.root.GetComponentInChildren<PlayerGainsHP>();
+        _randomRollEvent = this.transform.root.GetComponentInChildren<RandomRollEvent>();
         _abilityUI = FindAnyObjectByType<AbilityUI>();
         
         characterStats.OnExecuteAbility += CharacterAbilityExecution;
@@ -116,7 +115,7 @@ public class Valmidir: MonoBehaviour
 
     private void EndAbility()
     {
-        if (_currentStacks < 5f)
+        if (_currentStacks < maxStacks)
         {
             _currentStacks++;
             if (_isActiveStacksRunning) StopCoroutine(_activeStacksCoroutine);
@@ -174,7 +173,14 @@ public class Valmidir: MonoBehaviour
 
     private void GainLifeOnHit()
     {
-        _playerGainsHp.TryApplyLifesteal(null, weaponStats);
+        float rndRoll = _randomRollEvent.GetRandomFloatRoll(1f, 100f);
+        if (rndRoll >= 100f - weaponStats.weaponLifesteal)
+        {
+            for (int i = 0; i <= _currentStacks; i++)
+            {
+                _playerGainsHp.TryApplyLifesteal(null, weaponStats);
+            }
+        }
     }
 
     private void GetOriginalDamageValues()

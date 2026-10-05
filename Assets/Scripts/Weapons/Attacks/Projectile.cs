@@ -5,7 +5,6 @@ public class Projectile : MonoBehaviour
 {
     public WeaponStats sourceWeaponStats;
     public Transform target;
-    public float abilityProjectileSpeed;
     [SerializeField] private WeaponStats weaponStats;
     private Vector3 startingPosition;
     private float distanceToTravel;
