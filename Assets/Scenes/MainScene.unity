@@ -4458,8 +4458,8 @@ MonoBehaviour:
   popUpPositionOffsetYAxisMin: -0.5
   popUpPositionOffsetXAxisPositive: 0.2
   popUpPositionOffsetXAxisNegative: -0.2
-  color: {r: 0, g: 0.27620733, b: 1, a: 0}
-  colorOnCrit: {r: 0, g: 0.27450982, b: 1, a: 0}
+  color: {r: 0, g: 0.27620733, b: 1, a: 1}
+  colorOnCrit: {r: 0, g: 0.27450982, b: 1, a: 1}
   popUpPrefab: {fileID: 5293165250185406988, guid: 70bd5822b7767c141be7c729baa81b7a, type: 3}
   isFollowPlayer: 1
 --- !u!1 &177602388
@@ -30633,7 +30633,6 @@ MonoBehaviour:
   - 4
   - 5
   PlayerCharacter: {fileID: 294301014}
-  Weapons: []
   PlayerFirstWeaponAnker: {fileID: 1125029753}
   difficultySelection: {fileID: 1439074270}
   gameInput: {fileID: 1223334015}
