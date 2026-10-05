@@ -13,34 +13,38 @@ public class Valmidir: MonoBehaviour
     private IEnumerator _runningAbilityCoroutine;
     private Coroutine _activeStacksCoroutine;
     private AbilityUI _abilityUI;
-    private RandomRollEvent _randomRollEvent;
+    private PlayerGainsHP _playerGainsHp;
 
     [Header("Ability")]
-    [SerializeField] private float projectileSpeed;
     [SerializeField] private float maxStacks;
     [SerializeField] private float costPerStack = 50; //prozentuale Kostenerhöhung
     [SerializeField] private float stackDuration;
     [SerializeField] private GameObject projectilePrefab;
-    
-    
-    [Header("Passive")]
-    [SerializeField] private float dmgPerStack;
+
+
+    [Header("Passive")] [SerializeField] private float dmgPerStack = 50; //prozentuale Schadenserhöhung
     [SerializeField] private float lifestealPerStack;
     [SerializeField] private float manaPerKill;
 
     private float _currentStacks;
     private bool _isActiveStacksRunning;
+    private float _originalBaseDamage;
+    private float _originalMeleeDamageScale;
+    private float _originalRangedDamageScale;
+    private float _originalMysticDamageScale;
 
     private void Start()
     {       
         _playerStats = this.transform.root.GetComponent<PlayerStats>();
         _playerDealsDamage = this.transform.root.GetComponentInChildren<PlayerDealsDamage>();
-        _randomRollEvent = this.transform.root.GetComponentInChildren<RandomRollEvent>();
+        _playerGainsHp = this.transform.root.GetComponentInChildren<PlayerGainsHP>();
         _abilityUI = FindAnyObjectByType<AbilityUI>();
         
         characterStats.OnExecuteAbility += CharacterAbilityExecution;
         GameManager.OnRoundOver += ResetAbilityOnRoundOver;
         _playerDealsDamage.OnPlayerHitsEnemy += GainLifeOnHit;
+
+        GetOriginalDamageValues();
     }
     
 
@@ -80,14 +84,14 @@ public class Valmidir: MonoBehaviour
         yield return null;
         _abilityRunning = true;
         List<Transform> enemysInRadius = FindEnemysInRadius();
-        
+        AmplifyDamageByStacks();
+
         foreach (Transform enemy in enemysInRadius)
         {
             GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
             Projectile projectile = newProjectile.GetComponent<Projectile>();
             projectile.sourceWeaponStats = weaponStats;
             projectile.target = enemy;
-            projectile.abilityProjectileSpeed = projectileSpeed;
             newProjectile.GetComponent<ProjectileHitsEnemy>().SetOwner(transform.root);
         }
         
@@ -130,12 +134,33 @@ public class Valmidir: MonoBehaviour
         yield return new WaitForSeconds(stackDuration);
         _currentStacks = 0;
         _isActiveStacksRunning = false;
+        RestoreOriginalDamage();
+    }
+
+    private void AmplifyDamageByStacks()
+    {
+        float damageMultiplier = 1f + (dmgPerStack * _currentStacks) / 100f; //Base und Scaling, damit der Bonus auch mit Spielerstats prozentual bleibt
+        weaponStats.weaponBaseDamage = _originalBaseDamage * damageMultiplier;
+        weaponStats.weaponMeleeDamageScale = _originalMeleeDamageScale * damageMultiplier;
+        weaponStats.weaponRangedDamageScale = _originalRangedDamageScale * damageMultiplier;
+        weaponStats.weaponMysticDamageScale = _originalMysticDamageScale * damageMultiplier;
+    }
+
+    private void RestoreOriginalDamage()
+    {
+        weaponStats.weaponBaseDamage = _originalBaseDamage;
+        weaponStats.weaponMeleeDamageScale = _originalMeleeDamageScale;
+        weaponStats.weaponRangedDamageScale = _originalRangedDamageScale;
+        weaponStats.weaponMysticDamageScale = _originalMysticDamageScale;
     }
 
     private void ResetAbilityOnRoundOver()
     {
         StopAllCoroutines();
-        if (_abilityRunning) 
+        _currentStacks = 0;
+        _isActiveStacksRunning = false;
+        RestoreOriginalDamage();
+        if (_abilityRunning)
         {
             _abilityUI.EndActiveAbilityUI();
         }
@@ -149,10 +174,14 @@ public class Valmidir: MonoBehaviour
 
     private void GainLifeOnHit()
     {
-        float randomNum = _randomRollEvent.GetRandomFloatRoll(0f, 100f);
-        if (randomNum > 1f - weaponStats.weaponLifesteal) //Muss 1- sein, damit luck einen Einfluss hat. Luck erhöht den Roll
-        {
-            _playerStats.playerCurrentHP += 1f;
-        }
+        _playerGainsHp.TryApplyLifesteal(null, weaponStats);
+    }
+
+    private void GetOriginalDamageValues()
+    {
+        _originalBaseDamage = weaponStats.weaponBaseDamage;
+        _originalMeleeDamageScale = weaponStats.weaponMeleeDamageScale;
+        _originalRangedDamageScale = weaponStats.weaponRangedDamageScale;
+        _originalMysticDamageScale = weaponStats.weaponMysticDamageScale;
     }
 }

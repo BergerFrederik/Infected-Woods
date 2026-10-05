@@ -159,7 +159,7 @@ MonoBehaviour:
   characterLuck: 0
   characterLightAbsorption: 0
   characterStartWeaponSlots: 6
-  ability_cooldown: 5
+  ability_cooldown: 1
   ability_duration: 0
   ability_manaCost: 3
   abilityDescription: None yet
@@ -184,7 +184,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Valmidir
   characterStats: {fileID: 6457424289827497899}
   weaponStats: {fileID: -6163327147459957515}
-  projectileSpeed: 6
   maxStacks: 5
   costPerStack: 50
   stackDuration: 10
@@ -216,7 +215,7 @@ MonoBehaviour:
   weaponPrice: 0
   passiveDescription: 
   weaponLore: 
-  weaponProjectileSpeed: 8
+  weaponProjectileSpeed: 14
   weaponBaseDamage: 3
   weaponMeleeDamageScale: 0
   weaponRangedDamageScale: 0

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DamageCalculation : MonoBehaviour
 {
-    public (float damage, bool isCrit) CalculateDamageDealtToEnemy(
+    public (float damage, bool isCrit) CalculateCritableDamageDealtToEnemy(
         WeaponStats weaponStats, 
         PlayerStats playerStats)
     {
@@ -16,6 +16,11 @@ public class DamageCalculation : MonoBehaviour
             totalDamage = critWeaponDamage + (critWeaponDamage * playerStats.PlayerCritDamage / 100f);
         }
         return (totalDamage, isCrit);
+    }
+
+    public float CalculateNonCritableDamageDealtToEnemy(WeaponStats weaponStats, PlayerStats playerStats)
+    {
+        return ComputeWeaponDamage(weaponStats, playerStats);
     }
 
     private float ComputeWeaponDamage(

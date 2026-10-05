@@ -16,7 +16,7 @@ public class PlayerDealsDamage : MonoBehaviour
         OnPlayerHitsEnemy?.Invoke();
         OnPlayerHitsEnemyWithWeapon?.Invoke(weaponStats);
 
-        var result = damageCalculation.CalculateDamageDealtToEnemy(weaponStats, playerStats);
+        var result = damageCalculation.CalculateCritableDamageDealtToEnemy(weaponStats, playerStats);
         float damageDealtByPlayer = result.damage;
         bool didCrit = result.isCrit;
 
@@ -34,8 +34,7 @@ public class PlayerDealsDamage : MonoBehaviour
         OnPlayerHitsEnemy?.Invoke();
         OnPlayerHitsEnemyWithWeapon?.Invoke(weaponStats);
 
-        var result = damageCalculation.CalculateDamageDealtToEnemy(weaponStats, playerStats);
-        float damageDealtByPlayer = result.damage;
+        float damageDealtByPlayer = damageCalculation.CalculateNonCritableDamageDealtToEnemy(weaponStats, playerStats);
         
         // bonus damage
         float bonusDamage = 0f;

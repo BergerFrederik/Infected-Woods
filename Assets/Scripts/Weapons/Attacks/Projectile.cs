@@ -40,7 +40,7 @@ public class Projectile : MonoBehaviour
                 Destroy(this.gameObject);
                 return;
             }
-            transform.position += (target.position - startingPosition).normalized * abilityProjectileSpeed * Time.deltaTime;
+            transform.position += (target.position - startingPosition).normalized * sourceWeaponStats.weaponProjectileSpeed * Time.deltaTime;
         }
         else if (CalculateDistanceTraveled() < distanceToTravel)
         {
