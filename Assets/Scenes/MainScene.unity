@@ -4404,6 +4404,7 @@ GameObject:
   m_Component:
   - component: {fileID: 174687063}
   - component: {fileID: 174687064}
+  - component: {fileID: 174687065}
   m_Layer: 0
   m_Name: PlayerGainsMana
   m_TagString: Untagged
@@ -4440,6 +4441,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerGainsMana
   playerStats: {fileID: 663990828}
   mp_per_second_decimal: 10
+  instantiatePopUp: {fileID: 174687065}
+--- !u!114 &174687065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174687062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b155a8c9dcf6e4a99840a6cc764396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InstantiatePopUp
+  popUpPositionOffsetYAxisMax: -0.8
+  popUpPositionOffsetYAxisMin: -0.5
+  popUpPositionOffsetXAxisPositive: 0.2
+  popUpPositionOffsetXAxisNegative: -0.2
+  color: {r: 0, g: 0.27620733, b: 1, a: 0}
+  colorOnCrit: {r: 0, g: 0.27450982, b: 1, a: 0}
+  popUpPrefab: {fileID: 5293165250185406988, guid: 70bd5822b7767c141be7c729baa81b7a, type: 3}
+  isFollowPlayer: 1
 --- !u!1 &177602388
 GameObject:
   m_ObjectHideFlags: 0
@@ -7058,6 +7080,7 @@ MonoBehaviour:
   - {fileID: 2679728442328743979, guid: e84d6765d301a104cacc088bd79db7d2, type: 3}
   - {fileID: 2679728442328743979, guid: e4fcc17868a68dc44a913d7fa2b92650, type: 3}
   - {fileID: 2679728442328743979, guid: bbc9978672ce24e9da23fe41f46d2989, type: 3}
+  - {fileID: 2679728442328743979, guid: a3569dede66cc4ff29e9e9cee1b864c5, type: 3}
   CharacterButtonPrefab: {fileID: 7167094210300857674, guid: c460721bf6a6c7b4dbc1b536dec6974e, type: 3}
   characterNameText: {fileID: 84777309}
   characterPassiveText: {fileID: 359158694}
@@ -30610,8 +30633,7 @@ MonoBehaviour:
   - 4
   - 5
   PlayerCharacter: {fileID: 294301014}
-  Weapons:
-  - {fileID: 2679728442328743979, guid: e84d6765d301a104cacc088bd79db7d2, type: 3}
+  Weapons: []
   PlayerFirstWeaponAnker: {fileID: 1125029753}
   difficultySelection: {fileID: 1439074270}
   gameInput: {fileID: 1223334015}

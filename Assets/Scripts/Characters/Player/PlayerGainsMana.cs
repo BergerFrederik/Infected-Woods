@@ -4,7 +4,18 @@ public class PlayerGainsMana : MonoBehaviour
 {
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private float mp_per_second_decimal;
+    [SerializeField] private InstantiatePopUp instantiatePopUp;
     private float mpAccumulator;
+
+    private void OnEnable()
+    {
+        playerStats.OnPlayerInfused += InstantiatePopUp;
+    }
+
+    private void OnDisable()
+    {
+        playerStats.OnPlayerInfused -= InstantiatePopUp;
+    }
 
     private void Update()
     {
@@ -26,5 +37,10 @@ public class PlayerGainsMana : MonoBehaviour
                 mpAccumulator -= wholeMPToGain;
             }
         }
+    }
+
+    private void InstantiatePopUp(float amount)
+    {
+        instantiatePopUp.Instantiate(amount, false, transform.root);
     }
 }

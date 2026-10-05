@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject shopPanel;
     [SerializeField] private List<float> augmentWaves;
     [SerializeField] private GameObject PlayerCharacter;
-    [SerializeField] private GameObject[] Weapons;
     [SerializeField] private GameObject PlayerFirstWeaponAnker;
     [SerializeField] private DifficultySelection difficultySelection;
     [SerializeField] private GameInput gameInput;

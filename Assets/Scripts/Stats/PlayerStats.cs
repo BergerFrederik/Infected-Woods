@@ -5,6 +5,7 @@ public class PlayerStats : MonoBehaviour
 {
     public event Action OnMovespeedChanged;
     public event Action<float> OnCurrentMPChanged;
+    public event Action<float> OnPlayerInfused;
     public event Action<float> OnMaxMPChanged;
     public event Action<float> OnCurrentHPChanged;
     public event Action<float> OnPlayerHealed;
@@ -121,6 +122,12 @@ public class PlayerStats : MonoBehaviour
         get { return _playerCurrentMP; }
         set
         {
+            value = Mathf.Min(value, playerMaxMP);
+            if (value > _playerCurrentMP)
+            {
+                Debug.Log("Mana Gained");
+                OnPlayerInfused?.Invoke(value -  _playerCurrentMP);
+            }
             _playerCurrentMP = value;
             OnCurrentMPChanged?.Invoke(value);
         }

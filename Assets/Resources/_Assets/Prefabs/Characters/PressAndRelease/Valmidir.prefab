@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4801647633ae8a43af39a8660babe29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
-  startWeaponID: SpiritBow
+  startWeaponID: EtherDagger
   characterMaxHP: 20
   characterMaxMP: 100
   characterHPRegeneration: 0
