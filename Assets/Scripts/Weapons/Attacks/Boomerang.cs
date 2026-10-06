@@ -48,6 +48,16 @@ public class Boomerang : MonoBehaviour
         weaponSocket = transform.parent;
     }
 
+    // Follow the slot the weapon gets moved into (shop slot, bench, player anker), so a throw
+    // returns to the current slot. During a throw the parent is null - keep the socket then.
+    private void OnTransformParentChanged()
+    {
+        if (transform.parent != null)
+        {
+            weaponSocket = transform.parent;
+        }
+    }
+
     private void OnEnable()
     {
         ResetWeaponPosition();
@@ -278,7 +288,9 @@ public class Boomerang : MonoBehaviour
         StopAllCoroutines();
         if (isQuitting) return;
 
-        if (transform.parent != weaponSocket)
+        // Only a weapon that is mid-throw is unparented on purpose. A weapon unparented by the
+        // shop (sold or merged) must not be pulled back into its old slot.
+        if (currentState == WeaponState.Attacking && transform.parent != weaponSocket)
         {
             transform.SetParent(weaponSocket, true);
         }
