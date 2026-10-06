@@ -186,7 +186,6 @@ public partial class ShopPanel
         if (playerLightAmount - weaponPrice >= 0)
         {
             GetWeaponAnkers();
-            weaponButtons[index].onClick.RemoveAllListeners();
             int inventoryWeaponSlotIndex = GetNextEmptyWeaponSlotIndex();
             int benchIndex = GetNextEmptyBenchSlotIndex();
 
@@ -206,6 +205,8 @@ public partial class ShopPanel
                 return;
             }
 
+            // Only after the full-check, otherwise the button stays dead after selling something
+            weaponButtons[index].onClick.RemoveAllListeners();
             GameObject chosenWeapon = _arrayOfChosenRandomWeapons[index];
             Instantiate(chosenWeapon, targetParent, false);
 
