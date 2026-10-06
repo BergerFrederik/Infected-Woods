@@ -12,8 +12,8 @@ public class EnemyChargeTowardsPlayer : MonoBehaviour
     [SerializeField] EnemyStats enemyStats;
     [SerializeField] EnemyKnockback knockback;
 
-    private float cooldownStarttime, prepareStartTime, restStartTime;
-    private Vector2 moveDir, startPosition;
+    private float cooldownStarttime, prepareStartTime, restStartTime, chargeDistanceTraveled;
+    private Vector2 moveDir;
     public enum ChargeState { Walking, Preparing, Charging, Resting }
     public ChargeState currentState = ChargeState.Walking;
 
@@ -40,13 +40,15 @@ public class EnemyChargeTowardsPlayer : MonoBehaviour
                 if (Time.time - prepareStartTime >= prepare_time)
                 {
                     currentState = ChargeState.Charging;
-                    startPosition = transform.position;
+                    chargeDistanceTraveled = 0f;
                     moveDir = pathfinder.CalculateEnemyMovementVector();
                 }
                 break;
             case ChargeState.Charging:
+                // Counts the distance the charge tried to move, not the actual displacement - a
+                // charge blocked by the map edge (or with no direction) must still end.
                 float dist = chargeDistanceToPlayer * (1 + charge_overshoot);
-                if (Vector2.Distance(transform.position, startPosition) >= dist)
+                if (chargeDistanceTraveled >= dist)
                 {
                     restStartTime = Time.time;
                     currentState = ChargeState.Resting;
@@ -78,7 +80,9 @@ public class EnemyChargeTowardsPlayer : MonoBehaviour
                 break;
             case ChargeState.Charging:
                 knockback.canReceiveKnockback = false; // Während Charge nicht unterbrechbar
-                transform.position += (Vector3)moveDir * enemyStats.enemyMoveSpeed * chargeSpeedMultiplier * Time.deltaTime;
+                float chargeStep = enemyStats.enemyMoveSpeed * chargeSpeedMultiplier * Time.deltaTime;
+                transform.position += (Vector3)moveDir * chargeStep;
+                chargeDistanceTraveled += chargeStep;
                 break;
         }
     }
