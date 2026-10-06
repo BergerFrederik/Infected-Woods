@@ -72,7 +72,7 @@ public class CharacterStats : MonoBehaviour
         playerStats.playerMaxHP = characterMaxHP;
         playerStats.playerMaxMP = characterMaxMP;
         playerStats.playerHPRegeneration = characterHPRegeneration;
-        playerStats.playerArmor = characterArmor;
+        playerStats.PlayerArmor = characterArmor;
         playerStats.playerLifeSteal = characterLifeSteal;
         playerStats.playerDamage = characterDamage;
         playerStats.playerMeleeDamage = characterMeleeDamage;

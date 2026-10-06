@@ -19,6 +19,6 @@ public class Item4 : MonoBehaviour
     {
         playerStats.playerCooldown += cooldownReduction;
         playerStats.playerAttackSpeed += attackSpeedGain;
-        playerStats.playerArmor -= armorLoss;
+        playerStats.PlayerArmor -= armorLoss;
     }
 }

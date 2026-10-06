@@ -13,6 +13,7 @@ public class PlayerStats : MonoBehaviour
     public event Action<float> OnLightPickupRangeChanged;
     public event Action<float> OnNumWeaponSlotsChanged;
     public event Action<float> OnCritChanceChanged;
+    public event Action<float> OnPlayerArmorChanged;
 
     [Header("Primary Stats")]
     [SerializeField] private float _playerMaxHP;
@@ -61,7 +62,17 @@ public class PlayerStats : MonoBehaviour
     }
     
     public float playerAttackRange = 0f;
-    public float playerArmor = 0f;
+
+    [SerializeField] private float _playerArmor;
+    public float PlayerArmor
+    {
+        get => _playerArmor;
+        set
+        {
+            _playerArmor = value;
+            OnPlayerArmorChanged?.Invoke(value);
+        }
+    }
     public float playerDodge = 0f;
     public float playerMovespeed = 0f;
     public float playerLuck = 0f;
@@ -212,7 +223,7 @@ public class PlayerStats : MonoBehaviour
                 this.playerAttackRange += value;
                 break;
             case "Armor":
-                this.playerArmor += value;
+                this.PlayerArmor += value;
                 break;
             case "Dodge":
                 this.playerDodge += value;

@@ -58,7 +58,7 @@ public class PlayerTakesDamage : MonoBehaviour
         float damageByEnemy = enemyStats.enemyDamage;
 
         // Balancing for Armor. Armor should be less effective, the more armor you have. Changing calculate_armor_const balances the armor.
-        float damageReductionByArmor = (playerStats.playerArmor / (playerStats.playerArmor + calculate_armor));
+        float damageReductionByArmor = (playerStats.PlayerArmor / (playerStats.PlayerArmor + calculate_armor));
 
         float totalDamageDealt = Mathf.Round(damageByEnemy * (1 - damageReductionByArmor));
 

@@ -131,7 +131,7 @@ public class ItemInformation : MonoBehaviour
                     player.playerAttackRange += amount;
                     break;
                 case StatType.Armor:
-                    player.playerArmor += amount;
+                    player.PlayerArmor += amount;
                     break;
                 case StatType.Dodge:
                     player.playerDodge += amount;

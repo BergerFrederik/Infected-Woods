@@ -38,7 +38,7 @@ public class StaticHelpers : MonoBehaviour
         values += $"{playerStats.playerAttackSpeed}\n";
         values += $"{playerStats.PlayerCritChance}\n";
         values += $"{playerStats.PlayerCritDamage}\n";
-        values += $"{playerStats.playerArmor}\n";
+        values += $"{playerStats.PlayerArmor}\n";
         values += $"{playerStats.playerDodge}\n";
         values += $"{playerStats.playerMovespeed}\n";
         values += $"{playerStats.playerLuck}\n";

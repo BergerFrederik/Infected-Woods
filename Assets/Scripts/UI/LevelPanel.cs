@@ -295,7 +295,7 @@ public class LevelPanel : MonoBehaviour
                 playerStats.playerAttackRange += value;
                 break;
             case "Armor":
-                playerStats.playerArmor += value;
+                playerStats.PlayerArmor += value;
                 break;
             case "Dodge":
                 playerStats.playerDodge += value;

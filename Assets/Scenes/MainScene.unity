@@ -16188,7 +16188,7 @@ MonoBehaviour:
   _playerCritChance: 0
   _playerCritDamage: 0
   playerAttackRange: 0
-  playerArmor: 0
+  _playerArmor: 0
   playerDodge: 0
   playerMovespeed: 0
   playerLuck: 0
@@ -20725,6 +20725,7 @@ MonoBehaviour:
   - {fileID: 2236800423731890656, guid: 8431a915bfdb20243ba10cf2bb891811, type: 3}
   - {fileID: 2236800423731890656, guid: 47cea0bd0de345b4dac69df8243be14d, type: 3}
   - {fileID: 2236800423731890656, guid: b5b90d4a96b18dd49ac9dfcbd0fac178, type: 3}
+  - {fileID: 3645869977346694503, guid: eacd36c66f75b449193848f224a74db3, type: 3}
   AugmentButtons:
   - {fileID: 1079630717}
   - {fileID: 1006695851}
@@ -39466,6 +39467,7 @@ MonoBehaviour:
   - {fileID: 2679728442328743979, guid: ab497e6763c0d43a4bc6c3f87aec29b8, type: 3}
   - {fileID: 2679728442328743979, guid: 010a1903648db4c7885870d56aa673f1, type: 3}
   - {fileID: 2679728442328743979, guid: bbc9978672ce24e9da23fe41f46d2989, type: 3}
+  - {fileID: 2679728442328743979, guid: a3569dede66cc4ff29e9e9cee1b864c5, type: 3}
   playerWeaponManager: {fileID: 159825715}
   weaponRerollButton: {fileID: 1184003834}
   weaponObjects:

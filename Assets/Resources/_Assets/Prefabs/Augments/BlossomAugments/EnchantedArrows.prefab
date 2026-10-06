@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: -2307777775234291397}
   m_Layer: 0
   m_Name: EnchantedArrows
-  m_TagString: Untagged
+  m_TagString: Blossom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
