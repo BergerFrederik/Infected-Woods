@@ -32,6 +32,16 @@ public class PlayerTakesDamage : MonoBehaviour
         if (Time.time - iFrameStartTime >= currentIFrames)
         {
             float damageDealtToPlayer = CalculateDamageDealtToPlayer(enemyStats);
+
+            // A dodged hit protects for the same window as a taken one. Without i-frames, contact
+            // damage (reported every frame) would just roll again next frame until a roll fails.
+            if (IsHitDodged())
+            {
+                currentIFrames = SetIFrames(damageDealtToPlayer);
+                iFrameStartTime = Time.time;
+                return;
+            }
+
             if (damageDealtToPlayer > 0)
             {
                 instantiatePopUp.Instantiate(damageDealtToPlayer, false, this.transform);
@@ -68,14 +78,12 @@ public class PlayerTakesDamage : MonoBehaviour
             totalDamageDealt = 1f;
         }
 
-        // Dodge
-
-        if (UnityEngine.Random.Range(0f, 100f) <= playerStats.playerDodge)
-        {
-            totalDamageDealt = 0f;
-        }
-
         return totalDamageDealt;
+    }
+
+    private bool IsHitDodged()
+    {
+        return UnityEngine.Random.Range(0f, 100f) <= playerStats.playerDodge;
     }
 
 
