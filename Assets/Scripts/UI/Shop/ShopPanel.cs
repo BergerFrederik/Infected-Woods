@@ -124,6 +124,8 @@ public partial class ShopPanel : MonoBehaviour
         onItemPurchased += RefreshAllUI;
         onItemSold += RefreshAllUI;
 
+        // A selection left over from the previous shop visit must not stay buyable.
+        ResetTransactionSection();
         SetSpritesToInventoryOnActivate();
         SetSpritesToWeaponShop();
         SetMoneyToUI();
@@ -143,9 +145,6 @@ public partial class ShopPanel : MonoBehaviour
         moveButton.onClick.RemoveListener(MoveSelectedWeapon);
         onItemPurchased -= RefreshAllUI;
         onItemSold -= RefreshAllUI;
-
-        _itemToTransact = null;
-        transactionSectionImage.sprite = null;
     }
 
     private void SwitchShelf(Button pressedButton)

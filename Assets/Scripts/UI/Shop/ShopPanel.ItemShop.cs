@@ -37,7 +37,7 @@ public partial class ShopPanel
 
     private void BuyItem()
     {
-        if (transactionItemContainer.childCount == 0)
+        if (transactionItemContainer.childCount == 0 || _itemToTransact == null)
         {
             Debug.LogWarning("No item found");
             return;
@@ -155,12 +155,16 @@ public partial class ShopPanel
 
     public void InstantTransaction(GameObject itemObj, bool isBuy)
     {
+        // Clear the transaction slot first, otherwise the item shown there could be bought
+        // afterwards against this item's _itemToTransact.
+        ResetTransactionSection();
         _itemToTransact = itemObj.transform;
         _itemToTransactOriginalContainer = itemObj.transform.parent;
 
         if (isBuy)
         {
             InstantBuy(itemObj.GetComponent<ItemInformation>());
+            _itemToTransact = null;
         }
         else
         {
