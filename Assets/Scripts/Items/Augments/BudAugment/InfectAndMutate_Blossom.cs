@@ -50,6 +50,8 @@ public class InfectAndMutate_Blossom : MonoBehaviour
         }
 
         int randomIndex = Random.Range(0, BlossomAugments.Count);
+        // The player owns it now, so the augment panel must not offer it again
+        augmentPanel.AugmentItems.Remove(BlossomAugments[randomIndex]);
         GameObject newAugment = Instantiate(BlossomAugments[randomIndex]);
         newAugment.transform.SetParent(PlayerAugments.transform, false);
         string originalAugmentTitle = newAugment.GetComponent<AugmentInformation>().augmentTitle;

@@ -62,6 +62,12 @@ public class AugmentPanel : MonoBehaviour
                 augmentsToChooseFrom.Add(augment);
             }
         }
+
+        // Every augment of the rolled rarity is owned already - offer from the rest instead
+        if (augmentsToChooseFrom.Count == 0)
+        {
+            augmentsToChooseFrom.AddRange(AugmentItems);
+        }
         ChooseAugments(augmentsToChooseFrom);
     }
 
@@ -76,7 +82,6 @@ public class AugmentPanel : MonoBehaviour
                 int randomIndex = Random.Range(0, AugmentsToChooseFrom.Count);
                 GameObject chosenAugment = AugmentsToChooseFrom[randomIndex];
                 ChosenAugments[i] = chosenAugment;
-                AugmentItems.Remove(chosenAugment);
                 AugmentsToChooseFrom.RemoveAt(randomIndex);
                 LastAugment = chosenAugment;                              
             }
@@ -115,7 +120,15 @@ public class AugmentPanel : MonoBehaviour
     }
     public void SelectAugment(int buttonIndex)
     {
+        // Block further clicks during the wait below - SetSpritesToButtons adds them again next time
+        foreach (Button button in AugmentButtons)
+        {
+            button.onClick.RemoveAllListeners();
+        }
+
         GameObject ChosenAugmentPrefab = ChosenAugments[buttonIndex];
+        // Only the picked augment leaves the pool, the other offered ones stay available
+        AugmentItems.Remove(ChosenAugmentPrefab);
         GameObject NewAugment = Instantiate(ChosenAugmentPrefab);
         NewAugment.transform.SetParent(PlayerAugments.transform, false);
         StartCoroutine(WaitForAugmentsToLoadReferences());
