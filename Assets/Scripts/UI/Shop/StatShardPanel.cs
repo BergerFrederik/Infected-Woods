@@ -210,7 +210,7 @@ public class StatShardPanel : MonoBehaviour
         }
         else
         {
-            Instantiate(blossomShards[buttonIndex], playerStatShardContainer);
+            Instantiate(_rndChosenBlossomShards[buttonIndex], playerStatShardContainer);
         }
 
         gameObject.SetActive(false);
