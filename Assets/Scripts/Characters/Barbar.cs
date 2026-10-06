@@ -60,11 +60,15 @@ public class Barbar : MonoBehaviour
     }
 
     private void StartAbility()
-    {        
+    {
+        _playerWeapons = GetPlayerWeapons();
+        // The whirlwind's stats are built from the melee weapons in the slots. Without one
+        // (only ranged weapons, or the sword is mid-throw) there is nothing to build them from.
+        if (_playerWeapons.Count == 0) return;
+
         _abilityRunning = true;
         _abilityUI.StartActiveAbilityUI();
-        
-        _playerWeapons = GetPlayerWeapons();
+
         SetAbilityWeaponStats(_playerWeapons);
         foreach (GameObject weapon in _playerWeapons)
         {
@@ -218,7 +222,7 @@ public class Barbar : MonoBehaviour
         
         int numWeapons = playerWeapons.Count;
         float averageAttackSpeedPerWeapon = averageAttackSpeed/numWeapons;
-        float finalAttackSpeed = averageAttackSpeedPerWeapon / (1 + attackSpeedBoost);
+        float finalAttackSpeed = averageAttackSpeedPerWeapon / (1f + attackSpeedBoost / 100f);
         abilityWeaponStats.weaponBaseDamage = combinedBaseDamage;
         abilityWeaponStats.weaponAttackSpeedCooldown = finalAttackSpeed;
         abilityWeaponStats.weaponMeleeDamageScale = combinedMeleeScaling;
