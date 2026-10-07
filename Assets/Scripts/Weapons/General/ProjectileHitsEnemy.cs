@@ -21,6 +21,9 @@ public class ProjectileHitsEnemy : MonoBehaviour
         {
             if (collider.TryGetComponent<EnemyStats>(out EnemyStats enemyStats))
             {
+                // Homing projectiles fly through every enemy except their target
+                if (projectile != null && !projectile.CanHit(collider.transform)) return;
+
                 OnWeaponProjectileHitsEnemyTrigger?.Invoke();
 
                 if (ownerRoot != null)

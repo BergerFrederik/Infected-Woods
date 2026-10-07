@@ -4,13 +4,29 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public WeaponStats sourceWeaponStats;
-    public Transform target;
     [SerializeField] private WeaponStats weaponStats;
     private Vector3 startingPosition;
     private float distanceToTravel;
     private GameObject Player;
     private PlayerStats playerStats;
+    private Transform _target;
     private bool _hadTarget;
+
+    // Set for homing projectiles (e.g. Valmidir's ability). Also remembers that there was a
+    // target, so a projectile whose target died doesn't turn into one that hits anything.
+    public Transform target
+    {
+        get => _target;
+        set
+        {
+            _target = value;
+            _hadTarget = value != null;
+        }
+    }
+
+    // Homing projectiles may only hit the enemy they fly towards and pass through all others.
+    // Projectiles without a target (arrows) can hit any enemy.
+    public bool CanHit(Transform enemy) => !_hadTarget || enemy == _target;
 
     private void Start()
     {
@@ -23,7 +39,6 @@ public class Projectile : MonoBehaviour
         }
 
         startingPosition = this.transform.position;
-        _hadTarget = target != null;
 
         float weaponAttackRange = weaponStats.weaponRange;
         distanceToTravel = weaponAttackRange * playerStats.GetAttackRangeFactor();
