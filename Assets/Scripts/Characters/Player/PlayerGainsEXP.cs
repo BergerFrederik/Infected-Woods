@@ -36,7 +36,7 @@ public class PlayerGainsEXP : MonoBehaviour
         }        
     }
 
-    private float GetRequiredXPForNextLevel()
+    public float GetRequiredXPForNextLevel()
     {
         float requiredXP = playerStats.playerBaseXP * Mathf.Pow(playerStats.playerLevelMultiplier, playerStats.playerLevel - 1);
         return requiredXP;
