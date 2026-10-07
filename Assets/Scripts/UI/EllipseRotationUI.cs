@@ -106,7 +106,7 @@ public class EllipseRotationUI : MonoBehaviour
         float directionMultiplier = direction == FloatDirection.Clockwise ? -1f : 1f;
         while (true)
         {
-            _globalAngle += rotationSpeed * directionMultiplier * Time.deltaTime;
+            _globalAngle += rotationSpeed * directionMultiplier * Time.unscaledDeltaTime; // unscaled: the shop runs at timeScale 0
             _globalAngle %= 360f;
 
             for (int i = 0; i < _itemsToRotate.Count; i++)

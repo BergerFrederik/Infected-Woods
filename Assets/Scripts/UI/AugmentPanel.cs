@@ -136,8 +136,8 @@ public class AugmentPanel : MonoBehaviour
 
     private IEnumerator WaitForAugmentsToLoadReferences() // we need this function to load references on the Augments
     {
-        Time.timeScale = 1.0f;
-        yield return new WaitForSeconds(0.1f);
+        // Realtime, because the shop phase runs at timeScale 0 and has to stay there
+        yield return new WaitForSecondsRealtime(0.1f);
         gameManager.CycleShops();
         this.gameObject.SetActive(false);
     }

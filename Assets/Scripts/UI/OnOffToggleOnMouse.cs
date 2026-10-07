@@ -74,16 +74,17 @@ public class OnOffToggleOnMouse : MonoBehaviour, IPointerEnterHandler, IPointerE
         }
     }
 
+    // Realtime, so the hover delay also works in the shop, which runs at timeScale 0
     private IEnumerator ExecuteEnterWithDelay()
     {
-        yield return new WaitForSeconds(durationToRegisterMouse);
+        yield return new WaitForSecondsRealtime(durationToRegisterMouse);
         ExecuteEnter();
         _enterCoroutine = null;
     }
 
     private IEnumerator ExecuteExitWithDelay()
     {
-        yield return new WaitForSeconds(durationToRegisterMouse);
+        yield return new WaitForSecondsRealtime(durationToRegisterMouse);
         ExecuteExit();
         _exitCoroutine = null;
     }

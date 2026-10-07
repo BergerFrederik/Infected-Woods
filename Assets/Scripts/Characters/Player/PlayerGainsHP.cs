@@ -49,13 +49,17 @@ public class PlayerGainsHP : MonoBehaviour
 
     public void TryApplyLifesteal(EnemyStats enemyStats, WeaponStats weaponStats)
     {
-        bool doesLifestealProbabilityApply = false;
         float cummulatedLifestealProbability = playerStats.playerLifeSteal + weaponStats.weaponLifesteal;
         if (Random.Range(1, 101) <= cummulatedLifestealProbability)
         {
-            doesLifestealProbabilityApply = true;
+            ApplyLifestealHeal(1f);
         }
+    }
 
+    // Heals without its own chance roll, but only if the player isn't full and the lifesteal
+    // cooldown is over. For effects that roll their chance themselves.
+    public void ApplyLifestealHeal(float amount)
+    {
         bool playerIsNotFullHP = false;
         if (playerStats.playerCurrentHP < playerStats.playerMaxHP)
         {
@@ -68,10 +72,10 @@ public class PlayerGainsHP : MonoBehaviour
             playerCanLifesteal = true;
         }
 
-        if (doesLifestealProbabilityApply && playerIsNotFullHP && playerCanLifesteal)
+        if (playerIsNotFullHP && playerCanLifesteal)
         {
             playerStats.playerLastLifesteal = Time.time;
-            playerStats.playerCurrentHP++;
+            playerStats.playerCurrentHP += amount;
             OnPlayerWasHealed?.Invoke(playerStats.playerCurrentHP);
         }
     }

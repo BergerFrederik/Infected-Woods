@@ -176,10 +176,8 @@ public class Valmidir: MonoBehaviour
         float rndRoll = _randomRollEvent.GetRandomFloatRoll(1f, 100f);
         if (rndRoll >= 100f - weaponStats.weaponLifesteal)
         {
-            for (int i = 0; i <= _currentStacks; i++)
-            {
-                _playerGainsHp.TryApplyLifesteal(null, weaponStats);
-            }
+            // One heal of 1 + stacks HP - separate 1 HP heals would be blocked by the lifesteal cooldown
+            _playerGainsHp.ApplyLifestealHeal(1f + _currentStacks);
         }
     }
 

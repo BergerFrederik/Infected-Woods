@@ -217,6 +217,8 @@ public class GameManager : MonoBehaviour
     
     public void RestartGame()
     {
+        // timeScale survives a scene load - restarting from the pause menu or the shop leaves it at 0
+        Time.timeScale = 1f;
         UnityEngine.SceneManagement.SceneManager.LoadScene(
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
         );
@@ -224,7 +226,10 @@ public class GameManager : MonoBehaviour
 
     public void HandlePauseRequest()
     {
-        if (!PausePanel.activeSelf && isPlayerInRound)
+        // No pausing in the menus - the else branch below would set timeScale to 0 there
+        if (!isPlayerInRound) return;
+
+        if (!PausePanel.activeSelf)
         {
             PausePanel.SetActive(true);
             gameInput.playerInput.Player.Disable();

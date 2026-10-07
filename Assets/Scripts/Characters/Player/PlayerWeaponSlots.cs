@@ -42,9 +42,11 @@ public class PlayerWeaponSlots : MonoBehaviour
             newWeaponSlot.transform.SetParent(this.transform);
         }
         
-        while (this.transform.childCount > numSlots)
+        // Destroy only happens at the end of the frame, so childCount doesn't drop here -
+        // a while loop on childCount would never end
+        for (int i = this.transform.childCount - 1; i >= numSlots; i--)
         {
-            Destroy(this.transform.GetChild(this.transform.childCount - 1).gameObject);
+            Destroy(this.transform.GetChild(i).gameObject);
         }
     }
 

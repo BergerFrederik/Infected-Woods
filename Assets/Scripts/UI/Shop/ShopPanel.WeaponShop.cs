@@ -111,10 +111,7 @@ public partial class ShopPanel
 
     private void SetRarityText()
     {
-        if (_weaponShopLvl >= weaponShopMaxLvL)
-        {
-            return;
-        }
+        // Odds and level are shown on every level, including the max level
         var odds = GetCurrentOdds(_weaponShopLvl);
 
         weaponOddsTexts[0].text = $"{odds.root}%";
@@ -122,13 +119,20 @@ public partial class ShopPanel
         weaponOddsTexts[2].text = $"{odds.bud}%";
         weaponOddsTexts[3].text = $"{odds.blossom}%";
 
+        weaponShopLvLText.text = _weaponShopLvl.ToString();
+
+        if (_weaponShopLvl >= weaponShopMaxLvL)
+        {
+            weaponShopLvlUpCostText.text = "Max LVL";
+            return;
+        }
+
         if (_weaponShopLvl == 0)
         {
             _currentWeaponShopLvlUpCost = weaponShopBaseLvLUpCost;
         }
 
         weaponShopLvlUpCostText.text = $"LVL Up - {_currentWeaponShopLvlUpCost}";
-        weaponShopLvLText.text = _weaponShopLvl.ToString();
     }
 
     private WeaponTier CalculateRarity()
@@ -277,17 +281,10 @@ public partial class ShopPanel
         HandlePurchase(_currentWeaponShopLvlUpCost);
         _weaponShopLvl++;
 
-        weaponShopLvLText.text = _weaponShopLvl.ToString();
-
         if (_weaponShopLvl < (int)weaponShopMaxLvL)
         {
             _currentWeaponShopLvlUpCost = Mathf.RoundToInt(_currentWeaponShopLvlUpCost + _currentWeaponShopLvlUpCost * weaponShopLvlUpCostIncrease);
-            weaponShopLvlUpCostText.text = $"LVL Up - {_currentWeaponShopLvlUpCost}";
-            SetRarityText();
         }
-        else
-        {
-            weaponShopLvlUpCostText.text = "Max LVL";
-        }
+        SetRarityText();
     }
 }

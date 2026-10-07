@@ -13,7 +13,6 @@ public class Barbar : MonoBehaviour
     private IEnumerator _runningAbility;
     private Coroutine _manaDrainCoroutine;
     private Coroutine _dealDamageCoroutine;
-    private List<GameObject> _playerWeaponSlots;
     private List<GameObject> _playerWeapons;
 
     [Header("Ability")]
@@ -32,7 +31,6 @@ public class Barbar : MonoBehaviour
     {       
         _playerStats = this.transform.GetComponentInParent<PlayerStats>();
         _playerDealsDamage = this.transform.root.GetComponentInChildren<PlayerDealsDamage>();
-        _playerWeaponSlots = GetPlayerWeaponSlots();
         _abilityUI = FindAnyObjectByType<AbilityUI>();
         
         characterStats.OnExecuteAbility += CharacterAbilityExecution;
@@ -182,7 +180,8 @@ public class Barbar : MonoBehaviour
     private List<GameObject> GetPlayerWeapons()
     {
         List<GameObject> playerWeapons = new List<GameObject>();
-        foreach (GameObject weaponSlot in _playerWeaponSlots)
+        // Read the slots fresh - items can add weapon slots after the game started
+        foreach (GameObject weaponSlot in GetPlayerWeaponSlots())
         {
             if (weaponSlot.transform.childCount != 0)
             {

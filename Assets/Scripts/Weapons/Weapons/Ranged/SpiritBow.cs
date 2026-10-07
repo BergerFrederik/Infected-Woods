@@ -15,6 +15,7 @@ public class SpiritBow : MonoBehaviour
     private GameObject _playerObject;
     private PlayerStats _playerStats;
     private RandomRollEvent _randomRollEvent;
+    private float _activeAttackspeedBoost;
 
     private void Start()
     {
@@ -31,6 +32,18 @@ public class SpiritBow : MonoBehaviour
         weaponStats.OnWeaponLevelChanged -= UpdateStats;
     }
 
+    // Coroutines stop when the bow is sold, merged or put on the bench - take back the boosts
+    // they would have removed, otherwise the attack speed stays forever.
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        if (_playerStats != null)
+        {
+            _playerStats.playerAttackSpeed -= _activeAttackspeedBoost;
+        }
+        _activeAttackspeedBoost = 0f;
+    }
+
     private void IncreaseAttackSpeed()
     {
         float rndNum = _randomRollEvent.GetRandomFloatRoll(0f, 100f);
@@ -42,9 +55,13 @@ public class SpiritBow : MonoBehaviour
 
     private IEnumerator GainAttackSpeedForSeconds()
     {
-        _playerStats.playerAttackSpeed += attackspeedBoost;
+        // Remember the value - a level up during the boost changes attackspeedBoost
+        float boost = attackspeedBoost;
+        _playerStats.playerAttackSpeed += boost;
+        _activeAttackspeedBoost += boost;
         yield return new WaitForSeconds(attackspeedBoostTime);
-        _playerStats.playerAttackSpeed -= attackspeedBoost;
+        _playerStats.playerAttackSpeed -= boost;
+        _activeAttackspeedBoost -= boost;
     }
 
     private void UpdateStats(float weaponLevel)

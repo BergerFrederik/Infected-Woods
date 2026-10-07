@@ -24,6 +24,13 @@ public class KukunochisWrath : MonoBehaviour
         if (itemInformation.IsPlayerRoot())
         {
             _playerStats.OnCritChanceChanged -= DoubleItemCritDamage;
+
+            // Item sold or removed - the doubled crit damage must go with it
+            if (_isThresholdReached)
+            {
+                HandleItemCritDamage(false);
+                _isThresholdReached = false;
+            }
         }
     }
 

@@ -39,11 +39,11 @@ public class Projectile : MonoBehaviour
                 Destroy(this.gameObject);
                 return;
             }
-            transform.position += (target.position - startingPosition).normalized * sourceWeaponStats.weaponProjectileSpeed * Time.deltaTime;
+            transform.position += (target.position - transform.position).normalized * sourceWeaponStats.weaponProjectileSpeed * Time.deltaTime;
         }
         else if (CalculateDistanceTraveled() < distanceToTravel)
         {
-            this.transform.position += -(this.transform.up + this.transform.right) * sourceWeaponStats.weaponProjectileSpeed * Time.deltaTime; //Sprites m�ssen nach oben zeigen
+            this.transform.position += -(this.transform.up + this.transform.right).normalized * sourceWeaponStats.weaponProjectileSpeed * Time.deltaTime; //Sprites m�ssen nach oben zeigen
         }
         else
         {

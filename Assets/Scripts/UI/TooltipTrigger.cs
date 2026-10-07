@@ -3,18 +3,19 @@ using UnityEngine.EventSystems;
 
 public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    private GameObject _selectedWeapon;
-    
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (TooltipManager.Instance.isLocked || transform.Find("WeaponPrefab") == null) 
+        // Read the weapon from the slot on click - a weapon remembered from hovering may have been
+        // moved or sold since, and an empty slot has none at all
+        Transform weaponPrefabSlot = transform.Find("WeaponPrefab");
+        if (TooltipManager.Instance.isLocked || weaponPrefabSlot == null || weaponPrefabSlot.childCount == 0)
         {
             return;
         }
-        
+
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            TooltipManager.Instance.HandleInteractionWindow(_selectedWeapon);
+            TooltipManager.Instance.HandleInteractionWindow(weaponPrefabSlot.GetChild(0).gameObject);
         }
     }
     public void OnPointerEnter(PointerEventData eventData)
@@ -33,7 +34,6 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
             if (wStats != null)
             {
-                _selectedWeapon = wStats.gameObject;
                 TooltipManager.Instance.SetTooltipData(
                     wStats.weaponName, 
                     wStats.GetStatsAsText(), 

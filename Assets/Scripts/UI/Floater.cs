@@ -50,7 +50,7 @@ public class Floater : MonoBehaviour
         }
         currentSpeed = Mathf.Max(currentSpeed, minFloatSpeed);
 
-        _lerpTime += Time.deltaTime * currentSpeed;
+        _lerpTime += Time.unscaledDeltaTime * currentSpeed; // unscaled: the shop runs at timeScale 0
         
         ApplyMovement();
     }
