@@ -64,11 +64,8 @@ public class WaveManager : MonoBehaviour
         // Wiederholende Gruppen prüfen
         CheckRepeatingGroups(_waveTimer);
 
-        // Wellenende prüfen
-        if (_waveTimer >= currentWave.waveDuration)
-        {
-            EndWave();
-        }
+        // No wave end check here: the GameManager timer ends the round, and EnemySpawner
+        // calls EndWave on OnRoundOver. A second timer here only ended the wave twice.
     }
 
     private void CheckForNewSpawns(float timeElapsed)

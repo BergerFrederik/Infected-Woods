@@ -9,13 +9,9 @@ public class EnemySpawner : MonoBehaviour
     
     [SerializeField] private WaveManager waveManager;
     public static event Action<WaveData> OnWaveInitialized;
-    
-    private EntitySpawner _entitySpawner;
 
     private void Awake()
     {
-        _entitySpawner = GetComponent<EntitySpawner>();
-        
         // Sicherheitscheck: Falls der WaveManager im Inspector vergessen wurde
         if (waveManager == null) 
             waveManager = GetComponent<WaveManager>();
@@ -55,9 +51,7 @@ public class EnemySpawner : MonoBehaviour
     private void StopSpawning()
     {
         // Stoppt den internen Timer und die Update-Logik im WaveManager
-        waveManager.EndWave(); 
-        
-        // Entfernt alle Gegner von der Map
-        _entitySpawner.ClearEnemies(); 
+        // und entfernt alle Gegner von der Map (EndWave ruft ClearEnemies auf)
+        waveManager.EndWave();
     }
 }
