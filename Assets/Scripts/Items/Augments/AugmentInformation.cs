@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AugmentInformation : MonoBehaviour
 {
-    public float augmentRarity;
+    public AugmentRarity augmentRarity;
     public string augmentID;
     public string augmentText;
     public string augmentTitle;

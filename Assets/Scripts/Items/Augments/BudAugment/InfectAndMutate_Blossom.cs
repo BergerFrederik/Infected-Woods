@@ -34,7 +34,7 @@ public class InfectAndMutate_Blossom : MonoBehaviour
         List<GameObject> AugmentItems = augmentPanel.AugmentItems;
         foreach (GameObject augment in AugmentItems)
         {
-            if (augment.GetComponent<AugmentInformation>().augmentRarity == 2)
+            if (augment.GetComponent<AugmentInformation>().augmentRarity == AugmentRarity.Blossom)
             {
                 BlossomAugments.Add(augment);
             }

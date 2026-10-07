@@ -24,35 +24,31 @@ public class AugmentPanel : MonoBehaviour
     private GameObject[] ChosenAugments;
     private GameObject LastAugment;
 
-    private int blossom_rarity_code = 2;
-    private int bud_rarity_code = 1;
-    private int root_rarity_code = 0;
-
     private void OnEnable()
     {
-        int augmentRarity = DetermineAugmentRarity();
+        AugmentRarity augmentRarity = DetermineAugmentRarity();
         DetermineAugmentsToChooseFrom(augmentRarity);
         SetSpritesToButtons();
     }
 
-    private int DetermineAugmentRarity()
+    private AugmentRarity DetermineAugmentRarity()
     {
         int randomNumber = Random.Range(0, 100);
         if (randomNumber < chance_to_get_root)
         {
-            return root_rarity_code;
+            return AugmentRarity.Root;
         }
         else if (randomNumber >= chance_to_get_root && randomNumber < chance_to_get_bud + chance_to_get_root)
         {
-            return bud_rarity_code;
+            return AugmentRarity.Bud;
         }
         else
         {
-            return blossom_rarity_code;
+            return AugmentRarity.Blossom;
         }
     }
 
-    private void DetermineAugmentsToChooseFrom(int augmentRarity)
+    private void DetermineAugmentsToChooseFrom(AugmentRarity augmentRarity)
     {
         List<GameObject> augmentsToChooseFrom = new List<GameObject>();
         foreach (GameObject augment in AugmentItems)
