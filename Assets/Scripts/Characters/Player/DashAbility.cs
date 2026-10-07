@@ -88,6 +88,9 @@ public class DashAbility : MonoBehaviour
 
     private void ResetDash()
     {
+        // Disabling this component for the shop doesn't stop the dash coroutine - it would pause
+        // there and finish at the start of the next wave, sliding the player off the spawn point
+        StopAllCoroutines();
         currentState = DashingState.dashReady;
     }
 }
