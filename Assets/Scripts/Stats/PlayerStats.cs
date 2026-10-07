@@ -140,12 +140,21 @@ public class PlayerStats : MonoBehaviour
             value = Mathf.Min(value, playerMaxMP);
             if (value > _playerCurrentMP)
             {
-                Debug.Log("Mana Gained");
                 OnPlayerInfused?.Invoke(value -  _playerCurrentMP);
             }
             _playerCurrentMP = value;
             OnCurrentMPChanged?.Invoke(value);
         }
+    }
+
+    // Fills HP and MP to max for a new run or wave. Skips the heal/mana-gain events on purpose:
+    // a refill isn't a heal, so it shouldn't show "+X" popups. The bars still update.
+    public void RefillHPAndMP()
+    {
+        _playerCurrentHP = playerMaxHP;
+        OnCurrentHPChanged?.Invoke(_playerCurrentHP);
+        _playerCurrentMP = playerMaxMP;
+        OnCurrentMPChanged?.Invoke(_playerCurrentMP);
     }
 
     [SerializeField] private float _playerLightAmount;

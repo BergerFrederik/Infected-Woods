@@ -89,8 +89,7 @@ public class CharacterStats : MonoBehaviour
         playerStats.playerLightPickupRange = characterLightAbsorption;
         playerStats.PlayerWeaponSlots = characterStartWeaponSlots;
 
-        playerStats.playerCurrentHP = characterMaxHP;
-        playerStats.playerCurrentMP = characterMaxMP;
+        playerStats.RefillHPAndMP(); // max HP/MP were set to the character's values just above
     }
 
     private void OnDestroy()

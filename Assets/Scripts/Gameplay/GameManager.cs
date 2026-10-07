@@ -203,8 +203,7 @@ public class GameManager : MonoBehaviour
     }
     private void NewWaveProcedure(WaveData incomingWave)
     {
-        playerStats.playerCurrentHP = playerStats.playerMaxHP;
-        playerStats.playerCurrentMP = playerStats.playerMaxMP;
+        playerStats.RefillHPAndMP();
         
         remainingTime = incomingWave.waveDuration;
 
