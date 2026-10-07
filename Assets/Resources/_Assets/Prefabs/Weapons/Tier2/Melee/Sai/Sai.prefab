@@ -63,15 +63,15 @@ MonoBehaviour:
   passiveDescription: Chance to apply a bleeding effect on crit
   weaponLore: Wurde safe von so nem komischen Lichtfutzen geschmieded oder so
   weaponProjectileSpeed: 0
-  weaponBaseDamage: 6
-  weaponMeleeDamageScale: 80
+  weaponBaseDamage: 0
+  weaponMeleeDamageScale: 0
   weaponRangedDamageScale: 0
   weaponMysticDamageScale: 0
-  weaponAttackSpeedCooldown: 1.01
-  weaponCritChance: 20
-  weaponCritDamage: 2.5
-  weaponRange: 2
-  weaponKnockback: 2
+  weaponAttackSpeedCooldown: 0
+  weaponCritChance: 0
+  weaponCritDamage: 0
+  weaponRange: 0
+  weaponKnockback: 0
   weaponLifesteal: 0
 --- !u!114 &1869917964682256196
 MonoBehaviour:
@@ -216,12 +216,12 @@ MonoBehaviour:
   bleedEffectPrefab: {fileID: 1816070959676738717, guid: 97e28d31e8c324a8a9504838ae867963, type: 3}
   weaponStats: {fileID: 2923472048008297227}
   chanceToApplyBleedPerLevel:
-  - 100
+  - 10
   - 30
   - 35
   - 40
   dotTimePerLevel:
-  - 222
+  - 2
   - 3
   - 5
   - 8
