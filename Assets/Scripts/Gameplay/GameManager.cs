@@ -144,6 +144,17 @@ public class GameManager : MonoBehaviour
         DashAbility dashAbility = player.GetComponentInChildren<DashAbility>();
         playerMovement.enabled = playerStatus;
         dashAbility.enabled = playerStatus;
+
+        // Character and weapon abilities must not fire in the shop either. Pause stays usable,
+        // it lives in the MenuControls map.
+        if (playerStatus)
+        {
+            gameInput.playerInput.Player.Enable();
+        }
+        else
+        {
+            gameInput.playerInput.Player.Disable();
+        }
     }
 
     public void CycleShops()
@@ -236,7 +247,11 @@ public class GameManager : MonoBehaviour
         else
         {
             PausePanel.SetActive(false);
-            gameInput.playerInput.Player.Enable();
+            // Unpausing in the shop must not give back the player input the shop took away
+            if (isWaveActive)
+            {
+                gameInput.playerInput.Player.Enable();
+            }
             Time.timeScale = isWaveActive ? 1f : 0f;
         }
     }
