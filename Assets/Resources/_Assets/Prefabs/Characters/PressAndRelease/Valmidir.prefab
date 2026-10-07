@@ -188,7 +188,7 @@ MonoBehaviour:
   costPerStack: 50
   stackDuration: 5
   projectilePrefab: {fileID: 3248573983623086727, guid: f68ee3d61ddf7473eaff97623fc50851, type: 3}
-  dmgPerStack: 50
+  dmgPerStack: 70
 --- !u!114 &-6163327147459957515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,7 +214,7 @@ MonoBehaviour:
   passiveDescription: 
   weaponLore: 
   weaponProjectileSpeed: 14
-  weaponBaseDamage: 3
+  weaponBaseDamage: 2
   weaponMeleeDamageScale: 0
   weaponRangedDamageScale: 0
   weaponMysticDamageScale: 100

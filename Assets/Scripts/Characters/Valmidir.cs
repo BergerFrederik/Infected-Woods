@@ -24,8 +24,9 @@ public class Valmidir: MonoBehaviour
     
     [Header("Passive")] [SerializeField] private float dmgPerStack = 50; //prozentuale Schadenserhöhung
 
-    private float _currentStacks;
+    private StackCounter _stacks;
     private bool _isActiveStacksRunning;
+    private float _stacksExpireAt;
     private float _originalBaseDamage;
     private float _originalMeleeDamageScale;
     private float _originalRangedDamageScale;
@@ -38,14 +39,21 @@ public class Valmidir: MonoBehaviour
         _playerGainsHp = this.transform.root.GetComponentInChildren<PlayerGainsHP>();
         _randomRollEvent = this.transform.root.GetComponentInChildren<RandomRollEvent>();
         _abilityUI = FindAnyObjectByType<AbilityUI>();
-        
+        _stacks = new StackCounter(_playerStats, maxStacks);
+        _abilityUI.EnableStackUI();
+
         characterStats.OnExecuteAbility += CharacterAbilityExecution;
         GameManager.OnRoundOver += ResetAbilityOnRoundOver;
         _playerDealsDamage.OnPlayerHitsEnemy += GainLifeOnHit;
 
         GetOriginalDamageValues();
     }
-    
+
+    private void Update()
+    {
+        UpdateStackUI();
+    }
+
 
     private void OnDestroy()
     {
@@ -57,7 +65,7 @@ public class Valmidir: MonoBehaviour
     public void CharacterAbilityExecution()
     {
         float manaCost = characterStats.ability_manaCost;
-        float amplyfiedManaCost = Mathf.Round(manaCost + manaCost * ((costPerStack * _currentStacks) / 100f));
+        float amplyfiedManaCost = Mathf.Round(manaCost + manaCost * ((costPerStack * _stacks.Current) / 100f));
         if (FindEnemysInRadius().Count == 0) return;
         if (characterStats.abilityReady && !_abilityRunning && _playerStats.playerCurrentMP >= amplyfiedManaCost)
         {
@@ -115,9 +123,8 @@ public class Valmidir: MonoBehaviour
 
     private void EndAbility()
     {
-        if (_currentStacks < maxStacks)
+        if (_stacks.TryAdd())
         {
-            _currentStacks++;
             if (_isActiveStacksRunning) StopCoroutine(_activeStacksCoroutine);
             _activeStacksCoroutine = StartCoroutine(ActiveStacksCoroutine());
         }
@@ -130,15 +137,24 @@ public class Valmidir: MonoBehaviour
     private IEnumerator ActiveStacksCoroutine()
     {
         _isActiveStacksRunning = true;
+        _stacksExpireAt = Time.time + stackDuration;
         yield return new WaitForSeconds(stackDuration);
-        _currentStacks = 0;
+        _stacks.Reset();
         _isActiveStacksRunning = false;
         RestoreOriginalDamage();
     }
 
+    // Reads the stacks themselves every frame, so the HUD also shows a reset that came from somewhere else
+    private void UpdateStackUI()
+    {
+        float secondsRemaining = _stacks.Current > 0f ? _stacksExpireAt - Time.time : 0f;
+        _abilityUI.SetStackCount(_stacks.Current);
+        _abilityUI.SetStackCountdown(secondsRemaining);
+    }
+
     private void AmplifyDamageByStacks()
     {
-        float damageMultiplier = 1f + (dmgPerStack * _currentStacks) / 100f; //Base und Scaling, damit der Bonus auch mit Spielerstats prozentual bleibt
+        float damageMultiplier = 1f + (dmgPerStack * _stacks.Current) / 100f; //Base und Scaling, damit der Bonus auch mit Spielerstats prozentual bleibt
         weaponStats.weaponBaseDamage = _originalBaseDamage * damageMultiplier;
         weaponStats.weaponMeleeDamageScale = _originalMeleeDamageScale * damageMultiplier;
         weaponStats.weaponRangedDamageScale = _originalRangedDamageScale * damageMultiplier;
@@ -156,7 +172,7 @@ public class Valmidir: MonoBehaviour
     private void ResetAbilityOnRoundOver()
     {
         StopAllCoroutines();
-        _currentStacks = 0;
+        _stacks.Reset();
         _isActiveStacksRunning = false;
         RestoreOriginalDamage();
         if (_abilityRunning)
@@ -177,7 +193,7 @@ public class Valmidir: MonoBehaviour
         if (rndRoll >= 100f - weaponStats.weaponLifesteal)
         {
             // One heal of 1 + stacks HP - separate 1 HP heals would be blocked by the lifesteal cooldown
-            _playerGainsHp.ApplyLifestealHeal(1f + _currentStacks);
+            _playerGainsHp.ApplyLifestealHeal(1f + _stacks.Current);
         }
     }
 
