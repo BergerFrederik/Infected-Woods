@@ -247,6 +247,10 @@ public class PlayerStats : MonoBehaviour
             case "MP Regeneration":
                 this.playerMPRegeneration += value;
                 break;
+            default:
+                // Stat names come from Inspector strings - a typo would otherwise do nothing silently
+                Debug.LogWarning($"Stat '{statName}' ist in ApplyStatsToPlayer nicht implementiert!");
+                break;
         }
     }
 }

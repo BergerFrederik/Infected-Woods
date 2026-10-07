@@ -256,65 +256,8 @@ public class LevelPanel : MonoBehaviour
         float chosenStat = StatGainMap[randomStats[buttonIndex]];
         float multiplier = randomRaritys[buttonIndex];
         float statToApply = chosenStat * multiplier;
-        ApplyStatsToPlayer(statToApply, randomStats[buttonIndex]);
+        playerStats.ApplyStatsToPlayer(statToApply, randomStats[buttonIndex]);
         this.gameObject.SetActive(false);
         gameManager.CycleShops();
-    }
-    public void ApplyStatsToPlayer(float value, string statName)
-    {
-        switch (statName)
-        {
-            case "Max HP":
-                playerStats.playerMaxHP += value;
-                break;
-            case "HP Regeneration":
-                playerStats.playerHPRegeneration += value;
-                break;
-            case "Lifesteal":
-                playerStats.playerLifeSteal += value;
-                break;
-            case "Damage":
-                playerStats.playerDamage += value;
-                break;
-            case "Melee Damage":
-                playerStats.playerMeleeDamage += value;
-                break;
-            case "Ranged Damage":
-                playerStats.playerRangedDamage += value;
-                break;
-            case "Mystic Damage":
-                playerStats.playerMysticDamage += value;
-                break;
-            case "Attackspeed":
-                playerStats.playerAttackSpeed += value;
-                break;
-            case "Crit":
-                playerStats.PlayerCritChance += value;
-                break;
-            case "Range":
-                playerStats.playerAttackRange += value;
-                break;
-            case "Armor":
-                playerStats.PlayerArmor += value;
-                break;
-            case "Dodge":
-                playerStats.playerDodge += value;
-                break;
-            case "Movespeed":
-                playerStats.playerMovespeed += value;
-                break;
-            case "Luck":
-                playerStats.playerLuck += value;
-                break;
-            case "Cooldown":
-                playerStats.playerCooldown += value;
-                break;
-            case "Max MP":
-                playerStats.playerMaxMP += value;
-                break;
-            case "MP Regeneration":
-                playerStats.playerMPRegeneration += value;
-                break;
-        }
     }
 }
