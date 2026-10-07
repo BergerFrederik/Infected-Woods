@@ -21,6 +21,8 @@ public class PlayerStats : MonoBehaviour
     {
         get { return _playerMaxHP; }
         set { _playerMaxHP = value;
+            // Max HP can drop (e.g. selling an item) - current HP must not stay above it
+            if (_playerCurrentHP > value) playerCurrentHP = value;
             OnMaxHPChanged?.Invoke(value);
         }
     }
@@ -29,7 +31,9 @@ public class PlayerStats : MonoBehaviour
     public float playerMaxMP
     {
         get => _playerMaxMP;
-        set { _playerMaxMP = value;            
+        set { _playerMaxMP = value;
+            // Max MP can drop (e.g. selling an item) - current MP must not stay above it
+            if (_playerCurrentMP > value) playerCurrentMP = value;
             OnMaxMPChanged?.Invoke(value);
         }
     }

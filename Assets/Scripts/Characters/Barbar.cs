@@ -154,12 +154,14 @@ public class Barbar : MonoBehaviour
 
     private void ResetAbilityOnRoundOver()
     {
-        if (_abilityRunning) 
+        if (_abilityRunning)
         {
             EndAbility();
         }
-        
+
         characterStats.abilityReady = true;
+        // EndAbility requests a cooldown - the new round starts with the ability ready instead
+        characterStats.cooldownStarted = false;
         _abilityRunning = false;
     }
 

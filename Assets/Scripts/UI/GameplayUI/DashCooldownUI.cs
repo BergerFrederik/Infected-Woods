@@ -24,8 +24,9 @@ public class DashCooldownUI : MonoBehaviour
     {
         if (_remainingCooldown > 0f)
         {
-            cooldownOverlay.fillAmount = _remainingCooldown / _dashCooldown;
-            _remainingCooldown -= Time.deltaTime;    
+            // Count down first, so the last frame sets the overlay to empty instead of a sliver
+            _remainingCooldown -= Time.deltaTime;
+            cooldownOverlay.fillAmount = Mathf.Max(0f, _remainingCooldown) / _dashCooldown;
         }
         
     }

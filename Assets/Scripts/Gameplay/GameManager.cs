@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameInput gameInput;
     [SerializeField] private GameObject PausePanel;
     [SerializeField] private CharacterSelection _characterSelection;
-    [SerializeField] private WaveManager waveManager;
 
     private bool isAugmentShopOpen = true;
     private bool isWaveActive;
@@ -197,9 +196,8 @@ public class GameManager : MonoBehaviour
         playerStats.playerCurrentMP = playerStats.playerMaxMP;
         
         remainingTime = incomingWave.waveDuration;
-        
-        waveManager.StartWave(incomingWave);
-        
+
+        // The wave itself was already started by EnemySpawner.SetupNextWave before this event
         HandlePlayerWhileShop(true);
         Time.timeScale = 1f;
         isWaveActive = true;

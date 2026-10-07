@@ -31,13 +31,14 @@ public class UISlotHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        HandleMoveConflict(true);
         Transform prefabSlot = transform.Find("WeaponPrefab");
         if (prefabSlot == null || prefabSlot.childCount == 0)
         {
             eventData.pointerDrag = null;
             return;
         }
+        // Only after the empty check - a cancelled drag gets no OnEndDrag to release the floater
+        HandleMoveConflict(true);
 
         // 1. Ursprung merken
         originalParent = transform.parent;

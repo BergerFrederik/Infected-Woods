@@ -33,13 +33,12 @@ public class Timer : MonoBehaviour
 
     private void SetTimerText(float remainingTime)
     {
-        int minutes = Mathf.FloorToInt(remainingTime / 60);
-        int seconds = Mathf.FloorToInt(remainingTime % 60);
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds + 1);
-        if (remainingTime < 0.05)
-        {
-            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-        }
+        // Round the whole time up before splitting, so 59.5s shows 01:00 (not 00:60) and the
+        // timer only reads 00:00 at the very end
+        int totalSeconds = remainingTime < 0.05f ? 0 : Mathf.CeilToInt(remainingTime);
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         if (remainingTime <= 10f && !isTimerRed)
         {
             PaintTimerRed();

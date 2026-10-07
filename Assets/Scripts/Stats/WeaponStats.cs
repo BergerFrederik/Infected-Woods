@@ -131,7 +131,7 @@ public class WeaponStats : MonoBehaviour
             formattedStats += $"Crit Chance: {weaponCritChance}%\n";
         
         if (weaponCritDamage > 0)
-            formattedStats += $"Crit Damage: {weaponCritDamage}%\n";
+            formattedStats += $"Crit Damage: x{weaponCritDamage}\n"; // a multiplier, not a percentage
 
         if (weaponRange > 0)
             formattedStats += $"Range: {weaponRange}\n";
@@ -168,6 +168,11 @@ public class WeaponStats : MonoBehaviour
         float critChance = Mathf.Clamp01((playerStats.PlayerCritChance + weaponCritChance) / 100f);
         float averageDamage = normalDamage * (1f - critChance) + critDamage * critChance;
 
-        return averageDamage / weaponAttackSpeedCooldown;
+        // Same cooldown the weapons attack with: player attack speed shortens it, 0.05s minimum
+        // (this also keeps a cooldown of 0 from showing Infinity)
+        float attackCooldown = weaponAttackSpeedCooldown / (1f + playerStats.playerAttackSpeed / 100f);
+        attackCooldown = Mathf.Max(attackCooldown, 0.05f);
+
+        return averageDamage / attackCooldown;
     }
 }

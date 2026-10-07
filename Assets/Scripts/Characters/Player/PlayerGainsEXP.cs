@@ -29,7 +29,7 @@ public class PlayerGainsEXP : MonoBehaviour
             OnPlayerLeveledUp?.Invoke(newRequiredEXP);
             playerStats.playerLevelsGained++;
             playerStats.playerCurrentXP -= requiredEXP;                        
-            if (playerStats.playerCurrentXP > newRequiredEXP)
+            if (playerStats.playerCurrentXP >= newRequiredEXP)
             {
                 UpdatePlayerLevelAndEXP();
             }

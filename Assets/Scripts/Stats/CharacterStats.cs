@@ -112,22 +112,24 @@ public class CharacterStats : MonoBehaviour
             _reducedCooldown = ability_cooldown * (1f - playerStats.playerCooldown / 100f);
             _clampedCooldown = Mathf.Clamp(_reducedCooldown, 0.01f, ability_cooldown);
             remainingCooldown = _clampedCooldown;
-            _abilityUI.StartAbilityCooldownUI(remainingCooldown);
             cooldownStarted = false;
         }
         if (!abilityReady)
         {
-            remainingCooldown -= Time.deltaTime;                      
+            remainingCooldown -= Time.deltaTime;
             if (remainingCooldown <= 0)
             {
                 abilityReady = true;
             }
+            _abilityUI.SetAbilityCooldownUI(remainingCooldown, _clampedCooldown);
         }
     }
 
     private void ResetCooldown()
     {
         remainingCooldown = 0f;
+        cooldownStarted = false;
+        _abilityUI.StopAbilityCooldownUI();
     }
 
     private void StartAbility()

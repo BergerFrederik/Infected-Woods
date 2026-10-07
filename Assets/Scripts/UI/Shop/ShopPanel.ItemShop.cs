@@ -145,9 +145,13 @@ public partial class ShopPanel
         {
             foreach (Transform rotatingItem in child)
             {
+                // Only one icon per sold item - the player can own more items with the same icon.
+                // Unparent it, so the ring rebuild right after this doesn't still count it.
                 if (rotatingItem.GetComponent<Image>().sprite == itemIcon)
                 {
+                    rotatingItem.SetParent(null);
                     Destroy(rotatingItem.gameObject);
+                    return;
                 }
             }
         }
