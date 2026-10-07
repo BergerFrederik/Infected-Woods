@@ -10,6 +10,7 @@ public class PlayerDealsDamage : MonoBehaviour
     
     public event Action OnPlayerHitsEnemy;
     public event Action<WeaponStats> OnPlayerHitsEnemyWithWeapon;
+    public event Action<EnemyStats, WeaponStats> OnPlayerCritsEnemy;
 
     public bool ApplyCritableDamageToEnemy(EnemyStats enemyStats, WeaponStats weaponStats)
     {
@@ -54,5 +55,12 @@ public class PlayerDealsDamage : MonoBehaviour
         
         Transform enemyTransform = enemyStats.transform;
         instantiatePopUp.Instantiate(damageDealtByPlayer, didCrit, enemyTransform);
+
+        // Fires for every crit that dealt damage, whatever its source (weapon, projectile, ability).
+        // Instance event: only this player's subscribers are notified.
+        if (didCrit)
+        {
+            OnPlayerCritsEnemy?.Invoke(enemyStats, weaponStats);
+        }
     }
 }
