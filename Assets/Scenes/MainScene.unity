@@ -17255,6 +17255,7 @@ MonoBehaviour:
   calculate_armor: 20
   iframe_formula_const_1: 0.4
   iframe_formula_const_2: 0.15
+  maxDodgeChance: 50
   instantiatePopUp: {fileID: 710826695}
 --- !u!114 &710826695
 MonoBehaviour:
@@ -20726,6 +20727,7 @@ MonoBehaviour:
   - {fileID: 2236800423731890656, guid: 47cea0bd0de345b4dac69df8243be14d, type: 3}
   - {fileID: 2236800423731890656, guid: b5b90d4a96b18dd49ac9dfcbd0fac178, type: 3}
   - {fileID: 3645869977346694503, guid: eacd36c66f75b449193848f224a74db3, type: 3}
+  - {fileID: 3645869977346694503, guid: 7e3f0df82c26042808f4a771c99d6026, type: 3}
   AugmentButtons:
   - {fileID: 1079630717}
   - {fileID: 1006695851}
@@ -30629,17 +30631,16 @@ MonoBehaviour:
   shopPanel: {fileID: 1645751888}
   augmentWaves:
   - 1
-  - 2
-  - 3
-  - 4
   - 5
+  - 10
+  - 15
+  - 20
   PlayerCharacter: {fileID: 294301014}
   PlayerFirstWeaponAnker: {fileID: 1125029753}
   difficultySelection: {fileID: 1439074270}
   gameInput: {fileID: 1223334015}
   PausePanel: {fileID: 571574824}
   _characterSelection: {fileID: 293783756}
-  waveManager: {fileID: 2101960062}
   currentWaveNumber: 0
   mapSize:
     m_Center: {x: 0, y: 0, z: 0}
