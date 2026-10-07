@@ -178,12 +178,23 @@ public class PlayerStats : MonoBehaviour
     public float playerBaseXP = 0f;
     
 
+    // Turns a percentage stat into a multiplier: +X% multiplies by (1 + X/100) as before, -X% uses
+    // the mirrored curve and divides by (1 + X/100). So -100% halves the value instead of reaching
+    // 0, and nothing can turn negative (stopped weapons, inverted controls, backwards stabs).
+    private static float GetPercentFactor(float percent)
+    {
+        return percent >= 0f ? 1f + percent / 100f : 1f / (1f - percent / 100f);
+    }
+
+    // Weapon cooldowns are divided by this
+    public float GetAttackSpeedFactor() => GetPercentFactor(playerAttackSpeed);
+
+    // Weapon ranges are multiplied by this
+    public float GetAttackRangeFactor() => GetPercentFactor(playerAttackRange);
+
     public float GetCurrentPlayerMovespeed()
     {
-        float playerBaseMS = playerBaseMovespeed;
-        float playerMSIncrease = playerMovespeed / 100;
-        float currentPlayerMoveSpeed = playerBaseMS + playerBaseMS * playerMSIncrease;
-        return currentPlayerMoveSpeed;
+        return playerBaseMovespeed * GetPercentFactor(playerMovespeed);
     }
 
     private void Update()

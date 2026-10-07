@@ -25,9 +25,8 @@ public class Projectile : MonoBehaviour
         startingPosition = this.transform.position;
         _hadTarget = target != null;
 
-        float playerAttackRange = playerStats.playerAttackRange;
         float weaponAttackRange = weaponStats.weaponRange;
-        distanceToTravel = weaponAttackRange * (1f + (playerAttackRange / 100f));
+        distanceToTravel = weaponAttackRange * playerStats.GetAttackRangeFactor();
     }
 
     private void Update()

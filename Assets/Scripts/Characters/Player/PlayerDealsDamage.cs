@@ -24,7 +24,7 @@ public class PlayerDealsDamage : MonoBehaviour
         float bonusDamage = 0f;
         damageDealtByPlayer += bonusDamage;
 
-        DealDamage(enemyStats, damageDealtByPlayer, didCrit);
+        DealDamage(enemyStats, weaponStats, damageDealtByPlayer, didCrit);
 
         return didCrit;
     }
@@ -40,11 +40,16 @@ public class PlayerDealsDamage : MonoBehaviour
         float bonusDamage = 0f;
         damageDealtByPlayer += bonusDamage;
 
-        DealDamage(enemyStats, damageDealtByPlayer, false);
+        DealDamage(enemyStats, weaponStats, damageDealtByPlayer, false);
     }
 
-    private void DealDamage(EnemyStats enemyStats, float damageDealtByPlayer, bool didCrit)
+    private void DealDamage(EnemyStats enemyStats, WeaponStats weaponStats, float damageDealtByPlayer, bool didCrit)
     {
+        // Damaging weapons hit for at least 1, support weapons (base damage 0) for at least 0 -
+        // see WeaponStats.MinimumHitDamage. Negative stats (damage, crit damage, flat damage) could
+        // otherwise push a hit below 0, which would heal the enemy. All enemy hits pass here.
+        damageDealtByPlayer = Mathf.Max(weaponStats.MinimumHitDamage, damageDealtByPlayer);
+
         enemyStats.TakeDamage(damageDealtByPlayer);
         
         Transform enemyTransform = enemyStats.transform;

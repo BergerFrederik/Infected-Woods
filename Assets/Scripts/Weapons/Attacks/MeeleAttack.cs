@@ -85,7 +85,7 @@ public class MeleeAttack : MonoBehaviour
             Transform closestEnemy = FindClosestEnemy();
             PointWeaponAtEnemy(closestEnemy);
             
-            float attackCooldown = weaponStats.weaponAttackSpeedCooldown / (1f + playerStats.playerAttackSpeed / 100f);
+            float attackCooldown = weaponStats.weaponAttackSpeedCooldown / playerStats.GetAttackSpeedFactor();
             attackCooldown = Mathf.Max(attackCooldown, 0.05f);
 
             if (Time.time - lastAttackTime >= attackCooldown)
@@ -101,7 +101,7 @@ public class MeleeAttack : MonoBehaviour
         Collider2D enemyCollider = closestEnemy.GetComponent<Collider2D>();
         Vector2 closestPointOnEdge = enemyCollider.ClosestPoint(transform.position);
         float distanceToEdge = Vector2.Distance(transform.position, closestPointOnEdge);
-        float attackRange = weaponStats.weaponRange + weaponStats.weaponRange * (playerStats.playerAttackRange / 100f);
+        float attackRange = weaponStats.weaponRange * playerStats.GetAttackRangeFactor();
         
         if (distanceToEdge <= weaponLengthOffset + attackRange)
         {

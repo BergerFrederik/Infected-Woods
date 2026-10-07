@@ -35,7 +35,8 @@ public class PlayerGainsHP : MonoBehaviour
         {
             // "Stat / 10" = HP per sec
             float hpPerSecond = playerStats.playerHPRegeneration / hp_regen_division_const;
-            hpAccumulator += hpPerSecond * Time.deltaTime;
+            // Negative regen does nothing - it must not build up a debt that blocks regen later
+            hpAccumulator += Mathf.Max(0f, hpPerSecond) * Time.deltaTime;
 
             if (hpAccumulator >= 1f)
             {

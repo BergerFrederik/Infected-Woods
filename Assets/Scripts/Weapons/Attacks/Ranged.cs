@@ -54,9 +54,8 @@ public class Ranged : MonoBehaviour
 
     private void UpdateCooldown()
     {
-        float playerAttackSpeedBonus = playerStats.playerAttackSpeed / 100;
         float weaponAttackSpeedCooldown = weaponStats.weaponAttackSpeedCooldown;
-        attackCooldown = weaponAttackSpeedCooldown / (1f + playerAttackSpeedBonus);
+        attackCooldown = weaponAttackSpeedCooldown / playerStats.GetAttackSpeedFactor();
         attackCooldown = Mathf.Max(attackCooldown, 0.05f);
     }
     private void SearchForEnemyAndAttack()
@@ -68,7 +67,7 @@ public class Ranged : MonoBehaviour
             Collider2D enemyCollider = closestEnemy.GetComponent<Collider2D>();
             Vector2 closestPointOnEdge = enemyCollider.ClosestPoint(transform.position);
             float distanceToEdge = Vector2.Distance(transform.position, closestPointOnEdge);
-            float attackRange = weaponStats.weaponRange + weaponStats.weaponRange * (playerStats.playerAttackRange / 100f);
+            float attackRange = weaponStats.weaponRange * playerStats.GetAttackRangeFactor();
             if (distanceToEdge <= attackRange)
             {           
                 directionToEnemy = (closestEnemy.position - transform.position);

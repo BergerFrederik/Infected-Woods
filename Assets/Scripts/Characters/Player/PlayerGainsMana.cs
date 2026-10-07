@@ -28,7 +28,8 @@ public class PlayerGainsMana : MonoBehaviour
         {
             // "Stat / 10" = MP per sec
             float mpPerSecond = playerStats.playerMPRegeneration / mp_per_second_decimal;
-            mpAccumulator += mpPerSecond * Time.deltaTime;
+            // Negative regen does nothing - it must not build up a debt that blocks regen later
+            mpAccumulator += Mathf.Max(0f, mpPerSecond) * Time.deltaTime;
 
             if (mpAccumulator >= 1f)
             {

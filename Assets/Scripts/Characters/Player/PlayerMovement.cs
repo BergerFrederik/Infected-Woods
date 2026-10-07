@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_characterVisuals != null)
         {
-            float playerMoveSpeed = playerStats.playerBaseMovespeed + playerStats.playerBaseMovespeed * (playerStats.playerMovespeed / 100);     
+            float playerMoveSpeed = playerStats.GetCurrentPlayerMovespeed();
             MoveCharacterByInput(playerMoveSpeed); 
         }
     }   

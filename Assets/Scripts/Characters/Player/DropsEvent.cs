@@ -8,9 +8,7 @@ public class DropsEvent : MonoBehaviour
 
     private void Start()
     {
-        float baseRadius = playerStats.playerBasePickupRange;
-        float bonusRadius = playerStats.playerLightPickupRange / 100f;
-        pickupCollider.radius = baseRadius + bonusRadius;
+        AlterColliderRadius(playerStats.playerLightPickupRange);
     }
 
     private void OnEnable()
@@ -42,6 +40,7 @@ public class DropsEvent : MonoBehaviour
     {
         float baseRadius = playerStats.playerBasePickupRange;
         float bonusRadius = bonusPickupRange / 100f;
-        pickupCollider.radius = baseRadius + bonusRadius;
+        // A very negative pickup range must not give the collider a negative radius
+        pickupCollider.radius = Mathf.Max(0f, baseRadius + bonusRadius);
     }
 }

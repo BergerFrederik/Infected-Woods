@@ -8,6 +8,7 @@ public class PlayerTakesDamage : MonoBehaviour
     [SerializeField] private float calculate_armor = 20f;    
     [SerializeField] private float iframe_formula_const_1 = 0.4f;
     [SerializeField] private float iframe_formula_const_2 = 0.15f;
+    [SerializeField] private float maxDodgeChance = 50f; // dodge above this counts as this much
     [SerializeField] private InstantiatePopUp instantiatePopUp;
 
     public event Action<float> OnPlayerTakesDamage;
@@ -68,9 +69,15 @@ public class PlayerTakesDamage : MonoBehaviour
         float damageByEnemy = enemyStats.enemyDamage;
 
         // Balancing for Armor. Armor should be less effective, the more armor you have. Changing calculate_armor_const balances the armor.
-        float damageReductionByArmor = (playerStats.PlayerArmor / (playerStats.PlayerArmor + calculate_armor));
+        // Negative armor uses the mirrored curve: it raises damage taken with the same diminishing
+        // returns, at most to double damage. The plain formula armor / (armor + calculate_armor)
+        // divides by zero at -calculate_armor and flips sign below it.
+        float armor = playerStats.PlayerArmor;
+        float damageMultiplier = armor >= 0f
+            ? 1f - armor / (armor + calculate_armor)
+            : 1f + -armor / (-armor + calculate_armor);
 
-        float totalDamageDealt = Mathf.Round(damageByEnemy * (1 - damageReductionByArmor));
+        float totalDamageDealt = Mathf.Round(damageByEnemy * damageMultiplier);
 
         // You should always get at least 1 damage
         if (totalDamageDealt < 1f)
@@ -83,7 +90,9 @@ public class PlayerTakesDamage : MonoBehaviour
 
     private bool IsHitDodged()
     {
-        return UnityEngine.Random.Range(0f, 100f) <= playerStats.playerDodge;
+        // Capped here, not on the stat itself, so items can still add and remove dodge correctly
+        float dodgeChance = Mathf.Min(playerStats.playerDodge, maxDodgeChance);
+        return UnityEngine.Random.Range(0f, 100f) <= dodgeChance;
     }
 
 

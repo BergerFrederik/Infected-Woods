@@ -67,6 +67,11 @@ public class WeaponStats : MonoBehaviour
     public float weaponLifesteal = 0f;
     private float _dps;
 
+    // Lowest damage one hit of this weapon can deal: weapons with base damage always hit for at
+    // least 1, pure support weapons (base damage 0) for at least 0. Never below 0, which would
+    // heal the enemy when negative stats push the damage down.
+    public float MinimumHitDamage => weaponBaseDamage > 0f ? 1f : 0f;
+
     public void CopyFrom(WeaponStats other)
     {
         if (other == null) return;
@@ -160,17 +165,21 @@ public class WeaponStats : MonoBehaviour
 
         float increaseByPlayerDamage = (playerPercentDamage / 100f) * newWeaponBaseDamage;
 
-        float normalDamage = newWeaponBaseDamage + increaseByPlayerDamage;
+        float rawDamage = newWeaponBaseDamage + increaseByPlayerDamage;
 
-        float critWeaponDamage = normalDamage * weaponCritDamage;
-        float critDamage = critWeaponDamage + (critWeaponDamage * playerStats.PlayerCritDamage / 100f);
+        float critWeaponDamage = rawDamage * weaponCritDamage;
+        float rawCritDamage = critWeaponDamage + (critWeaponDamage * playerStats.PlayerCritDamage / 100f);
+
+        // Same minimum per hit as PlayerDealsDamage, applied after the crit like there
+        float normalDamage = Mathf.Max(MinimumHitDamage, rawDamage);
+        float critDamage = Mathf.Max(MinimumHitDamage, rawCritDamage);
 
         float critChance = Mathf.Clamp01((playerStats.PlayerCritChance + weaponCritChance) / 100f);
         float averageDamage = normalDamage * (1f - critChance) + critDamage * critChance;
 
         // Same cooldown the weapons attack with: player attack speed shortens it, 0.05s minimum
         // (this also keeps a cooldown of 0 from showing Infinity)
-        float attackCooldown = weaponAttackSpeedCooldown / (1f + playerStats.playerAttackSpeed / 100f);
+        float attackCooldown = weaponAttackSpeedCooldown / playerStats.GetAttackSpeedFactor();
         attackCooldown = Mathf.Max(attackCooldown, 0.05f);
 
         return averageDamage / attackCooldown;

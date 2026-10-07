@@ -60,7 +60,7 @@ public class DashAbility : MonoBehaviour
     private IEnumerator RollCoroutine()
     {
         float startTime = Time.time;
-        float playerMoveSpeed = playerStats.playerBaseMovespeed + playerStats.playerBaseMovespeed * (playerStats.playerMovespeed / 100);
+        float playerMoveSpeed = playerStats.GetCurrentPlayerMovespeed();
         float rollSpeed = playerMoveSpeed * dash_multiplier + dash_base_speed;
 
         Vector3 rollDir = playerMovement.CurrentMovementInput;

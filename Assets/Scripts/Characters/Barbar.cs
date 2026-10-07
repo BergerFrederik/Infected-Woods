@@ -104,8 +104,7 @@ public class Barbar : MonoBehaviour
     {
         while (_abilityRunning)
         {
-            float speedFactor = 1f + (_playerStats.playerAttackSpeed / 100f);
-            float attackSpeedCooldown = abilityWeaponStats.weaponAttackSpeedCooldown / speedFactor;
+            float attackSpeedCooldown = abilityWeaponStats.weaponAttackSpeedCooldown / _playerStats.GetAttackSpeedFactor();
             attackSpeedCooldown = Mathf.Max(attackSpeedCooldown, 0.05f);
             DealWhirlwindDamage();
             yield return new WaitForSeconds(attackSpeedCooldown);
