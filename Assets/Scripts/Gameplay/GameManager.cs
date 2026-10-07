@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -115,8 +116,19 @@ public class GameManager : MonoBehaviour
         isWaveActive = false;
         Time.timeScale = 0f;
         DestroyRemainingEntities();
+        StartCoroutine(DestroyRemainingEntitiesAtEndOfFrame());
         ResetPlayerPosition();
         HandlePlayerWhileShop(false);
+    }
+
+    // Scripts that run after this one in the round-end frame (player contact damage, weapon
+    // attacks, bleed ticks, finishing spawn animations) can still create popups, projectiles,
+    // drops or enemies after the cleanup above. Those would freeze in the shop and play on in
+    // the next wave, so sweep once more when everything in this frame has run.
+    private IEnumerator DestroyRemainingEntitiesAtEndOfFrame()
+    {
+        yield return new WaitForEndOfFrame();
+        DestroyRemainingEntities();
     }
     
     private void DestroyRemainingEntities()
@@ -125,10 +137,17 @@ public class GameManager : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, searchRadius);
         foreach (Collider2D collider in colliders)
         {
-            if (collider.CompareTag("Enemy") || collider.CompareTag("Drop") || collider.CompareTag("Deletable") || collider.CompareTag("Projectile"))
+            if (collider.CompareTag("Enemy") || collider.CompareTag("Drop") || collider.CompareTag("DeleteableRoundEnd") || collider.CompareTag("Projectile"))
             {
                 Destroy(collider.gameObject);
-            }            
+            }
+        }
+
+        // Effects like hit particles and damage popups have no collider, so the search above
+        // misses them - they would freeze in the shop and play on in the next wave
+        foreach (GameObject deleteable in GameObject.FindGameObjectsWithTag("DeleteableRoundEnd"))
+        {
+            Destroy(deleteable);
         }
     }
     

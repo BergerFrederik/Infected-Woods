@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 2214959508356843002}
   m_Layer: 0
   m_Name: SpawnIndicator
-  m_TagString: Deletable
+  m_TagString: DeleteableRoundEnd
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

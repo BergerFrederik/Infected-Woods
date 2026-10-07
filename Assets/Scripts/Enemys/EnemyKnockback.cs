@@ -62,6 +62,9 @@ public class EnemyKnockback : MonoBehaviour
 
         if (collider.TryGetComponent<WeaponStats>(out WeaponStats weaponStats))
         {
+            // A homing projectile aimed at another enemy just passes through - no knockback
+            if (collider.TryGetComponent(out Projectile projectile) && !projectile.CanHit(transform)) return;
+
             if (!isKnockedBack)
             {
                 startTime = Time.time;

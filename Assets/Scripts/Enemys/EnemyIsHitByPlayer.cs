@@ -10,6 +10,9 @@ public class EnemyIsHitByPlayer : MonoBehaviour
     {
         if (collider.TryGetComponent<WeaponStats>(out WeaponStats weaponStats))
         {
+            // A homing projectile aimed at another enemy just passes through - no hit effect
+            if (collider.TryGetComponent(out Projectile projectile) && !projectile.CanHit(transform)) return;
+
             PlayParticleEffect();
             if (collider.CompareTag("Projectile"))
             {

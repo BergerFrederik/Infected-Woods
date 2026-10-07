@@ -18,7 +18,7 @@ TagManager:
   - Boarder
   - Canvas
   - MeleeWeapon
-  - Deletable
+  - DeleteableRoundEnd
   layers:
   - Default
   - TransparentFX
