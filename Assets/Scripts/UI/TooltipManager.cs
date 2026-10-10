@@ -57,9 +57,9 @@ public class TooltipManager : MonoBehaviour
     {
         Vector2 mousePos = Input.mousePosition;
         
-        float tooltipWidth = tooltipRect.rect.width;
-        float tooltipHeight = tooltipRect.rect.height;
-        
+        float tooltipWidth = tooltipRect.rect.width * tooltipRect.lossyScale.x;
+        float tooltipHeight = tooltipRect.rect.height * tooltipRect.lossyScale.y;
+
         float pivotX = 0;
         float pivotY = 1;
         
