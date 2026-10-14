@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: -1393994546412586380}
   m_Layer: 0
   m_Name: CriticalLight
-  m_TagString: Bud
+  m_TagString: Root
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
