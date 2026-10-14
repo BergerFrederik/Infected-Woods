@@ -12,7 +12,7 @@ public class MikeStackson : MonoBehaviour, IAugmentDescribable
     [SerializeField] private float secondsWithoutDamageTakenRequired;
     [SerializeField] private float chanceToGainStacks;
 
-    public float mikeStacksonStacks;
+    private StackCounter _stacks;
 
     private Transform Player;
     private PlayerStats playerStats;
@@ -25,6 +25,7 @@ public class MikeStackson : MonoBehaviour, IAugmentDescribable
     {
         Player = this.transform.root;
         playerStats = Player.GetComponent<PlayerStats>();
+        _stacks = StackCounter.Uncapped(playerStats);
         _randomRollEvent = Player.GetComponentInChildren<RandomRollEvent>();
         playerTakesDamage = Player.GetComponentInChildren<PlayerTakesDamage>();
 
@@ -52,8 +53,8 @@ public class MikeStackson : MonoBehaviour, IAugmentDescribable
                 //Luck erhöht den Roll.
                 //Bei 30% muss also höher als 70 gerollt werden
             {
-                playerStats.playerMeleeDamage += meleeDamageGainedPerStack;
-                mikeStacksonStacks++;
+                _stacks.TryAdd(out int wholeStacksGained);
+                playerStats.playerMeleeDamage += meleeDamageGainedPerStack * wholeStacksGained;
             }
         }
     }

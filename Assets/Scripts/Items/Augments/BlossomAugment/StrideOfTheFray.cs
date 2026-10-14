@@ -10,12 +10,13 @@ public class StrideOfTheFray : MonoBehaviour
     private PlayerDealsDamage playerDealsDamage;
     private float currentASModFromMS = 0f;
 
-    public int strideOfTheFrayStacks;
+    private StackCounter _stacks;
 
     private void Start()
     {
         PlayerTransform = this.transform.root;
         playerStats = this.GetComponentInParent<PlayerStats>();
+        _stacks = StackCounter.Uncapped(playerStats);
         playerDealsDamage = PlayerTransform.GetComponentInChildren<PlayerDealsDamage>();
 
         playerDealsDamage.OnPlayerHitsEnemyWithWeapon += AddMovespeedToPlayerStats;
@@ -35,8 +36,11 @@ public class StrideOfTheFray : MonoBehaviour
     {
         if (weaponStats.weaponWeaponType != WeaponStats.weaponTypeOptions.Ability)
         {
-            strideOfTheFrayStacks++;
-            playerStats.playerMovespeed += moveSpeedGainPerStack; 
+            _stacks.TryAdd(out int wholeStacksGained);
+            if (wholeStacksGained > 0)
+            {
+                playerStats.playerMovespeed += moveSpeedGainPerStack * wholeStacksGained;
+            }
         }
     }
 
@@ -51,10 +55,10 @@ public class StrideOfTheFray : MonoBehaviour
 
     private void ResetStacks()
     {
-        playerStats.playerMovespeed -= moveSpeedGainPerStack * strideOfTheFrayStacks;
+        playerStats.playerMovespeed -= moveSpeedGainPerStack * _stacks.Whole;
         playerStats.playerAttackSpeed -= currentASModFromMS;
 
-        strideOfTheFrayStacks = 0;
+        _stacks.Reset();
         currentASModFromMS = 0f;
     }  
 }

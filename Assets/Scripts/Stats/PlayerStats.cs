@@ -100,6 +100,7 @@ public class PlayerStats : MonoBehaviour
     public float playerHealPower = 0f;
     public float playerShieldPower = 0f;
     public float playerStackCapIncreasePercent = 0f; // raises the cap of every capped stackable, see StackCounter
+    public float playerStackGainIncreasePercent = 0f; // raises the stacks every stackable gains per gain (50 = 1.5 stacks), see StackCounter
     [SerializeField] private float _playerWeaponSlots;
     public float PlayerWeaponSlots
     {

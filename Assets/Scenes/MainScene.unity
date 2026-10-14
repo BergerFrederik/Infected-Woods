@@ -20868,6 +20868,7 @@ MonoBehaviour:
   - {fileID: 3645869977346694503, guid: 7e3f0df82c26042808f4a771c99d6026, type: 3}
   - {fileID: 3645869977346694503, guid: 91cad9db27b6d4ff0987d239a26d2061, type: 3}
   - {fileID: 3645869977346694503, guid: 7dcd6ac5d14684a47a2bddc43f6a22eb, type: 3}
+  - {fileID: 3645869977346694503, guid: 34bc2ca8e7b554f66824e14b231cb274, type: 3}
   AugmentButtons:
   - {fileID: 1079630717}
   - {fileID: 1006695851}

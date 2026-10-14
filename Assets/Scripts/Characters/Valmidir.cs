@@ -65,7 +65,7 @@ public class Valmidir: MonoBehaviour
     public void CharacterAbilityExecution()
     {
         float manaCost = characterStats.ability_manaCost;
-        float amplyfiedManaCost = Mathf.Round(manaCost + manaCost * ((costPerStack * _stacks.Current) / 100f));
+        float amplyfiedManaCost = Mathf.Round(manaCost + manaCost * ((costPerStack * _stacks.Whole) / 100f));
         if (FindEnemysInRadius().Count == 0) return;
         if (characterStats.abilityReady && !_abilityRunning && _playerStats.playerCurrentMP >= amplyfiedManaCost)
         {
@@ -147,14 +147,14 @@ public class Valmidir: MonoBehaviour
     // Reads the stacks themselves every frame, so the HUD also shows a reset that came from somewhere else
     private void UpdateStackUI()
     {
-        float secondsRemaining = _stacks.Current > 0f ? _stacksExpireAt - Time.time : 0f;
-        _abilityUI.SetStackCount(_stacks.Current);
+        float secondsRemaining = _stacks.Whole > 0 ? _stacksExpireAt - Time.time : 0f;
+        _abilityUI.SetStackCount(_stacks.Whole);
         _abilityUI.SetStackCountdown(secondsRemaining);
     }
 
     private void AmplifyDamageByStacks()
     {
-        float damageMultiplier = 1f + (dmgPerStack * _stacks.Current) / 100f; //Base und Scaling, damit der Bonus auch mit Spielerstats prozentual bleibt
+        float damageMultiplier = 1f + (dmgPerStack * _stacks.Whole) / 100f; //Base und Scaling, damit der Bonus auch mit Spielerstats prozentual bleibt
         weaponStats.weaponBaseDamage = _originalBaseDamage * damageMultiplier;
         weaponStats.weaponMeleeDamageScale = _originalMeleeDamageScale * damageMultiplier;
         weaponStats.weaponRangedDamageScale = _originalRangedDamageScale * damageMultiplier;
@@ -193,7 +193,7 @@ public class Valmidir: MonoBehaviour
         if (rndRoll >= 100f - weaponStats.weaponLifesteal)
         {
             // One heal of 1 + stacks HP - separate 1 HP heals would be blocked by the lifesteal cooldown
-            _playerGainsHp.ApplyLifestealHeal(1f + _stacks.Current);
+            _playerGainsHp.ApplyLifestealHeal(1f + _stacks.Whole);
         }
     }
 
