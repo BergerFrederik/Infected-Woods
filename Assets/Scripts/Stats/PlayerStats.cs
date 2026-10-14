@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
@@ -214,64 +215,130 @@ public class PlayerStats : MonoBehaviour
         }
     }
     
+    // Stat names the level-up and stat-shard panels use. They are Inspector strings and also shown
+    // as titles, so they stay strings and are mapped to the StatType here.
+    private static readonly Dictionary<string, StatType> StatTypesByName = new Dictionary<string, StatType>
+    {
+        { "Max HP", StatType.MaxHP },
+        { "HP Regeneration", StatType.HPRegeneration },
+        { "Lifesteal", StatType.LifeSteal },
+        { "Damage", StatType.Damage },
+        { "Melee Damage", StatType.MeleeDamage },
+        { "Ranged Damage", StatType.RangedDamage },
+        { "Mystic Damage", StatType.MysticDamage },
+        { "Attackspeed", StatType.AttackSpeed },
+        { "Crit", StatType.CritChance },
+        { "Range", StatType.AttackRange },
+        { "Armor", StatType.Armor },
+        { "Dodge", StatType.Dodge },
+        { "Movespeed", StatType.Movespeed },
+        { "Luck", StatType.Luck },
+        { "Cooldown", StatType.Cooldown },
+        { "Max MP", StatType.MaxMP },
+        { "MP Regeneration", StatType.MPRegeneration }
+    };
+
     public void ApplyStatsToPlayer(float value, string statName)
     {
-        switch (statName)
+        if (statName != null && StatTypesByName.TryGetValue(statName, out StatType statType))
         {
-            case "Max HP":
-                this.playerMaxHP += value;
+            AddStat(statType, value);
+            return;
+        }
+
+        // Stat names come from Inspector strings - a typo would otherwise do nothing silently
+        Debug.LogWarning($"Stat '{statName}' ist in ApplyStatsToPlayer nicht implementiert!");
+    }
+
+    // The one place a stat bonus is added to the player, items and level-ups both come through here.
+    // A negative amount takes the bonus away again.
+    public void AddStat(StatType statType, float amount)
+    {
+        switch (statType)
+        {
+            // Primary Stats (Properties mit Events)
+            case StatType.MaxHP:
+                playerMaxHP += amount;
                 break;
-            case "HP Regeneration":
-                this.playerHPRegeneration += value;
+            case StatType.MaxMP:
+                playerMaxMP += amount;
                 break;
-            case "Lifesteal":
-                this.playerLifeSteal += value;
+            case StatType.CritChance:
+                PlayerCritChance += amount;
                 break;
-            case "Damage":
-                this.playerDamage += value;
+            case StatType.CritDamage:
+                PlayerCritDamage += amount;
                 break;
-            case "Melee Damage":
-                this.playerMeleeDamage += value;
+
+            // Kampf Stats (Einfache Floats)
+            case StatType.HPRegeneration:
+                playerHPRegeneration += amount;
                 break;
-            case "Ranged Damage":
-                this.playerRangedDamage += value;
+            case StatType.MPRegeneration:
+                playerMPRegeneration += amount;
                 break;
-            case "Mystic Damage":
-                this.playerMysticDamage += value;
+            case StatType.LifeSteal:
+                playerLifeSteal += amount;
                 break;
-            case "Attackspeed":
-                this.playerAttackSpeed += value;
+            case StatType.Damage:
+                playerDamage += amount;
                 break;
-            case "Crit":
-                this.PlayerCritChance += value;
+            case StatType.MeleeDamage:
+                playerMeleeDamage += amount;
                 break;
-            case "Range":
-                this.playerAttackRange += value;
+            case StatType.RangedDamage:
+                playerRangedDamage += amount;
                 break;
-            case "Armor":
-                this.PlayerArmor += value;
+            case StatType.MysticDamage:
+                playerMysticDamage += amount;
                 break;
-            case "Dodge":
-                this.playerDodge += value;
+            case StatType.AttackSpeed:
+                playerAttackSpeed += amount;
                 break;
-            case "Movespeed":
-                this.playerMovespeed += value;
+            case StatType.AttackRange:
+                playerAttackRange += amount;
                 break;
-            case "Luck":
-                this.playerLuck += value;
+            case StatType.Armor:
+                PlayerArmor += amount;
                 break;
-            case "Cooldown":
-                this.playerCooldown += value;
+            case StatType.Dodge:
+                playerDodge += amount;
                 break;
-            case "Max MP":
-                this.playerMaxMP += value;
+            case StatType.Movespeed:
+                playerMovespeed += amount; // Das löst CommunicateMovementspeedChanged aus
                 break;
-            case "MP Regeneration":
-                this.playerMPRegeneration += value;
+            case StatType.Luck:
+                playerLuck += amount;
                 break;
+            case StatType.Cooldown:
+                playerCooldown += amount;
+                break;
+
+            // Secondary Stats
+            case StatType.Knockback:
+                playerKnockback += amount;
+                break;
+            case StatType.LightPickupRange:
+                playerLightPickupRange += amount;
+                break;
+            case StatType.DashCooldownReduction:
+                playerDashCooldownReduction += amount;
+                break;
+            case StatType.AbilityCooldown:
+                playerAbilityCooldown += amount;
+                break;
+            case StatType.HealPower:
+                playerHealPower += amount;
+                break;
+            case StatType.ShieldPower:
+                playerShieldPower += amount;
+                break;
+            case StatType.WeaponSlots:
+                PlayerWeaponSlots += amount;
+                break;
+
             default:
-                // Stat names come from Inspector strings - a typo would otherwise do nothing silently
-                Debug.LogWarning($"Stat '{statName}' ist in ApplyStatsToPlayer nicht implementiert!");
+                Debug.LogWarning($"Stat {statType} ist noch nicht im switch implementiert!");
                 break;
         }
     }
