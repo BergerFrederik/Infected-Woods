@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SkyKamiReach : MonoBehaviour, IAugmentDescribable
 {
-    [SerializeField] private float percentStacksIncrease = 50; // num in percent
+    [SerializeField] private float percentStacksIncrease = 50f; // num in percent
 
     private Transform _player;
     private PlayerStats _playerStats;

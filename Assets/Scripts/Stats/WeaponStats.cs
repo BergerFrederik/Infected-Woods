@@ -152,30 +152,8 @@ public class WeaponStats : MonoBehaviour
     private float GetCurrentDps()
     {
         PlayerStats playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
-        float playerPercentDamage = playerStats.playerDamage;
-        float playerMeleeDamage = playerStats.playerMeleeDamage;
-        float playerRangedDamage = playerStats.playerRangedDamage;
-        float playerMysticDamage = playerStats.playerMysticDamage;
-
-        float increaseByMeleeScaling = playerMeleeDamage * (weaponMeleeDamageScale / 100f);
-        float increaseByRangedScaling = playerRangedDamage * (weaponRangedDamageScale / 100f);
-        float increaseByMysticScaling = playerMysticDamage * (weaponMysticDamageScale / 100f);
-
-        float newWeaponBaseDamage = weaponBaseDamage + increaseByMeleeScaling + increaseByMysticScaling + increaseByRangedScaling;
-
-        float increaseByPlayerDamage = (playerPercentDamage / 100f) * newWeaponBaseDamage;
-
-        float rawDamage = newWeaponBaseDamage + increaseByPlayerDamage;
-
-        float critWeaponDamage = rawDamage * weaponCritDamage;
-        float rawCritDamage = critWeaponDamage + (critWeaponDamage * playerStats.PlayerCritDamage / 100f);
-
-        // Same minimum per hit as PlayerDealsDamage, applied after the crit like there
-        float normalDamage = Mathf.Max(MinimumHitDamage, rawDamage);
-        float critDamage = Mathf.Max(MinimumHitDamage, rawCritDamage);
-
-        float critChance = Mathf.Clamp01((playerStats.PlayerCritChance + weaponCritChance) / 100f);
-        float averageDamage = normalDamage * (1f - critChance) + critDamage * critChance;
+        // The same formula a real hit is dealt with
+        float averageDamage = DamageCalculation.ComputeAverageDamagePerHit(this, playerStats);
 
         // Same cooldown the weapons attack with: player attack speed shortens it, 0.05s minimum
         // (this also keeps a cooldown of 0 from showing Infinity)

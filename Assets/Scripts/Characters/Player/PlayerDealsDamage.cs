@@ -49,7 +49,7 @@ public class PlayerDealsDamage : MonoBehaviour
         // Damaging weapons hit for at least 1, support weapons (base damage 0) for at least 0 -
         // see WeaponStats.MinimumHitDamage. Negative stats (damage, crit damage, flat damage) could
         // otherwise push a hit below 0, which would heal the enemy. All enemy hits pass here.
-        damageDealtByPlayer = Mathf.Max(weaponStats.MinimumHitDamage, damageDealtByPlayer);
+        damageDealtByPlayer = DamageCalculation.ClampToMinimumHit(weaponStats, damageDealtByPlayer);
 
         enemyStats.TakeDamage(damageDealtByPlayer);
         
