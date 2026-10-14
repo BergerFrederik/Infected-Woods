@@ -65,7 +65,7 @@ public partial class ShopPanel
             weaponSubtitles[i].text = weaponStats.weaponSubtitle;
 
             // set information text
-            weaponDescriptionText[i].text = weaponStats.GetStatsAsText();
+            weaponDescriptionText[i].text = weaponStats.GetStatsAsText(playerStats);
 
             // set cost to button
             weaponButtonText[i].text = $"Buy - {weaponStats.weaponPrice}";
@@ -91,7 +91,7 @@ public partial class ShopPanel
             GameObject weapon = _arrayOfChosenRandomWeapons[i];
             if (weapon == null) continue;
 
-            weaponDescriptionText[i].text = weapon.GetComponent<WeaponStats>().GetStatsAsText();
+            weaponDescriptionText[i].text = weapon.GetComponent<WeaponStats>().GetStatsAsText(playerStats);
         }
     }
 

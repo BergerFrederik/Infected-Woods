@@ -14,6 +14,7 @@ public partial class ShopPanel : MonoBehaviour
     [SerializeField] private Button startNextWaveButton;
     [SerializeField] private TextMeshProUGUI moneyAmountText;
     [SerializeField] private PlayerStats playerStats;
+    public PlayerStats Player => playerStats; // the player this shop belongs to, for tooltips under it
     [SerializeField] private Button toggleButton;
     [SerializeField] private StatPanel statPanel;
     [SerializeField] private Transform playerTransform;

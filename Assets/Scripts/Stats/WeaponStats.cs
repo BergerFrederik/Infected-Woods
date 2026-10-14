@@ -117,7 +117,8 @@ public class WeaponStats : MonoBehaviour
         this.weaponLifesteal = stats.weaponLifesteal;
     }
     
-    public string GetStatsAsText()
+    // playerStats is the player this text is shown to - the Dps depends on that player's stats
+    public string GetStatsAsText(PlayerStats playerStats)
     {
         string formattedStats = "";
     
@@ -144,14 +145,14 @@ public class WeaponStats : MonoBehaviour
         if (weaponLifesteal > 0)
             formattedStats += $"Lifesteal: {weaponLifesteal}%\n";
 
-        formattedStats += $"Dps: {GetCurrentDps():F1}\n";
+        if (playerStats != null)
+            formattedStats += $"Dps: {GetCurrentDps(playerStats):F1}\n";
 
         return formattedStats;
     }
 
-    private float GetCurrentDps()
+    private float GetCurrentDps(PlayerStats playerStats)
     {
-        PlayerStats playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
         // The same formula a real hit is dealt with
         float averageDamage = DamageCalculation.ComputeAverageDamagePerHit(this, playerStats);
 

@@ -34,9 +34,13 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
             if (wStats != null)
             {
+                // The Dps in the text is the one of the player whose shop this slot belongs to
+                ShopPanel shopPanel = GetComponentInParent<ShopPanel>();
+                PlayerStats owner = shopPanel != null ? shopPanel.Player : null;
+
                 TooltipManager.Instance.SetTooltipData(
-                    wStats.weaponName, 
-                    wStats.GetStatsAsText(), 
+                    wStats.weaponName,
+                    wStats.GetStatsAsText(owner),
                     wStats.passiveDescription, 
                     wStats.GetComponentInChildren<SpriteRenderer>().sprite
                 );
