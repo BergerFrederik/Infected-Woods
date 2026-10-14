@@ -16338,6 +16338,7 @@ MonoBehaviour:
   playerHealPower: 0
   playerShieldPower: 0
   playerStackCapIncreasePercent: 0
+  playerStackGainIncreasePercent: 0
   _playerWeaponSlots: 0
   playerLastLifesteal: 0
   _playerCurrentHP: 0
@@ -20869,6 +20870,7 @@ MonoBehaviour:
   - {fileID: 3645869977346694503, guid: 91cad9db27b6d4ff0987d239a26d2061, type: 3}
   - {fileID: 3645869977346694503, guid: 7dcd6ac5d14684a47a2bddc43f6a22eb, type: 3}
   - {fileID: 3645869977346694503, guid: 34bc2ca8e7b554f66824e14b231cb274, type: 3}
+  - {fileID: 3645869977346694503, guid: 3e0d336cb5c2d42239bf47c46eec7648, type: 3}
   AugmentButtons:
   - {fileID: 1079630717}
   - {fileID: 1006695851}

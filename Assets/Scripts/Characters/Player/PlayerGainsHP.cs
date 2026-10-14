@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,7 +12,9 @@ public class PlayerGainsHP : MonoBehaviour
     
     private float hpAccumulator;
 
-    public event Action<float> OnPlayerWasHealed;
+    // Steps that reshape a heal after the heal power is applied (e.g. CriticalHealing). Each one gets the
+    // running amount and returns the new one, in the order they were added.
+    private readonly List<Func<float, float>> healModifiers = new();
 
     private void OnEnable()
     {
@@ -41,11 +44,35 @@ public class PlayerGainsHP : MonoBehaviour
             if (hpAccumulator >= 1f)
             {
                 int wholeHPToHeal = Mathf.FloorToInt(hpAccumulator);
-                playerStats.playerCurrentHP += wholeHPToHeal;
+                playerStats.playerCurrentHP += CalculateHeal(wholeHPToHeal);
                 hpAccumulator -= wholeHPToHeal;
             }
-            OnPlayerWasHealed?.Invoke(playerStats.playerCurrentHP);
         }
+    }
+
+    public void AddHealModifier(Func<float, float> modifier)
+    {
+        healModifiers.Add(modifier);
+    }
+
+    public void RemoveHealModifier(Func<float, float> modifier)
+    {
+        healModifiers.Remove(modifier);
+    }
+
+    // The one place a heal's final amount is decided. Every heal goes through here before it touches HP.
+    // Heal power (in percent) comes first, then the modifiers, so they work on the already increased amount.
+    public float CalculateHeal(float initialHeal)
+    {
+        float healAmount = initialHeal + initialHeal * playerStats.playerHealPower / 100f;
+
+        foreach (Func<float, float> modifier in healModifiers)
+        {
+            healAmount = modifier(healAmount);
+        }
+
+        // A heal must never end up hurting, whatever heal power or a modifier does to it
+        return Mathf.Max(0f, healAmount);
     }
 
     public void TryApplyLifesteal(EnemyStats enemyStats, WeaponStats weaponStats)
@@ -76,8 +103,7 @@ public class PlayerGainsHP : MonoBehaviour
         if (playerIsNotFullHP && playerCanLifesteal)
         {
             playerStats.playerLastLifesteal = Time.time;
-            playerStats.playerCurrentHP += amount;
-            OnPlayerWasHealed?.Invoke(playerStats.playerCurrentHP);
+            playerStats.playerCurrentHP += CalculateHeal(amount);
         }
     }
 
