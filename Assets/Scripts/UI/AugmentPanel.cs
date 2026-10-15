@@ -23,9 +23,12 @@ public class AugmentPanel : MonoBehaviour
 
     private GameObject[] ChosenAugments;
     private GameObject LastAugment;
+    private PlayerStats playerStats;
 
     private void OnEnable()
     {
+        // PlayerAugments sits on this panel's player, so its root is that player (as for the augments below it)
+        playerStats = PlayerAugments.transform.root.GetComponent<PlayerStats>();
         AugmentRarity augmentRarity = DetermineAugmentRarity();
         DetermineAugmentsToChooseFrom(augmentRarity);
         SetSpritesToButtons();
@@ -92,7 +95,7 @@ public class AugmentPanel : MonoBehaviour
         for (int i = 0; i < ChosenAugments.Length; i++)
         {
             AugmentInformation augmentInformation = ChosenAugments[i].gameObject.GetComponent<AugmentInformation>();
-            string augmentText = augmentInformation.GetDisplayText();
+            string augmentText = augmentInformation.GetDisplayText(playerStats);
             string augmentTitle = augmentInformation.augmentTitle;
 
             Transform AugmentVisuals = ChosenAugments[i].transform.GetChild(0);

@@ -8,10 +8,10 @@ public class AugmentInformation : MonoBehaviour
     public string augmentTitle;
 
     // Returns the built description when an AugmentDescriptionBuilder is present,
-    // otherwise falls back to the static augmentText.
-    public string GetDisplayText()
+    // otherwise falls back to the static augmentText. The player is the one the text is shown to.
+    public string GetDisplayText(PlayerStats playerStats)
     {
         AugmentDescriptionBuilder descriptionBuilder = GetComponent<AugmentDescriptionBuilder>();
-        return descriptionBuilder != null ? descriptionBuilder.Build() : augmentText;
+        return descriptionBuilder != null ? descriptionBuilder.Build(playerStats) : augmentText;
     }
 }

@@ -41,7 +41,7 @@ public class StatPanel : MonoBehaviour
         {
             GameObject currentAugment = playerAugments.transform.GetChild(i).gameObject;
             AugmentInformation augmentInformation = currentAugment.GetComponent<AugmentInformation>();
-            string augmentText = augmentInformation.GetDisplayText();
+            string augmentText = augmentInformation.GetDisplayText(playerStats);
             string augmentTitle = augmentInformation.augmentTitle;
 
             Transform augmentVisuals = currentAugment.transform.GetChild(0);

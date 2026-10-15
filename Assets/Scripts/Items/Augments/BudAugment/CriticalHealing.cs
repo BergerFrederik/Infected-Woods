@@ -5,7 +5,7 @@ namespace Items.Augments.BudAugment
     // Heals can crit: with the player's crit chance a heal is multiplied.
     // Hooks into PlayerGainsHP.CalculateHeal as a heal modifier, which runs after the heal power is applied,
     // so the whole increased amount can crit.
-    public class CriticalHealing : MonoBehaviour, IAugmentDescribable
+    public class CriticalHealing : MonoBehaviour, IPlayerDependentDescribable
     {
         [SerializeField] private float exponentialPowerOfFactorIncrease = 0.8f;
         private PlayerStats _playerStats;
@@ -31,30 +31,37 @@ namespace Items.Augments.BudAugment
         private float ModifyHeal(float healAmount)
         {
             bool isCrit = Random.Range(0f, 100f) < _playerStats.PlayerCritChance;
-            return isCrit ? healAmount * GetCritHealMultiplier() : healAmount;
+            return isCrit ? healAmount * GetCritHealMultiplier(_playerStats) : healAmount;
         }
 
-        // 1x plus 1 per 100 heal power, plus a bonus that grows faster than heal power itself
+        // 1.5x plus 1 per 100 heal power, plus a bonus that grows faster than heal power itself
         // (+0.1 at 100, about +1.5 at 1000), so every extra point of heal power is worth more than the last.
-        private float GetCritHealMultiplier()
+        // Takes the player as a parameter because the description is built from the prefab (see IPlayerDependentDescribable)
+        private float GetCritHealMultiplier(PlayerStats playerStats)
         {
-            if (_playerStats == null)
+            if (playerStats == null)
             {
-                return 1f;
+                return 1.5f;
             }
 
             // Negative heal power would make the power curve below NaN
-            float healPower = Mathf.Max(0f, _playerStats.playerHealPower);
+            float healPower = Mathf.Max(0f, playerStats.playerHealPower);
             float bonus = 0.1f * Mathf.Pow(healPower / 100f, exponentialPowerOfFactorIncrease);
-            return 1f + healPower / 100f + bonus;
+            return 1.5f + healPower / 100f + bonus;
         }
 
+        // Only used when nobody hands in a player; the description builder prefers the overload below
         public float GetPlaceholderValue(int index)
+        {
+            return GetPlaceholderValue(index, _playerStats);
+        }
+
+        public float GetPlaceholderValue(int index, PlayerStats playerStats)
         {
             return index switch
             {
-                0 => _playerStats != null ? _playerStats.PlayerCritChance : 0f,
-                1 => GetCritHealMultiplier(),
+                0 => playerStats != null ? playerStats.PlayerCritChance : 0f,
+                1 => GetCritHealMultiplier(playerStats),
                 _ => 0f
             };
         }

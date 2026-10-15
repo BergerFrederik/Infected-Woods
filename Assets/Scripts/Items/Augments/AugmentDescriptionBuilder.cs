@@ -5,6 +5,7 @@ using UnityEngine;
 // with dynamic values spliced in between: text[0] + value[0] + text[1] + value[1] + text[2] ...
 // Values are pulled live from an IAugmentDescribable on the same GameObject, so the
 // text never goes stale when the underlying augment values change or scale.
+// An IPlayerDependentDescribable also gets the player the text is built for.
 public class AugmentDescriptionBuilder : MonoBehaviour
 {
     [SerializeField] private string[] textSegments; // length must be placeholder count + 1
@@ -13,7 +14,7 @@ public class AugmentDescriptionBuilder : MonoBehaviour
 
     private const string DefaultFormat = "0.#";
 
-    public string Build()
+    public string Build(PlayerStats playerStats)
     {
         if (textSegments == null || textSegments.Length == 0)
         {
@@ -21,6 +22,7 @@ public class AugmentDescriptionBuilder : MonoBehaviour
         }
 
         IAugmentDescribable describable = GetComponent<IAugmentDescribable>();
+        IPlayerDependentDescribable playerDependentDescribable = describable as IPlayerDependentDescribable;
         int placeholderCount = textSegments.Length - 1;
 
         StringBuilder result = new StringBuilder();
@@ -39,7 +41,9 @@ public class AugmentDescriptionBuilder : MonoBehaviour
                 continue;
             }
 
-            float value = describable.GetPlaceholderValue(i);
+            float value = playerDependentDescribable != null
+                ? playerDependentDescribable.GetPlaceholderValue(i, playerStats)
+                : describable.GetPlaceholderValue(i);
             string format = (valueFormats != null && i < valueFormats.Length && !string.IsNullOrEmpty(valueFormats[i]))
                 ? valueFormats[i]
                 : DefaultFormat;
