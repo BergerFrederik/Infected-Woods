@@ -35,6 +35,8 @@ public abstract class InfectAndMutateBase : MonoBehaviour
             // The player owns it now, so the augment panel must not offer it again
             augmentPanel.AugmentItems.Remove(augmentPrefab);
             GameObject newAugment = Instantiate(augmentPrefab, playerAugments);
+            // Same as in AugmentPanel: sit exactly on the player, whatever offset the prefab has
+            newAugment.transform.localPosition = Vector3.zero;
 
             AugmentInformation augmentInformation = newAugment.GetComponent<AugmentInformation>();
             augmentInformation.augmentTitle = TitlePrefix + augmentInformation.augmentTitle;

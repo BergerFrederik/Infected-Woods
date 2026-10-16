@@ -16341,6 +16341,7 @@ MonoBehaviour:
   playerStackGainIncreasePercent: 0
   _playerWeaponSlots: 0
   playerLastLifesteal: 0
+  playerImmuneToDamageStacks: 0
   _playerCurrentHP: 0
   _playerCurrentMP: 0
   _playerLightAmount: 999999
@@ -20872,6 +20873,7 @@ MonoBehaviour:
   - {fileID: 3645869977346694503, guid: 34bc2ca8e7b554f66824e14b231cb274, type: 3}
   - {fileID: 3645869977346694503, guid: 3e0d336cb5c2d42239bf47c46eec7648, type: 3}
   - {fileID: 3645869977346694503, guid: c106e11927a264b46952e2ce7ca818ef, type: 3}
+  - {fileID: 3645869977346694503, guid: 0d906487a20ce465cba602411e651f0d, type: 3}
   AugmentButtons:
   - {fileID: 1079630717}
   - {fileID: 1006695851}

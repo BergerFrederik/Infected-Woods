@@ -44,7 +44,9 @@ public class DashAbility : MonoBehaviour
     {
         bool isCooldownFinished = Time.time >= cooldownStartTime + remainingCooldown;
         bool isDashReady = currentState == DashingState.dashReady;
-        if (isDashReady && isCooldownFinished)
+        // Without a direction the dash would only burn the cooldown and trigger every on-dash effect
+        bool isMoving = playerMovement.CurrentMovementInput != Vector2.zero;
+        if (isDashReady && isCooldownFinished && isMoving)
         {
             CharacterAbilityExecution();
             OnDashUsed?.Invoke();

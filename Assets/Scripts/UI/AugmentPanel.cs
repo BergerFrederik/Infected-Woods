@@ -130,6 +130,8 @@ public class AugmentPanel : MonoBehaviour
         AugmentItems.Remove(ChosenAugmentPrefab);
         GameObject NewAugment = Instantiate(ChosenAugmentPrefab);
         NewAugment.transform.SetParent(PlayerAugments.transform, false);
+        // Augments may need to sit exactly on the player (e.g. a trigger collider), whatever offset the prefab has
+        NewAugment.transform.localPosition = Vector3.zero;
         StartCoroutine(WaitForAugmentsToLoadReferences());
     }
 

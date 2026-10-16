@@ -118,6 +118,8 @@ public class PlayerStats : MonoBehaviour
     [Header("Helper Stats")]
     public float playerLastLifesteal = 0f;
     
+    public float playerImmuneToDamageStacks; // one stack per active source of immunity, e.g. Shadow Dash
+    public bool IsImmuneToDamage => playerImmuneToDamageStacks > 0f;
     [SerializeField] private float _playerCurrentHP = 0f;
     public float playerCurrentHP
     {

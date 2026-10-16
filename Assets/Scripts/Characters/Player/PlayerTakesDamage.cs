@@ -30,6 +30,9 @@ public class PlayerTakesDamage : MonoBehaviour
 
     private void DealDamageToPlayer(EnemyStats enemyStats)
     {
+        // Immunity swallows the hit completely: no damage, dodge roll, popup, i-frames or damaged events
+        if (playerStats.IsImmuneToDamage) return;
+
         if (Time.time - iFrameStartTime >= currentIFrames)
         {
             float damageDealtToPlayer = CalculateDamageDealtToPlayer(enemyStats);

@@ -194,6 +194,10 @@ GameObject:
   - component: {fileID: 2150101534113506578}
   - component: {fileID: 7813524177621690328}
   - component: {fileID: -8929556657039251385}
+  - component: {fileID: 8781678907481919122}
+  - component: {fileID: 7864449437744412096}
+  - component: {fileID: 4643307547959758289}
+  - component: {fileID: 4979885355421648879}
   m_Layer: 0
   m_Name: ShadowDash
   m_TagString: Bud
@@ -246,10 +250,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AugmentDescriptionBuilder
   textSegments:
-  - You are immune to damage while dashing ((
+  - You are immune to damage while dashing (
   - s cooldown). Pierce through enemies dealing (
   - ' +  '
-  - '%) damage'
+  - '%) Mythic damage'
   valueFormats:
   - 0.#
   - 0.#
@@ -258,3 +262,114 @@ MonoBehaviour:
   - {r: 0.34509805, g: 0.69411767, b: 0.7607843, a: 1}
   - {r: 0.34509805, g: 0.69411767, b: 0.7607843, a: 1}
   - {r: 0.34509805, g: 0.69411767, b: 0.7607843, a: 1}
+--- !u!114 &8781678907481919122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3645869977346694503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df8db80a6c1b1db4aadcc965bcd7bd8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
+  weaponData: {fileID: 0}
+  currentTotalDamage: 0
+  weaponName: Shadow Dash
+  weaponID: ShadowDash
+  weaponSubtitle: 
+  weaponTier: 3
+  weaponWeaponType: 2
+  weaponAttackType: 0
+  weaponClass: 0
+  weaponPrice: 0
+  passiveDescription: 
+  weaponLore: 
+  weaponProjectileSpeed: 0
+  weaponBaseDamage: 10
+  weaponMeleeDamageScale: 0
+  weaponRangedDamageScale: 0
+  weaponMysticDamageScale: 100
+  weaponAttackSpeedCooldown: 0
+  weaponCritChance: 0
+  weaponCritDamage: 2
+  weaponRange: 0
+  weaponKnockback: 0
+  weaponLifesteal: 0
+--- !u!58 &7864449437744412096
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3645869977346694503}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.6
+--- !u!50 &4643307547959758289
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3645869977346694503}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &4979885355421648879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3645869977346694503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e4483b3065f4e6c8fe5730625806089, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Items.Augments.BudAugment.ShadowDash
+  immunityCooldown: 2
