@@ -7,9 +7,13 @@ public class PlayerStats : MonoBehaviour
     public event Action OnMovespeedChanged;
     public event Action<float> OnCurrentMPChanged;
     public event Action<float> OnPlayerInfused;
+    public event Action<float> OnMaxMPIncreased;
+    public event Action<float> OnMaxMPDecreased;
     public event Action<float> OnMaxMPChanged;
     public event Action<float> OnCurrentHPChanged;
     public event Action<float> OnPlayerHealed;
+    public event Action<float> OnMaxHPIncreased;
+    public event Action<float> OnMaxHPDecreased;
     public event Action<float> OnMaxHPChanged;
     public event Action<float> OnLightPickupRangeChanged;
     public event Action<float> OnNumWeaponSlotsChanged;
@@ -21,7 +25,16 @@ public class PlayerStats : MonoBehaviour
     public float playerMaxHP
     {
         get { return _playerMaxHP; }
-        set { _playerMaxHP = value;
+        set {
+            if (value > _playerMaxHP)
+            {
+                OnMaxHPIncreased?.Invoke(value - _playerMaxHP);
+            }
+            else if (value < _playerMaxHP)
+            {
+                OnMaxHPDecreased?.Invoke(_playerMaxHP - value);
+            }
+            _playerMaxHP = value;
             // Max HP can drop (e.g. selling an item) - current HP must not stay above it
             if (_playerCurrentHP > value) playerCurrentHP = value;
             OnMaxHPChanged?.Invoke(value);
@@ -32,7 +45,16 @@ public class PlayerStats : MonoBehaviour
     public float playerMaxMP
     {
         get => _playerMaxMP;
-        set { _playerMaxMP = value;
+        set {
+            if (value > _playerMaxMP)
+            {
+                OnMaxMPIncreased?.Invoke(value - _playerMaxMP);
+            }
+            else if (value < _playerMaxMP)
+            {
+                OnMaxMPDecreased?.Invoke(_playerMaxMP - value);
+            }
+            _playerMaxMP = value;
             // Max MP can drop (e.g. selling an item) - current MP must not stay above it
             if (_playerCurrentMP > value) playerCurrentMP = value;
             OnMaxMPChanged?.Invoke(value);
