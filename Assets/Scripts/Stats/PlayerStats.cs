@@ -21,44 +21,62 @@ public class PlayerStats : MonoBehaviour
     public event Action<float> OnPlayerArmorChanged;
 
     [Header("Primary Stats")]
-    [SerializeField] private float _playerMaxHP;
+    [SerializeField] private int _playerMaxHP;
+    private float _playerMaxHPRemainder;
     public float playerMaxHP
     {
         get { return _playerMaxHP; }
         set {
-            if (value > _playerMaxHP)
+            // What a "+=" or "-=" adds or takes away (the getter only gives the whole number)
+            float change = value - _playerMaxHP;
+            if (change > 0f)
             {
-                OnMaxHPIncreased?.Invoke(value - _playerMaxHP);
+                OnMaxHPIncreased?.Invoke(change);
             }
-            else if (value < _playerMaxHP)
+            else if (change < 0f)
             {
-                OnMaxHPDecreased?.Invoke(_playerMaxHP - value);
+                OnMaxHPDecreased?.Invoke(-change);
             }
-            _playerMaxHP = value;
+            _playerMaxHP = AddToWholeNumber(_playerMaxHP, ref _playerMaxHPRemainder, change);
             // Max HP can drop (e.g. selling an item) - current HP must not stay above it
-            if (_playerCurrentHP > value) playerCurrentHP = value;
-            OnMaxHPChanged?.Invoke(value);
+            if (_playerCurrentHP > _playerMaxHP) playerCurrentHP = _playerMaxHP;
+            OnMaxHPChanged?.Invoke(_playerMaxHP);
         }
     }
 
-    [SerializeField] private float _playerMaxMP;
+    [SerializeField] private int _playerMaxMP;
+    private float _playerMaxMPRemainder;
     public float playerMaxMP
     {
         get => _playerMaxMP;
         set {
-            if (value > _playerMaxMP)
+            // What a "+=" or "-=" adds or takes away (the getter only gives the whole number)
+            float change = value - _playerMaxMP;
+            if (change > 0f)
             {
-                OnMaxMPIncreased?.Invoke(value - _playerMaxMP);
+                OnMaxMPIncreased?.Invoke(change);
             }
-            else if (value < _playerMaxMP)
+            else if (change < 0f)
             {
-                OnMaxMPDecreased?.Invoke(_playerMaxMP - value);
+                OnMaxMPDecreased?.Invoke(-change);
             }
-            _playerMaxMP = value;
+            _playerMaxMP = AddToWholeNumber(_playerMaxMP, ref _playerMaxMPRemainder, change);
             // Max MP can drop (e.g. selling an item) - current MP must not stay above it
-            if (_playerCurrentMP > value) playerCurrentMP = value;
-            OnMaxMPChanged?.Invoke(value);
+            if (_playerCurrentMP > _playerMaxMP) playerCurrentMP = _playerMaxMP;
+            OnMaxMPChanged?.Invoke(_playerMaxMP);
         }
+    }
+
+    // Max HP and max MP are kept as whole numbers. A change that does not end on a whole number leaves a fraction,
+    // which is kept in the remainder and counted with the next change - so 1.5 + 1.5 makes 3 and nothing is lost.
+    // The whole number plus the remainder is what counts, so adding and removing the same amount cancels out exactly.
+    private static int AddToWholeNumber(int whole, ref float remainder, float change)
+    {
+        float total = remainder + change;
+        // The tolerance covers float inaccuracy, e.g. ten times 0.1 adds up to 0.99999994
+        int wholeChange = Mathf.FloorToInt(total + 0.001f);
+        remainder = total - wholeChange;
+        return whole + wholeChange;
     }
 
     public float playerHPRegeneration = 0f;
