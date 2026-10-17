@@ -208,7 +208,7 @@ MonoBehaviour:
   weaponSubtitle: 
   weaponTier: 1
   weaponWeaponType: 2
-  weaponAttackType: 0
+  weaponAttackType: 1
   weaponClass: 0
   weaponPrice: 0
   passiveDescription: 

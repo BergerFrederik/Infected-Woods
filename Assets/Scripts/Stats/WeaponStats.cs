@@ -11,7 +11,8 @@ public class WeaponStats : MonoBehaviour
     {
         Melee,
         Ranged,
-        Ability
+        Ability,
+        Effect
     }
 
     public enum WeaponAttackTypes

@@ -253,7 +253,7 @@ MonoBehaviour:
   - You are immune to damage while dashing (
   - s cooldown). Pierce through enemies dealing (
   - ' +  '
-  - '%) Mythic damage'
+  - '%) Mystic damage'
   valueFormats:
   - 0.#
   - 0.#

@@ -69,7 +69,7 @@ MonoBehaviour:
   weaponID: 
   weaponSubtitle: 
   weaponTier: 1
-  weaponWeaponType: 0
+  weaponWeaponType: 3
   weaponAttackType: 3
   weaponClass: 0
   weaponPrice: 0
