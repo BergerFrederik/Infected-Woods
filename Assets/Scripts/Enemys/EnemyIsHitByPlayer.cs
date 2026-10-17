@@ -8,20 +8,12 @@ public class EnemyIsHitByPlayer : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.TryGetComponent<WeaponStats>(out WeaponStats weaponStats))
+        if (collider.TryGetComponent<WeaponStats>(out _))
         {
             // A homing projectile aimed at another enemy just passes through - no hit effect
             if (collider.TryGetComponent(out Projectile projectile) && !projectile.CanHit(transform)) return;
 
             PlayParticleEffect();
-            if (collider.CompareTag("Projectile"))
-            {
-                SetLastWeaponHit(weaponStats);
-            }
-            else if ((weaponStats.weaponWeaponType == WeaponStats.weaponTypeOptions.Melee))
-            {
-                SetLastWeaponHit(weaponStats);
-            }
         }
     }
 
@@ -31,7 +23,9 @@ public class EnemyIsHitByPlayer : MonoBehaviour
         onHitEffect.Play();
     }
     
-    private void SetLastWeaponHit(WeaponStats weaponStats)
+    // Set when the player's damage lands (PlayerDealsDamage), not on collider contact: the contact can come after
+    // the damage, and effects and abilities don't touch the enemy with a weapon collider at all.
+    public void SetLastWeaponHit(WeaponStats weaponStats)
     {
         lastWeaponHit = weaponStats.weaponWeaponType.ToString();
     }

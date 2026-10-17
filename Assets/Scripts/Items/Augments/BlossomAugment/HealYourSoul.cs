@@ -10,18 +10,37 @@ namespace Items.Augments.BlossomAugment
         
         private Transform _playerTransform;
         private PlayerStats _playerStats;
+        private float _pendingHealValue;
 
         private void Start()
         {
             _playerTransform = transform.root;
             _playerStats = _playerTransform.GetComponent<PlayerStats>();
 
-            _playerStats.OnPlayerHealed += PerformAugment;
+            _playerStats.OnPlayerHealed += CollectHeal;
         }
 
         private void OnDestroy()
         {
-            _playerStats.OnPlayerHealed -= PerformAugment;
+            if (_playerStats == null) return;
+
+            _playerStats.OnPlayerHealed -= CollectHeal;
+        }
+
+        // Heals of one frame (e.g. Yin Yang next to a regen tick) are fired as one volley: a projectile copies its damage
+        // from weaponStats a frame after it was spawned, so two volleys in one frame would overwrite each other's damage
+        private void CollectHeal(float healValue)
+        {
+            _pendingHealValue += healValue;
+        }
+
+        private void LateUpdate()
+        {
+            if (_pendingHealValue <= 0f) return;
+
+            float healValue = _pendingHealValue;
+            _pendingHealValue = 0f;
+            PerformAugment(healValue);
         }
 
         private void PerformAugment(float healValue)

@@ -43,8 +43,7 @@ public class DamageOverTime : MonoBehaviour
             if (tickTimer >= 1f)
             {
                 tickTimer -= 1f;
-                // Effects never lifesteal
-                playerDealsDamage.ApplyNonCritableDamageToEnemy(enemyStats, weaponStats, canLifesteal: false);
+                playerDealsDamage.ApplyNonCritableDamageToEnemy(enemyStats, weaponStats);
                 ParticleSystem bleedEffect = Instantiate(bleedEffectPrefab, transform);
                 bleedEffect.Play();
             }

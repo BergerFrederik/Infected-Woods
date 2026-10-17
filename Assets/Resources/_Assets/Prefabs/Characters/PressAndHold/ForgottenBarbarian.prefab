@@ -159,6 +159,7 @@ MonoBehaviour:
   weaponRange: 0
   weaponKnockback: 0
   weaponLifesteal: 0
+  weaponSpellvamp: 0
 --- !u!58 &19671711820335501
 CircleCollider2D:
   m_ObjectHideFlags: 0

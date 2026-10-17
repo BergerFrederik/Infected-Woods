@@ -41,6 +41,9 @@ public class MasterOfTrifactor : MonoBehaviour
 
     private void IncreaseStatsOnHit(WeaponStats weaponStats)
     {
+        // Only weapon hits count. Abilities and effects (e.g. Bleed ticks) give nothing and use up no stack
+        if (!weaponStats.IsWeaponHit) return;
+
         _stacks.TryAdd(out int wholeStacksGained);
         if (wholeStacksGained == 0) return;
 

@@ -13,16 +13,19 @@ public class EnchantedArrows : MonoBehaviour
         characterStats = PlayerTransform.GetComponentInChildren<CharacterStats>();
         playerDealsDamage = PlayerTransform.GetComponentInChildren<PlayerDealsDamage>();
 
-        playerDealsDamage.OnPlayerHitsEnemy += ReduceCooldownOnHit;
+        playerDealsDamage.OnPlayerHitsEnemyWithWeapon += ReduceCooldownOnHit;
     }
 
     private void OnDestroy()
     {
-        playerDealsDamage.OnPlayerHitsEnemy -= ReduceCooldownOnHit;
+        playerDealsDamage.OnPlayerHitsEnemyWithWeapon -= ReduceCooldownOnHit;
     }
 
-    private void ReduceCooldownOnHit()
+    private void ReduceCooldownOnHit(WeaponStats weaponStats)
     {
+        // Only weapon hits count - not abilities (they would shorten their own cooldown) and not effect ticks
+        if (!weaponStats.IsWeaponHit) return;
+
         if (characterStats.remainingCooldown > 0.5f)
         {
             characterStats.remainingCooldown -= cooldownSecondsReducedOnHit;

@@ -75,14 +75,19 @@ public class PlayerGainsHP : MonoBehaviour
         return Mathf.Max(0f, healAmount);
     }
 
-    // Melee and ranged hits roll lifesteal, ability hits roll spellvamp instead.
+    // Melee and ranged hits roll lifesteal, mystic and ability hits roll spellvamp instead, effects (e.g. Bleed ticks) never heal.
     // PlayerDealsDamage calls this once per hit, so no weapon or ability has to call it itself.
+    // A weapon type that is not listed here heals nothing.
     public void TryApplyLifesteal(WeaponStats weaponStats)
     {
-        bool isAbility = weaponStats.weaponWeaponType == WeaponStats.weaponTypeOptions.Ability;
-        float cummulatedProbability = isAbility
-            ? playerStats.playerSpellvamp + weaponStats.weaponSpellvamp
-            : playerStats.playerLifeSteal + weaponStats.weaponLifesteal;
+        float cummulatedProbability = weaponStats.weaponWeaponType switch
+        {
+            WeaponStats.weaponTypeOptions.Melee or WeaponStats.weaponTypeOptions.Ranged
+                => playerStats.playerLifeSteal + weaponStats.weaponLifesteal,
+            WeaponStats.weaponTypeOptions.Mystic or WeaponStats.weaponTypeOptions.Ability
+                => playerStats.playerSpellvamp + weaponStats.weaponSpellvamp,
+            _ => 0f
+        };
         if (Random.Range(1, 101) <= cummulatedProbability)
         {
             ApplyLifestealHeal(1f);

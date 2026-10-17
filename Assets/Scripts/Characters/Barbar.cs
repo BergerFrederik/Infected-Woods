@@ -123,8 +123,7 @@ public class Barbar : MonoBehaviour
             {
                 if (enemyCollider.TryGetComponent<EnemyStats>(out EnemyStats enemyStats))
                 {
-                    // The whirlwind is an ability but typed Melee, so it is excluded by hand - it never lifestole
-                    _playerDealsDamage.ApplyCritableDamageToEnemy(enemyStats, abilityWeaponStats, canLifesteal: false);
+                    _playerDealsDamage.ApplyCritableDamageToEnemy(enemyStats, abilityWeaponStats);
                 }
             }
         }

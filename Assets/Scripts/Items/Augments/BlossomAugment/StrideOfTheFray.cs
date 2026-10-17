@@ -34,7 +34,7 @@ public class StrideOfTheFray : MonoBehaviour
 
     private void AddMovespeedToPlayerStats(WeaponStats weaponStats)
     {
-        if (weaponStats.weaponWeaponType != WeaponStats.weaponTypeOptions.Ability)
+        if (weaponStats.IsWeaponHit)
         {
             _stacks.TryAdd(out int wholeStacksGained);
             if (wholeStacksGained > 0)

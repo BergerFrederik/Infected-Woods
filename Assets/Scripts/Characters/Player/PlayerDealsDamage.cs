@@ -20,9 +20,7 @@ public class PlayerDealsDamage : MonoBehaviour
         _playerGainsHp = transform.root.GetComponentInChildren<PlayerGainsHP>();
     }
 
-    // canLifesteal is off for effects (e.g. Bleed ticks) and for anything else that must not heal the player.
-    // Every other hit rolls lifesteal (melee, ranged) or spellvamp (ability) right after it has landed.
-    public bool ApplyCritableDamageToEnemy(EnemyStats enemyStats, WeaponStats weaponStats, bool canLifesteal = true)
+    public bool ApplyCritableDamageToEnemy(EnemyStats enemyStats, WeaponStats weaponStats)
     {
         OnPlayerHitsEnemy?.Invoke();
         OnPlayerHitsEnemyWithWeapon?.Invoke(weaponStats);
@@ -35,12 +33,12 @@ public class PlayerDealsDamage : MonoBehaviour
         float bonusDamage = 0f;
         damageDealtByPlayer += bonusDamage;
 
-        DealDamage(enemyStats, weaponStats, damageDealtByPlayer, didCrit, canLifesteal);
+        DealDamage(enemyStats, weaponStats, damageDealtByPlayer, didCrit);
 
         return didCrit;
     }
 
-    public void ApplyNonCritableDamageToEnemy(EnemyStats enemyStats, WeaponStats weaponStats, bool canLifesteal = true)
+    public void ApplyNonCritableDamageToEnemy(EnemyStats enemyStats, WeaponStats weaponStats)
     {
         OnPlayerHitsEnemy?.Invoke();
         OnPlayerHitsEnemyWithWeapon?.Invoke(weaponStats);
@@ -51,16 +49,18 @@ public class PlayerDealsDamage : MonoBehaviour
         float bonusDamage = 0f;
         damageDealtByPlayer += bonusDamage;
 
-        DealDamage(enemyStats, weaponStats, damageDealtByPlayer, false, canLifesteal);
+        DealDamage(enemyStats, weaponStats, damageDealtByPlayer, false);
     }
 
-    private void DealDamage(EnemyStats enemyStats, WeaponStats weaponStats, float damageDealtByPlayer, bool didCrit, bool canLifesteal)
+    private void DealDamage(EnemyStats enemyStats, WeaponStats weaponStats, float damageDealtByPlayer, bool didCrit)
     {
         // Damaging weapons hit for at least 1, support weapons (base damage 0) for at least 0 -
         // see WeaponStats.MinimumHitDamage. Negative stats (damage, crit damage, flat damage) could
         // otherwise push a hit below 0, which would heal the enemy. All enemy hits pass here.
         damageDealtByPlayer = DamageCalculation.ClampToMinimumHit(weaponStats, damageDealtByPlayer);
 
+        // Before the damage: if this hit kills the enemy, its type is the one the death reports
+        enemyStats.SetLastWeaponHit(weaponStats);
         enemyStats.TakeDamage(damageDealtByPlayer);
         
         Transform enemyTransform = enemyStats.transform;
@@ -73,7 +73,8 @@ public class PlayerDealsDamage : MonoBehaviour
             OnPlayerCritsEnemy?.Invoke(enemyStats, weaponStats);
         }
 
-        if (canLifesteal && _playerGainsHp != null)
+        // Whether this hit heals, and with lifesteal or spellvamp, depends on the weapon type - decided in PlayerGainsHP
+        if (_playerGainsHp != null)
         {
             _playerGainsHp.TryApplyLifesteal(weaponStats);
         }

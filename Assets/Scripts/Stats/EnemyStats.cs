@@ -63,6 +63,16 @@ public class EnemyStats : MonoBehaviour
         return 0f;    
     }
     
+    // Remembers the weapon type of the hit that damages this enemy, it is passed on when the enemy dies
+    public void SetLastWeaponHit(WeaponStats weaponStats)
+    {
+        // Not every enemy prefab has it assigned - a missing one must not stop the damage that follows
+        if (enemyIsHitByPlayer != null)
+        {
+            enemyIsHitByPlayer.SetLastWeaponHit(weaponStats);
+        }
+    }
+
     public void TakeDamage(float damage)
     {
         if (isDead) return;

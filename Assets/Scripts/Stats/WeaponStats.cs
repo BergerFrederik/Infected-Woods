@@ -12,7 +12,8 @@ public class WeaponStats : MonoBehaviour
         Melee,
         Ranged,
         Ability,
-        Effect
+        Effect,
+        Mystic // new types go at the end: the prefabs save the type as a number
     }
 
     public enum WeaponAttackTypes
@@ -74,6 +75,10 @@ public class WeaponStats : MonoBehaviour
     // heal the enemy when negative stats push the damage down.
     public float MinimumHitDamage => weaponBaseDamage > 0f ? 1f : 0f;
 
+    // A normal weapon hit: melee, ranged or mystic. Abilities and effects (e.g. Bleed ticks) are not,
+    // so on-hit effects check this instead of listing the weapon types themselves.
+    public bool IsWeaponHit => weaponWeaponType is weaponTypeOptions.Melee or weaponTypeOptions.Ranged or weaponTypeOptions.Mystic;
+
     public void CopyFrom(WeaponStats other)
     {
         if (other == null) return;
@@ -133,6 +138,8 @@ public class WeaponStats : MonoBehaviour
             formattedStats += $"Melee Scaling: {weaponMeleeDamageScale}%\n";
         else if (weaponWeaponType == weaponTypeOptions.Ranged)
             formattedStats += $"Ranged Scaling: {weaponRangedDamageScale}%\n";
+        else if (weaponWeaponType == weaponTypeOptions.Mystic)
+            formattedStats += $"Mystic Scaling: {weaponMysticDamageScale}%\n";
 
         if (weaponAttackSpeedCooldown > 0)
             formattedStats += $"Attack Speed: {weaponAttackSpeedCooldown}s\n";

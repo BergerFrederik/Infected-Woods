@@ -293,11 +293,12 @@ MonoBehaviour:
   weaponProjectileSpeed: 14
   weaponBaseDamage: 0
   weaponMeleeDamageScale: 0
-  weaponRangedDamageScale: 5
+  weaponRangedDamageScale: 0
   weaponMysticDamageScale: 100
   weaponAttackSpeedCooldown: 0
   weaponCritChance: 0
   weaponCritDamage: 0
-  weaponRange: 0
+  weaponRange: 4
   weaponKnockback: 0
   weaponLifesteal: 0
+  weaponSpellvamp: 0
