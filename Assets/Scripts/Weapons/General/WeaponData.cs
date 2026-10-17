@@ -19,5 +19,6 @@ public class WeaponData : ScriptableObject
         public float weaponRange = 0f;
         public float weaponKnockback = 0f;
         public float weaponLifesteal = 0f;
+        public float weaponSpellvamp = 0f;
     }
 }

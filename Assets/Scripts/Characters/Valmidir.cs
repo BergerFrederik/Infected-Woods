@@ -190,7 +190,7 @@ public class Valmidir: MonoBehaviour
     private void GainLifeOnHit()
     {
         float rndRoll = _randomRollEvent.GetRandomFloatRoll(1f, 100f);
-        if (rndRoll >= 100f - weaponStats.weaponLifesteal)
+        if (rndRoll >= 100f - weaponStats.weaponSpellvamp)
         {
             // One heal of 1 + stacks HP - separate 1 HP heals would be blocked by the lifesteal cooldown
             _playerGainsHp.ApplyLifestealHeal(1f + _stacks.Whole);

@@ -75,10 +75,15 @@ public class PlayerGainsHP : MonoBehaviour
         return Mathf.Max(0f, healAmount);
     }
 
-    public void TryApplyLifesteal(EnemyStats enemyStats, WeaponStats weaponStats)
+    // Melee and ranged hits roll lifesteal, ability hits roll spellvamp instead.
+    // PlayerDealsDamage calls this once per hit, so no weapon or ability has to call it itself.
+    public void TryApplyLifesteal(WeaponStats weaponStats)
     {
-        float cummulatedLifestealProbability = playerStats.playerLifeSteal + weaponStats.weaponLifesteal;
-        if (Random.Range(1, 101) <= cummulatedLifestealProbability)
+        bool isAbility = weaponStats.weaponWeaponType == WeaponStats.weaponTypeOptions.Ability;
+        float cummulatedProbability = isAbility
+            ? playerStats.playerSpellvamp + weaponStats.weaponSpellvamp
+            : playerStats.playerLifeSteal + weaponStats.weaponLifesteal;
+        if (Random.Range(1, 101) <= cummulatedProbability)
         {
             ApplyLifestealHeal(1f);
         }

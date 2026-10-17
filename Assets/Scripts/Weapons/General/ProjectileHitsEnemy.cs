@@ -29,7 +29,6 @@ public class ProjectileHitsEnemy : MonoBehaviour
                 if (ownerRoot != null)
                 {
                     PlayerDealsDamage playerDealsDamage = ownerRoot.GetComponentInChildren<PlayerDealsDamage>();
-                    PlayerGainsHP playerGainsHP = ownerRoot.GetComponentInChildren<PlayerGainsHP>();
 
                     if (weaponStats.weaponWeaponType != WeaponStats.weaponTypeOptions.Ability)
                     {
@@ -39,8 +38,6 @@ public class ProjectileHitsEnemy : MonoBehaviour
                     {
                         playerDealsDamage?.ApplyNonCritableDamageToEnemy(enemyStats, weaponStats);
                     }
-                    
-                    playerGainsHP?.TryApplyLifesteal(enemyStats, weaponStats);
                 }
 
                 Destroy(this.gameObject);

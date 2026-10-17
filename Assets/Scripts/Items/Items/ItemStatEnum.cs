@@ -28,6 +28,7 @@ public enum StatType
     HealPower,
     ShieldPower,
     WeaponSlots,
+    Spellvamp,
 
     // Helper / Meta (falls benötigt)
     LightAmount,

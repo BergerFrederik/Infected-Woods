@@ -140,6 +140,7 @@ public class PlayerStats : MonoBehaviour
     public float playerAbilityCooldown = 0f;
     public float playerHealPower = 0f;
     public float playerShieldPower = 0f;
+    public float playerSpellvamp = 0f; // chance in percent that an ability hit heals, the ability counterpart of lifesteal
     public float playerStackCapIncreasePercent = 0f; // raises the cap of every capped stackable, see StackCounter
     public float playerStackGainIncreasePercent = 0f; // raises the stacks every stackable gains per gain (50 = 1.5 stacks), see StackCounter
     [SerializeField] private float _playerWeaponSlots;
@@ -374,6 +375,9 @@ public class PlayerStats : MonoBehaviour
                 break;
             case StatType.ShieldPower:
                 playerShieldPower += amount;
+                break;
+            case StatType.Spellvamp:
+                playerSpellvamp += amount;
                 break;
             case StatType.WeaponSlots:
                 PlayerWeaponSlots += amount;

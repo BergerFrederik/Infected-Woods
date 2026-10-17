@@ -223,7 +223,8 @@ MonoBehaviour:
   weaponCritDamage: 0
   weaponRange: 5
   weaponKnockback: 0
-  weaponLifesteal: 100
+  weaponLifesteal: 0
+  weaponSpellvamp: 100
 --- !u!1 &8323062379535242327
 GameObject:
   m_ObjectHideFlags: 0

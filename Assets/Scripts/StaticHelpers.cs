@@ -59,6 +59,7 @@ public class StaticHelpers : MonoBehaviour
         stats += $"Ability CD:\n";
         stats += $"Heal Power:\n";
         stats += $"Shield Power:\n";
+        stats += $"Spellvamp:\n";
         
         values += $"{playerStats.playerKnockback}\n";
         values += $"{playerStats.playerLightPickupRange}\n";
@@ -66,6 +67,7 @@ public class StaticHelpers : MonoBehaviour
         values += $"{playerStats.playerAbilityCooldown}\n";
         values += $"{playerStats.playerHealPower}\n";
         values += $"{playerStats.playerShieldPower}\n";
+        values += $"{playerStats.playerSpellvamp}\n";
         
         textField.text = stats;
         valuesField.text = values;

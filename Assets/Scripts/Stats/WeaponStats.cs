@@ -66,6 +66,7 @@ public class WeaponStats : MonoBehaviour
     public float weaponRange = 0f;
     public float weaponKnockback = 0f;
     public float weaponLifesteal = 0f;
+    public float weaponSpellvamp = 0f;
     private float _dps;
 
     // Lowest damage one hit of this weapon can deal: weapons with base damage always hit for at
@@ -95,6 +96,7 @@ public class WeaponStats : MonoBehaviour
         this.weaponRange = other.weaponRange;
         this.weaponKnockback = other.weaponKnockback;
         this.weaponLifesteal = other.weaponLifesteal;
+        this.weaponSpellvamp = other.weaponSpellvamp;
         this.weaponPrice = other.weaponPrice;
         this.currentTotalDamage = other.currentTotalDamage;
         this.passiveDescription = other.passiveDescription;
@@ -116,6 +118,7 @@ public class WeaponStats : MonoBehaviour
         this.weaponRange = stats.weaponRange;
         this.weaponKnockback = stats.weaponKnockback;
         this.weaponLifesteal = stats.weaponLifesteal;
+        this.weaponSpellvamp = stats.weaponSpellvamp;
     }
     
     // playerStats is the player this text is shown to - the Dps depends on that player's stats
@@ -145,6 +148,9 @@ public class WeaponStats : MonoBehaviour
 
         if (weaponLifesteal > 0)
             formattedStats += $"Lifesteal: {weaponLifesteal}%\n";
+
+        if (weaponSpellvamp > 0)
+            formattedStats += $"Spellvamp: {weaponSpellvamp}%\n";
 
         if (playerStats != null)
             formattedStats += $"Dps: {GetCurrentDps(playerStats):F1}\n";

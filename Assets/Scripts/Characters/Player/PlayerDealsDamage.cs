@@ -7,12 +7,22 @@ public class PlayerDealsDamage : MonoBehaviour
     [SerializeField] private DamageCalculation damageCalculation;
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private InstantiatePopUp instantiatePopUp;
-    
+
+    private PlayerGainsHP _playerGainsHp;
+
     public event Action OnPlayerHitsEnemy;
     public event Action<WeaponStats> OnPlayerHitsEnemyWithWeapon;
     public event Action<EnemyStats, WeaponStats> OnPlayerCritsEnemy;
 
-    public bool ApplyCritableDamageToEnemy(EnemyStats enemyStats, WeaponStats weaponStats)
+    // Awake, not Start: a hit can land before the first Start and must not lose its lifesteal roll
+    private void Awake()
+    {
+        _playerGainsHp = transform.root.GetComponentInChildren<PlayerGainsHP>();
+    }
+
+    // canLifesteal is off for effects (e.g. Bleed ticks) and for anything else that must not heal the player.
+    // Every other hit rolls lifesteal (melee, ranged) or spellvamp (ability) right after it has landed.
+    public bool ApplyCritableDamageToEnemy(EnemyStats enemyStats, WeaponStats weaponStats, bool canLifesteal = true)
     {
         OnPlayerHitsEnemy?.Invoke();
         OnPlayerHitsEnemyWithWeapon?.Invoke(weaponStats);
@@ -25,12 +35,12 @@ public class PlayerDealsDamage : MonoBehaviour
         float bonusDamage = 0f;
         damageDealtByPlayer += bonusDamage;
 
-        DealDamage(enemyStats, weaponStats, damageDealtByPlayer, didCrit);
+        DealDamage(enemyStats, weaponStats, damageDealtByPlayer, didCrit, canLifesteal);
 
         return didCrit;
     }
 
-    public void ApplyNonCritableDamageToEnemy(EnemyStats enemyStats, WeaponStats weaponStats)
+    public void ApplyNonCritableDamageToEnemy(EnemyStats enemyStats, WeaponStats weaponStats, bool canLifesteal = true)
     {
         OnPlayerHitsEnemy?.Invoke();
         OnPlayerHitsEnemyWithWeapon?.Invoke(weaponStats);
@@ -41,10 +51,10 @@ public class PlayerDealsDamage : MonoBehaviour
         float bonusDamage = 0f;
         damageDealtByPlayer += bonusDamage;
 
-        DealDamage(enemyStats, weaponStats, damageDealtByPlayer, false);
+        DealDamage(enemyStats, weaponStats, damageDealtByPlayer, false, canLifesteal);
     }
 
-    private void DealDamage(EnemyStats enemyStats, WeaponStats weaponStats, float damageDealtByPlayer, bool didCrit)
+    private void DealDamage(EnemyStats enemyStats, WeaponStats weaponStats, float damageDealtByPlayer, bool didCrit, bool canLifesteal)
     {
         // Damaging weapons hit for at least 1, support weapons (base damage 0) for at least 0 -
         // see WeaponStats.MinimumHitDamage. Negative stats (damage, crit damage, flat damage) could
@@ -61,6 +71,11 @@ public class PlayerDealsDamage : MonoBehaviour
         if (didCrit)
         {
             OnPlayerCritsEnemy?.Invoke(enemyStats, weaponStats);
+        }
+
+        if (canLifesteal && _playerGainsHp != null)
+        {
+            _playerGainsHp.TryApplyLifesteal(weaponStats);
         }
     }
 }

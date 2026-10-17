@@ -39,10 +39,8 @@ public class MeleeWeaponHitsEnemy : MonoBehaviour
             {
                 WeaponStats weaponStats = this.gameObject.GetComponent<WeaponStats>();
                 PlayerDealsDamage playerDealsDamage = cachedRoot.GetComponentInChildren<PlayerDealsDamage>();
-                PlayerGainsHP playerGainsHP = cachedRoot.GetComponentInChildren<PlayerGainsHP>();
 
                 bool didCrit = playerDealsDamage?.ApplyCritableDamageToEnemy(enemyStats, weaponStats) ?? false;
-                playerGainsHP?.TryApplyLifesteal(enemyStats, weaponStats);
 
                 OnMeleeWeaponHitsEnemy?.Invoke(enemyStats, didCrit);
             }
